@@ -54,8 +54,14 @@ dependencies {
 	implementation "com.querydsl:querydsl-jpa:5.0.0" // querydsl 라이브러리
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0" //  Querydsl 관련 코드 생성 기능 제공
 
-// jackson 라이브러리 추가 json파싱용
-	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
+	// json
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	// jackson
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security' // Spring Security 의존성 추가
+
+	testImplementation 'org.springframework.security:spring-security-test' // Spring Security 테스트 의존성 추가
 
 }
 tasks.named('test') {
