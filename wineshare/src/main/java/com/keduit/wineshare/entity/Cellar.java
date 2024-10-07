@@ -19,6 +19,6 @@ public class Cellar extends BaseEntity{
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  private User user;
+  private Member user;
 
 }

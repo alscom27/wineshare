@@ -24,7 +24,7 @@ public class WineReview extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  private User user;
+  private Member user;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "wine_id")
