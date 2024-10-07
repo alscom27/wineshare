@@ -1,7 +1,6 @@
 package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.entity.Member;
-import com.keduit.wineshare.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
