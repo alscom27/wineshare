@@ -1,9 +1,11 @@
 package com.keduit.wineshare.entity;
 
 import com.keduit.wineshare.constant.WineType;
+import com.keduit.wineshare.dto.WineDTO;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 
 @Entity
 @Data
@@ -14,9 +16,10 @@ public class Wine extends BaseEntity {
   @Column(name = "wine_id")
   private Long id;
 
+  @Column(unique = true) // 와인이름 중복될 수 없게
   private String wineName;
 
-  @Enumerated
+  @Enumerated(EnumType.STRING)
   private WineType wineType;
 
   private String country;
@@ -28,4 +31,16 @@ public class Wine extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private Member user;
+
+  public static Wine createWine(WineDTO wineDTO) {
+    Wine wine = new Wine();
+
+    wine.setWineName(wineDTO.getWineName());
+    wine.setWineType(wineDTO.getWineType());
+    wine.setCountry(wineDTO.getCountry());
+    wine.setRegion(wineDTO.getRegion());
+    wine.setPrice(wineDTO.getPrice());
+
+    return wine;
+  }
 }
