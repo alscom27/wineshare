@@ -17,4 +17,8 @@ public class AromaWheel extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "aroma_wheel_id")
   private Long id;
+
+  private String aroma;
+
+  private String aromaValue;
 }
