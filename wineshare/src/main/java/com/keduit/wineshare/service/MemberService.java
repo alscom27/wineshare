@@ -1,6 +1,7 @@
 package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.entity.Member;
+import com.keduit.wineshare.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,17 +13,17 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class MemberService implements UserDetailsService {
 
-  private final UserRepository userRepository;
+  private final MemberRepository memberRepository;
 
   public Member saveUser(Member user) {
     validateUser(user);
-    return userRepository.save(user);
+    return memberRepository.save(user);
   }
 
   private void validateUser(Member user) {
-    Member findUser = userRepository.findByEmail(user.getEmail());
+    Member findUser = memberRepository.findByEmail(user.getEmail());
     if(findUser != null) {
       throw new IllegalStateException("이미 가입된 회원입니다.");
     }
@@ -30,7 +31,7 @@ public class UserService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    Member user = userRepository.findByEmail(email);
+    Member user = memberRepository.findByEmail(email);
 
     if(user == null) {
       throw new UsernameNotFoundException(email);
