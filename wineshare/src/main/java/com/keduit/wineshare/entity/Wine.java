@@ -22,7 +22,7 @@ public class Wine extends BaseEntity {
   @Enumerated
   private WineType wineType;
 
-  private String Country;
+  private String country;
 
   private String region;
 

@@ -18,14 +18,14 @@ public class Board extends BaseEntity {
   @Column(name = "board_id")
   private Long id;
 
-  private String board_title;
+  private String boardTitle;
 
-  private String board_content;
+  private String boardContent;
 
   private String boardImg;  //등업, 요청 사진
 
   @Enumerated
-  private BoardStatus board_status;
+  private BoardStatus boardStatus;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
