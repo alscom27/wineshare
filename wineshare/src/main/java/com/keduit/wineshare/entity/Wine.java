@@ -16,7 +16,7 @@ public class Wine extends BaseEntity {
   @Column(name = "wine_id")
   private Long id;
 
-  @Column(unique = true) // 와인이름 중복될 수 없게
+//  @Column(unique = true) // 와인이름 중복될 수 없게
   private String wineName;
 
   @Enumerated(EnumType.STRING)
@@ -25,6 +25,8 @@ public class Wine extends BaseEntity {
   private String country;
 
   private String region;
+
+  private String wineImg;
 
   private int price;
 
@@ -39,6 +41,7 @@ public class Wine extends BaseEntity {
     wine.setWineType(wineDTO.getWineType());
     wine.setCountry(wineDTO.getCountry());
     wine.setRegion(wineDTO.getRegion());
+    wine.setWineImg(wineDTO.getWineImg());
     wine.setPrice(wineDTO.getPrice());
 
     return wine;
