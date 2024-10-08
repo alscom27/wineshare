@@ -1,8 +1,10 @@
 package com.keduit.wineshare.service;
 
+import com.keduit.wineshare.constant.WithdrawStatus;
 import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,9 +19,9 @@ public class MemberService implements UserDetailsService {
 
   private final MemberRepository memberRepository;
 
-  public Member saveUser(Member user) {
-    validateUser(user);
-    return memberRepository.save(user);
+  public Member saveMember(Member member) {
+    validateUser(member);
+    return memberRepository.save(member);
   }
 
   private void validateUser(Member user) {
@@ -31,12 +33,20 @@ public class MemberService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    Member user = memberRepository.findByEmail(email);
+    Member member = memberRepository.findByEmail(email);
 
-    if(user == null) {
-      throw new UsernameNotFoundException(email);
+    if(member == null) {
+      throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
     }
 
-    return null;
+    if(member.getWithdrawStatus() == WithdrawStatus.LEAVE){
+      throw new UsernameNotFoundException("탈퇴한 회원입니다.");
+    }
+
+    return User.builder()
+        .username(member.getEmail())
+        .password(member.getPassword())
+        .roles(member.getMemberType().toString())
+        .build();
   }
 }

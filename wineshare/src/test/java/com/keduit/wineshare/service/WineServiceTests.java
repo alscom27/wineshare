@@ -1,9 +1,6 @@
 package com.keduit.wineshare.service;
 
-import com.keduit.wineshare.constant.UserType;
 import com.keduit.wineshare.constant.WineType;
-import com.keduit.wineshare.constant.WithdrawStatus;
-import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.entity.Wine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

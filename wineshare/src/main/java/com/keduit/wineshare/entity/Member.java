@@ -1,6 +1,6 @@
 package com.keduit.wineshare.entity;
 
-import com.keduit.wineshare.constant.UserType;
+import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.constant.WithdrawStatus;
 import com.keduit.wineshare.dto.MemberDTO;
 import lombok.Getter;
@@ -36,7 +36,7 @@ public class Member extends BaseEntity {
   private String RRN;    // 주민번호 근데 이건 암호화 복호화 추가예정
 
   @Enumerated(EnumType.STRING)
-  private UserType userType;
+  private MemberType memberType;
 
   @Enumerated(EnumType.STRING)
   private WithdrawStatus withdrawStatus;
@@ -50,7 +50,7 @@ public class Member extends BaseEntity {
     member.setPassword(password);
     member.setPhoneNumber(memberDTO.getPhoneNumber());
     member.setRRN(memberDTO.getRRN());
-    member.setUserType(UserType.ADMIN);
+    member.setMemberType(MemberType.ADMIN);
     member.setWithdrawStatus(WithdrawStatus.STAY);
     return member;
 
