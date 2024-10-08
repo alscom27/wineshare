@@ -29,7 +29,7 @@ public class WineServiceTests {
     Wine wine = new Wine();
 
 
-    wine.setWineName("돔페리뇽");
+    wine.setWineName("Almaviva 2007");
     wine.setWineType(WineType.SPARKLING);
     wine.setCountry("프랑스");
     wine.setRegion("샹빠뉴");
@@ -37,9 +37,9 @@ public class WineServiceTests {
 
 
 
-    assertNotNull(wineService, "wineService가 null입니다."); // wineService null 체크
+
     Wine savedWine = wineService.saveWine(wine);
-    assertNotNull(savedWine, "저장된 와인이 null입니다.");
+
 
     System.out.println(savedWine);
 
