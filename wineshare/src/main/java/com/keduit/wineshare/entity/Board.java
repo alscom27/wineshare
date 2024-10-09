@@ -1,6 +1,7 @@
 package com.keduit.wineshare.entity;
 
 import com.keduit.wineshare.constant.BoardStatus;
+import com.keduit.wineshare.dto.BoardDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,7 +23,7 @@ public class Board extends BaseEntity {
 
   private String boardContent;
 
-  private String boardImg;  //등업, 요청 사진
+  private String boardImg;  //등업, 요청 사진o, // 질문, 공지 사진x
 
   @Enumerated
   private BoardStatus boardStatus;
@@ -30,5 +31,14 @@ public class Board extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private Member user;
+
+  public void updateBoard(BoardDTO boardDTO){
+    this.boardTitle = boardDTO.getBoardTitle();
+    this.boardContent = boardDTO.getBoardContent();
+    if(this.boardImg != null){
+      this.boardImg = boardDTO.getBoardImg();
+    }
+
+  }
 
 }
