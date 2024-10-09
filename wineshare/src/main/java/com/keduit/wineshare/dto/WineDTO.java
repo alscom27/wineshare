@@ -30,4 +30,6 @@ public class WineDTO {
   private int price;
 
   private WineType wineType;
+
+  private String wineImg;
 }

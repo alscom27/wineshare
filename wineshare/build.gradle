@@ -26,6 +26,8 @@ configurations {
 	}
 }
 
+
+
 repositories {
 	mavenCentral()
 }
@@ -58,6 +60,8 @@ dependencies {
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 	// jackson
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
+	// json
+	implementation 'org.json:json:20210307'
 
 	implementation 'org.springframework.boot:spring-boot-starter-security' // Spring Security 의존성 추가
 
@@ -67,6 +71,7 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
 
 
 //QueryDSL 플로그인 설정 START
