@@ -25,4 +25,13 @@ public class CellarWine extends BaseEntity{
   @JoinColumn(name = "wine_id")
   private Wine wine;
 
+  public static CellarWine createCellarWine(Cellar cellar, Wine wine) {
+    CellarWine cellarWine = new CellarWine();
+    cellarWine.setCellar(cellar);
+    cellarWine.setWine(wine);
+    return cellarWine;
+  }
+
+  // 셀러에 같은 와인을 다시 담을때 막아주는것.. 여기서? 다른데서?
+
 }
