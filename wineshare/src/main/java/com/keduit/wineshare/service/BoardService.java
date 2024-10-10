@@ -25,7 +25,7 @@ public class BoardService {
 
   // 게시판 상태에 따라 이미지 업로드 허용 여부 체크
   private boolean isImgUploadAllowed(BoardStatus boardStatus){
-    return boardStatus == BoardStatus.LEVELUP || boardStatus == BoardStatus.REQUEST;
+    return boardStatus == BoardStatus.UPGRADE || boardStatus == BoardStatus.REQUEST;
   }
 
 
@@ -84,6 +84,7 @@ public class BoardService {
     boardRepository.deleteById(boardId);
   }
 
+  // 페이지와 조회
   @Transactional(readOnly = true)
   public Page<Board> getBoardPageByStatus(BoardSearchDTO boardSearchDTO, BoardStatus boardStatus, Pageable pageable){
     return boardRepository.getBoardPage(boardSearchDTO, boardStatus, pageable);

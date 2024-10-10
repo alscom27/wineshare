@@ -3,6 +3,9 @@ package com.keduit.wineshare.entity;
 import com.keduit.wineshare.constant.WineType;
 import com.keduit.wineshare.dto.WineDTO;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -10,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 public class Wine extends BaseEntity {
 
   @Id
