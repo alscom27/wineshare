@@ -48,7 +48,7 @@ public class BoardRepositoryTests {
   }
 
   @Test
-  @DisplayName("Querydsl 조회 테스트")
+  @DisplayName("Querydsl 게시판 조회 테스트")
   public void querydslTest(){
     this.createBoardList();
     QBoard board = QBoard.board;
@@ -56,10 +56,13 @@ public class BoardRepositoryTests {
 
     String title ="테스트";
 
+    booleanBuilder.and(board.boardTitle.like("%" + title + "%"));
+
+
     Pageable pageable = PageRequest.of(0, 10);
     Page<Board> boardPageResult = boardRepository.findAll(booleanBuilder, pageable);
 
-    System.out.println("total element : " + boardPageResult);
+    System.out.println("total board : " + boardPageResult);
 
     List<Board> resultBoardList = boardPageResult.getContent();
     resultBoardList.forEach(System.out::println);

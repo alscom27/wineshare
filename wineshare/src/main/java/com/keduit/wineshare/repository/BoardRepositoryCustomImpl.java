@@ -59,4 +59,6 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
 
     return new PageImpl<>(result, pageable, total);
   }
+
+
 }
