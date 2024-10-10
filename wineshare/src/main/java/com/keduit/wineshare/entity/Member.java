@@ -1,5 +1,6 @@
 package com.keduit.wineshare.entity;
 
+
 import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.constant.WithdrawStatus;
 import com.keduit.wineshare.dto.MemberDTO;
@@ -9,6 +10,8 @@ import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,6 +43,7 @@ public class Member extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
   private WithdrawStatus withdrawStatus;
+
 
   public static Member createMember(MemberDTO memberDTO, PasswordEncoder passwordEncoder){
     Member member = new Member();

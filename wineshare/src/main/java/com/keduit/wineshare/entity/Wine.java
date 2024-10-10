@@ -6,6 +6,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -46,4 +48,5 @@ public class Wine extends BaseEntity {
 
     return wine;
   }
+
 }

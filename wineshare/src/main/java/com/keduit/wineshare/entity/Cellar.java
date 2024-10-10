@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,10 +23,13 @@ public class Cellar extends BaseEntity{
   @JoinColumn(name = "user_id")
   private Member member;
 
+
   public static Cellar createCellar(Member member){
     Cellar cellar = new Cellar();
     cellar.setMember(member);
     return cellar;
   }
+
+
 
 }

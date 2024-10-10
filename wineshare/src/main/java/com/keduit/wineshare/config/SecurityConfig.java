@@ -34,9 +34,12 @@ public class SecurityConfig {
     // anyRequest().authenticated() : 위의 경우 이외의 페이지는 인증절차가 필요함.
     http.authorizeRequests()
         .mvcMatchers("/", "/members/**", "/item/**",
-            "/images/**", "error", "favicon.ico").permitAll()
+            "/image/**", "error", "favicon.ico",
+            "/wines/**", "/wine", "/static/**", "/stylesheets/**",
+            "/rev-slider/**", "/css/**", "/fonts/**").permitAll()
         .mvcMatchers("/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated();
+    // 권한 수정하기
 
     // 인증되지 않은 사용자가 리소스에 접근하여 실패했을때 처리하는 핸들러 등록
     http.exceptionHandling()

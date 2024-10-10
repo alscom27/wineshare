@@ -20,6 +20,10 @@ public class WineController {
 
   private final WineService wineService;
 
+  @GetMapping("/list")
+  public String wineList() {return null;}
+
+
   // /wines/new 로 들어가면 wineForm 페이지로 이동
   @GetMapping("/new")
   public String wineForm(Model model) {

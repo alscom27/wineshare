@@ -3,7 +3,6 @@ package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.constant.WineType;
 import com.keduit.wineshare.entity.Wine;
-import com.keduit.wineshare.repository.FoodPairingRepository;
 import com.keduit.wineshare.repository.WineRepository;
 import lombok.RequiredArgsConstructor;
 

@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -32,6 +33,7 @@ public class CellarWine extends BaseEntity{
     return cellarWine;
   }
 
-  // 셀러에 같은 와인을 다시 담을때 막아주는것.. 여기서? 다른데서?
+
+
 
 }

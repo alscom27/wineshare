@@ -10,8 +10,7 @@ import com.keduit.wineshare.repository.FoodPairingRepository;
 import com.keduit.wineshare.repository.WineDevelopRepository;
 import com.keduit.wineshare.repository.WineRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -24,8 +23,7 @@ import java.util.List;
 public class WineDevelopService {
 
   private final WineDevelopRepository wineDevelopRepository;
-  private final FoodPairingRepository foodPairingRepository;
-  private final AromaWheelRepository aromaWheelRepository;
+
   private final WineRepository wineRepository;
 
 

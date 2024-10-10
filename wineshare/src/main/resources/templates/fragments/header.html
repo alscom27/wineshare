@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:fragment="header">
+
+
+<!--  <div id="loading-overlay">-->
+<!--    <div class="loader"></div>-->
+<!--  </div> &lt;!&ndash; /.loading-overlay &ndash;&gt;-->
+  <header class="style1">
+    <div id="site-header">
+      <div class="container-fluid">
+        <!--             <a href="home1.html" class="logo"><img src="main/image/wineshare3.PNG" alt="image" width="129" height="37" data-retina="main/image/wineshare3.PNG" data-width="147" data-height="21"></a>-->
+        <div class="mobile-button">
+          <span></span>
+        </div>
+        <div class="nav-wrap ">
+          <nav id="mainnav" class="mainnav">
+            <ul class="menu">
+
+              <li class="active">
+                <a href="about.html" title="">About Us</a>
+                <ul class="sub-menu">
+                  <li><a href="About.html" title="">Wine Share</a></li>
+                  <li><a href="Event.html" title="">공지사항</a></li>
+                  <!--                                <li><a href="Coming-soon.html" title="">Bistro</a></li>-->
+                  <!--                                <li><a href="404-page.html" title="">Promotion</a></li>-->
+                  <!-- <li><a href="Wish-list.html" title="">Wish List</a></li>-->
+                </ul><!-- /.sub-menu -->
+              </li>
+
+
+              <li class="active a">
+                <a href="#" title="">Wine</a>
+                <ul class="sub-menu">
+                  <!--                                    <li class="active"><a href="home1.html" title="">Red</a></li>-->
+                  <li><a href="/shop/Shop-fullwidth-list.html" title="">Red</a></li>
+                  <li><a href="/shop/Shop-fullwidth-grid.html" title="">White</a></li>
+                  <li><a href="/shop/Shop-right-slidebar-list.html" title="">Sparkling</a></li>
+                  <li><a href="/shop/Shop-right-slidebar-grid.html" title="">Rose</a></li>
+
+                  <li><a href="/shop/Shop-details-slidebar.html" title="">Dessert</a></li>
+                  <li><a href="/shop/Shop-details.html" title="">Port</a></li>
+                  <!--                                    <li><a href="/shop/Shop-order-tracking.html" title="">Shop Order Tracking</a></li>-->
+                  <!--                                    <li><a href="/shop/Shop-cart.html" title="">Shop Cart</a></li>-->
+                </ul><!-- /.sub-menu -->
+              </li>
+              <li class="active">
+                <a href="about.html" title="">Marketing</a>
+                <ul class="sub-menu">
+                  <li><a href="About.html" title="">Wine Bar</a></li>
+                  <li><a href="Event.html" title="">Bottle Shop</a></li>
+                  <li><a href="Coming-soon.html" title="">Bistro</a></li>
+                  <!--                                    <li><a href="404-page.html" title="">Promotion</a></li>-->
+                  <!--                                    <li><a href="Wish-list.html" title="">Wish List</a></li>-->
+                </ul><!-- /.sub-menu -->
+              </li>
+              <li class="active">
+                <a href="#" title="">Boards</a>
+                <ul class="sub-menu">
+                  <li><a href="#" title="">등업게시판</a></li>
+                  <li><a href="#" title="">질문게시판</a></li>
+                  <li><a href="#" title="">요청게시판</a></li>
+                </ul><!-- /.sub-menu -->
+              </li>
+              <li class="active">
+                <a href="#" title="">Events</a>
+                <ul class="sub-menu">
+                  <li><a href="Blog-grid-3column.html" title="">행사</a></li>
+                  <li><a href="Blog-grid-2column.html" title="">프로모션</a></li>
+                  <!--                                    <li><a href="Blog-Right-Slidebar.html" title="">Blog Right Slidebar</a></li>-->
+                  <!--                                    <li><a href="Blog-details-slidebar.html" title="">Blog Details Slidebar</a></li>-->
+                  <!--                                    <li><a href="Blog-details-fullwidth.html" title="">Blog Details FullWidth</a></li>-->
+                </ul><!-- /.sub-menu -->
+              </li>
+              <!--                        <li class="active">-->
+              <!--                            <a href="#" title="">Events</a>-->
+              <!--                                <ul class="sub-menu">-->
+              <!--                                    <li><a href="contact-1.html" title="">Contact Us 1</a></li>-->
+              <!--                                    <li><a href="Contact-2.html" title="">Contact Us 2</a></li>-->
+              <!--                                </ul>&lt;!&ndash; /.sub-menu &ndash;&gt;-->
+              <!--                         </li>-->
+            </ul>
+          </nav>
+        </div><!-- /.nav-wrap -->
+        <div class="search clearfix">
+          <ul>
+            <li><input type="search" id="search" placeholder="Search..." ></li>
+            <li><a href="#" class="header-search-icon"><i class="ti-search" aria-hidden="true"></i></a></li>
+            <li><a href="#"> <i class="ti-align-justify" aria-hidden="true"></i> </a>
+              <ul class="sub-menu">
+                <li><a href="projects1.html" title="">Login/ Register</a></li>
+                <li><a href="projects1.html" title="">My Account</a></li>
+                <li><a href="projects1.html" title="">My Wishlist</a></li>
+                <li><a href="projects1.html" title="">My Cart</a></li>
+                <li><a href="projects1.html" title="">Tracking Orders</a></li>
+              </ul><!-- /.sub-menu -->
+            </li>
+          </ul>
+          <form class="header-search-form" role="search" th:action="@{/}" method="get">
+            <input type="text" value="" name="#" class="header-search-field" placeholder="Search...">
+            <button type="submit" class="header-search-submit" title="Search"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+      </div><!-- /container -->
+    </div>
+  </header>
+
+
+
+</div>
+</html>
