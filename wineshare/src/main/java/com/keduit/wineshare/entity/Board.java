@@ -30,11 +30,13 @@ public class Board extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  private Member user;
+  private Member member;
 
   public void updateBoard(BoardDTO boardDTO){
     this.boardTitle = boardDTO.getBoardTitle();
     this.boardContent = boardDTO.getBoardContent();
+    this.boardStatus = boardDTO.getBoardStatus();
+
     if(this.boardImg != null){
       this.boardImg = boardDTO.getBoardImg();
     }

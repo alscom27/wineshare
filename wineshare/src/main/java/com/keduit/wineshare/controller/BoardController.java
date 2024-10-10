@@ -33,6 +33,7 @@ public class BoardController {
   private final MemberRepository memberRepository;
 
 
+  // 기본 0페이지도 주소 추가하기 하.. 할거 존나많네 주석보면서 이런말 보이면 지워야됨
   @GetMapping({"/{boardStatus}/{page}"})
   public String getBoardListByStatus(@PathVariable("boardStatus")BoardStatus boardStatus,
                                      @PathVariable("page") Optional<Integer> page,
