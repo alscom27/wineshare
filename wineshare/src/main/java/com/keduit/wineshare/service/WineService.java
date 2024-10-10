@@ -3,6 +3,7 @@ package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.constant.WineType;
 import com.keduit.wineshare.entity.Wine;
+import com.keduit.wineshare.repository.FoodPairingRepository;
 import com.keduit.wineshare.repository.WineRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -47,23 +48,25 @@ public class WineService {
 
 
   // 파싱 메소드 만들어보자
-    // @PostConstruct 어노테이션이 최초 실행 시 1회만 실행시켜준다는거 같음.
-//  @PostConstruct
+  // @PostConstruct 어노테이션이 메소드를 애플리케이션 최초 실행 시 한번 실행 시켜줌
+  @PostConstruct
   public void initParsing() {
     String[] wineTypeList = {"reds", "whites", "rose", "port", "dessert", "sparkling"};
-
-    for(String wineType : wineTypeList) {
-      try {
-        // JSON 을 InputStream 으로 read
-        URL url = new URL("https://api.sampleapis.com/wines/" + wineType);
-        try(InputStream inputStream = url.openStream()) {
-          List<Wine> wines = parseWine(inputStream, wineType);
-          wineRepository.saveAll(wines);
+    if (wineRepository.count() == 0){ // 데이터 한개라도 있으면 여기서 막힘
+      for(String wineType : wineTypeList) {
+        try {
+          // JSON 을 InputStream 으로 read
+          URL url = new URL("https://api.sampleapis.com/wines/" + wineType);
+          try(InputStream inputStream = url.openStream()) {
+            List<Wine> wines = parseWine(inputStream, wineType);
+            wineRepository.saveAll(wines);
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
         }
-      } catch (IOException e) {
-        e.printStackTrace();
       }
     }
+
   }
     // 파싱해서 리스트 반환
   private List<Wine> parseWine(InputStream inputStream, String wineType) throws IOException {
@@ -107,11 +110,18 @@ public class WineService {
         Wine wine = new Wine();
         wine.setWineName(jsonObject.getString("wine"));
         wine.setWineImg(jsonObject.getString("image"));
+
+        // json 의 로케이션을 분리한 후 각각 나라와 지역으로 담는다
         String[] location = jsonObject.getString("location").split("\\n·\\n");
         if (location.length == 2) {
+          wine.setCountry(location[0]);
           wine.setRegion(location[1]);
+        } else {
+          // 위치 정보가 없거나 다른 경우
+          wine.setCountry(location[0]);
+          wine.setRegion("Unknown");
         }
-        wine.setCountry(location[0]);
+
         wine.setWineType(wineTypeEnum);
         wines.add(wine);
         wineNames.add(wineName);
