@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.*;
 
 
@@ -24,7 +26,7 @@ public class WineDevelop extends BaseEntity{
   private String expertComment;
 
   // 높으면 sweet, 낮으면 drt
-  private double sweet;
+  private double sweetness;
 
   // acidic, soft
   private double acidity;
@@ -38,16 +40,6 @@ public class WineDevelop extends BaseEntity{
   // fizzy, gentle
   private double fizz;
 
-  // 이거는 보류 우선
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "food_pairing_id")
-  private List<FoodPairing> foodPairingList = new ArrayList<>();
-
-  // 여기도 보류
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "aroma_wheel_id")
-  private List<AromaWheel> aromaWheelList = new ArrayList<>();
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private Member user;
@@ -55,5 +47,33 @@ public class WineDevelop extends BaseEntity{
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "wine_id")
   private Wine wine;
+
+  private String aromaOne;
+  private String aromaTwo;
+  private String foodOne;
+  private String foodTwo;
+
+  // 기본 생성자
+  public WineDevelop() {}
+
+  // 모든 필드를 포함하는 생성자
+  public WineDevelop(double expertRating, String expertComment, double sweetness,
+                     double acidity, double body, double tannin, double fizz,
+                     String aromaOne, String aromaTwo, String foodOne, String foodTwo,
+                     Member user, Wine wine) {
+    this.expertRating = expertRating;
+    this.expertComment = expertComment;
+    this.sweetness = sweetness;
+    this.acidity = acidity;
+    this.body = body;
+    this.tannin = tannin;
+    this.fizz = fizz;
+    this.user = user;
+    this.wine = wine;
+    this.aromaOne = aromaOne;
+    this.aromaTwo = aromaTwo;
+    this.foodOne = foodOne;
+    this.foodTwo = foodTwo;
+  }
 
 }

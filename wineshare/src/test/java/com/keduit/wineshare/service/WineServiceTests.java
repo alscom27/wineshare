@@ -25,15 +25,11 @@ public class WineServiceTests {
   public void saveWineTest() {
     Wine wine = new Wine();
 
-
     wine.setWineName("Almaviva 2007");
     wine.setWineType(WineType.SPARKLING);
     wine.setCountry("프랑스");
     wine.setRegion("샹빠뉴");
     wine.setPrice(200000);
-
-
-
 
     Wine savedWine = wineService.saveWine(wine);
 

@@ -21,4 +21,8 @@ public class AromaWheel extends BaseEntity {
   private String aroma;
 
   private String aromaValue;
+
+
+
+
 }

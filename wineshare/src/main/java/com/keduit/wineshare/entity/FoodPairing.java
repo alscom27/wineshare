@@ -18,7 +18,10 @@ public class FoodPairing extends BaseEntity {
   @Column(name = "food_pairing_id")
   private Long id;
 
-  private String foodName;
+  private String food;
 
   private String foodImg;
+
+
+
 }

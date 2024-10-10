@@ -29,6 +29,7 @@ public class WineController {
     return "wine/wineForm";
   }
 
+
   // 겟매핑을 통해 들어간 와인폼에서 입력 후 전송 시 포스트매핑으로 들어옴, 와인을 저장함
   @PostMapping("/new")
   public String saveWine(@Valid WineDTO wineDTO, BindingResult bindingResult, Model model) {
