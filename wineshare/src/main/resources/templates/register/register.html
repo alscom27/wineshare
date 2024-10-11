@@ -1,263 +1,80 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xml:lang="en-US" lang="en-US">
-<head>
-    <!-- Basic Page Needs -->
-    <meta charset="utf-8">
-    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-    <title>Main</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf.layout">
+<!-- register css Fiels -->
+<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/register.css}">
 
-    <meta name="author" content="themesflat.com">
+<!--<div id="loading-overlay">-->
+<!--    <div class="loader"></div>-->
+<!--</div> &lt;!&ndash; /.loading-overlay &ndash;&gt; 로딩페이지임-->
 
-    <!-- Mobile Specific Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
 
-    <!-- Bootstrap  -->
-    <link rel="stylesheet" type="text/css" href="/main/stylesheets/bootstrap.css" >
+    </script>
+</th:block>
 
-    <!-- Theme Style -->
-    <link rel="stylesheet" type="text/css" href="/main/stylesheets/style.css">
+<div layout:fragment="content">
 
-    <!-- Responsive -->
-    <link rel="stylesheet" type="text/css" href="/main/stylesheets/responsive.css">
+    <div class="main-homepage-1">
 
-    <!-- Colors -->
-    <link rel="stylesheet" type="text/css" href="/main/stylesheets/colors/color1.css" id="colors">
+    </div> <!-- /homepage1 -->
+    <div id="container1"></div>
 
-    <!-- Animation Style -->
-    <link rel="stylesheet" type="text/css" href="/main/stylesheets/animate.css">
-
-    <!-- Favicon and touch icons  -->
-    <link href="/main/icon/icon.png" rel="apple-touch-icon-precomposed" sizes="48x48">
-    <link href="/main/icon/icon.png" rel="apple-touch-icon-precomposed">
-    <link href="/main/icon/icon.png" rel="shortcut icon">
-    <!-- Slider Revolution CSS Files -->
-    <link rel="stylesheet" type="text/css" href="/main/rev-slider/css/settings.css">
-    <link rel="stylesheet" type="text/css" href="/main/rev-slider/css/layers.css">
-    <link rel="stylesheet" type="text/css" href="/main/rev-slider/css/navigation.css">
-
-    <!-- register css Fiels -->
-    <link rel="stylesheet" type="text/css" href="/main/stylesheets/register.css">
-</head>
-<body>
-<div id="loading-overlay">
-    <div class="loader"></div>
-</div> <!-- /.loading-overlay -->
-<header class="style1">
-    <div id="site-header">
-        <div class="container-fluid">
-            <!--             <a href="home1.html" class="logo"><img src="main/image/wineshare3.PNG" alt="image" width="129" height="37" data-retina="main/image/wineshare3.PNG" data-width="147" data-height="21"></a>-->
-            <div class="mobile-button">
-                <span></span>
-            </div>
-            <div class="nav-wrap ">
-                <nav id="mainnav" class="mainnav">
-                    <ul class="menu">
-
-                        <li class="active">
-                            <a href="about.html" title="">About Us</a>
-                            <ul class="sub-menu">
-                                <li><a href="About.html" title="">Wine Share</a></li>
-                                <li><a href="Event.html" title="">공지사항</a></li>
-                                <!--                                <li><a href="Coming-soon.html" title="">Bistro</a></li>-->
-                                <!--                                <li><a href="404-page.html" title="">Promotion</a></li>-->
-                                <!-- <li><a href="Wish-list.html" title="">Wish List</a></li>-->
-                            </ul><!-- /.sub-menu -->
-                        </li>
-
-
-                        <li class="active a">
-                            <a href="#" title="">Wine</a>
-                            <ul class="sub-menu">
-                                <li class="active"><a href="home1.html" title="">Red</a></li>
-                                <li><a href="/shop/Shop-fullwidth-list.html" title="">Red</a></li>
-                                <li><a href="/shop/Shop-fullwidth-grid.html" title="">White</a></li>
-                                <li><a href="/shop/Shop-right-slidebar-list.html" title="">Sparkling</a></li>
-                                <li><a href="/shop/Shop-right-slidebar-grid.html" title="">Rose</a></li>
-
-                                <li><a href="/shop/Shop-details-slidebar.html" title="">Dessert</a></li>
-                                <li><a href="/shop/Shop-details.html" title="">Port</a></li>
-                                <!--                                    <li><a href="/shop/Shop-order-tracking.html" title="">Shop Order Tracking</a></li>-->
-                                <!--                                    <li><a href="/shop/Shop-cart.html" title="">Shop Cart</a></li>-->
-                            </ul><!-- /.sub-menu -->
-                        </li>
-                        <li class="active">
-                            <a href="about.html" title="">Marketing</a>
-                            <ul class="sub-menu">
-                                <li><a href="About.html" title="">Wine Bar</a></li>
-                                <li><a href="Event.html" title="">Bottle Shop</a></li>
-                                <li><a href="Coming-soon.html" title="">Bistro</a></li>
-                                <!--                                    <li><a href="404-page.html" title="">Promotion</a></li>-->
-                                <!--                                    <li><a href="Wish-list.html" title="">Wish List</a></li>-->
-                            </ul><!-- /.sub-menu -->
-                        </li>
-                        <li class="active">
-                            <a href="#" title="">Boards</a>
-                            <ul class="sub-menu">
-                                <li><a href="#" title="">등업게시판</a></li>
-                                <li><a href="#" title="">질문게시판</a></li>
-                                <li><a href="#" title="">요청게시판</a></li>
-                            </ul><!-- /.sub-menu -->
-                        </li>
-                        <li class="active">
-                            <a href="#" title="">Events</a>
-                            <ul class="sub-menu">
-                                <li><a href="Blog-grid-3column.html" title="">행사</a></li>
-                                <li><a href="Blog-grid-2column.html" title="">프로모션</a></li>
-                                <!--                                    <li><a href="Blog-Right-Slidebar.html" title="">Blog Right Slidebar</a></li>-->
-                                <!--                                    <li><a href="Blog-details-slidebar.html" title="">Blog Details Slidebar</a></li>-->
-                                <!--                                    <li><a href="Blog-details-fullwidth.html" title="">Blog Details FullWidth</a></li>-->
-                            </ul><!-- /.sub-menu -->
-                        </li>
-                        <!--                        <li class="active">-->
-                        <!--                            <a href="#" title="">Events</a>-->
-                        <!--                                <ul class="sub-menu">-->
-                        <!--                                    <li><a href="contact-1.html" title="">Contact Us 1</a></li>-->
-                        <!--                                    <li><a href="Contact-2.html" title="">Contact Us 2</a></li>-->
-                        <!--                                </ul>&lt;!&ndash; /.sub-menu &ndash;&gt;-->
-                        <!--                         </li>-->
-                    </ul>
-                </nav>
-            </div><!-- /.nav-wrap -->
-            <div class="search clearfix">
-                <ul>
-                    <li><input type="search" id="search" placeholder="Search..." ></li>
-                    <li><a href="#" class="header-search-icon"><i class="ti-search" aria-hidden="true"></i></a></li>
-                    <li><a href="#"> <i class="ti-align-justify" aria-hidden="true"></i> </a>
-                        <ul class="sub-menu">
-                            <li><a href="projects1.html" title="">Login/ Register</a></li>
-                            <li><a href="projects1.html" title="">My Account</a></li>
-                            <li><a href="projects1.html" title="">My Wishlist</a></li>
-                            <li><a href="projects1.html" title="">My Cart</a></li>
-                            <li><a href="projects1.html" title="">Tracking Orders</a></li>
-                        </ul><!-- /.sub-menu -->
-                    </li>
-                </ul>
-                <form class="header-search-form" role="search" method="get" action="#">
-                    <input type="text" value="" name="#" class="header-search-field" placeholder="Search...">
-                    <button type="submit" class="header-search-submit" title="Search"><i class="fa fa-search"></i></button>
-                </form>
-            </div>
-        </div><!-- /container -->
-    </div>
-</header>
-
-<div class="main-homepage-1">
-
-</div> <!-- /homepage1 -->
-<div id="container1"></div>
-
-<div class="container">
-    <h1 class="header">Create Account</h1>
-
-    <!-- 타임리프를 사용한 회원가입 폼 -->
-    <form th:action="@{/register}" method="post" class="login-form">
-
-        <!-- 이메일 입력 -->
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="email" required />
-        </div>
-
-        <!-- 비밀번호 입력 -->
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" placeholder="password" required />
-        </div>
-
-        <!-- 이름 입력 -->
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input id="name" name="name" type="text" placeholder="Enter your name" required />
-        </div>
-
-        <!-- 닉네임 입력 -->
-        <div class="form-group">
-            <label for="nickname">Nickname</label>
-            <input id="nickname" name="nickname" type="text" placeholder="Enter your nickname" required />
-        </div>
-
-        <!-- 주민등록번호 입력 -->
-        <div class="form-group">
-            <label for="rrn">RRN</label>
-            <input id="rrn" name="rrn" type="text" placeholder="Enter your RRN" required />
-        </div>
-
-        <!-- 전화번호 입력 -->
-        <div class="form-group">
-            <label for="mobile">Phone Number</label>
-            <input id="mobile" name="mobile" type="text" placeholder="Enter your phone number" required />
-        </div>
-
-        <!-- 등록 버튼 -->
-        <button type="submit" class="login-button">Register</button>
-    </form>
-
-    <div class="footer-text">
-        <!-- 로그인 페이지로 이동 -->
-        Already have an account? <a th:href="@{/login}">Sign In</a>
-    </div>
-</div>
-<footer class="style3">
     <div class="container">
-        <div class="footer-widgets">
-            <div class="widget widget-logo">
-                <a href="index.html" class="logo"><img src="/main/image/logo.png" alt="image" width="129" height="37" data-retina="image/logo-2x.png" data-width="147" data-height="21"></a>
-            </div> <!-- /widget-logo -->
-            <div class="widget widget-icon">
-                <ul>
-                    <li class="active"><a href="#"> <i class="fa fa-facebook" aria-hidden="true"></i> </a></li>
-                    <li><a href="#"> <i class="fa fa-twitter" aria-hidden="true"></i> </a></li>
-                    <li><a href="#"> <i class="fa fa-instagram" aria-hidden="true"></i> </a></li>
-                    <li><a href="#"> <i class="fa fa-skype" aria-hidden="true"></i> </a></li>
-                    <li><a href="#"> <i class="fa fa-wordpress" aria-hidden="true"></i></a></li>
-                </ul>
-            </div> <!-- /widget-icon -->
-            <!--            <div class="widget widget-title">-->
-            <!--                 <h2>Get news & offers</h2>-->
-            <!--            </div> &lt;!&ndash; /widget-title &ndash;&gt;-->
-            <!--            <div class="widget widget-contact">-->
-            <!--                 <input type="search" id="search-footer" placeholder="Your Email" >-->
-            <!--                 <button type="submit"><i class="fa fa-location-arrow" aria-hidden="true"></i></button>-->
-            <!--            </div> &lt;!&ndash; /widget-contact &ndash;&gt;-->
-            <div class="widget widget-menu">
-                <ul>
-                    <li class="active"><a href="About.html"> About Us </a></li>
-                    <li><a href="Shop-fullwidth-grid.html"> Customer Service </a></li>
-                    <li><a href="Homepage2.html"> Terms & Conditions </a></li>
-                    <li><a href="Blog-grid-3column.html"> Privacy Policy </a></li>
-                    <li class="contact"><a href="contact-1.html"> Contact </a></li>
-                </ul>
-            </div> <!-- /widget-about -->
-            <div class="widget widget-text">
-                <span>© 2019 Created by ThemesFlat. All Rights Reserved</span>
+        <h1 class="header">Create Account</h1>
+
+        <!-- 타임리프를 사용한 회원가입 폼 -->
+        <form th:action="@{/register}" method="post" class="login-form">
+
+            <!-- 이메일 입력 -->
+            <div class="form-group">
+                <label th:for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="email" required/>
             </div>
-        </div> <!-- /footer-widgets -->
-    </div> <!-- /container -->
-</footer>
-<a id="scroll-top"><i class="fa fa-angle-right" aria-hidden="true"></i></a> <!-- /#scroll-top -->
 
-<script src="main/javascript/jquery.min.js"></script>
-<script src="main/javascript/rev-slider.js"></script>
-<script src="main/javascript/owl.carousel.min.js"></script>
-<script src="main/javascript/jquery-countTo.js"></script>
-<script src="main/javascript/jquery-waypoints.js"></script>
-<script src="main/javascript/bootstrap.min.js"></script>
-<script src="main/javascript/jquery.easing.js"></script>
-<script src="main/javascript/main.js"></script>
+            <!-- 비밀번호 입력 -->
+            <div class="form-group">
+                <label th:for="password">Password</label>
+                <input id="password" name="password" type="password" placeholder="password" required/>
+            </div>
 
-<!-- Slider -->
-<script src="main/rev-slider/js/jquery.themepunch.tools.min.js"></script>
-<script src="main/rev-slider/js/jquery.themepunch.revolution.min.js"></script>
-<script src="main/javascript/rev-slider.js"></script>
-<!-- Load Extensions only on Local File Systems ! The following part can be removed on Server for On Demand Loading -->
-<script src="main/rev-slider/js/extensions/revolution.extension.actions.min.js"></script>
-<script src="main/rev-slider/js/extensions/revolution.extension.carousel.min.js"></script>
-<script src="main/rev-slider/js/extensions/revolution.extension.kenburn.min.js"></script>
-<script src="main/rev-slider/js/extensions/revolution.extension.layeranimation.min.js"></script>
-<script src="main/rev-slider/js/extensions/revolution.extension.migration.min.js"></script>
-<script src="main/rev-slider/js/extensions/revolution.extension.navigation.min.js"></script>
-<script src="main/rev-slider/js/extensions/revolution.extension.parallax.min.js"></script>
-<script src="main/rev-slider/js/extensions/revolution.extension.slideanims.min.js"></script>
-<script src="main/rev-slider/js/extensions/revolution.extension.video.min.js"></script>
+            <!-- 이름 입력 -->
+            <div class="form-group">
+                <label th:for="name">Name</label>
+                <input id="name" name="name" type="text" placeholder="Enter your name" required/>
+            </div>
 
-</body>
+            <!-- 닉네임 입력 -->
+            <div class="form-group">
+                <label for="nickname">Nickname</label>
+                <input id="nickname" name="nickname" type="text" placeholder="Enter your nickname" required/>
+            </div>
+
+            <!-- 주민등록번호 입력 -->
+            <div class="form-group">
+                <label for="rrn">RRN</label>
+                <input id="rrn" name="rrn" type="text" placeholder="Enter your RRN" required/>
+            </div>
+
+            <!-- 전화번호 입력 -->
+            <div class="form-group">
+                <label for="mobile">Phone Number</label>
+                <input id="mobile" name="mobile" type="text" placeholder="Enter your phone number" required/>
+            </div>
+
+            <!-- 등록 버튼 -->
+            <button type="submit" class="login-button">Register</button>
+        </form>
+
+        <div class="footer-text">
+            <!-- 로그인 페이지로 이동 -->
+            Already have an account? <a th:href="@{/login}">Sign In</a>
+        </div>
+    </div>
+
+    <a id="scroll-top"><i class="fa fa-angle-right" aria-hidden="true"></i></a> <!-- /#scroll-top -->
+</div>
+
+
+</html>
