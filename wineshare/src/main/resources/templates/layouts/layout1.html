@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf.layout">
+<head>
+    <meta charset="UTF-8">
+    <title>layout</title>
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/bootstrap.css}">
+    <!-- Theme Style -->
+    <link rel="stylesheet" type="text/css"  th:href="@{/stylesheets/style.css}">
+    <!-- Responsive -->
+    <link rel="stylesheet" type="text/css"  th:href="@{/stylesheets/responsive.css}">
+    <!-- Colors -->
+    <link rel="stylesheet" type="text/css"  th:href="@{/stylesheets/colors/color1.css}" id="colors">
+    <!-- Animation Style -->
+    <link rel="stylesheet" type="text/css"  th:href="@{/stylesheets/animate.css}">
+    <!-- Slider Revolution CSS Files -->
+    <link rel="stylesheet" type="text/css"  th:href="@{/rev-slider/css/settings.css}">
+    <link rel="stylesheet" type="text/css"  th:href="@{/rev-slider/css/layers.css}">
+    <link rel="stylesheet" type="text/css"  th:href="@{/rev-slider/css/navigation.css}">
+
+    <!-- 사용자 css, js 자리 -->
+    <th:block layout:fragment="script"></th:block>
+    <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+<div th:replace="fragments/header::header"></div>
+
+<!--<div layout:fragment="content" class="content"></div>-->
+<div layout:fragment="content" class="content"></div>
+
+<div th:replace="fragments/footer::footer"></div>
+
+</body>
+</html>

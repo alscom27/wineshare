@@ -1540,7 +1540,7 @@ article.post-list .content-post {
 
 footer.style1 {
 	margin-top: 100px;
-	background-image: url(../image/footer.jpg);
+	/* background-image: url(/image/footer.jpg); */
 	height: 445px;
 	max-height: 445px;
 }
@@ -4096,7 +4096,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .flat-deal-of-the-week.style1 {
 	padding: 106px 0 100px 0;
-	background-image: url(../image/footer.jpg);
+	/* background-image: url(/image/footer.jpg);*/
 } 
 
 .flat-deal-week {
@@ -4893,7 +4893,7 @@ header.style2 .review a i:hover {
 
 .flat-new-latest.style2 {
 	padding: 103px 0 101px;
-	background-image: url(../image/footer.jpg);
+	/* background-image: url(/image/footer.jpg);*/
 }
 
 .flat-new-latest.style2 .featured-post {
@@ -5594,7 +5594,7 @@ body.bg-boxed {
 /* footer.style3 */
 
 footer.style3 {
-	background-image: url(../image/footer.jpg);
+	/* background-image: url(/image/footer.jpg);*/
 	height: 445px;
 	max-height: 445px;
 }
@@ -5728,7 +5728,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-homepage-4 .slider-style4 {
-	background-image: url(../image/footer.jpg);
+	/* background-image: url(/image/footer.jpg);*/
 	padding: 87px 0 272px 0;
 }
 
