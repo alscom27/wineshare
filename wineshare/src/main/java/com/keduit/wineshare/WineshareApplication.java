@@ -2,7 +2,7 @@ package com.keduit.wineshare;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.keduit.wineshare.entity.Wine;
+//import com.keduit.wineshare.entity.Wine;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
