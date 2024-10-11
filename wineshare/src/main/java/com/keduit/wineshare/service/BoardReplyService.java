@@ -36,7 +36,7 @@ public class BoardReplyService {
       BoardReplyDTO dto = new BoardReplyDTO();
       dto.setId(reply.getId());
       dto.setReply(reply.getReply());
-      dto.setUserId(reply.getUser().getId());
+      dto.setMemberId(reply.getMember().getId());
       dto.setBoardId(reply.getBoard().getId());
       dto.setRegTime(reply.getRegTime());
       dto.setUpdateTime(reply.getUpdateTime());

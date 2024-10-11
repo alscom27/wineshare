@@ -21,7 +21,7 @@ public class BoardReply extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  private Member user;
+  private Member member;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "board_id")

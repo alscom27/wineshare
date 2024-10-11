@@ -7,7 +7,6 @@ import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.repository.BoardReplyRepository;
 import com.keduit.wineshare.repository.BoardRepository;
 import com.keduit.wineshare.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +51,7 @@ public class BoardReplyServiceTests {
     for(int i=0; i<10; i++){
       BoardReply reply = new BoardReply();
       reply.setReply("test reply " + i);
-      reply.setUser(member);
+      reply.setMember(member);
       reply.setBoard(board);
       boardReplyRepository.save(reply);
     }

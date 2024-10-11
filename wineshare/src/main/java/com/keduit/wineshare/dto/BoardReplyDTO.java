@@ -16,7 +16,7 @@ public class BoardReplyDTO {
 
   private String reply; // 댓글 내용
 
-  private Long userId;
+  private Long memberId;
 
   private Long boardId;
 

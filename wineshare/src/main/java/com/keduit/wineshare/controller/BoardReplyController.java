@@ -31,7 +31,7 @@ public class BoardReplyController {
   public ResponseEntity<String> registerReply(@RequestBody BoardReplyDTO boardReplyDTO,
                                               Principal principal){
     Member member = memberRepository.findByEmail(principal.getName());
-    boardReplyDTO.setUserId(member.getId());
+    boardReplyDTO.setMemberId(member.getId());
 
     boardReplyService.registerReply(boardReplyDTO);
     return new ResponseEntity<>("댓글이 등록되었습니다.", HttpStatus.CREATED);

@@ -20,11 +20,11 @@ public class WineReview extends BaseEntity {
   // 전문가 리뷰, 별점은 정보 입력 폼에서 받음
   private String regularReview;
 
-  private String regularRating;
+  private double regularRating;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  private Member user;
+  private Member member;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "wine_id")
