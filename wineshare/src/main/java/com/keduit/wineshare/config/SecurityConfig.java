@@ -33,10 +33,16 @@ public class SecurityConfig {
     // hasRole("ADMIN") : 관리자의 경우 /admin/로 접근하는 경로를 통과시킴
     // anyRequest().authenticated() : 위의 경우 이외의 페이지는 인증절차가 필요함.
     http.authorizeRequests()
-        .mvcMatchers("/", "/members/**", "/item/**",
-            "/image/**", "error", "favicon.ico",
-            "/wines/**", "/wine", "/static/**", "/stylesheets/**",
-            "/rev-slider/**", "/css/**", "/fonts/**").permitAll()
+        .mvcMatchers("/", "/members/**", "error", "favicon.ico",
+            "/wines/**", "/wine",
+            // 여기부터 css
+            "/contact/**",
+            "/fonts/**",
+            "/icon/**",
+            "/image/**", "/image/facybox/**",
+            "/javascript/**",
+            "/rev-slider/**", "/rev-slider/assets/**", "/rev-slider/css/**", "/rev-slider/fonts/revicons/**", "/rev-slider/js/extensions/**",
+            "/stylesheets/**", "/stylesheets/colors/**", "/stylesheets/fonts/**").permitAll()
         .mvcMatchers("/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated();
     // 권한 수정하기
