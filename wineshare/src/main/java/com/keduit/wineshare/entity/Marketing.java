@@ -30,12 +30,9 @@ public class Marketing extends BaseEntity {
 
   private String marketImg;  // 업장별 사진
 
-  // 현재 이벤트상태를 알려주는게 두개가 되어버림
-  //체크이벤트와 이벤트 올낫 (동적쿼리를 이벤트올낫으로 만들어서 체크이벤트 빼는게낳을듯)
-  @Column(nullable = false)
-  private int checkEvent; //체크가 혹시 잘못되더라도 디폴트 0으로 우선 선언
 
-  private String checkContent;  // 체크가 1되면 폼 활성화
+
+  private String checkContent;  // 행사 설명, 체크가 1되면 폼 활성화
 
 
   @Enumerated
@@ -45,7 +42,7 @@ public class Marketing extends BaseEntity {
   private EventOrNot eventOrNot;  // 행사 상태
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "member_id")
   private Member member;
 
   public void updateMarketing(MarketingDTO marketingDTO){
@@ -53,7 +50,7 @@ public class Marketing extends BaseEntity {
     this.marketingContent = marketingDTO.getMarketingContent();
     this.marketLink = marketingDTO.getMarketLink();
     this.marketImg = marketingDTO.getMarketImg();
-    this.checkEvent = marketingDTO.getCheckEvent();
+    this.eventOrNot = marketingDTO.getEventOrNot();
     this.checkContent = marketingDTO.getCheckContent();
     this.marketCategory = marketingDTO.getMarketCategory();
 

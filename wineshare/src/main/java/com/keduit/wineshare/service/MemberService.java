@@ -20,17 +20,20 @@ public class MemberService implements UserDetailsService {
   private final MemberRepository memberRepository;
 
   public Member saveMember(Member member) {
-    validateUser(member);
+    validateMember(member);
     return memberRepository.save(member);
   }
 
-  private void validateUser(Member user) {
-    Member findUser = memberRepository.findByEmail(user.getEmail());
-    if(findUser != null) {
+  private void validateMember(Member member) {
+    Member findMember = memberRepository.findByEmail(member.getEmail());
+    if(findMember != null) {
       throw new IllegalStateException("이미 가입된 회원입니다.");
     }
   }
 
+  public Member findByEmail(String email) {
+    return memberRepository.findByEmail(email);
+  }
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     Member member = memberRepository.findByEmail(email);

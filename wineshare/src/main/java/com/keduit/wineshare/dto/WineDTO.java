@@ -1,6 +1,7 @@
 package com.keduit.wineshare.dto;
 
 import com.keduit.wineshare.constant.WineType;
+import com.keduit.wineshare.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,4 +31,6 @@ public class WineDTO {
   private WineType wineType;
 
   private String wineImg;
+
+  private Long memberId;
 }

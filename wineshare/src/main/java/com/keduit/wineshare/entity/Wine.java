@@ -38,10 +38,10 @@ public class Wine extends BaseEntity {
   private int price;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private Member user;
+  @JoinColumn(name = "member_id")
+  private Member member;
 
-  public static Wine createWine(WineDTO wineDTO) {
+  public static Wine createWine(WineDTO wineDTO, Member member) {
     Wine wine = new Wine();
 
     wine.setWineName(wineDTO.getWineName());
@@ -50,6 +50,7 @@ public class Wine extends BaseEntity {
     wine.setRegion(wineDTO.getRegion());
     wine.setWineImg(wineDTO.getWineImg());
     wine.setPrice(wineDTO.getPrice());
+    wine.setMember(member);
 
     return wine;
   }

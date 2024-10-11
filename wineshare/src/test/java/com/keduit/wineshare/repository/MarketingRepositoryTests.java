@@ -33,10 +33,8 @@ public class MarketingRepositoryTests {
       marketing.setMarketingContent("테스트 업장 설명" + i);
       marketing.setMarketCategory(MarketCategory.BISTRO);
       if(i%2==0){
-        marketing.setCheckEvent(0);
         marketing.setEventOrNot(EventOrNot.END);
       }else{
-        marketing.setCheckEvent(1);
         marketing.setEventOrNot(EventOrNot.ON);
         marketing.setCheckContent("행사 내용" + i);
       }
@@ -53,7 +51,6 @@ public class MarketingRepositoryTests {
     marketing.setMarketingTitle("테스트 업장");
     marketing.setMarketingContent("테스트 업장 설명");
     marketing.setMarketCategory(MarketCategory.WINEBAR);
-    marketing.setCheckEvent(1); //1이면 행사 온이여서 둘이 같은거임 ㅅㅂ
     marketing.setEventOrNot(EventOrNot.ON);
     marketing.setCheckContent("행사 내용");
     marketing.setMarketImg("업장 사진");

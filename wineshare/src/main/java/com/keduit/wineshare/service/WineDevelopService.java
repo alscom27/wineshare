@@ -1,20 +1,15 @@
 package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.dto.WineDevelopDTO;
-import com.keduit.wineshare.entity.AromaWheel;
-import com.keduit.wineshare.entity.FoodPairing;
-import com.keduit.wineshare.entity.Wine;
-import com.keduit.wineshare.entity.WineDevelop;
-import com.keduit.wineshare.repository.AromaWheelRepository;
-import com.keduit.wineshare.repository.FoodPairingRepository;
-import com.keduit.wineshare.repository.WineDevelopRepository;
-import com.keduit.wineshare.repository.WineRepository;
+import com.keduit.wineshare.entity.*;
+import com.keduit.wineshare.repository.*;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -25,15 +20,20 @@ public class WineDevelopService {
   private final WineDevelopRepository wineDevelopRepository;
 
   private final WineRepository wineRepository;
+  private final MemberRepository memberRepository;
 
 
-  public void saveWineDevelop(WineDevelopDTO wineDevelopDTO) {
-    WineDevelop wineDevelop = new WineDevelop();
+  public void saveWineDevelop(WineDevelopDTO wineDevelopDTO, String email) {
 
     // Wine ID로 디벨롭을 등록할 와인을 가져온다
     Wine wine = wineRepository.findById(wineDevelopDTO.getWindId()).orElseThrow(EntityNotFoundException::new);
 
+    // 멤버 가져오기
+    Member member = memberRepository.findByEmail(email);
+
     // Form 을 통해 등록된 DTO 를 Entity 로 변환
+    WineDevelop wineDevelop = new WineDevelop();
+    wineDevelop.setMember(member);
     wineDevelop.setWine(wine);
     wineDevelop.setExpertRating(wineDevelopDTO.getExpertRating());
     wineDevelop.setExpertComment(wineDevelopDTO.getExpertComment());

@@ -2,12 +2,10 @@ package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.constant.WineType;
 import com.keduit.wineshare.dto.WineDevelopDTO;
-import com.keduit.wineshare.entity.AromaWheel;
-import com.keduit.wineshare.entity.FoodPairing;
-import com.keduit.wineshare.entity.Wine;
-import com.keduit.wineshare.entity.WineDevelop;
+import com.keduit.wineshare.entity.*;
 import com.keduit.wineshare.repository.AromaWheelRepository;
 import com.keduit.wineshare.repository.FoodPairingRepository;
+import com.keduit.wineshare.repository.MemberRepository;
 import com.keduit.wineshare.repository.WineRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,45 +33,55 @@ public class WineDevelopServiceTests {
 
 
   private Wine wine;
+  private Member member;
+  @Autowired
+  private MemberRepository memberRepository;
 
+  private Member createMember(String email) {
+    Member member = new Member();
+    member.setEmail(email);
+    return memberRepository.save(member);
+  }
+
+  private Wine createWine(String wineName, WineType wineType, String country, String region, int price, Member member) {
+    Wine wine = new Wine();
+    wine.setWineName(wineName);
+    wine.setWineType(wineType);
+    wine.setCountry(country);
+    wine.setRegion(region);
+    wine.setPrice(price);
+    wine.setMember(member);
+    return wineRepository.save(wine);
+  }
+
+  private FoodPairing createFoodPairing(String food, String foodImg) {
+    FoodPairing foodPairing = new FoodPairing();
+    foodPairing.setFood(food);
+    foodPairing.setFoodImg(foodImg);
+    return foodPairingRepository.save(foodPairing);
+  }
+
+  private AromaWheel createAromaWheel(String aroma, String aromaValue) {
+    AromaWheel aromaWheel = new AromaWheel();
+    aromaWheel.setAroma(aroma);
+    aromaWheel.setAromaValue(aromaValue);
+    return aromaWheelRepository.save(aromaWheel);
+  }
   @BeforeEach // 테스트 메소드 실행 이전에 수행, 테스트에 필요한 데이터들을 미리 만들어주도록 함
   public void setUp() {
-    wine = new Wine();
-    wine.setWineName("Test Wine");
-    wine.setWineType(WineType.RED);
-    wine.setCountry("France");
-    wine.setRegion("Bordeaux");
-    wine.setPrice(20000);
-    wineRepository.save(wine);
+    member = createMember("test@teeet.com");
 
-    // 테스트용 FoodPairing 객체를 저장
-    FoodPairing foodPairing1 = new FoodPairing();
-    foodPairing1.setFood("Beef");
-    foodPairing1.setFoodImg("소사진");
-    foodPairingRepository.save(foodPairing1);
+    wine = createWine("Test Wine", WineType.RED, "France", "Bordeaux", 20000, member);
 
-    FoodPairing foodPairing2 = new FoodPairing();
-    foodPairing2.setFood("Chicken");
-    foodPairing2.setFoodImg("닭사진");
-    foodPairingRepository.save(foodPairing2);
+    createFoodPairing("Beef_test", "소사진");
+    createFoodPairing("Chicken_test", "닭사진");
 
-    // 테스트용 AromaWheel 객체를 저장
-    AromaWheel aromaWheel1 = new AromaWheel();
-    aromaWheel1.setAroma("Citrus");
-    aromaWheel1.setAromaValue("레몬, 라임, 오렌지");
-    aromaWheelRepository.save(aromaWheel1);
-
-    AromaWheel aromaWheel2 = new AromaWheel();
-    aromaWheel2.setAroma("Flower");
-    aromaWheel2.setAromaValue("장미, 자스민, 라벤더");
-    aromaWheelRepository.save(aromaWheel2);
+    createAromaWheel("Citrus_test", "레몬, 라임, 오렌지");
+    createAromaWheel("Flower_test", "장미, 자스민, 라벤더");
   }
 
   @Test
   public void testSaveWineDevelop() {
-
-    System.out.println(wine);
-
     // WineDevelopDTO 생성
     WineDevelopDTO wineDevelopDTO = new WineDevelopDTO();
     wineDevelopDTO.setExpertRating(4.5);
@@ -83,14 +91,15 @@ public class WineDevelopServiceTests {
     wineDevelopDTO.setBody(3.0);
     wineDevelopDTO.setTannin(2.5);
     wineDevelopDTO.setFizz(0.5);
-    wineDevelopDTO.setAromaOne("Citrus");
-    wineDevelopDTO.setAromaTwo("Flower");
-    wineDevelopDTO.setFoodOne("Chicken");
-    wineDevelopDTO.setFoodTwo("Beef");
+    wineDevelopDTO.setAromaOne("Citrus_test");
+    wineDevelopDTO.setAromaTwo("Flower_test");
+    wineDevelopDTO.setFoodOne("Chicken_test");
+    wineDevelopDTO.setFoodTwo("Beef_test");
     wineDevelopDTO.setWindId(wine.getId());
+    wineDevelopDTO.setMemberId(member.getId());
 
     // WineDevelopDTO -> WineDevelop entity 저장
-    wineDevelopService.saveWineDevelop(wineDevelopDTO);
+    wineDevelopService.saveWineDevelop(wineDevelopDTO, member.getEmail());
 
     // 저장된 WineDevelop 확인하기
     List<WineDevelop> wineDevelops = wineDevelopService.findAllByWine(wine);

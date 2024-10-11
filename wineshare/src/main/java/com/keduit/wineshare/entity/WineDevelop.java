@@ -41,8 +41,8 @@ public class WineDevelop extends BaseEntity{
   private double fizz;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private Member user;
+  @JoinColumn(name = "member_id")
+  private Member member;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "wine_id")
@@ -53,27 +53,6 @@ public class WineDevelop extends BaseEntity{
   private String foodOne;
   private String foodTwo;
 
-  // 기본 생성자
-  public WineDevelop() {}
 
-  // 모든 필드를 포함하는 생성자
-  public WineDevelop(double expertRating, String expertComment, double sweetness,
-                     double acidity, double body, double tannin, double fizz,
-                     String aromaOne, String aromaTwo, String foodOne, String foodTwo,
-                     Member user, Wine wine) {
-    this.expertRating = expertRating;
-    this.expertComment = expertComment;
-    this.sweetness = sweetness;
-    this.acidity = acidity;
-    this.body = body;
-    this.tannin = tannin;
-    this.fizz = fizz;
-    this.user = user;
-    this.wine = wine;
-    this.aromaOne = aromaOne;
-    this.aromaTwo = aromaTwo;
-    this.foodOne = foodOne;
-    this.foodTwo = foodTwo;
-  }
 
 }

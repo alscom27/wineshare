@@ -49,7 +49,7 @@ public class CellarServiceTests {
   public void setUp() {
     // 테스트를 위한 데이터 준비
     member = new Member();
-    member.setEmail("test@example.com");
+    member.setEmail("test2@example.com");
     memberRepository.save(member);
 
     wine1 = new Wine();

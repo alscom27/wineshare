@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.transaction.Transactional;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -23,7 +25,8 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class CellarControllerTest {
+@Transactional
+class CellarControllerTests {
 
   @Autowired
   private MockMvc mockMvc;
@@ -45,7 +48,7 @@ class CellarControllerTest {
     // 데이터 초기화 로직
     // 예를 들어, 테스트 사용자 및 와인 데이터 추가
     Member member = new Member();
-    member.setEmail("test@example.com");
+    member.setEmail("test1@example.com");
     memberRepository.save(member);
 
     Wine wine1 = new Wine();

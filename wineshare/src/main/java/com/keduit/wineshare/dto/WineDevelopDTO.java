@@ -1,5 +1,6 @@
 package com.keduit.wineshare.dto;
 
+import com.keduit.wineshare.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,6 +16,8 @@ import java.util.List;
 public class WineDevelopDTO {
 
   private Long windId;
+
+  private Long memberId;
 
   @Min(0)
   @Max(5)
@@ -52,5 +55,7 @@ public class WineDevelopDTO {
   private String aromaTwo;
   private String foodOne;
   private String foodTwo;
+
+
 
 }
