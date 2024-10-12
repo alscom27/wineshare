@@ -1,5 +1,6 @@
 package com.keduit.wineshare.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,10 +19,12 @@ import java.time.LocalDateTime;
 public abstract class BaseTimeEntity {
 
   @CreatedDate
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yy-MM-dd")
   @Column(updatable = false)
   private LocalDateTime regTime;
 
   @LastModifiedDate
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yy-MM-dd")
   private LocalDateTime updateTime;
 
 }

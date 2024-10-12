@@ -25,7 +25,7 @@ public class Board extends BaseEntity {
 
   private String boardImg;  //등업, 요청 사진o, // 질문, 공지 사진x
 
-  @Enumerated
+  @Enumerated(EnumType.STRING)
   private BoardStatus boardStatus;
 
   @ManyToOne(fetch = FetchType.LAZY)

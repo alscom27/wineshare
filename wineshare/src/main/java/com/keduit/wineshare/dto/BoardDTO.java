@@ -34,7 +34,7 @@ public class BoardDTO {
 
   private String writerNickname;
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yy-MM-dd")
   private LocalDateTime createDate;
 
   public BoardDTO(){}

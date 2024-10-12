@@ -42,7 +42,8 @@ public class SecurityConfig {
             "/image/**", "/image/facybox/**",
             "/javascript/**",
             "/rev-slider/**", "/rev-slider/assets/**", "/rev-slider/css/**", "/rev-slider/fonts/revicons/**", "/rev-slider/js/extensions/**",
-            "/stylesheets/**", "/stylesheets/colors/**", "/stylesheets/fonts/**").permitAll()
+            "/stylesheets/**", "/stylesheets/colors/**", "/stylesheets/fonts/**",
+            "/boards/**").permitAll()
         .mvcMatchers("/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated();
     // 권한 수정하기

@@ -26,10 +26,11 @@ public class BoardRepositoryTests {
   EntityManager em;
 
   public void createBoardList(){
-    for(int i=1; i<=10; i++){
+    for(int i=11; i<=20; i++){
       Board board = new Board();
       board.setBoardTitle("테스트 제목" + i);
       board.setBoardContent("테스트 내용" + i);
+      board.setBoardStatus(BoardStatus.QUESTION);
       boardRepository.save(board);
     }
   }
@@ -40,7 +41,7 @@ public class BoardRepositoryTests {
     Board board = new Board();
     board.setBoardTitle("테스트 제목");
     board.setBoardContent("테스트 내용");
-    board.setBoardStatus(BoardStatus.QUESTION);
+    board.setBoardStatus(BoardStatus.NOTICE);
 
     Board saveBoard = boardRepository.save(board);
 

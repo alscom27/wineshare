@@ -24,7 +24,7 @@ import java.security.Principal;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/board")
+@RequestMapping("/boards")
 @RequiredArgsConstructor
 public class BoardController {
 
@@ -34,11 +34,13 @@ public class BoardController {
 
 
   // 기본 0페이지도 주소 추가하기 하.. 할거 존나많네 주석보면서 이런말 보이면 지워야됨
-  @GetMapping({"/{boardStatus}/{page}", "/{boardStatus}/"})
+  @GetMapping({"/{boardStatus}/list/{page}", "/{boardStatus}/"})
   public String getBoardListByStatus(@PathVariable("boardStatus")BoardStatus boardStatus,
                                      @PathVariable("page") Optional<Integer> page,
                                      BoardSearchDTO boardSearchDTO,
                                      Model model){
+
+
     Pageable pageable = PageRequest.of(page.orElse(0), 5);
 
     Page<Board> boards = boardService.getBoardPageByStatus(boardSearchDTO, boardStatus, pageable);
@@ -47,7 +49,7 @@ public class BoardController {
     model.addAttribute("boardStatus", boardStatus);
     model.addAttribute("boardSearchDTO", boardSearchDTO);
     model.addAttribute("maxPage", 5);
-    return "board/list";
+    return "board/boardList";
   }
 
   @GetMapping({"/{boardStatus}/new"})
@@ -77,10 +79,11 @@ public class BoardController {
     boardDTO.setBoardStatus(boardStatus);
 
     boardService.saveBoard(boardDTO);
-    return "redirect:/board/" + boardStatus + "/0";
+    return "redirect:/boards/" + boardStatus + "/0";
   }
 
-  @GetMapping({"/{boardStatus}/{boardId}"})
+  // 상세보기
+  @GetMapping({"/{boardStatus}/get/{boardId}"})
   public String boardDtl(@PathVariable("boardStatus") BoardStatus boardStatus,
                          @PathVariable("boardId") Long boardId,
                          Model model){
@@ -104,7 +107,7 @@ public class BoardController {
     boardDTO.setBoardImgFile(boardImg); // 업로드할 이미지 파일 설정
 
     boardService.updateBoard(boardDTO);
-    return "redirect:/board/" + boardStatus + "/0";
+    return "redirect:/boards/" + boardStatus + "/0";
   }
 
   @PostMapping({"/{boardStatus}/remove/{boardId}"})
@@ -112,7 +115,7 @@ public class BoardController {
                             @PathVariable("boardId") Long boardId){
 
     boardService.deleteBoard(boardId);
-    return "redirect:/board/" + boardStatus + "/0";
+    return "redirect:/boards/" + boardStatus + "/0";
   }
 
 }
