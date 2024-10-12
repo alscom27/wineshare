@@ -42,7 +42,7 @@
                 <div class="num" th:text="${board.id}"></div>
                 <div class="title"><a th:href="'/' + ${board.boardStatus} + '/get/' + ${board.id}" th:text="${board.boardTitle}"></a></div>
                 <div class="writer" th:text="${board.regBy}"></div>
-                <div class="date" th:text="${board.regTime}"></div>
+                <div class="date" th:text="${#temporals.format(board.regTime.toLocalDate(), 'yy-MM-dd')}"></div>
 <!--                <div class="count" th:text=""></div>-->
             </div>
         </div>
