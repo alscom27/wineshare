@@ -150,7 +150,7 @@
     <h1 class="header">Sign in</h1>
 
     <!-- 타임리프를 사용하여 로그인 폼 처리 -->
-    <form th:action="@{/login}" method="post" class="login-form">
+    <form th:action="@{/templates/login}" method="post" class="login-form">
         <div class="form-group">
             <label for="email">ID</label>
             <!-- 이메일 입력 필드 -->
@@ -174,7 +174,7 @@
 
     <div class="footer-text">
         <!-- 회원가입 페이지로 이동하는 링크 -->
-        계정이 없으신가요 ? <a th:href="@{/register}">회원가입</a>
+        계정이 없으신가요 ? <a th:href="@{/templates/register}">회원가입</a>
     </div>
 
 
