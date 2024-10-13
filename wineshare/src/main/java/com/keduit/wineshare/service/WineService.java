@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 
@@ -139,5 +141,15 @@ public class WineService {
   }
 
 
+  @Transactional(readOnly = true)
+  public WineDTO getWineDetail(Long wineId) {
+    Wine wine = wineRepository.findById(wineId).orElseThrow(EntityNotFoundException::new);
+    WineDTO wineDTO = new WineDTO(
+        wine.getId(), wine.getWineName(),
+        wine.getCountry(), wine.getRegion(),
+        wine.getPrice(), wine.getWineType(),
+        wine.getMember().getId(), wine.getWineImg()); // 각 항목 널일때.. 어떻게 처리할지 다 잡아야하나? 초기값으로 넣은 데이터들은 조인된 멤버테이블의 정보가 없어.
+    return wineDTO;
+  }
 }
 

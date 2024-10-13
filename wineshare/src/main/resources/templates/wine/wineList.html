@@ -15,28 +15,18 @@
 
         $(document).ready(function() {
 
-            $('#sortBy').change(function() {
 
-                // 선택된 값과 슬라이더의 가격 범위를 가져옵니다.
-                const searchWineType = $('#searchWineType').val();
-                const minPrice = $("#slide-range").slider("values", 0);
-                const maxPrice = $("#slide-range").slider("values", 1);
-
-                // URL을 구성하여 페이지를 새로 고칩니다.
-                location.href = "/wines/list/0"
-                    + "?minPrice=" + minPrice
-                    + "&maxPrice=" + maxPrice
-                    + "&searchWineType=" + encodeURIComponent(searchWineType)
-                    + "&sortBy=" + encodeURIComponent($(this).val());
-            });
-
-            $('#filterBtn').on("click", function(e) {
-                e.preventDefault();
+            $('#sortBy').change(function (){
                 page(0);
             });
 
-        });
+            $('#searchWineType').change(function () {
+               page(0);
+            });
 
+
+        });
+        // 요거랑 컨트롤러쪽에서만 ajax로 바꾸면.. 될거같은데!ㅉ@!!!@@ㅃㅃㅉ#ㅆㅎㅁㅆㅃ
         // 페이지네이션 클릭 시 페이지 이동
         function page(page) {
             // th:field 는 value, name, id 를 모두 대체함 id(#)으로 호출 가능
@@ -45,7 +35,6 @@
             // 슬라이더에서 설정된 가격범위
             const minPrice = $("#slide-range").slider("values", 0); // 슬라이더의 최소값
             const maxPrice = $("#slide-range").slider("values", 1); // 슬라이더의 최대값
-
 
             location.href = "/wines/list/" + page
                 + "?minPrice=" + minPrice
@@ -138,7 +127,7 @@
                             <div class="col-lg-12">
                                 <div class="product-content product-fourcolumn clearfix">
 
-                                    <ul class="product style2 isotope-product clearfix">
+                                    <ul class="product style2 isotope-product clearfix" id="wineListContainer">
                                         <li class="product-item features arrivals" th:each="wine, status : ${wines.getContent()}">
                                             <div class="product-thumb clearfix">
                                                 <a href="#" class="product-thumb">

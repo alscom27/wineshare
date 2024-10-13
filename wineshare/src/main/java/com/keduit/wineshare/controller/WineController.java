@@ -47,6 +47,8 @@ public class WineController {
     return "wine/wineList";
   }
 
+
+  // 레스트..임..
   // 와인목록 가격필터에 최소, 최댓값을 주기 위한 메소드
   @GetMapping("/priceRange")
   @ResponseBody
@@ -57,6 +59,7 @@ public class WineController {
   }
 
 
+  // 와인등록(폼 페이지로)
   // /wines/new 로 들어가면 wineForm 페이지로 이동
   @GetMapping("/new")
   public String wineForm(Model model) {
@@ -67,6 +70,7 @@ public class WineController {
   }
 
 
+  // 와인등록(db에 등록 후 리스트로)
   // 겟매핑을 통해 들어간 와인폼에서 입력 후 전송 시 포스트매핑으로 들어옴, 와인을 저장함
   @PostMapping("/new")
   public String saveWine(@Valid WineDTO wineDTO, BindingResult bindingResult, Model model, Principal principal) {
@@ -84,7 +88,15 @@ public class WineController {
       model.addAttribute("errorMessage", e.getMessage()); // 멤버폼 갈때 모델에 에러메세지 담아감, 가서 알러트할것.
       return "wine/wineForm";
     }
-    return "redirect:/wine/wineList"; // 루트, 홈페이지로 이동, 나중에 리스트로 이동하던가.. 바로 확인할 수 있는 곳으로 이동시켜야함
+    return "redirect:/wine/wineList";
+  }
+
+  // 와인상세
+  @GetMapping("/wine/{wineId}")
+  public String wineDetail(Model model, @PathVariable("wineId") Long wineId) {
+    WineDTO wineDTO = wineService.getWineDetail(wineId);
+    model.addAttribute("wine", wineDTO);
+    return "wine/wineDetail";
   }
 
 

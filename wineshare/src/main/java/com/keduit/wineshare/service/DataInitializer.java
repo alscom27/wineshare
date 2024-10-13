@@ -13,6 +13,10 @@ import javax.annotation.PostConstruct;
 public class DataInitializer {
 
   // 초기 페어링, 아로마 데이터 만들어주는 클래스
+  // 푸드페어링이랑 아로마휠 넣는부분 메소드화 시키고,
+  // 초기 데이터 만들 때 멤버도 하나 만들어서 초기데이터로 들어가는 모든 와인에 해당 멤버가 들어갈수 있게 해줘야함
+  // 가격도 랜덤 때려서 넣을까..?
+  // 서비스에 있는 와인 파싱하는애도 이쪽으로 옮기기
 
   private final FoodPairingRepository foodPairingRepository;
   private final AromaWheelRepository aromaWheelRepository;
