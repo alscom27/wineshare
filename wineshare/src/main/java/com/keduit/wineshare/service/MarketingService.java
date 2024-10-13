@@ -77,4 +77,10 @@ public class MarketingService {
     return marketingRepository.getMarketingPageByEventOrNot(marketingSearchDTO, eventOrNot, pageable);
   }
 
+  // 관리자용 마케팅 전체 조회
+  @Transactional(readOnly = true)
+  public Page<Marketing> getMarketingPage(MarketingSearchDTO marketingSearchDTO, Pageable pageable){
+    return marketingRepository.getMarketingPage(marketingSearchDTO, pageable);
+  }
+
 }

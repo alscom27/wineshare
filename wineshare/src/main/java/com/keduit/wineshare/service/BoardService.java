@@ -84,10 +84,16 @@ public class BoardService {
     boardRepository.deleteById(boardId);
   }
 
-  // 페이지와 조회
+  // 게시글 상태에 따른 페이지와  조회
   @Transactional(readOnly = true)
   public Page<Board> getBoardPageByStatus(BoardSearchDTO boardSearchDTO, BoardStatus boardStatus, Pageable pageable){
-    return boardRepository.getBoardPage(boardSearchDTO, boardStatus, pageable);
+    return boardRepository.getBoardPageByStatus(boardSearchDTO, boardStatus, pageable);
+  }
+
+  // 관리자용 전체 게시글목록
+  @Transactional(readOnly = true)
+  public Page<Board> getBoardPage(BoardSearchDTO boardSearchDTO, Pageable pageable){
+    return boardRepository.getBoardPage(boardSearchDTO, pageable);
   }
 
 }

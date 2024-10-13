@@ -54,7 +54,7 @@ public class Member extends BaseEntity {
     member.setPassword(password);
     member.setPhoneNumber(memberDTO.getPhoneNumber());
     member.setRRN(memberDTO.getRRN());
-    member.setMemberType(MemberType.ADMIN);
+    member.setMemberType(MemberType.REGULAR);
     member.setWithdrawStatus(WithdrawStatus.STAY);
     return member;
 

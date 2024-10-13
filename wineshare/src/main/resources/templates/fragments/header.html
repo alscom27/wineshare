@@ -22,7 +22,7 @@
                 <a href="about.html" title="">About Us</a>
                 <ul class="sub-menu">
                   <li><a href="About.html" title="">Wine Share</a></li>
-                  <li><a href="Event.html" title="">공지사항</a></li>
+                  <li><a th:href="@{boards/notice/list/0}" title="">공지사항</a></li>
                   <!--                                <li><a href="Coming-soon.html" title="">Bistro</a></li>-->
                   <!--                                <li><a href="404-page.html" title="">Promotion</a></li>-->
                   <!-- <li><a href="Wish-list.html" title="">Wish List</a></li>-->
@@ -57,9 +57,9 @@
               <li class="active">
                 <a href="#" title="">Boards</a>
                 <ul class="sub-menu">
-                  <li><a href="#" title="">등업게시판</a></li>
-                  <li><a href="#" title="">질문게시판</a></li>
-                  <li><a href="#" title="">요청게시판</a></li>
+                  <li><a th:href="@{boards/upgrade/list/0}" title="">등업게시판</a></li>
+                  <li><a th:href="@{boards/question/list/0}" title="">질문게시판</a></li>
+                  <li><a th:href="@{boards/request/list/0}" title="">요청게시판</a></li>
                 </ul><!-- /.sub-menu -->
               </li>
               <li class="active">

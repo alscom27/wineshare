@@ -30,6 +30,26 @@ public class MarketingRepositoryCustomImpl implements MarketingRepositoryCustom{
     return null;
   }
 
+  @Override
+  public Page<Marketing> getMarketingPage(MarketingSearchDTO marketingSearchDTO, Pageable pageable) {
+    JPAQuery<Marketing> query = queryFactory.selectFrom(QMarketing.marketing)
+        .where(searchTypeLike(marketingSearchDTO.getSearchType(), marketingSearchDTO.getSearchQuery()));
+
+    List<Marketing> result = query
+        .orderBy(QMarketing.marketing.id.desc())
+        .offset(pageable.getOffset())
+        .limit(pageable.getPageSize())
+        .fetch();
+
+    Long total = queryFactory
+        .select(Wildcard.count)
+        .from(QMarketing.marketing)
+        .where(searchTypeLike(marketingSearchDTO.getSearchType(), marketingSearchDTO.getSearchQuery()))
+        .fetchOne();
+
+    return new PageImpl<>(result, pageable, total);
+  }
+
   // 업장별 분류
   @Override
   public Page<Marketing> getMarketingPageByMarketCategory(MarketingSearchDTO marketingSearchDTO, MarketCategory marketCategory, Pageable pageable) {

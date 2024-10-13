@@ -1,5 +1,6 @@
 package com.keduit.wineshare.dto;
 
+import com.keduit.wineshare.constant.MemberType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -37,4 +38,5 @@ public class MemberDTO {
   // 이건 사용자편의상 스크립트로 하이픈을 붙여주던 하이픈 앞뒤로 입력받고 하이픈 붙여서 넘기는게 좋아보임
   private String RRN;
 
+  private MemberType memberType;
 }

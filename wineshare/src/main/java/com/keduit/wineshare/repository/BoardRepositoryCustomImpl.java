@@ -36,8 +36,28 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
   }
 
   @Override
+  public Page<Board> getBoardPage(BoardSearchDTO boardSearchDTO, Pageable pageable) {
+    JPAQuery<Board> query = queryFactory.selectFrom(QBoard.board)
+        .where(searchTypeLike(boardSearchDTO.getSearchType(), boardSearchDTO.getSearchQuery()));
+
+    List<Board> result = query
+        .orderBy(QBoard.board.id.desc())
+        .offset(pageable.getOffset())
+        .limit(pageable.getPageSize())
+        .fetch();
+
+    Long total = queryFactory
+        .select(Wildcard.count)
+        .from(QBoard.board)
+        .where(searchTypeLike(boardSearchDTO.getSearchType(), boardSearchDTO.getSearchQuery()))
+        .fetchOne();
+
+    return new PageImpl<>(result, pageable, total);
+  }
+
+  @Override
   // 게시판상태를 직접꺼내오는게 맞나?
-  public Page<Board> getBoardPage(BoardSearchDTO boardSearchDTO, BoardStatus boardStatus, Pageable pageable) {
+  public Page<Board> getBoardPageByStatus(BoardSearchDTO boardSearchDTO, BoardStatus boardStatus, Pageable pageable) {
     //기본 쿼리생성
     JPAQuery<Board> query = queryFactory.selectFrom(QBoard.board)
         .where(QBoard.board.boardStatus.eq(boardStatus)) // 게시판 상태 필터링 추가

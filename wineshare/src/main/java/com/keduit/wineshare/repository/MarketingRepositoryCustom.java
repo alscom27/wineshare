@@ -9,6 +9,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface MarketingRepositoryCustom {
 
+  // 전체 페이지와같이
+  Page<Marketing> getMarketingPage(MarketingSearchDTO marketingSearchDTO, Pageable pageable);
+
   // 일단 게시판이랑 비슷한 형태고 가고있어서 안되면 다 나가리...
   // 업장별로 보여주는거
   Page<Marketing> getMarketingPageByMarketCategory(MarketingSearchDTO marketingSearchDTO, MarketCategory marketCategory, Pageable pageable);
