@@ -25,7 +25,7 @@ import java.security.Principal;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/marketing")
+@RequestMapping("/marketings")
 @RequiredArgsConstructor
 public class MarketingController {
 
@@ -34,7 +34,7 @@ public class MarketingController {
   private final MemberRepository memberRepository;
 
   // 업장별 목록
-  @GetMapping({"/{marketCategory}/{page}", "/{marketCategory}/0"})
+  @GetMapping({"/{marketCategory}/list/{page}", "/{marketCategory}/list"})
   public String getMarketingListByCategory(@PathVariable("marketCategory")MarketCategory marketCategory,
                                            @PathVariable("page")Optional<Integer> page,
                                            MarketingSearchDTO marketingSearchDTO,
@@ -47,7 +47,7 @@ public class MarketingController {
     model.addAttribute("marketCategory", marketCategory);
     model.addAttribute("marketingSearchDTO", marketingSearchDTO);
     model.addAttribute("maxPage", 5);
-    return "marketing/list";
+    return "marketing/marketingList";
   }
 
   // 업장별 등록으로 보내기
