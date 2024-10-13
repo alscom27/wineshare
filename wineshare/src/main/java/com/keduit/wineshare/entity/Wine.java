@@ -42,7 +42,7 @@ public class Wine extends BaseEntity {
   private Member member;
 
   // WineDevelop과의 관계 설정
-  @OneToMany(mappedBy = "wine")
+  @OneToMany(mappedBy = "wine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<WineDevelop> wineDevelops; // WineDevelop 리스트
 
 

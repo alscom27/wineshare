@@ -389,20 +389,28 @@
                 var minPrice = data.minPrice || 0; // 최소 가격
                 var maxPrice = data.maxPrice || 0; // 최대 가격 (기본값 설정)
 
+                // URL에서 가격 범위 가져옴(슬라이더용)
+                const urlParam = new URLSearchParams(window.location.search);
+                const minPriceParam = urlParam.get('minPrice') || minPrice;
+                const maxPriceParam = urlParam.get('maxPrice') || maxPrice;
+
 
                 // 슬라이더 초기화
                 $("#slide-range").slider({
                     range: true,
                     min: minPrice,
                     max: maxPrice,
-                    values: [minPrice, maxPrice],
+                    values: [minPriceParam, maxPriceParam],
                     slide: function(event, ui) {
                         $("#amount").html(ui.values[0] + " - " + ui.values[1] +  " ₩");
+                    },
+                    change: function (event, ui) {
+                        page(0);
                     }
                 });
 
                 // 초기 가격 표시
-                $("#amount").html(minPrice + " - " + maxPrice + " ₩");
+                $("#amount").html(minPriceParam + " - " + maxPriceParam + " ₩");
             });
         }
     };
