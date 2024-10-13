@@ -43,7 +43,7 @@ public class SecurityConfig {
             "/javascript/**",
             "/rev-slider/**", "/rev-slider/assets/**", "/rev-slider/css/**", "/rev-slider/fonts/revicons/**", "/rev-slider/js/extensions/**",
             "/stylesheets/**", "/stylesheets/colors/**", "/stylesheets/fonts/**",
-            "/wineshare-css/**").permitAll()
+            "/wineshare-css/**", "wineshare-js/**", "wineshare-img/**").permitAll()
         .mvcMatchers("/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated();
     // 권한 수정하기

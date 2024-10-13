@@ -31,16 +31,15 @@
 
 
               <li class="active a">
-                <a href="#" title="">Wine</a>
+                <a th:href="@{'/wines/list/0?minPrice=&maxPrice=&searchWineType=&sortBy='}" title="Wine List">Wine</a>
                 <ul class="sub-menu">
                   <!--                                    <li class="active"><a href="home1.html" title="">Red</a></li>-->
-                  <li><a href="/shop/Shop-fullwidth-list.html" title="">Red</a></li>
-                  <li><a href="/shop/Shop-fullwidth-grid.html" title="">White</a></li>
-                  <li><a href="/shop/Shop-right-slidebar-list.html" title="">Sparkling</a></li>
-                  <li><a href="/shop/Shop-right-slidebar-grid.html" title="">Rose</a></li>
-
-                  <li><a href="/shop/Shop-details-slidebar.html" title="">Dessert</a></li>
-                  <li><a href="/shop/Shop-details.html" title="">Port</a></li>
+                  <li><a th:href="@{'/wines/list/0?minPrice=&maxPrice=&searchWineType=RED&sortBy='}" title="Wine List-RED">RED</a></li>
+                  <li><a th:href="@{'/wines/list/0?minPrice=&maxPrice=&searchWineType=WHITE&sortBy='}" title="Wine List-WHITE">WHITE</a></li>
+                  <li><a th:href="@{'/wines/list/0?minPrice=&maxPrice=&searchWineType=SPARKLING&sortBy='}" title="Wine List-SPARKLING">SPARKLING</a></li>
+                  <li><a th:href="@{'/wines/list/0?minPrice=&maxPrice=&searchWineType=ROSE&sortBy='}" title="Wine List-ROSE">ROSE</a></li>
+                  <li><a th:href="@{'/wines/list/0?minPrice=&maxPrice=&searchWineType=DESSERT&sortBy='}" title="Wine List-DESSERT">DESSERT</a></li>
+                  <li><a th:href="@{'/wines/list/0?minPrice=&maxPrice=&searchWineType=PORT&sortBy='}" title="Wine List-PORT">PORT</a></li>
                   <!--                                    <li><a href="/shop/Shop-order-tracking.html" title="">Shop Order Tracking</a></li>-->
                   <!--                                    <li><a href="/shop/Shop-cart.html" title="">Shop Cart</a></li>-->
                 </ul><!-- /.sub-menu -->
