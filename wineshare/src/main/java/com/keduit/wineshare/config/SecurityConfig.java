@@ -34,7 +34,7 @@ public class SecurityConfig {
     // anyRequest().authenticated() : 위의 경우 이외의 페이지는 인증절차가 필요함.
     http.authorizeRequests()
         .mvcMatchers("/", "/members/**", "error", "favicon.ico",
-            "/wines/**", "/wine",
+            "/wines/**", "/wine", "/boards/**",
             // 여기부터 css
             "/contact/**",
             "/fonts/**",
@@ -43,7 +43,7 @@ public class SecurityConfig {
             "/javascript/**",
             "/rev-slider/**", "/rev-slider/assets/**", "/rev-slider/css/**", "/rev-slider/fonts/revicons/**", "/rev-slider/js/extensions/**",
             "/stylesheets/**", "/stylesheets/colors/**", "/stylesheets/fonts/**",
-            "/boards/**").permitAll()
+            "/wineshare-css/**").permitAll()
         .mvcMatchers("/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated();
     // 권한 수정하기
