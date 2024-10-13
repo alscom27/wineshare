@@ -24,18 +24,13 @@
     <link rel="stylesheet" type="text/css"  th:href="@{/rev-slider/css/settings.css}">
     <link rel="stylesheet" type="text/css"  th:href="@{/rev-slider/css/layers.css}">
     <link rel="stylesheet" type="text/css"  th:href="@{/rev-slider/css/navigation.css}">
+    <link rel="stylesheet" type="text/css"  th:href="@{/stylesheets/jquery-ui.css}">
     <!-- Favicon and touch icons  -->
     <link th:href="@{/icon/icon.png}" rel="apple-touch-icon-precomposed" sizes="48x48">
     <link th:href="@{/icon/icon.png}" rel="apple-touch-icon-precomposed">
     <link th:href="@{/icon/icon.png}" rel="shortcut icon">
-    <!-- 기본 js -->
+
     <script type="text/javascript" th:src="@{/javascript/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/javascript/jquery.easing.js}"></script>
-    <script type="text/javascript" th:src="@{/javascript/owl.carousel.min.js}"></script>
-    <script type="text/javascript" th:src="@{/javascript/jquery-countTo.js}"></script>
-    <script type="text/javascript" th:src="@{/javascript/jquery-waypoints.js}"></script>
-    <script type="text/javascript" th:src="@{/javascript/bootstrap.min.js}"></script>
-    <script type="text/javascript" th:src="@{/javascript/main.js}"></script>
 
 
     <!-- 사용자 css, js 자리 -->
@@ -48,6 +43,16 @@
     <div layout:fragment="content" class="content"></div>
 
     <div th:replace="fragments/footer::footer"></div>
+
+    <!-- 기본 js -->
+
+    <script type="text/javascript" th:src="@{/javascript/jquery.easing.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/owl.carousel.min.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/jquery-countTo.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/jquery-waypoints.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/main.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/jquery-ui.js}"></script>
 
     <!-- Slider -->
     <script type="text/javascript" th:src="@{/rev-slider/js/jquery.themepunch.tools.min.js}"></script>

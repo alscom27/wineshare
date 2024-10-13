@@ -384,17 +384,25 @@
 
     var flatPrice = function() {
         if( $().slider ) {
-            $( function() {
-                $( "#slide-range" ).slider({
-                  range: true,
-                  min: 0,
-                  max: 120,
-                  values: [ 30, 120 ],
-                  slide: function( event, ui ) {
-                    $( "#amount" ).html( "$" + ui.values[ 0 ]  + " - " + "$" + ui.values[ 1 ] );
-                  }
+            $.get("/wines/priceRange", function(data) {
+
+                var minPrice = data.minPrice || 0; // 최소 가격
+                var maxPrice = data.maxPrice || 0; // 최대 가격 (기본값 설정)
+
+
+                // 슬라이더 초기화
+                $("#slide-range").slider({
+                    range: true,
+                    min: minPrice,
+                    max: maxPrice,
+                    values: [minPrice, maxPrice],
+                    slide: function(event, ui) {
+                        $("#amount").html(ui.values[0] + " - " + ui.values[1] +  " ₩");
+                    }
                 });
-                $( "#amount" ).html( $( "#slide-range" ).slider( "values", 0 ) + "$" + " - " + $( "#slide-range" ).slider( "values", 1 ) + "$" );
+
+                // 초기 가격 표시
+                $("#amount").html(minPrice + " - " + maxPrice + " ₩");
             });
         }
     };

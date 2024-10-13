@@ -13,6 +13,8 @@ import javax.annotation.PostConstruct;
 public class DataInitializer {
 
   // 초기 페어링, 아로마 데이터 만들어주는 클래스
+  // 메소드로 바꾸고.. (내용너무많음)
+  // 와인서비스에 있는 파싱하는 메소드 이쪽으로 옮기기
 
   private final FoodPairingRepository foodPairingRepository;
   private final AromaWheelRepository aromaWheelRepository;
@@ -100,7 +102,7 @@ public class DataInitializer {
       aromaWheel5.setAromaValue("산딸기, 딸기, 커런트");
       aromaWheelRepository.save(aromaWheel5);
       AromaWheel aromaWheel6 = new AromaWheel();
-      aromaWheel6.setAroma("Fruit");
+      aromaWheel6.setAroma("Floral");
       aromaWheel6.setAromaValue("장미, 자스민, 라벤더");
       aromaWheelRepository.save(aromaWheel6);
       AromaWheel aromaWheel7 = new AromaWheel();

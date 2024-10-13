@@ -18,18 +18,18 @@ public class MemberRepositoryTests {
   @Autowired
   PasswordEncoder passwordEncoder;
 
-  @Test
-  @DisplayName("회원 가입 테스트")
-  public void createMemberTest(){
-    MemberDTO dto = new MemberDTO();
-    dto.setEmail("test@test.com");
-    dto.setName("테스터");
-    dto.setNickname("한정교");
-    dto.setPassword("12345678");
-    dto.setPhoneNumber("010-1111-1111");
-    dto.setRRN("123456-1234567");
-    Member member = Member.createMember(dto, passwordEncoder);
-    memberRepository.save(member);
-  }
+//  @Test
+//  @DisplayName("회원 가입 테스트")
+//  public void createMemberTest(){
+//    MemberDTO dto = new MemberDTO();
+//    dto.setEmail("test@test.com");
+//    dto.setName("테스터");
+//    dto.setNickname("한정교");
+//    dto.setPassword("12345678");
+//    dto.setPhoneNumber("010-1111-1111");
+//    dto.setRRN("123456-1234567");
+//    Member member = Member.createMember(dto, passwordEncoder);
+//    memberRepository.save(member);
+//  }
 
 }

@@ -1,0 +1,175 @@
+.widget.widget-filter .price_slider {
+    float: left;
+    width: 300px;
+    top: 13px;
+}
+
+.widget.widget-filter{
+    width:750px;
+    padding: 15px;
+    margin: 30px auto;
+    height: 150px;
+    border: 1px solid grey;
+    position:relative;
+}
+.widget.widget-filter h2{
+    position:absolute;
+    padding: 0 15px;
+    top:20px;
+    left:300px;
+    font-size: 24px;
+}
+
+
+.widget.widget-filter .ui-slider-horizontal {
+    margin-left:36%;
+    margin-top: 60px;
+    width: 30%;
+    height: 2px;
+    background-color: #e1e1e1;
+    -webkit-border-radius: 2px;
+       -moz-border-radius: 2px;
+    	-ms-border-radius: 2px;
+    	 -o-border-radius: 2px;
+    		border-radius: 2px;
+}
+
+.widget-filter .ui-slider .ui-slider-range {
+    position: absolute;
+    top: -1px;
+    z-index: 1;
+    display: block;
+    height: 100%;
+}
+
+.widget-filter .ui-slider .ui-slider-handle {
+    height: 9px;
+    width: 9px;
+    cursor: pointer;
+    position: absolute;
+    z-index: 0;
+    top: -5px;
+    outline: 0;
+    border: unset;
+    -webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-ms-border-radius: 50%;
+	-o-border-radius: 50%;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
+	-ms-transition: none;
+	transition: none;
+	background-color: #c02323;
+}
+
+.widget-filter .ui-slider .ui-slider-handle span.shadow {
+	display: none;
+}
+
+.widget-filter .ui-slider .ui-slider-handle span.shadow.dow {
+    width: 200%;
+    height: 200%;
+    display: block;
+    position: relative;
+    top: -1px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+
+.widget-filter .price_slider_amount {
+    margin: 0;
+    margin-top: -19px;
+}
+
+.widget-filter .price_slider_amount .price_label {
+	float: right;
+    margin-top: -12px;
+}
+
+.widget-filter .price_slider_amount .price_label input {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 27px;
+}
+
+.widget-filter .flat-button {
+    padding: 9px 30px 9px;
+}
+
+.widget-filter .flat-button {
+    display: inline-block;
+    background: #fff;
+    color: #c02323;
+    border: 1px solid #c02323;
+}
+
+.widget-filter .flat-button:hover {
+	background-color: #c02323;
+	color: #fff;
+}
+
+.type-filter{
+    position:absolute;
+    top:30px;
+    left:50px;
+    width:13%;
+    text-align:center;
+}
+.type-filter h5{
+    padding: 10px;
+}
+
+
+.widget-filter span.filter {
+	float: left;
+	display: inline-block;
+	margin-top: 20px;
+}
+
+.widget-filter span.filter a {
+	padding: 0 25px;
+	color: #c02323;
+	border: 1px solid #c02323;
+	font-family: Marcellus;
+	font-size: 14px;
+	line-height: 36px;
+	position: absolute;
+	right: 35px;
+	bottom: 10px;
+
+}
+
+.widget-filter span.filter a:hover {
+	color: #fff;
+}
+
+.widget-filter p.amount {
+    position: absolute;
+	left: 320px;
+	margin-top: 30px;
+}
+
+.sort-filter{
+    float:right;
+     width:8%;
+     text-align:center;
+
+}
+
+.sort-filter h5{
+    padding: 10px;
+}
+
+.wine_image {
+    width: auto;
+    height: 300px;
+}
+.disabled {
+    pointer-events: none; /* 클릭 이벤트 방지 */
+    opacity: 0.1; /* 비활성화된 효과 */
+}
+

@@ -49,13 +49,13 @@ public class MemberController {
 
  @GetMapping("/login")
   public String loginMember(){
-    return "member/memberLoginForm";
+    return "members/login";
   }
 
  @GetMapping("/login/error")
   public String loginError(Model model){
     model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요.");
-    return "member/memberLoginForm";
+    return "members/login";
   }
 
 

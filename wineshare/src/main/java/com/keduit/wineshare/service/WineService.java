@@ -2,6 +2,8 @@ package com.keduit.wineshare.service;
 
 
 import com.keduit.wineshare.constant.WineType;
+import com.keduit.wineshare.dto.WineDTO;
+import com.keduit.wineshare.dto.WineSearchDTO;
 import com.keduit.wineshare.entity.Wine;
 import com.keduit.wineshare.repository.WineRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,10 +11,12 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 
 import org.json.JSONObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 
 import java.net.URL;
@@ -128,5 +132,11 @@ public class WineService {
     }
     return wines;
   }
+
+  @Transactional(readOnly = true)
+  public Page<WineDTO> getWinePage(WineSearchDTO wineSearchDTO, Pageable pageable) {
+    return wineRepository.getWinePage(wineSearchDTO, pageable);
+  }
+
 
 }

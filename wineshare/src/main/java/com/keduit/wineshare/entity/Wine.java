@@ -41,6 +41,11 @@ public class Wine extends BaseEntity {
   @JoinColumn(name = "member_id")
   private Member member;
 
+  // WineDevelop과의 관계 설정
+  @OneToMany(mappedBy = "wine")
+  private List<WineDevelop> wineDevelops; // WineDevelop 리스트
+
+
   public static Wine createWine(WineDTO wineDTO, Member member) {
     Wine wine = new Wine();
 
