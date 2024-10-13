@@ -1,23 +1,23 @@
 /**
-*
-* themesflatSearch(); 
-* tabs();
-* woocommerceTabs();
-* flatCounter();
-* flatOwl();
-* testimonialSlider();
-* flatIsotope();
-* detectViewport();
-* goTop();
-* googleMap();
-* responsiveMenu();
-* headerFixed();
-*
-*/
+ *
+ * themesflatSearch();
+ * tabs();
+ * woocommerceTabs();
+ * flatCounter();
+ * flatOwl();
+ * testimonialSlider();
+ * flatIsotope();
+ * detectViewport();
+ * goTop();
+ * googleMap();
+ * responsiveMenu();
+ * headerFixed();
+ *
+ */
 
 ;(function($) {
     "use strict";
-    
+
     var isMobile = {
 
         Android: function() {
@@ -57,7 +57,7 @@
         }
 
     };
-     
+
 
     var inViewport =  function() {
         $('[data-inviewport="yes"]').waypoint(function() {
@@ -70,14 +70,14 @@
             }, 100);
         });
     };
-    
+
     var flatCounter = function() {
         if ( $().countTo ) {
             $('.counter').on('on-appear', function() {
                 $(this).find('.numb-count').each(function() {
                     var to = $(this).data('to'),
                         speed = $(this).data('speed');
-                        
+
                     $(this).countTo({
                         to: to,
                         speed: speed
@@ -92,15 +92,15 @@
         if ( $().owlCarousel ) {
             $('.flat-carousel-box').each(function(){
                 var
-                $this = $(this),
-                auto = $this.data("auto"),
-                item = $this.data("column"),
-                item2 = $this.data("column2"),
-                item3 = $this.data("column3"),
-                gap = Number($this.data("gap")),
-                dots = $this.data("dots"),
-                nav = $this.data("nav");
-                
+                    $this = $(this),
+                    auto = $this.data("auto"),
+                    item = $this.data("column"),
+                    item2 = $this.data("column2"),
+                    item3 = $this.data("column3"),
+                    gap = Number($this.data("gap")),
+                    dots = $this.data("dots"),
+                    nav = $this.data("nav");
+
 
                 $this.find('.owl-carousel').owlCarousel({
                     margin: gap,
@@ -139,7 +139,7 @@
                 });
             });
 
-            $('.flat-filter li').on('click',function() {                           
+            $('.flat-filter li').on('click',function() {
                 var selector = $(this).find("a").attr('data-filter');
                 $('.flat-filter li').removeClass('active');
                 $(this).addClass('active');
@@ -147,7 +147,7 @@
                 return false;
             });
         };
-    }; 
+    };
 
     var flatIsotope2 = function() {
         if($().isotope) {
@@ -160,7 +160,7 @@
                 });
             });
 
-            $('.flat-filter li').on('click',function() {                           
+            $('.flat-filter li').on('click',function() {
                 var selector = $(this).find("a").attr('data-filter');
                 $('.flat-filter li').removeClass('active');
                 $(this).addClass('active');
@@ -168,27 +168,27 @@
                 return false;
             });
         };
-    }; 
-    
-   
+    };
+
+
     var googleMap = function () {
         // gmap default
         if ($().gmap3) {
             var data = JSON.parse('[{"address":"Westwell Leacon, Ashford, Vương Quốc Anh","content":""}]');
             $(".flat-map")
-            .gmap3({
-                map: {
-                    options: {
-                        zoom: 10,
-                        center: [51.1946026,0.8140602,14.5],
-                        mapTypeId: 'Wizym',
-                        mapTypeControlOptions: {
-                            mapTypeIds: ['Wizym', google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID]
+                .gmap3({
+                    map: {
+                        options: {
+                            zoom: 10,
+                            center: [51.1946026,0.8140602,14.5],
+                            mapTypeId: 'Wizym',
+                            mapTypeControlOptions: {
+                                mapTypeIds: ['Wizym', google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID]
+                            },
+                            scrollwheel: true
                         },
-                        scrollwheel: true
                     },
-                },
-            });
+                });
 
         }
         // json loop
@@ -200,7 +200,7 @@
                         options: {
                             icon: "./image/icon-map.png"
                         }
-                        
+
                     }]
                 },
                 styledmaptype: {
@@ -209,142 +209,142 @@
                         name: "Wizym"
                     },
                     styles: [
-                    {
-                        "featureType": "administrative",
-                        "elementType": "all",
-                        "stylers": [
                         {
-                            "saturation": "-100"
-                        }
-                        ]
-                    },
-                    {
-                        "featureType": "administrative.province",
-                        "elementType": "all",
-                        "stylers": [
-                        {
-                            "visibility": "off"
-                        }
-                        ]
-                    },
-                    {
-                        "featureType": "landscape",
-                        "elementType": "all",
-                        "stylers": [
-                        {
-                            "saturation": -100
+                            "featureType": "administrative",
+                            "elementType": "all",
+                            "stylers": [
+                                {
+                                    "saturation": "-100"
+                                }
+                            ]
                         },
                         {
-                            "lightness": 65
+                            "featureType": "administrative.province",
+                            "elementType": "all",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
                         },
                         {
-                            "visibility": "on"
-                        }
-                        ]
-                    },
-                    {
-                        "featureType": "poi",
-                        "elementType": "all",
-                        "stylers": [
-                        {
-                            "saturation": -100
+                            "featureType": "landscape",
+                            "elementType": "all",
+                            "stylers": [
+                                {
+                                    "saturation": -100
+                                },
+                                {
+                                    "lightness": 65
+                                },
+                                {
+                                    "visibility": "on"
+                                }
+                            ]
                         },
                         {
-                            "lightness": "50"
+                            "featureType": "poi",
+                            "elementType": "all",
+                            "stylers": [
+                                {
+                                    "saturation": -100
+                                },
+                                {
+                                    "lightness": "50"
+                                },
+                                {
+                                    "visibility": "simplified"
+                                }
+                            ]
                         },
                         {
-                            "visibility": "simplified"
-                        }
-                        ]
-                    },
-                    {
-                        "featureType": "road",
-                        "elementType": "all",
-                        "stylers": [
-                        {
-                            "saturation": "-100"
-                        }
-                        ]
-                    },
-                    {
-                        "featureType": "road.highway",
-                        "elementType": "all",
-                        "stylers": [
-                        {
-                            "visibility": "simplified"
-                        }
-                        ]
-                    },
-                    {
-                        "featureType": "road.arterial",
-                        "elementType": "all",
-                        "stylers": [
-                        {
-                            "lightness": "30"
-                        }
-                        ]
-                    },
-                    {
-                        "featureType": "road.local",
-                        "elementType": "all",
-                        "stylers": [
-                        {
-                            "lightness": "40"
-                        }
-                        ]
-                    },
-                    {
-                        "featureType": "transit",
-                        "elementType": "all",
-                        "stylers": [
-                        {
-                            "saturation": -100
+                            "featureType": "road",
+                            "elementType": "all",
+                            "stylers": [
+                                {
+                                    "saturation": "-100"
+                                }
+                            ]
                         },
                         {
-                            "visibility": "simplified"
-                        }
-                        ]
-                    },
-                    {
-                        "featureType": "water",
-                        "elementType": "geometry",
-                        "stylers": [
-                        {
-                            "hue": "#ffff00"
+                            "featureType": "road.highway",
+                            "elementType": "all",
+                            "stylers": [
+                                {
+                                    "visibility": "simplified"
+                                }
+                            ]
                         },
                         {
-                            "lightness": -25
+                            "featureType": "road.arterial",
+                            "elementType": "all",
+                            "stylers": [
+                                {
+                                    "lightness": "30"
+                                }
+                            ]
                         },
                         {
-                            "saturation": -97
-                        }
-                        ]
-                    },
-                    {
-                        "featureType": "water",
-                        "elementType": "labels",
-                        "stylers": [
-                        {
-                            "lightness": -25
+                            "featureType": "road.local",
+                            "elementType": "all",
+                            "stylers": [
+                                {
+                                    "lightness": "40"
+                                }
+                            ]
                         },
                         {
-                            "saturation": -100
+                            "featureType": "transit",
+                            "elementType": "all",
+                            "stylers": [
+                                {
+                                    "saturation": -100
+                                },
+                                {
+                                    "visibility": "simplified"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "water",
+                            "elementType": "geometry",
+                            "stylers": [
+                                {
+                                    "hue": "#ffff00"
+                                },
+                                {
+                                    "lightness": -25
+                                },
+                                {
+                                    "saturation": -97
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "water",
+                            "elementType": "labels",
+                            "stylers": [
+                                {
+                                    "lightness": -25
+                                },
+                                {
+                                    "saturation": -100
+                                }
+                            ]
                         }
-                        ]
-                    }
                     ]
                 }
             });
         });
-    };    
-    
+    };
+
 
     var searchIcon = function () {  // Click-search
-        $(document).on('click', function(e) {   
-            var clickID = e.target.id;   
+        $(document).on('click', function(e) {
+            var clickID = e.target.id;
             if ( ( clickID !== 'input-search' ) ) {
-                $('.header-search-form').removeClass('show');                
-            } 
+                $('.header-search-form').removeClass('show');
+            }
         });
 
         $('.header-search-icon').on('click', function(event){
@@ -353,48 +353,56 @@
 
         $('.header-search-form').on('click', function(event){
             event.stopPropagation();
-        });        
+        });
 
         $('.header-search-icon').on('click', function (event) {
             if(!$('.header-search-form').hasClass( "show" )) {
-                $('.header-search-form').addClass('show');  
-                event.preventDefault();                
+                $('.header-search-form').addClass('show');
+                event.preventDefault();
             }
-                
+
             else
                 $('.header-search-form').removeClass('show');
-                event.preventDefault();
+            event.preventDefault();
 
-        });        
-  
+        });
+
     };
 
     var woocommerceTabs = function() {
         $('.woocommerce-tabs').each(function() {
-           $('.tab').on('click', function (e) {
-            var key = $(this).data('id');
-            $('.tab-content').hide();
-            $(key).show();
-            $('.tabs li a').removeClass('active');
-            $(this).addClass('active');
-            return false;
-        });
+            $('.tab').on('click', function (e) {
+                var key = $(this).data('id');
+                $('.tab-content').hide();
+                $(key).show();
+                $('.tabs li a').removeClass('active');
+                $(this).addClass('active');
+                return false;
+            });
         });
     };
 
     var flatPrice = function() {
         if( $().slider ) {
-            $( function() {
-                $( "#slide-range" ).slider({
-                  range: true,
-                  min: 0,
-                  max: 120,
-                  values: [ 30, 120 ],
-                  slide: function( event, ui ) {
-                    $( "#amount" ).html( "$" + ui.values[ 0 ]  + " - " + "$" + ui.values[ 1 ] );
-                  }
+            $.get("/wines/priceRange", function(data) {
+
+                var minPrice = data.minPrice || 0; // 최소 가격
+                var maxPrice = data.maxPrice || 0; // 최대 가격 (기본값 설정)
+
+
+                // 슬라이더 초기화
+                $("#slide-range").slider({
+                    range: true,
+                    min: minPrice,
+                    max: maxPrice,
+                    values: [minPrice, maxPrice],
+                    slide: function(event, ui) {
+                        $("#amount").html(ui.values[0] + " - " + ui.values[1] +  " ₩");
+                    }
                 });
-                $( "#amount" ).html( $( "#slide-range" ).slider( "values", 0 ) + "$" + " - " + $( "#slide-range" ).slider( "values", 1 ) + "$" );
+
+                // 초기 가격 표시
+                $("#amount").html(minPrice + " - " + maxPrice + " ₩");
             });
         }
     };
@@ -444,7 +452,7 @@
             }
         });
 
-        $('.mobile-button').on('click', function() {         
+        $('.mobile-button').on('click', function() {
             $('#mainnav-mobi').slideToggle(300);
             $(this).toggleClass('active');
         });
@@ -457,24 +465,24 @@
 
     var headerFixed = function() {
         $('#header').each(function() {
-        var nav = $('#header');
-        $(window).on('load', function(){
-            var header = $('#header');           
-            var offsetTop = $('#header').offset().top;
-            var headerHeight = $('#header').height();             
-            var buffer  = $('<div>', { height: headerHeight }).insertAfter(header);   
-                buffer.hide();                 
+            var nav = $('#header');
+            $(window).on('load', function(){
+                var header = $('#header');
+                var offsetTop = $('#header').offset().top;
+                var headerHeight = $('#header').height();
+                var buffer  = $('<div>', { height: headerHeight }).insertAfter(header);
+                buffer.hide();
 
-            $(window).on('load scroll', function(){
-                if ( $(window).scrollTop() > offsetTop  ) {
-                    $('#header').addClass('fixed-header');
-                    buffer.show();
-                } else {
-                    $('#header').removeClass('fixed-header');
-                    buffer.hide();
-                }
-            });
-        });});
+                $(window).on('load scroll', function(){
+                    if ( $(window).scrollTop() > offsetTop  ) {
+                        $('#header').addClass('fixed-header');
+                        buffer.show();
+                    } else {
+                        $('#header').removeClass('fixed-header');
+                        buffer.hide();
+                    }
+                });
+            });});
     };
 
     var countDownTime =function () {
@@ -485,7 +493,7 @@
                 hour = $(".count-time").data("hour"),
                 minute = $(".count-time").data("minute"),
                 second = $(".count-time").data("second");
- 
+
             var countDownDate = new Date(year,month,day,hour,minute,second).getTime();
 
             // Update the count down every 1 second
@@ -495,7 +503,7 @@
                 var now = new Date().getTime();
 
                 // Find the distance between now and the count down date
-                  var distance = countDownDate - now;
+                var distance = countDownDate - now;
 
                 // Time calculations for days, hours, minutes and seconds
                 var days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -509,7 +517,7 @@
                 $(".minutes .numb").html(minutes);
                 $(".seconds .numb").html(seconds);
 
-                // If the count down is finished, write some text 
+                // If the count down is finished, write some text
                 if (distance < 0) {
                     clearInterval(x);
                     $(".days .numb").html("0");
@@ -556,11 +564,11 @@
 
     var zoomPic  = function(){
         $('.zoom-pic').each(function(){
-                $('.zoom-pic').fancybox();
+            $('.zoom-pic').fancybox();
         });
     };
 
-    
+
 
     var listandgrid = function(){
         $('.filter-shop').each(function(){
@@ -570,7 +578,7 @@
                 $(this).siblings().removeClass('active');
                 $(this).addClass('active');
                 $(this).closest('body').find('.flat-products').removeClass('list');
-                $(this).closest('body').find('.flat-products').addClass('grid');                
+                $(this).closest('body').find('.flat-products').addClass('grid');
             });
             $(this).find('.list').on('click', function() {
                 $(this).siblings().removeClass('active');
@@ -589,7 +597,7 @@
                 $(this).siblings().removeClass('active');
                 $(this).addClass('active');
                 $(this).closest('body').find('.main-shop-fullwidth').removeClass('list');
-                $(this).closest('body').find('.main-shop-fullwidth').addClass('grid');                
+                $(this).closest('body').find('.main-shop-fullwidth').addClass('grid');
             });
             $(this).find('.list').on('click', function() {
                 $(this).siblings().removeClass('active');
@@ -609,7 +617,7 @@
                 $(this).siblings().removeClass('active');
                 $(this).addClass('active');
                 $(this).closest('body').find('.main-shop-right').removeClass('list');
-                $(this).closest('body').find('.main-shop-right').addClass('grid');                
+                $(this).closest('body').find('.main-shop-right').addClass('grid');
             });
             $(this).find('.list').on('click', function() {
                 $(this).siblings().removeClass('active');
@@ -620,12 +628,12 @@
         });
     };
 
-    var removePreloader = function() {        
+    var removePreloader = function() {
         $(window).on("load", function () {
             $(".loader").fadeOut();
             $("#loading-overlay").delay(500).fadeOut('slow',function(){
                 $(this).remove();
-            }); 
+            });
         });
     };
 
@@ -643,7 +651,7 @@
                 width: $logo.data('width'),
                 height: $logo.data('height')
             });
-        } 
+        }
 
         if ( retina && $logo_retina_ft ) {
             $logo_ft.attr({
@@ -654,7 +662,7 @@
         }
     };
 
-    var ajaxContactForm = function() {  
+    var ajaxContactForm = function() {
         $('#contactform').each(function() {
             $(this).validate({
                 submitHandler: function( form ) {
@@ -670,8 +678,8 @@
                             $form.find('.form-submit').append(loading);
                         },
                         success: function( msg ) {
-                            var result, cls;                            
-                            if ( msg === 'Success' ) {                                
+                            var result, cls;
+                            if ( msg === 'Success' ) {
                                 result = 'Message Sent Successfully To Email Administrator. ( You can change the email management a very easy way to get the message of customers in the user manual )';
                                 cls = 'msg-success';
                             } else {
@@ -703,12 +711,12 @@
         if ( $().owlCarousel ) {
             $('.themesflat-gallery').each(function(){
                 var
-                $this = $(this),
-                auto = $this.data("auto"),
-                item = $this.data("column"),
-                item2 = $this.data("column2"),
-                item3 = $this.data("column3"),
-                gap = Number($this.data("gap"));
+                    $this = $(this),
+                    auto = $this.data("auto"),
+                    item = $this.data("column"),
+                    item2 = $this.data("column2"),
+                    item3 = $this.data("column3"),
+                    gap = Number($this.data("gap"));
 
                 $this.find('.owl-carousel').owlCarousel({
                     margin: gap,
@@ -734,7 +742,7 @@
                 });
             });
         }
-    };  
+    };
 
 
 
@@ -764,6 +772,6 @@
         $( window ).load(function() {
             inViewport();
         });
-        
+
     });
 })(jQuery);

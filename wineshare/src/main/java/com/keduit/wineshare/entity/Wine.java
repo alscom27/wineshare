@@ -23,7 +23,7 @@ public class Wine extends BaseEntity {
   @Column(name = "wine_id")
   private Long id;
 
-//  @Column(unique = true) // 와인이름 중복될 수 없게
+  //  @Column(unique = true) // 와인이름 중복될 수 없게
   private String wineName;
 
   @Enumerated(EnumType.STRING)
@@ -41,6 +41,11 @@ public class Wine extends BaseEntity {
   @JoinColumn(name = "member_id")
   private Member member;
 
+  // WineDevelop과의 관계 설정
+  @OneToMany(mappedBy = "wine")
+  private List<WineDevelop> wineDevelops; // WineDevelop 리스트
+
+
   public static Wine createWine(WineDTO wineDTO, Member member) {
     Wine wine = new Wine();
 
@@ -56,3 +61,4 @@ public class Wine extends BaseEntity {
   }
 
 }
+
