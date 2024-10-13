@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf.layout">
+
+<th:block layout:fragment="css">
+  <!-- write css Fiels -->
+  <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/boardview.css}">
+</th:block>
+
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+
+
+  </script>
+</th:block>
+
+
+<div layout:fragment="content">
+  <div class="board_wrap">
+    <div class="board_title">
+      <strong>자유게시판</strong>
+      <p>자유롭게 의견을 나눠보세요!!</p>
+    </div>
+
+    <div class="board_view_wrap">
+      <div class="board_view">
+        <div class="title">
+          <!-- 제목은 Thymeleaf 변수로 변경 -->
+          <span th:text="${board.boardTitle}">제목을 입력해주세요.</span>
+        </div>
+
+        <div class="info">
+          <dl>
+            <dt>글쓴이</dt>
+            <!-- 글쓴이는 회원 정보에서 가져옴 -->
+            <dd th:text="${board.member.name}">한정교</dd>
+          </dl>
+          <dl>
+            <dt>작성일</dt>
+            <!-- 작성일은 엔티티의 생성일 정보에서 가져옴 -->
+            <dd th:text="${#dates.format(board.createdDate, 'yyyy-MM-dd')}">2024-10-13</dd>
+          </dl>
+        </div>
+
+        <div class="cont">
+          <!-- 본문 내용 -->
+          <p th:utext="${board.boardContent}">
+            자유롭게 작성한글 들어갈거<br>
+            자유롭게 작성한글 들어갈거<br>
+            자유롭게 작성한글 들어갈거<br>
+            자유롭게 작성한글 들어갈거<br>
+          </p>
+        </div>
+      </div>
+
+      <div class="bt_wrap">
+        <!-- 목록 및 수정 버튼에 링크 추가 -->
+        <a href="/board/list" class="on">목록</a>
+        <a th:href="@{/board/edit/{id}(id=${board.id})}">수정</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</html>
