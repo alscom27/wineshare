@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
@@ -19,6 +21,8 @@ public class WineReviewDTO {
   @NotBlank(message = "리뷰를 입력해주세요.")
   private String regularReview;
 
+  @Min(1)
+  @Max(5)
   @NotBlank(message = "별점을 매겨주세요.")
   private double regularRating;
 

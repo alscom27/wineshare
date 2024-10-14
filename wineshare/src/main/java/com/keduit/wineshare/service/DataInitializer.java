@@ -54,35 +54,35 @@ public class DataInitializer {
   public void initFoodPairingAndAromaWheel() {
     // 한개라도 데이터 존재하면 더이상 실행하지 않음
     if (foodPairingRepository.count() == 0) {
-      createFoodPairing("Beef", "beef_image.jpg");
-      createFoodPairing("Chicken", "chicken_image.jpg");
-      createFoodPairing("Pork", "pork_image.jpg");
-      createFoodPairing("Mushroom", "mushroom_image.jpg");
-      createFoodPairing("Charcuterie", "charcuterie_image.jpg");
-      createFoodPairing("Cheese", "cheese_image.jpg");
-      createFoodPairing("Pasta", "pasta_image.jpg");
-      createFoodPairing("Spicy", "Spicy_image.jpg");
-      createFoodPairing("Snack", "snack_image.jpg");
-      createFoodPairing("Shell", "shell_image.jpg");
-      createFoodPairing("Fish", "fish_image.jpg");
-      createFoodPairing("Vegetable", "vegetable_image.jpg");
+      createFoodPairing("Beef", "/wineshare-img/wineshare-food/beef.png");
+      createFoodPairing("Chicken", "/wineshare-img/wineshare-food/chicken.png");
+      createFoodPairing("Pork", "/wineshare-img/wineshare-food/pork.png");
+      createFoodPairing("Mushroom", "/wineshare-img/wineshare-food/mushroom.png");
+      createFoodPairing("Charcuterie", "/wineshare-img/wineshare-food/charcuterie.png");
+      createFoodPairing("Cheese", "/wineshare-img/wineshare-food/cheese.png");
+      createFoodPairing("Pasta", "/wineshare-img/wineshare-food/pasta.png");
+      createFoodPairing("Spicy", "/wineshare-img/wineshare-food/spicy.png");
+      createFoodPairing("Snack", "/wineshare-img/wineshare-food/snack.png");
+      createFoodPairing("Shell", "/wineshare-img/wineshare-food/shell.png");
+      createFoodPairing("Fish", "/wineshare-img/wineshare-food/fish.png");
+      createFoodPairing("Vegetable", "/wineshare-img/wineshare-food/vegetable.png");
     }
     if (aromaWheelRepository.count() == 0) {
-      createAromaWheel("Citrus", "레몬, 라임, 자몽", "citrus_image.jpg");
-      createAromaWheel("TreeFruit", "배, 사과, 풋사과", "treefruit_image.jpg");
-      createAromaWheel("StoneFruit", "복숭아, 자두, 살구", "stonefruit_image.jpg");
-      createAromaWheel("TropicalFruit", "구아바, 패션프루트, 리치", "tropicalfruit_image.jpg");
-      createAromaWheel("Berry", "산딸기, 딸기, 커런트", "berry_image.jpg");
-      createAromaWheel("Floral", "장미, 자스민, 라벤더", "floral_image.jpg");
-      createAromaWheel("Herb", "딜, 타임, 바질", "herb_image.jpg");
-      createAromaWheel("Vegetable", "피망, 토마토, 아스파라거스", "vegetable_image.jpg");
-      createAromaWheel("Fermented", "빵, 버터, 효모", "fermented_image.jpg");
-      createAromaWheel("Roasted", "카라멜, 초콜렛, 커피, 토스트", "roasted_image.jpg");
-      createAromaWheel("Spice", "바닐라, 후추, 정향", "spice_image.jpg");
-      createAromaWheel("Nuts", "아몬드, 헤이즐넛, 피칸", "nuts_image.jpg");
-      createAromaWheel("Tree", "백단목, 백향목, 솔향", "tree_image.jpg");
-      createAromaWheel("Sugar", "꿀, 모과", "sugar_image.jpg");
-      createAromaWheel("Fungi", "버섯, 이끼, 송로", "fungi_image.jpg");
+      createAromaWheel("Citrus", "레몬, 라임, 자몽", "/wineshare-img/wineshare-aroma/citrus.png");
+      createAromaWheel("Tree Fruit", "배, 사과, 풋사과", "/wineshare-img/wineshare-aroma/treefruit.png");
+      createAromaWheel("Stone Fruit", "복숭아, 자두, 살구", "/wineshare-img/wineshare-aroma/stonefruit.png");
+      createAromaWheel("Tropical Fruit", "구아바, 패션프루트, 리치", "/wineshare-img/wineshare-aroma/tropicalfruit.png");
+      createAromaWheel("Berry", "산딸기, 딸기, 커런트", "/wineshare-img/wineshare-aroma/berry.png");
+      createAromaWheel("Floral", "장미, 자스민, 라벤더", "/wineshare-img/wineshare-aroma/floral.png");
+      createAromaWheel("Herb", "딜, 타임, 바질", "/wineshare-img/wineshare-aroma/herb.png");
+      createAromaWheel("Vegetable", "피망, 토마토, 아스파라거스", "/wineshare-img/wineshare-aroma/vegetable.png");
+      createAromaWheel("Fermented", "빵, 버터, 효모", "/wineshare-img/wineshare-aroma/fermented.png");
+      createAromaWheel("Roasted", "카라멜, 초콜렛, 커피, 토스트", "/wineshare-img/wineshare-aroma/roasted.png");
+      createAromaWheel("Spice", "바닐라, 후추, 정향", "/wineshare-img/wineshare-aroma/spice.png");
+      createAromaWheel("Nuts", "아몬드, 헤이즐넛, 피칸", "/wineshare-img/wineshare-aroma/nuts.png");
+      createAromaWheel("Tree", "백단목, 백향목, 솔향", "/wineshare-img/wineshare-aroma/tree.png");
+      createAromaWheel("Honey", "꿀, 모과", "/wineshare-img/wineshare-aroma/honey.png");
+      createAromaWheel("Fungi", "버섯, 이끼, 송로", "/wineshare-img/wineshare-aroma/fungi.png");
     }
     if (wineRepository.count() == 0) {
       initParsing();
@@ -232,7 +232,7 @@ public class DataInitializer {
     Set<String> usedAromas = new HashSet<>();
     Set<String> usedFoods = new HashSet<>();
 
-    wineDevelopDTO.setExpertRating(1 + (random.nextDouble() * 4)); // 1.0 ~ 5.0 사이
+    wineDevelopDTO.setExpertRating(1 + (random.nextInt(5))); // 1.0 ~ 5.0 사이
     wineDevelopDTO.setExpertComment("Random comment " + random.nextInt(100)); // 랜덤 댓글
     wineDevelopDTO.setSweetness(random.nextDouble() * 5); // 0.0 ~ 5.0 사이
     wineDevelopDTO.setAcidity(random.nextDouble() * 5); // 0.0 ~ 5.0 사이
@@ -249,14 +249,14 @@ public class DataInitializer {
     return wineDevelopDTO;
   }
 
-  // 아로마 리스트 가져오기
+  // 아로마이름 리스트 가져오기
   public List<String> getAllAromas() {
     return aromaWheelRepository.findAll().stream()
         .map(AromaWheel::getAroma)
         .collect(Collectors.toList());
   }
 
-  // 음식 리스트 가져오기
+  // 음식이름 리스트 가져오기
   public List<String> getAllFoods() {
     return foodPairingRepository.findAll().stream()
         .map(FoodPairing::getFood)

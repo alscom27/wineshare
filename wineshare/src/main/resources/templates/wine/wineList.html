@@ -50,7 +50,10 @@
                         <li class="product-item features arrivals">
                             <div class="product-thumb clearfix">
                                 <a href="/wines/wine/${wine.id}" class="product-thumb">
-                                    <img src="${wine.wineImg === 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg === 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                                    <img src="${wine.wineImg === 'https://images.vivino.com/highlights/icon/most_user_rated.svg' ||
+                                                wine.wineImg === 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ||
+                                                wine.wineImg === 'https://images.vivino.com/highlights/icon/top_ranked.svg'
+                                                ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
                                                          class="wine_image"
                                                          onerror="this.onerror=null; this.src='/image/wineDefault.png';">
                                 </a>
@@ -215,7 +218,10 @@
                                         <li class="product-item features arrivals" th:each="wine, status : ${wines.getContent()}">
                                             <div class="product-thumb clearfix">
                                                 <a th:href="@{'/wines/wine/' + ${wine.id}}" class="product-thumb">
-                                                    <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                                                    <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' ||
+                                                    wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ||
+                                                    wine.wineImg == 'https://images.vivino.com/highlights/icon/top_ranked.svg'
+                                                    ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
                                                          th:class="wine_image"
                                                          onerror="this.onerror=null; this.src='/image/wineDefault.png';">
                                                 </a>

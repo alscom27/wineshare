@@ -118,12 +118,8 @@ public class WineDevelopService {
     return wineDevelopDTO;
   }
 
-  public String findFoodImgByFood(String food) {
-    return foodPairingRepository.findFoodImgByFood(food);
-  }
 
-  public String findAromaValueByAroma(String aroma) {
-    return findAromaValueByAroma(aroma);
-  }
+
+
 
 }

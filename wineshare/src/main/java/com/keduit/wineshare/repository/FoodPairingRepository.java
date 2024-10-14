@@ -10,8 +10,7 @@ import java.util.List;
 
 public interface FoodPairingRepository extends JpaRepository<FoodPairing, Long> {
 
-  @Query("SELECT f.foodImg FROM FoodPairing f WHERE f.food = ?1")
-  String findFoodImgByFood(String food);
+  FoodPairing findByFood(String food);
 
 
 }
