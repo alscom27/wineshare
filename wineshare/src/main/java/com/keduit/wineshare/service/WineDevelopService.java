@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class WineDevelopService {
 
   private final WineRepository wineRepository;
   private final MemberRepository memberRepository;
+  private final FoodPairingRepository foodPairingRepository;
 
 
   public void saveWineDevelop(WineDevelopDTO wineDevelopDTO, String email) {
@@ -90,6 +92,18 @@ public class WineDevelopService {
     double body = wineDevelops.stream().mapToDouble(WineDevelop::getBody).average().orElse(0.0);
     double tannin = wineDevelops.stream().mapToDouble(WineDevelop::getTannin).average().orElse(0.0);
     double fizz = wineDevelops.stream().mapToDouble(WineDevelop::getFizz).average().orElse(0.0);
+
+    List<Object[]> aromaOnes = wineDevelopRepository.countAromaOneByWine(wine);
+    List<Object[]> aromaTwos = wineDevelopRepository.countAromaTwoByWine(wine);
+    List<Object[]> foodOnes = wineDevelopRepository.countFoodOneByWine(wine);
+    List<Object[]> foodTwos = wineDevelopRepository.countFoodTwoByWine(wine);
+
+
+    String mostAromaOne = aromaOnes.isEmpty() ? null : (String)aromaOnes.get(0)[0];
+    String mostAromaTwo = aromaTwos.isEmpty() ? null : Objects.equals((String) aromaTwos.get(0)[0], mostAromaOne) ? (String)aromaTwos.get(1)[0] : (String)aromaTwos.get(0)[0];
+    String mostFoodOne = foodOnes.isEmpty() ? null : (String)foodOnes.get(0)[0];
+    String mostFoodTwo = foodTwos.isEmpty() ? null : Objects.equals((String) foodTwos.get(0)[0], mostFoodOne) ? (String)foodTwos.get(1)[0] : (String)foodTwos.get(0)[0];
+
     WineDevelopDTO wineDevelopDTO = new WineDevelopDTO();
     wineDevelopDTO.setExpertRating(expertRating);
     wineDevelopDTO.setSweetness(sweetness);
@@ -97,6 +111,19 @@ public class WineDevelopService {
     wineDevelopDTO.setBody(body);
     wineDevelopDTO.setTannin(tannin);
     wineDevelopDTO.setFizz(fizz);
+    wineDevelopDTO.setAromaOne(mostAromaOne);
+    wineDevelopDTO.setAromaTwo(mostAromaTwo);
+    wineDevelopDTO.setFoodOne(mostFoodOne);
+    wineDevelopDTO.setFoodTwo(mostFoodTwo);
     return wineDevelopDTO;
   }
+
+  public String findFoodImgByFood(String food) {
+    return foodPairingRepository.findFoodImgByFood(food);
+  }
+
+  public String findAromaValueByAroma(String aroma) {
+    return findAromaValueByAroma(aroma);
+  }
+
 }
