@@ -1,6 +1,6 @@
 package com.keduit.wineshare.controller;
 
-import com.keduit.wineshare.constant.MemberType;
+import com.keduit.wineshare.constant.*;
 import com.keduit.wineshare.dto.*;
 import com.keduit.wineshare.entity.Board;
 import com.keduit.wineshare.entity.Marketing;
@@ -82,11 +82,25 @@ public class AdminController {
   @GetMapping({"/members/list", "/members/list{page}"})
   public String adminMemberList(@PathVariable("page") Optional<Integer> page,
                            MemberSearchDTO memberSearchDTO,
+                           MemberType memberType,
+                           WithdrawStatus withdrawStatus,
                            Model model){
-    // 회원 타입별, 회원탈퇴여부별로 필터링 추가하기
-
     Pageable pageable = PageRequest.of(page.orElse(0), 10);
-    Page<Member> members = memberService.getMemberPage(memberSearchDTO, pageable);
+    Page<Member> members ;
+
+    // 회원 타입별, 회원탈퇴여부별로 필터링 추가하기
+    if(memberType==null && withdrawStatus==null){
+      // 둘다 기본이면 전체 조회
+      members = memberService.getMemberPage(memberSearchDTO, pageable);
+    }else if(memberType==null && withdrawStatus!=null){
+      // 회원 탈퇴여부로 조회
+      members = memberService.getMemberPageByWithdrawStatus(memberSearchDTO, withdrawStatus, pageable);
+    }else {
+      // 회원 타입별 조회 둘다는 뺌 해보고 추가가 차라리 더 편하면 추가 가능
+      members = memberService.getMemberPageByMemberType(memberSearchDTO, memberType, pageable);
+    }
+
+
     model.addAttribute("members", members);
     model.addAttribute("memberSearchDTO", memberSearchDTO);
     model.addAttribute("maxPage", 5);
@@ -117,9 +131,22 @@ public class AdminController {
   @GetMapping({"boards/list", "boards/list{page}"})
   public String adminBoardList(@PathVariable("page") Optional<Integer> page,
                                BoardSearchDTO boardSearchDTO,
+                               BoardStatus boardStatus,
                                Model model) {
+
     Pageable pageable = PageRequest.of(page.orElse(0), 10);
-    Page<Board> boards = boardService.getBoardPage(boardSearchDTO, pageable);
+    // 정렬타입(보드상태)이 기본(null)이면 전체조회
+    if(boardStatus==null){
+      Page<Board> boards = boardService.getBoardPage(boardSearchDTO, pageable);
+      model.addAttribute("boards", boards);
+      model.addAttribute("boardSearchDTO", boardSearchDTO);
+      model.addAttribute("maxPage", 5);
+
+      return "admin/dataList";
+    }
+
+    // 아니면 상태별조회
+    Page<Board> boards = boardService.getBoardPageByStatus(boardSearchDTO, boardStatus, pageable);
 
     model.addAttribute("boards", boards);
     model.addAttribute("boardSearchDTO", boardSearchDTO);
@@ -132,9 +159,23 @@ public class AdminController {
   @GetMapping({"marketing/list", "marketing/list/{page}"})
   public String adminMarketingList(@PathVariable("page") Optional<Integer> page,
                                    MarketingSearchDTO marketingSearchDTO,
+                                   MarketCategory marketCategory,
+                                   EventOrNot eventOrNot,
                                    Model model){
+
     Pageable pageable = PageRequest.of(page.orElse(0), 10);
-    Page<Marketing> marketings = marketingService.getMarketingPage(marketingSearchDTO, pageable);
+    Page<Marketing> marketings;
+    if(marketCategory==null && eventOrNot==null){ //업장분류, 행사여부 비어있으면 전체 조회
+      marketings = marketingService.getMarketingPage(marketingSearchDTO, pageable);
+    }else if(eventOrNot != null){
+      marketings = (marketCategory == null) //업장분류 비고, 행사여부 있으면 행사여부로 필터링
+          ? marketingService.getMarketingPageByEventOrNot(marketingSearchDTO, eventOrNot, pageable)
+          // 둘 다 있으면 둘 다 필터링 조회
+          : marketingService.getMarketingPageByEventAndCategory(marketingSearchDTO, marketCategory, eventOrNot, pageable);
+
+    }else { //업장부류 있고 행사여부 비면 업장분류별 조회
+      marketings = marketingService.getMarketingPageByMarketCategory(marketingSearchDTO, marketCategory, pageable);
+    }
 
     model.addAttribute("marketings", marketings);
     model.addAttribute("marketingSearchDTO", marketingSearchDTO);

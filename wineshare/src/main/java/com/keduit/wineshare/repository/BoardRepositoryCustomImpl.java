@@ -35,6 +35,10 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
     return null;
   }
 
+  // 타입별 필터링
+
+
+  // 관리자 대시보드 전체 조회
   @Override
   public Page<Board> getBoardPage(BoardSearchDTO boardSearchDTO, Pageable pageable) {
     JPAQuery<Board> query = queryFactory.selectFrom(QBoard.board)
@@ -56,7 +60,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
   }
 
   @Override
-  // 게시판상태를 직접꺼내오는게 맞나?
+  // 게시판 상태별 페이지와 조회 관리자에서 정렬도 이거 쓰자
   public Page<Board> getBoardPageByStatus(BoardSearchDTO boardSearchDTO, BoardStatus boardStatus, Pageable pageable) {
     //기본 쿼리생성
     JPAQuery<Board> query = queryFactory.selectFrom(QBoard.board)

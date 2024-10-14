@@ -1,6 +1,7 @@
 package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.dto.WineReviewDTO;
+import com.keduit.wineshare.entity.Wine;
 import com.keduit.wineshare.entity.WineReview;
 import com.keduit.wineshare.repository.WineReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @Transactional
@@ -63,4 +65,12 @@ public class WineReviewService {
     wineReviewRepository.deleteById(reviewId);
   }
 
+  // 리뷰 별점 평균 추가
+  public WineReviewDTO getCountReviewRating(Wine wine){
+    List<WineReview> wineReviews = wineReviewRepository.findByWine(wine);
+    double regularRating = wineReviews.stream().mapToDouble(WineReview::getRegularRating).average().orElse(0.0);
+    WineReviewDTO wineReviewDTO = new WineReviewDTO();
+    wineReviewDTO.setRegularRating(regularRating);
+    return wineReviewDTO;
+  }
 }

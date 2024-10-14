@@ -19,5 +19,9 @@ public interface MarketingRepositoryCustom {
   // 행사중인거만 보여주는거
   Page<Marketing> getMarketingPageByEventOrNot(MarketingSearchDTO marketingSearchDTO, EventOrNot eventOrNot, Pageable pageable);
 
+  // 행사여부 업장별 필터링
+  Page<Marketing> getMarketingPageByEventAndCategory(MarketingSearchDTO marketingSearchDTO, MarketCategory marketCategory,
+                                                     EventOrNot eventOrNot, Pageable pageable);
+
 
 }

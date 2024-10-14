@@ -35,10 +35,10 @@ public class Marketing extends BaseEntity {
   private String checkContent;  // 행사 설명, 체크가 1되면 폼 활성화
 
 
-  @Enumerated
+  @Enumerated(EnumType.STRING)
   private MarketCategory marketCategory;  // 업장분류
 
-  @Enumerated
+  @Enumerated(EnumType.STRING)
   private EventOrNot eventOrNot;  // 행사 상태
 
   @ManyToOne(fetch = FetchType.LAZY)
