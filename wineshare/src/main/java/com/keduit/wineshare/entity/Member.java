@@ -44,6 +44,9 @@ public class Member extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private WithdrawStatus withdrawStatus;
 
+  // WineDevelop과의 관계 설정
+  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<WineDevelop> wineDevelops; // WineDevelop 리스트
 
   public static Member createMember(MemberDTO memberDTO, PasswordEncoder passwordEncoder){
     Member member = new Member();

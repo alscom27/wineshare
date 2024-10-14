@@ -12,4 +12,7 @@ public class MarketingSearchDTO {
   private String searchType;
   private String searchQuery = "";
 
+  // 정렬옵션
+  private String sortOrder;
+
 }

@@ -1,5 +1,6 @@
 package com.keduit.wineshare.service;
 
+import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.constant.WithdrawStatus;
 import com.keduit.wineshare.dto.MemberSearchDTO;
 import com.keduit.wineshare.entity.Member;
@@ -61,4 +62,17 @@ public class MemberService implements UserDetailsService {
   public Page<Member> getMemberPage(MemberSearchDTO memberSearchDTO, Pageable pageaple){
     return memberRepository.getMemberPage(memberSearchDTO, pageaple);
   }
+
+  // 회원 타입별
+  @Transactional(readOnly = true)
+  public Page<Member> getMemberPageByMemberType(MemberSearchDTO memberSearchDTO, MemberType memberType, Pageable pageable){
+    return memberRepository.getMemberPageByMemberType(memberSearchDTO, memberType, pageable);
+  }
+
+  // 회원탈퇴여부별
+  @Transactional(readOnly = true)
+  public Page<Member> getMemberPageByWithdrawStatus(MemberSearchDTO memberSearchDTO, WithdrawStatus withdrawStatus, Pageable pageable){
+    return memberRepository.getMemberPageByWithdrawStatus(memberSearchDTO, withdrawStatus, pageable);
+  }
+
 }

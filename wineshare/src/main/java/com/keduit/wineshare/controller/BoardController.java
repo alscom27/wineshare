@@ -68,7 +68,7 @@ public class BoardController {
                          @RequestParam("boardImg") MultipartFile boardImg,
                          Model model) throws IOException {
     if(bindingResult.hasErrors()){
-      return "board/boardForm";
+      return "redirect:/";
     }
 
     // 사용자 정보 가져오기

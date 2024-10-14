@@ -1,9 +1,13 @@
 package com.keduit.wineshare.repository;
 
+import com.keduit.wineshare.constant.MemberType;
+import com.keduit.wineshare.constant.WithdrawStatus;
 import com.keduit.wineshare.dto.MemberSearchDTO;
 import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.entity.QMember;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Wildcard;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -54,6 +58,52 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
         .fetchCount();
 
     // Page 객체 생성하여 반환
+    return new PageImpl<>(result, pageable, total);
+  }
+
+  // 회원 타입별조회
+  @Override
+  public Page<Member> getMemberPageByMemberType(MemberSearchDTO memberSearchDTO, MemberType memberType, Pageable pageable) {
+    JPAQuery<Member> query = queryFactory.selectFrom(QMember.member)
+        .where(QMember.member.memberType.eq(memberType))
+        .where(searchTypeLike(memberSearchDTO.getSearchType(), memberSearchDTO.getSearchQuery()));
+
+    List<Member> result = query
+        .orderBy(QMember.member.id.desc())
+        .offset(pageable.getOffset())
+        .limit(pageable.getPageSize())
+        .fetch();
+
+    Long total = queryFactory
+        .select(Wildcard.count)
+        .from(QMember.member)
+        .where(QMember.member.memberType.eq(memberType))
+        .where(searchTypeLike(memberSearchDTO.getSearchType(), memberSearchDTO.getSearchQuery()))
+        .fetchOne();
+
+    return new PageImpl<>(result, pageable, total);
+  }
+
+  // 회원 탈퇴여부별 조회
+  @Override
+  public Page<Member> getMemberPageByWithdrawStatus(MemberSearchDTO memberSearchDTO, WithdrawStatus withdrawStatus, Pageable pageable) {
+    JPAQuery<Member> query = queryFactory.selectFrom(QMember.member)
+        .where(QMember.member.withdrawStatus.eq(withdrawStatus))
+        .where(searchTypeLike(memberSearchDTO.getSearchType(), memberSearchDTO.getSearchQuery()));
+
+    List<Member> result = query
+        .orderBy(QMember.member.id.desc())
+        .offset(pageable.getOffset())
+        .limit(pageable.getPageSize())
+        .fetch();
+
+    Long total = queryFactory
+        .select(Wildcard.count)
+        .from(QMember.member)
+        .where(QMember.member.withdrawStatus.eq(withdrawStatus))
+        .where(searchTypeLike(memberSearchDTO.getSearchType(), memberSearchDTO.getSearchQuery()))
+        .fetchOne();
+
     return new PageImpl<>(result, pageable, total);
   }
 
