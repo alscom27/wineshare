@@ -25,9 +25,10 @@ public class MemberController {
    private final PasswordEncoder passwordEncoder;
 
   @GetMapping("/new")
-  public String memberForm(Model model, HttpServletRequest request ){
-    HttpSession session = request.getSession();
+  public String memberForm(Model model){
+//    HttpSession session = request.getSession();
     model.addAttribute("memberDTO", new MemberDTO());
+    model.addAttribute("authority", "regular");
     return "member/memberForm";
   }
 

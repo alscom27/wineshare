@@ -82,13 +82,27 @@
             </ul>
           </nav>
         </div><!-- /.nav-wrap -->
+
+<!--        여기가 유저 네임 보여주는 곳 ==========-->
+<!--        <div class="text-align-right" sec:authorize="isAuthenticated()" >-->
+<!--          <span th:text="${#authentication.name}" style="font-weight: bold;"></span>-->
+<!--          님 환영합니다.-->
+
+<!--        </div>-->
+
         <div class="search clearfix">
+
           <ul>
             <li><input type="search" id="search" placeholder="Search..." ></li>
             <li><a href="#" class="header-search-icon"><i class="ti-search" aria-hidden="true"></i></a></li>
             <li><a href="#"> <i class="ti-align-justify" aria-hidden="true"></i> </a>
               <ul class="sub-menu">
-                <li><a href="projects1.html" title="">Login/ Register</a></li>
+                <li sec:authorize="isAnonymous()">
+                  <a href="/members/login" title="">Login</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                  <a href="/members/logout">Logout</a>
+                </li>
                 <li><a href="projects1.html" title="">My Account</a></li>
                 <li><a href="projects1.html" title="">My Wishlist</a></li>
                 <li><a href="projects1.html" title="">My Cart</a></li>

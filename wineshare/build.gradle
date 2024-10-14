@@ -67,6 +67,7 @@ dependencies {
 
 	testImplementation 'org.springframework.security:spring-security-test' // Spring Security 테스트 의존성 추가
 
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'	// 로그인 객체 권한 줄수있는 애
 }
 tasks.named('test') {
 	useJUnitPlatform()
