@@ -22,11 +22,11 @@ a {
     color: inherit;
 }
 .board_wrap {
-    width: 1000px;
-    margin: 100px auto;
-    background-color: white;
-    padding: 30px;
-
+     width:80%;
+     border: 1px solid #e5e5e5;
+     margin: 0 auto;
+     margin-top: 3%;
+     padding: 20px;
 
 }
 .board_title {
@@ -34,6 +34,7 @@ a {
 
 }
 .board_title strong {
+    color: #747474;
     font-size: 3rem;
 }
 .board_title p {
@@ -52,7 +53,7 @@ a {
     min-width: 80px;
     margin-left: 10px;
     padding: 10px;
-    border: 1px solid black;
+    border: 1px solid #e5e5e5;
     border-radius: 2px;
     font-size: 1.4rem;
 }
@@ -60,24 +61,26 @@ a {
     margin-left: 0;
 }
 .bt_wrap a.on {
-    background: black;
+    background: #c02323;
     color: white;
 }
 .board_list {
     width: 100%;
-    border-top: 2px solid #000;
-    border-bottom: 2px solid black;
+    border-top: 2px solid #e5e5e5;
+    border-bottom: 2px solid #e5e5e5;
 }
 .board_list > div {
     border-bottom: 1px solid #ddd;
     font-size: 0;
 }
-.board_list >div.top {
+
+/* .board_list >div.top {       이게 왜 필요한건지...
     border-bottom: 1px solid #999;
 }
 .board_list >div:last-child {
     border-bottom:1px solid black;
-}
+} */
+
 .board_list >div >div {
     display: inline-block;
     padding: 15px 0;
@@ -118,7 +121,7 @@ a {
     height: 32px;
     box-sizing: border-box;
     vertical-align: middle;
-    border: 1px solid #ddd;
+    border: 1px solid #e5e5e5;
     line-height: 100%;
 }
 .board_page a.bt {
@@ -132,8 +135,8 @@ a {
     font-size: 1.4rem;
 }
 .board_page a.num.on {
-    border-color: #000;
-    background: #000;
+    border-color: #e5e5e5;
+    background: #c02323;
     color: #fff;
 
 }
