@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -47,6 +50,23 @@ public class WineController {
 
 
     return "wine/wineList";
+  }
+
+  // 리로드 시 사용
+  @GetMapping({"/list/json", "/list/json/{page}"})
+  @ResponseBody // JSON을 반환하기 위해 추가
+  public ResponseEntity<Map<String, Object>> wineListJson(WineSearchDTO wineSearchDTO,
+                                                          @PathVariable("page") Optional<Integer> page) {
+    Pageable pageable = PageRequest.of(page.orElse(0), 12);
+    Page<WineDTO> wines = wineService.getWinePage(wineSearchDTO, pageable);
+
+    Map<String, Object> response = new HashMap<>();
+    response.put("wines", wines.getContent());
+    response.put("totalPages", wines.getTotalPages());
+    response.put("currentPage", wines.getNumber());
+    response.put("maxPage", 5); // 필요에 따라 조정
+
+    return ResponseEntity.ok(response);
   }
 
 
