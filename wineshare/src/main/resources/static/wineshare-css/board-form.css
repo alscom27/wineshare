@@ -1,0 +1,17 @@
+.board-form{
+    width:80%;
+    border: 1px solid #e5e5e5;
+    margin: 0 auto;
+    margin-top: 3%;
+    padding: 20px;
+    position: relative;
+}
+
+.reg-button{
+    float:right;
+}
+
+.form-title{
+    font-size:20px;
+    margin-bottom: 20px;
+}

@@ -56,7 +56,7 @@ public class BoardController {
   public String boardForm(@PathVariable("boardStatus") BoardStatus boardStatus,
                           Model model){
 
-    model.addAttribute("bardDTO", new BoardDTO());
+    model.addAttribute("boardDTO", new BoardDTO());
     return "board/boardForm";
   }
 
