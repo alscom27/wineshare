@@ -105,6 +105,7 @@
                         <div class="sort-filter">
                             <h5>Sort by</h5>
                             <select th:field="*{sortBy}" style="width:auto;">
+                                <option value="">최신 등록 순</option>
                                 <option value="priceDesc">가격 높은 순</option>
                                 <option value="priceAsc">가격 낮은 순</option>
                                 <option value="ratingDesc">평점 높은 순</option>
@@ -130,7 +131,7 @@
                                     <ul class="product style2 isotope-product clearfix" id="wineListContainer">
                                         <li class="product-item features arrivals" th:each="wine, status : ${wines.getContent()}">
                                             <div class="product-thumb clearfix">
-                                                <a href="#" class="product-thumb">
+                                                <a th:href="@{'/wines/wine/' + ${wine.id}}" class="product-thumb">
                                                     <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
                                                          th:class="wine_image"
                                                          onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className='wine_image'">
