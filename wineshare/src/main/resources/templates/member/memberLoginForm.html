@@ -6,6 +6,12 @@
 <th:block layout:fragment="css">
     <!-- login css Fiels -->
     <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/login.css}">
+
+    <style>
+        .error{
+            color: #bd2130;
+        }
+    </style>
 </th:block>
 
 <th:block layout:fragment="script">
@@ -26,7 +32,7 @@
     <div class="container">
         <!-- 로고 이미지 경로를 타임리프를 사용해 동적으로 설정 -->
         <h1 class="header">Sign in</h1>
-        <form action="" class="login-form">
+        <form action="/members/login" role="form" method="post" class="login-form">
             <div class="form-group">
                 <label for="email">이메일</label>
                 <input id="email" name="email" type="email" placeholder="email"/>
@@ -35,14 +41,18 @@
                 <label for="password">비밀번호</label>
                 <input id="password" name="password" type="password" placeholder="password"/>
             </div>
+            <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}">Incorrect data</p>
             <div class="custom-checkbox">
                 <input type="checkbox" name="remember" id="remember"/>
                 <label for="remember">Keep me signed in</label>
             </div>
+
+            <button type="submit" class="login-button">Login</button>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         </form>
-        <button class="login-button">Login</button>
+
         <div class="footer-text">
-            회원이 아니신가요? <a href="">회원가입</a> // 여기경로는 회원가입form으로 넣어주면돼
+            회원이 아니신가요? <a th:href="@{/members/new}">회원가입</a>
         </div>
 
 

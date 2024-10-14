@@ -13,12 +13,12 @@ public class AuditorAwareImpl implements AuditorAware {
     // 로그인 유저 정보가 담겨있는 객체?
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    String memberId = "";
+    String userId = "";
     if(authentication != null){ //authentication이 널 이아니면 = 로그인 되어있으면
-      memberId = authentication.getName();  //사용자이름을 리턴하게끔
+      userId = authentication.getName();  //사용자이름을 리턴하게끔
     }
 
-    return Optional.of(memberId);
+    return Optional.of(userId);
 
   }
 }

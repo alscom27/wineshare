@@ -50,6 +50,7 @@ public class AdminController {
     }
 
     model.addAttribute("memberDTO", new MemberDTO());
+    model.addAttribute("authority", "admin");
     return "/member/memberForm";  // 일반회원가입과 동일한폼으로 보냄 명시적으로 체크 버튼있어도좋을듯 관리자 체크버튼
   }
 
@@ -74,7 +75,7 @@ public class AdminController {
       return "member/memberForm";
     }
     // 메인으로 보내줄까? 관리자 대시보드로 보여줄까?
-    return "redirect:/";
+    return "member/memberLoginForm";
 
   }
 
