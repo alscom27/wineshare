@@ -1,1018 +1,191 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
-<head>
-    <!-- Basic Page Needs -->
-    <meta charset="utf-8">
-    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-    <title>Main</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
 
-    <meta name="author" content="themesflat.com">
+<!-- 사용자 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/wine-list.css}">
 
-    <!-- Mobile Specific Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</th:block>
 
-    <!-- Bootstrap  -->
-    <link rel="stylesheet" type="text/css" href="/main/stylesheets/bootstrap.css" >
+<!--/* 사용자 스크립트 추가 */-->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
 
-    <!-- Theme Style -->
-    <link rel="stylesheet" type="text/css" href="/main/stylesheets/style.css">
+        $(document).ready(function() {
 
-    <!-- Responsive -->
-    <link rel="stylesheet" type="text/css" href="/main/stylesheets/responsive.css">
 
-    <!-- Colors -->
-    <link rel="stylesheet" type="text/css" href="/main/stylesheets/colors/color1.css" id="colors">
+            $('#sortBy').change(function (){
+                page(0);
+            });
 
-    <!-- Animation Style -->
-    <link rel="stylesheet" type="text/css" href="/main/stylesheets/animate.css">
+            $('#searchWineType').change(function () {
+               page(0);
+            });
 
-    <!-- Favicon and touch icons  -->
-    <link href="/main/icon/icon.png" rel="apple-touch-icon-precomposed" sizes="48x48">
-    <link href="/main/icon/icon.png" rel="apple-touch-icon-precomposed">
-    <link href="/main/icon/icon.png" rel="shortcut icon">
-    <!-- Slider Revolution CSS Files -->
-    <link rel="stylesheet" type="text/css" href="/main/rev-slider/css/settings.css">
-    <link rel="stylesheet" type="text/css" href="/main/rev-slider/css/layers.css">
-    <link rel="stylesheet" type="text/css" href="/main/rev-slider/css/navigation.css">
-</head>
-<body>
-<div id="loading-overlay">
-    <div class="loader"></div>
-</div> <!-- /.loading-overlay -->
-<header class="style1">
-    <div id="site-header">
-        <div class="container-fluid">
-            <!--             <a href="home1.html" class="logo"><img src="main/image/wineshare3.PNG" alt="image" width="129" height="37" data-retina="main/image/wineshare3.PNG" data-width="147" data-height="21"></a>-->
-            <div class="mobile-button">
-                <span></span>
+
+        });
+        // 요거랑 컨트롤러쪽에서만 ajax로 바꾸면.. 될거같은데!ㅉ@!!!@@ㅃㅃㅉ#ㅆㅎㅁㅆㅃ
+        // 페이지네이션 클릭 시 페이지 이동
+        function page(page) {
+            // th:field 는 value, name, id 를 모두 대체함 id(#)으로 호출 가능
+            const searchWineType = $('#searchWineType').val();
+            const sortBy = $('#sortBy').val();
+            // 슬라이더에서 설정된 가격범위
+            const minPrice = $("#slide-range").slider("values", 0); // 슬라이더의 최소값
+            const maxPrice = $("#slide-range").slider("values", 1); // 슬라이더의 최대값
+
+            location.href = "/wines/list/" + page
+                + "?minPrice=" + minPrice
+                + "&maxPrice=" + maxPrice
+                + "&searchWineType=" + searchWineType
+                + "&sortBy=" + sortBy;
+        }
+
+
+
+    </script>
+</th:block>
+
+<div layout:fragment="content" >
+    <form th:action="@{'/wines/list/' + ${wines.number}}" role="form" method="get" th:object="${wines}">
+
+        <!-- 각 페이지 상단에 경로 나타내주는 부분.. -->
+        <div class="page-title parallax parallax1">
+            <div class="container">
+                <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
+                    <div class="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Product</a></li>
+                            <li class="blog"><a href="#">Shop Full Width</a></li>
+                        </ul>
+                    </div>
+                    <div class="page-title-heading">
+                        <h2 class="title"><a href="#">ARCHIVES PRODUCTS</a></h2>
+                    </div>
+                </div>
             </div>
-            <div class="nav-wrap ">
-                <nav id="mainnav" class="mainnav">
-                    <ul class="menu">
-
-                        <li class="active">
-                            <a href="about.html" title="">About Us</a>
-                            <ul class="sub-menu">
-                                <li><a href="About.html" title="">Wine Share</a></li>
-                                <li><a href="Event.html" title="">공지사항</a></li>
-                                <!--                                <li><a href="Coming-soon.html" title="">Bistro</a></li>-->
-                                <!--                                <li><a href="404-page.html" title="">Promotion</a></li>-->
-                                <!-- <li><a href="Wish-list.html" title="">Wish List</a></li>-->
-                            </ul><!-- /.sub-menu -->
-                        </li>
+        </div> <!-- /.page-title -->
 
 
-                        <li class="active a">
-                            <a href="#" title="">Wine</a>
-                            <ul class="sub-menu">
-                                <li class="active"><a href="home1.html" title="">Red</a></li>
-                                <li><a href="/shop/Shop-fullwidth-list.html" title="">Red</a></li>
-                                <li><a href="/shop/Shop-fullwidth-grid.html" title="">White</a></li>
-                                <li><a href="/shop/Shop-right-slidebar-list.html" title="">Sparkling</a></li>
-                                <li><a href="/shop/Shop-right-slidebar-grid.html" title="">Rose</a></li>
-
-                                <li><a href="/shop/Shop-details-slidebar.html" title="">Dessert</a></li>
-                                <li><a href="/shop/Shop-details.html" title="">Port</a></li>
-                                <!--                                    <li><a href="/shop/Shop-order-tracking.html" title="">Shop Order Tracking</a></li>-->
-                                <!--                                    <li><a href="/shop/Shop-cart.html" title="">Shop Cart</a></li>-->
-                            </ul><!-- /.sub-menu -->
-                        </li>
-                        <li class="active">
-                            <a href="about.html" title="">Marketing</a>
-                            <ul class="sub-menu">
-                                <li><a href="About.html" title="">Wine Bar</a></li>
-                                <li><a href="Event.html" title="">Bottle Shop</a></li>
-                                <li><a href="Coming-soon.html" title="">Bistro</a></li>
-                                <!--                                    <li><a href="404-page.html" title="">Promotion</a></li>-->
-                                <!--                                    <li><a href="Wish-list.html" title="">Wish List</a></li>-->
-                            </ul><!-- /.sub-menu -->
-                        </li>
-                        <li class="active">
-                            <a href="#" title="">Boards</a>
-                            <ul class="sub-menu">
-                                <li><a href="#" title="">등업게시판</a></li>
-                                <li><a href="#" title="">질문게시판</a></li>
-                                <li><a href="#" title="">요청게시판</a></li>
-                            </ul><!-- /.sub-menu -->
-                        </li>
-                        <li class="active">
-                            <a href="#" title="">Events</a>
-                            <ul class="sub-menu">
-                                <li><a href="Blog-grid-3column.html" title="">행사</a></li>
-                                <li><a href="Blog-grid-2column.html" title="">프로모션</a></li>
-                                <!--                                    <li><a href="Blog-Right-Slidebar.html" title="">Blog Right Slidebar</a></li>-->
-                                <!--                                    <li><a href="Blog-details-slidebar.html" title="">Blog Details Slidebar</a></li>-->
-                                <!--                                    <li><a href="Blog-details-fullwidth.html" title="">Blog Details FullWidth</a></li>-->
-                            </ul><!-- /.sub-menu -->
-                        </li>
-                        <!--                        <li class="active">-->
-                        <!--                            <a href="#" title="">Events</a>-->
-                        <!--                                <ul class="sub-menu">-->
-                        <!--                                    <li><a href="contact-1.html" title="">Contact Us 1</a></li>-->
-                        <!--                                    <li><a href="Contact-2.html" title="">Contact Us 2</a></li>-->
-                        <!--                                </ul>&lt;!&ndash; /.sub-menu &ndash;&gt;-->
-                        <!--                         </li>-->
-                    </ul>
-                </nav>
-            </div><!-- /.nav-wrap -->
-            <div class="search clearfix">
-                <ul>
-                    <li><input type="search" id="search" placeholder="Search..." ></li>
-                    <li><a href="#" class="header-search-icon"><i class="ti-search" aria-hidden="true"></i></a></li>
-                    <li><a href="#"> <i class="ti-align-justify" aria-hidden="true"></i> </a>
-                        <ul class="sub-menu">
-                            <li><a href="projects1.html" title="">Login/ Register</a></li>
-                            <li><a href="projects1.html" title="">My Account</a></li>
-                            <li><a href="projects1.html" title="">My Wishlist</a></li>
-                            <li><a href="projects1.html" title="">My Cart</a></li>
-                            <li><a href="projects1.html" title="">Tracking Orders</a></li>
-                        </ul><!-- /.sub-menu -->
-                    </li>
-                </ul>
-                <form class="header-search-form" role="search" method="get" action="#">
-                    <input type="text" value="" name="#" class="header-search-field" placeholder="Search...">
-                    <button type="submit" class="header-search-submit" title="Search"><i class="fa fa-search"></i></button>
-                </form>
+        <div th:object="${wineSearchDTO}">
+            <!-- 필터 레인지 바 -->
+            <div class="sidebar-inner clearfix">
+                <div class="widget widget-filter">
+                    <div class="type-filter">
+                        <h5>Type</h5>
+                        <select th:field="*{searchWineType}" >
+                            <option value="">ALL</option>
+                            <option value="RED">RED</option>
+                            <option value="WHITE">WHITE</option>
+                            <option value="SPARKLING">SPARKLING</option>
+                            <option value="ROSE">ROSE</option>
+                            <option value="DESSERT">DESSERT</option>
+                            <option value="PORT">PORT</option>
+                        </select>
+                    </div>
+                    <div class="text-title">
+                        <h2 class="widget-title text-center">Price Range</h2>
+                    </div>
+                    <div class="price-filter clearfix">
+                        <div id="slide-range"></div>
+                        <span class="filter"><a class="hvr-shutter-out-horizontal" th:onclick=" 'javascript:page(0)'" >FILTER</a></span>
+                        <p class="amount">
+                            Price: <span id="amount"></span>
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div><!-- /container -->
-    </div>
-</header>
-<div class="flat-slider style1">
-    <!-- SLIDER -->
-    <div class="rev_slider_wrapper fullwidthbanner-container" >
-        <div id="rev-slider1" class="rev_slider fullwidthabanner">
-            <ul>
-                <!-- Slide 1 -->
-                <li data-transition="random">
-                    <!-- Main Image -->
-                    <img src="/main/image/mainImg.jpg" alt="" data-bgposition="center center" data-no-retina>
-                    <div class="overlay"></div>
-
-                    <!-- Layers -->
-                    <div class="tp-caption tp-resizeme text-ffb922 font-rubik font-weight-500 wellcome"
-                         data-x="['left','left','left','center']" data-hoffset="['2','4','4','0']"
-                         data-y="['middle','middle','middle','middle']" data-voffset="['-132','-118','-98','-78']"
-                         data-fontsize="['36','20','20','16']"
-                         data-lineheight="['48','48','28','14']"
-                         data-width="full"
-                         data-height="none"
-                         data-whitespace="normal"
-                         data-transform_idle="o:1;"
-                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;"
-                         data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;s:1000;e:Power2.easeInOut;"
-                         data-mask_in="x:0px;y:[100%];"
-                         data-mask_out="x:inherit;y:inherit;"
-                         data-start="700"
-                         data-splitin="none"
-                         data-splitout="none"
-                         data-paddingleft= "['3','3','3','3']"
-                         data-responsive_offset="on">Welcome to Wizym</div>
-
-                    <div class="tp-caption tp-resizeme font-rubik font-weight-700 best"
-                         data-x="['left','left','left','center']" data-hoffset="['-4','-4','-4','0']"
-                         data-y="['middle','middle','middle','middle']" data-voffset="['-60','-60','-50','-40']"
-                         data-fontsize="['72','60','40','32']"
-                         data-lineheight="['80','80','45','35']"
-                         data-width="full"
-                         data-height="none"
-                         data-whitespace="normal"
-                         data-transform_idle="o:1;"
-                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;"
-                         data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;s:1000;e:Power2.easeInOut;"
-                         data-mask_in="x:0px;y:[100%];"
-                         data-mask_out="x:inherit;y:inherit;"
-                         data-start="1000"
-                         data-splitin="none"
-                         data-splitout="none"
-                         data-responsive_offset="on"> <a href="#" class="text-white">Best Of Wine Store</a> </div>
-
-                    <div class="tp-caption tp-resizeme text-white font-rubik font-weight-400 text-wizym"
-                         data-x="['left','left','left','center']" data-hoffset="['0','-2','-2','0']"
-                         data-y="['middle','middle','middle','middle']" data-voffset="['27','27','27','17']"
-                         data-fontsize="['18','18','16','14']"
-                         data-lineheight="['32','32','26','22']"
-                         data-width="full"
-                         data-height="none"
-                         data-whitespace="normal"
-                         data-transform_idle="o:1;"
-                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;"
-                         data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;s:1000;e:Power2.easeInOut;"
-                         data-mask_in="x:0px;y:[100%];"
-                         data-mask_out="x:inherit;y:inherit;"
-                         data-start="1000"
-                         data-splitin="none"
-                         data-splitout="none"
-                         data-responsive_offset="on"
-                         data-paddingright="['550','155','50','2']" >Wizym offers extensive collections of over 2,000 unique wines from prestigious brands to family-owed wineries </div>
-
-                    <div class="tp-caption"
-                         data-x="['left','left','left','center']" data-hoffset="['0','-4','-4','0']"
-                         data-y="['middle','middle','middle','middle']" data-voffset="['102','102','92','70']"
-                         data-width="full"
-                         data-height="none"
-                         data-whitespace="normal"
-                         data-transform_idle="o:1;"
-                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;"
-                         data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;s:1000;e:Power2.easeInOut;"
-                         data-mask_in="x:0px;y:[100%];"
-                         data-mask_out="x:inherit;y:inherit;"
-                         data-start="1000"
-                         data-splitin="none"
-                         data-splitout="none"
-                         data-responsive_offset="on"
-                         data-paddingtop= "['50','50','50','50']"
-                         data-paddingbottom= "['50','50','50','50']"> <a href="#" class="btn btn-styl button-project">READ MORE</a></div>
-                </li><!-- /End Slide 1 -->
-
-                <!-- Slide 2 -->
-                <li data-transition="random">
-                    <!-- Main Image -->
-                    <img src="/main/image/mainImg3.jpg" alt="" data-bgposition="center center" data-no-retina>
-                    <div class="overlay"></div>
-
-                    <!-- Layers -->
-                    <div class="tp-caption tp-resizeme text-ffb922 font-rubik font-weight-500 wellcome"
-                         data-x="['left','left','left','center']" data-hoffset="['2','4','4','0']"
-                         data-y="['middle','middle','middle','middle']" data-voffset="['-132','-118','-98','-78']"
-                         data-fontsize="['36','20','20','16']"
-                         data-lineheight="['48','48','28','14']"
-                         data-width="full"
-                         data-height="none"
-                         data-whitespace="normal"
-                         data-transform_idle="o:1;"
-                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;"
-                         data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;s:1000;e:Power2.easeInOut;"
-                         data-mask_in="x:0px;y:[100%];"
-                         data-mask_out="x:inherit;y:inherit;"
-                         data-start="700"
-                         data-splitin="none"
-                         data-splitout="none"
-                         data-paddingleft= "['3','3','3','3']"
-                         data-responsive_offset="on">Welcome to Wizym  </div>
-
-                    <div class="tp-caption tp-resizeme font-rubik font-weight-700 best"
-                         data-x="['left','left','left','center']" data-hoffset="['-4','-4','-4','0']"
-                         data-y="['middle','middle','middle','middle']" data-voffset="['-60','-60','-50','-40']"
-                         data-fontsize="['72','60','40','32']"
-                         data-lineheight="['80','80','45','35']"
-                         data-width="full"
-                         data-height="none"
-                         data-whitespace="normal"
-                         data-transform_idle="o:1;"
-                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;"
-                         data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;s:1000;e:Power2.easeInOut;"
-                         data-mask_in="x:0px;y:[100%];"
-                         data-mask_out="x:inherit;y:inherit;"
-                         data-start="1000"
-                         data-splitin="none"
-                         data-splitout="none"
-                         data-responsive_offset="on"> <a href="#" class="text-white">Best Of Wine Store</a> </div>
-
-                    <div class="tp-caption tp-resizeme text-white font-rubik font-weight-400 text-wizym"
-                         data-x="['left','left','left','center']" data-hoffset="['0','-2','-2','0']"
-                         data-y="['middle','middle','middle','middle']" data-voffset="['27','27','27','17']"
-                         data-fontsize="['18','18','16','14']"
-                         data-lineheight="['32','32','26','22']"
-                         data-width="full"
-                         data-height="none"
-                         data-whitespace="normal"
-                         data-transform_idle="o:1;"
-                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;"
-                         data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;s:1000;e:Power2.easeInOut;"
-                         data-mask_in="x:0px;y:[100%];"
-                         data-mask_out="x:inherit;y:inherit;"
-                         data-start="1000"
-                         data-splitin="none"
-                         data-splitout="none"
-                         data-responsive_offset="on"
-                         data-paddingright="['550','155','50','2']" >Wizym offers extensive collections of over 2,000 unique wines from prestigious brands to family-owed wineries </div>
-
-                    <div class="tp-caption"
-                         data-x="['left','left','left','center']" data-hoffset="['0','-4','-4','0']"
-                         data-y="['middle','middle','middle','middle']" data-voffset="['102','102','92','70']"
-                         data-width="full"
-                         data-height="none"
-                         data-whitespace="normal"
-                         data-transform_idle="o:1;"
-                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;"
-                         data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;s:1000;e:Power2.easeInOut;"
-                         data-mask_in="x:0px;y:[100%];"
-                         data-mask_out="x:inherit;y:inherit;"
-                         data-start="1000"
-                         data-splitin="none"
-                         data-splitout="none"
-                         data-responsive_offset="on"
-                         data-paddingtop= "['50','50','50','50']"
-                         data-paddingbottom= "['50','50','50','50']"> <a href="#" class="btn btn-styl button-project">READ MORE</a></div>
-                </li><!-- /End Slide 2 -->
-            </ul>
+            <!-- 정렬용 셀렉트바 -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="filter-shop clearfix">
+                        <div class="sort-filter">
+                            <h5>Sort by</h5>
+                            <select th:field="*{sortBy}" style="width:auto;">
+                                <option value="">최신 등록 순</option>
+                                <option value="priceDesc">가격 높은 순</option>
+                                <option value="priceAsc">가격 낮은 순</option>
+                                <option value="ratingDesc">평점 높은 순</option>
+                                <option value="ratingAsc">평점 낮은 순</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div> <!-- /.flat-slider -->
 
-<div class="main-homepage-1">
-    <section class="flat-about style1">
 
-    </section> <!-- /flat-about -->
-    <section class="flat-our-product our-product-new">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="title-section">
-                        <h3 class="our-product-title"><a href="#"> Our Products </a></h3>
-                        <h1 class="our-product-main"><a href="#"> Popular This Month </a></h1>
-                        <div class="our-product-image">
-                            <img src="/main/image/homepage14.png" alt="image">
-                        </div>
-                    </div> <!-- /title-section -->
-                </div> <!-- /col-lg-12 -->
-                <div class="col-12 product-content product-fourcolumn clearfix">
-                    <ul class="product clearfix">
-                        <li class="product-item">
-                            <div class="product-thumb clearfix">
-                                <a href="#" class="product-thumb">
-                                    <img src="/main/image/homepage16.png" alt="image">
-                                </a>
-                            </div>
-                            <div class="product-info text-center clearfix">
-                                <span class="product-title">Laboure Chardonnay</span>
-                                <div class="price">
-                                    <ins>
-                                        <span class="amount">$19.99</span>
-                                    </ins>
-                                </div>
-                            </div>
-                            <div class="product-review">
-                                <div class="add-cart">
-                                    <a href="#" class="like1"><i class="fa fa-refresh" aria-hidden="true"></i></a>
-                                </div>
-                                <div class="add-cart">
-                                    <a href="#" class="like2"><i class="fa fa-heart-o"></i></a>
-                                </div>
-                                <div class="add-cart">
-                                    <a href="#" class="like3"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </li> <!-- /product-item -->
-                        <li class="product-item">
-                            <div class="product-thumb clearfix">
-                                <a href="#" class="product-thumb">
-                                    <img src="/main/image/homepage19.png" alt="image">
-                                </a>
-                                <span class="new">Sale</span>
-                            </div>
-                            <div class="product-info product-hight clearfix">
-                                <span class="product-title">Josh Cellars Cabarnet</span>
-                                <div class="price">
-                                    <ins>
-                                        <span class="amount">$29.99</span>
-                                        <del>$38.99</del>
-                                    </ins>
-                                </div>
 
-                            </div>
-                            <div class="product-review">
-                                <div class="add-cart">
-                                    <a href="#" class="like1"><i class="fa fa-refresh" aria-hidden="true"></i></a>
-                                </div>
-                                <div class="add-cart">
-                                    <a href="#" class="like2"><i class="fa fa-heart-o"></i></a>
-                                </div>
-                                <div class="add-cart">
-                                    <a href="#" class="like3"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </li> <!-- /product-item -->
-                        <li class="product-item">
-                            <div class="product-thumb clearfix">
-                                <a href="#" class="product-thumb">
-                                    <img src="/main/image/homepage18.png" alt="image">
-                                </a>
+        <div class="main-shop-fullwidth-grid">
+            <div class="container">
 
-                            </div>
-                            <div class="product-info clearfix">
-                                <span class="product-title">Dark Horse Rosé</span>
-                                <div class="price">
-                                    <ins>
-                                        <span class="amount">$38.49</span>
-                                    </ins>
-                                </div>
-                            </div>
-                            <div class="product-review">
-                                <div class="add-cart">
-                                    <a href="#" class="like1"><i class="fa fa-refresh" aria-hidden="true"></i></a>
-                                </div>
-                                <div class="add-cart">
-                                    <a href="#" class="like2"><i class="fa fa-heart-o"></i></a>
-                                </div>
-                                <div class="add-cart">
-                                    <a href="#" class="like3"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </li> <!-- /product-item -->
-                        <li class="product-item">
-                            <div class="product-thumb clearfix">
-                                <a href="#" class="product-thumb">
-                                    <img src="/main/image/homepage19.png" alt="image">
-                                </a>
-                            </div>
-                            <div class="product-info clearfix">
-                                <span class="product-title">Dark Hose Rosé</span>
-                                <div class="price">
-                                    <ins>
-                                        <span class="amount">$38.49</span>
-                                    </ins>
-                                </div>
-                            </div>
-                            <div class="product-review">
-                                <div class="add-cart">
-                                    <a href="#" class="like1"><i class="fa fa-refresh" aria-hidden="true"></i></a>
-                                </div>
-                                <div class="add-cart">
-                                    <a href="#" class="like2"><i class="fa fa-heart-o"></i></a>
-                                </div>
-                                <div class="add-cart">
-                                    <a href="#" class="like3"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </li> <!-- /product-item -->
-                    </ul>
-                </div> <!-- /product-content -->
-                <div class="elm-btn">
-                    <a href="#" class="themesflat-button outline ol-accent margin-top-40 hvr-shutter-out-horizontal">VIEW MORE</a>
-                </div>
+                <section class="flat-products style3">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="product-content product-fourcolumn clearfix">
 
-            </div> <!-- /row -->
-        </div> <!-- /container -->
-    </section> <!-- /flat-out-product -->
+                                    <ul class="product style2 isotope-product clearfix" id="wineListContainer">
+                                        <li class="product-item features arrivals" th:each="wine, status : ${wines.getContent()}">
+                                            <div class="product-thumb clearfix">
+                                                <a th:href="@{'/wines/wine/' + ${wine.id}}" class="product-thumb">
+                                                    <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                                                         th:class="wine_image"
+                                                         onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className='wine_image'">
+                                                </a>
+                                            </div>
+                                            <div class="product-info text-center clearfix">
+                                                <div class="price">
+                                                    <ins>
+                                                        <span class="amount" th:text="${wine.price == null || wine.price == 0 ? '가격정보없음' : wine.price + ' ₩'}">와인 가격</span>
+                                                    </ins>
+                                                </div>
+                                                <span class="product-title" th:text="${wine.wineName}">와인 이름</span>
+                                            </div>
+                                            <div class="product-review">
+                                                <div class="add-cart">
+                                                    <a href="#" class="like2"><i class="fa fa-heart-o"></i></a>
+                                                </div>
+                                            </div>
+                                        </li> <!-- /product-item -->
+                                    </ul>
 
-    <section class="flat-products style1 straight ">
-        <div class="container">
-            <div class="row straight">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                    <div class="flat-latest mgb-mobi40">
-                        <div class="latest-title mb-mgtop0">
-                            <h3><a href="#">별점순</a></h3>
-                        </div>
-                        <div class="flat-next">
-                            <a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
-                        </div>
-                        <article class="post-border post-top">
-                            <div class="featured-post">
-                                <img src="/main/image/homepage28.png" alt="image">
+                                </div>
+                            </div> <!-- /col-lg-12 -->
+                            <!-- 페이지네이션 -->
+                            <div class="blog-pagination text-center"
+                                 th:with="start=${(wines.number / maxPage) * maxPage + 1},
+                                        end=${(wines.totalPages == 0) ?
+                                        1 : (start + (maxPage - 1) < wines.totalPages ?
+                                        start + (maxPage - 1) : wines.totalPages)}">
+                                <ul class="flat-pagination">
+                                    <li class="prev hvr-shutter-out-horizontal" th:classappend="${wines.first} ? 'disabled'">
+                                        <a th:onclick="'javascript:page(' + ${wines.number -1} + ')'" aria-label="Previous" >
+                                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}">
+                                        <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text" >
+                                            [[${page}]]
+                                        </a>
+                                    </li>
+                                    <li class="next hvr-shutter-out-horizontal" th:classappend="${wines.last} ? 'disabled'">
+                                        <a th:onclick="'javascript:page(' + ${wines.number + 1} + ')'" aria-label="Next" >
+                                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="content-post">
-                                <div class="post-title">
-                                    <span><a href="#"> Laboure Chardonnay </a></span>
-                                </div>
-                                <div class="post-dolar">
-                                    <span>$19.99</span>
-                                </div>
-                                <div class="post-rating">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="post-border post-between">
-                            <div class="featured-post">
-                                <img src="/main/image/homepage29.png" alt="image">
-                            </div>
-                            <div class="content-post">
-                                <div class="post-title">
-                                    <span><a href="#"> Godiva Chocolates Gift</a></span>
-                                </div>
-                                <div class="post-dolar">
-                                    <span>$28.99</span>
-                                </div>
-                                <div class="post-rating">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="post-border post-between">
-                            <div class="featured-post">
-                                <img src="/main/image/homepage30.png" alt="image">
-                            </div>
-                            <div class="content-post">
-                                <div class="post-title">
-                                    <span><a href="#"> Bertrana Cap Insula Red</a></span>
-                                </div>
-                                <div class="post-dolar">
-                                    <span>$22.99</span>
-                                </div>
-                                <div class="post-rating">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </div> <!-- /col-lg-4 -->
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                    <div class="flat-latest mgb-mobi40">
-                        <div class="latest-title title-between">
-                            <h3><a href="#">인기순</a></h3>
-                        </div>
-                        <div class="flat-next">
-                            <a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
-                        </div>
-                        <article class="post-border post-top">
-                            <div class="featured-post">
-                                <img src="/main/image/homepage31.png" alt="image">
-                            </div>
-                            <div class="content-post">
-                                <div class="post-title">
-                                    <span><a href="#"> Red Wine Trio 1988</a></span>
-                                </div>
-                                <div class="post-dolar">
-                                    <span>$22.99</span>
-                                </div>
-                                <div class="post-rating">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="post-border post-between">
-                            <div class="featured-post">
-                                <img src="/main/image/homepage32.png" alt="image">
-                            </div>
-                            <div class="content-post">
-                                <div class="post-title">
-                                    <span><a href="#"> Dreaming Wine Trio</a></span>
-                                </div>
-                                <div class="post-dolar">
-                                    <span>$28.99</span>
-                                </div>
-                                <div class="post-rating">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="post-border post-between">
-                            <div class="featured-post">
-                                <img src="/main/image/homepage33.png" alt="image">
-                            </div>
-                            <div class="content-post">
-                                <div class="post-title">
-                                    <span><a href="#"> Hall Eighteen Seventy</a></span>
-                                </div>
-                                <div class="post-dolar">
-                                    <span>$49.99</span>
-                                </div>
-                                <div class="post-rating">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </div> <!-- /col-lg-4 -->
-                <div class="col-lg-4 col-md-4 col-12">
-                    <div class="flat-latest">
-                        <div class="latest-title title-bottom">
-                            <h3><a href="#">최신순</a></h3>
-                        </div>
-                        <div class="flat-next">
-                            <a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
-                        </div>
-                        <article class="post-border post-top">
-                            <div class="featured-post">
-                                <img src="/main/image/homepage34.png" alt="image">
-                            </div>
-                            <div class="content-post">
-                                <div class="post-title">
-                                    <span><a href="#"> Brothers Patricia Pinot</a></span>
-                                </div>
-                                <div class="post-dolar">
-                                    <span>$24.99</span>
-                                </div>
-                                <div class="post-rating">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="post-border post-between">
-                            <div class="featured-post">
-                                <img src="/main/image/homepage35.png" alt="image">
-                            </div>
-                            <div class="content-post">
-                                <div class="post-title">
-                                    <span><a href="#"> Adelaide Hills Chardonnay</a></span>
-                                </div>
-                                <div class="post-dolar">
-                                    <span>$49.99</span>
-                                </div>
-                                <div class="post-rating">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="post-border post-between">
-                            <div class="featured-post">
-                                <img src="/main/image/homepage36.png" alt="image">
-                            </div>
-                            <div class="content-post">
-                                <div class="post-title">
-                                    <span><a href="#"> 51 Eden Valley Riesling 1918</a></span>
-                                </div>
-                                <div class="post-dolar">
-                                    <span>$19.99</span>
-                                </div>
-                                <div class="post-rating">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </div> <!-- /col-lg-4 -->
-            </div> <!-- /row -->
-        </div> <!-- /container -->
-    </section> <!-- /flat-prodcuts -->
-    <section class="flat-event style1">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="title-section">
-                        <!--                                <h3 class="our-product-title"><a href="#"> Dont't Miss Anything </a></h3>-->
-                        <h1 class="our-product-main"><a href="#">프로모션</a></h1>
-                        <div class="our-product-image-background">
-                            <img src="/main/image/test.png" alt="image">
-                        </div>
-                    </div> <!-- /title-section -->
-                </div>
-                <div class="col-lg-12">
-                    <div class="flat-carousel-box data-effect clearfix" data-gap="30" data-column="4" data-column2="2" data-column3="1" data-dots= "true" data-auto="false">
-                        <div class="owl-carousel">
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">14</h1>
-                                        <span>March</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>SunDay: 11.30 - 19.30 PM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> Adgio Vertical <br>Tasting</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$28.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">18</h1>
-                                        <span>March</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>Monday: 9.30 - 15.30 PM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> Reasons To Be <br>Cheerful</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$30.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">27</h1>
-                                        <span>April</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>Thursday: 9.30 - 11.30 AM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> New Wines For <br>Old?</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$22.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">11</h1>
-                                        <span>April</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>Friday: 8.00 - 11.30 PM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> Catering For <br>Higher</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$18.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">14</h1>
-                                        <span>March</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>SunDay: 11.30 - 19.30 PM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> Adgio Vertical <br>Tasting</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$28.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">18</h1>
-                                        <span>March</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>Monday: 9.30 - 15.30 PM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> Reasons To Be <br>Cheerful</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$30.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">27</h1>
-                                        <span>April</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>Thursday: 9.30 - 11.30 AM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> New Wines For <br>Old?</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$22.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">11</h1>
-                                        <span>April</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>Friday: 8.00 - 11.30 PM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> Catering For <br>Higher</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$18.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">14</h1>
-                                        <span>March</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>SunDay: 11.30 - 19.30 PM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> Adgio Vertical <br>Tasting</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$28.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">18</h1>
-                                        <span>March</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>Monday: 9.30 - 15.30 PM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> Reasons To Be <br>Cheerful</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$30.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">27</h1>
-                                        <span>April</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>Thursday: 9.30 - 11.30 AM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> New Wines For <br>Old?</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$22.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-border">
-                                    <div class="team-title">
-                                        <h1 class="title">11</h1>
-                                        <span>April</span>
-                                    </div>
-                                    <div class="team-meta">
-                                        <span>Friday: 8.00 - 11.30 PM</span>
-                                    </div>
-                                    <div class="team-content">
-                                        <h2><a href="#"> Catering For <br>Higher</a></h2>
-                                    </div>
-                                    <div class="team-dolar">
-                                        <span>$18.99/Per Person</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- /owl-carouse -->
-                    </div> <!-- /flat-carousel-box -->
-                </div> <!-- /col-lg-12 -->
-            </div> <!-- /row -->
-        </div> <!-- /container -->
-    </section> <!-- /flat-event -->
-    <!--          <section class="flat-new-latest style1">-->
-    <!--              <div class="container">-->
-    <!--                  <div class="row">-->
-    <!--                      <div class="col-lg-12">-->
-    <!--                          <div class="title-section">-->
-    <!--                                <h3 class="our-product-title"><a href="#"> Our Blog </a></h3>-->
-    <!--                                <h1 class="our-product-main"><a href="#"> News Latest </a></h1>-->
-    <!--                                <div class="our-product-image">-->
-    <!--                                     <img src="/main/image/homepage14.png" alt="image">-->
-    <!--                                </div>-->
-    <!--                            </div> &lt;!&ndash; /title-section &ndash;&gt;-->
-    <!--                      </div>-->
-    <!--                      <div class="col-lg-6 col-12">-->
-    <!--                          <article class="post">-->
-    <!--                              <div class="featured-post">-->
-    <!--                                  <img src="/main/image/homepage44.png" alt="image">-->
-    <!--                              </div>-->
-    <!--                              <div class="content-post">-->
-    <!--                                  <div class="post-title">-->
-    <!--                                      <span><a href="#">Restaurant, The Wines</a></span>-->
-    <!--                                  </div>-->
-    <!--                                  <div class="post-content">-->
-    <!--                                      <h3><a href="#">Champagne billecart-Salmon Releases Rare 'Cuvée 200' To Celebrate 200 Years</a></h3>-->
-    <!--                                  </div>-->
-    <!--                                  <div class="post-meta">-->
-    <!--                                      <span><a href="#">May 28, 2018</a></span>-->
-    <!--                                  </div>-->
-    <!--                                  <div class="post-btn">-->
-    <!--                                      <span><a href="#">READ MORE <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></span>-->
-    <!--                                  </div>-->
-    <!--                              </div>-->
-    <!--                          </article>-->
-    <!--                      </div>-->
-    <!--                      <div class="col-lg-6 col-12">-->
-    <!--                          <div class="content-box">-->
-    <!--                              <ul>-->
-    <!--                                  <li>-->
-    <!--                                      <span class="box-heading"><a href="#">The Wines, Grape Wine</a></span>-->
-    <!--                                      <h3 class="box-content"><a href="#">World Wine Awards 2018: Full results now available</a></h3>-->
-    <!--                                      <span class="box-meta"><a href="#">June 02, 2018</a></span>-->
-    <!--                                  </li>-->
-    <!--                                  <li class="box-border">-->
-    <!--                                      <span class="box-heading"><a href="#">Restaurant, Grape Wine</a></span>-->
-    <!--                                      <h3 class="box-content"><a href="#">Taittinger launches Comtes de Champagne 2007</a></h3>-->
-    <!--                                      <span class="box-meta"><a href="#">June 08, 2018</a></span>-->
-    <!--                                  </li>-->
-    <!--                                  <li class="box-border">-->
-    <!--                                      <span class="box-heading"><a href="#">The Wines, Rose</a></span>-->
-    <!--                                      <h3 class="box-content"><a href="#">Jefford on Monday: "Fine, fresh wines"</a></h3>-->
-    <!--                                      <span class="box-meta"><a href="#">June 12, 2018</a></span>-->
-    <!--                                  </li>-->
-    <!--                                  <li class="box-border">-->
-    <!--                                      <span class="box-heading"><a href="#">Bordeaux, Champagne</a></span>-->
-    <!--                                      <h3 class="box-content"><a href="#">Colgate-Palmolive renews with Morz in Malaysia</a></h3>-->
-    <!--                                      <span class="box-meta"><a href="#">June 19, 2018</a></span>-->
-    <!--                                  </li>-->
-    <!--                              </ul>-->
-    <!--                          </div>-->
-    <!--                      </div>-->
-    <!--                  </div>-->
-    <!--              </div>-->
-    <!--          </section> &lt;!&ndash; /flat-latest &ndash;&gt; -->
-</div> <!-- /homepage1 -->
 
-<footer class="style3">
-    <div class="container">
-        <div class="footer-widgets">
-            <div class="widget widget-logo">
-                <a href="index.html" class="logo"><img src="/main/image/logo.png" alt="image" width="129" height="37" data-retina="image/logo-2x.png" data-width="147" data-height="21"></a>
-            </div> <!-- /widget-logo -->
-            <div class="widget widget-icon">
-                <ul>
-                    <li class="active"><a href="#"> <i class="fa fa-facebook" aria-hidden="true"></i> </a></li>
-                    <li><a href="#"> <i class="fa fa-twitter" aria-hidden="true"></i> </a></li>
-                    <li><a href="#"> <i class="fa fa-instagram" aria-hidden="true"></i> </a></li>
-                    <li><a href="#"> <i class="fa fa-skype" aria-hidden="true"></i> </a></li>
-                    <li><a href="#"> <i class="fa fa-wordpress" aria-hidden="true"></i></a></li>
-                </ul>
-            </div> <!-- /widget-icon -->
-            <!--            <div class="widget widget-title">-->
-            <!--                 <h2>Get news & offers</h2>-->
-            <!--            </div> &lt;!&ndash; /widget-title &ndash;&gt;-->
-            <!--            <div class="widget widget-contact">-->
-            <!--                 <input type="search" id="search-footer" placeholder="Your Email" >-->
-            <!--                 <button type="submit"><i class="fa fa-location-arrow" aria-hidden="true"></i></button>-->
-            <!--            </div> &lt;!&ndash; /widget-contact &ndash;&gt;-->
-            <div class="widget widget-menu">
-                <ul>
-                    <li class="active"><a href="About.html"> About Us </a></li>
-                    <li><a href="Shop-fullwidth-grid.html"> Customer Service </a></li>
-                    <li><a href="Homepage2.html"> Terms & Conditions </a></li>
-                    <li><a href="Blog-grid-3column.html"> Privacy Policy </a></li>
-                    <li class="contact"><a href="contact-1.html"> Contact </a></li>
-                </ul>
-            </div> <!-- /widget-about -->
-            <div class="widget widget-text">
-                <span>© 2019 Created by ThemesFlat. All Rights Reserved</span>
-            </div>
-        </div> <!-- /footer-widgets -->
-    </div> <!-- /container -->
-</footer>
-<a id="scroll-top"><i class="fa fa-angle-right" aria-hidden="true"></i></a> <!-- /#scroll-top -->
 
-<script src="/main/javascript/jquery.min.js"></script>
-<script src="/main/javascript/rev-slider.js"></script>
-<script src="/main/javascript/owl.carousel.min.js"></script>
-<script src="/main/javascript/jquery-countTo.js"></script>
-<script src="/main/javascript/jquery-waypoints.js"></script>
-<script src="/main/javascript/bootstrap.min.js"></script>
-<script src="/main/javascript/jquery.easing.js"></script>
-<script src="/main/javascript/main.js"></script>
-
-<!-- Slider -->
-<script src="/main/rev-slider/js/jquery.themepunch.tools.min.js"></script>
-<script src="/main/rev-slider/js/jquery.themepunch.revolution.min.js"></script>
-<script src="/main/javascript/rev-slider.js"></script>
-<!-- Load Extensions only on Local File Systems ! The following part can be removed on Server for On Demand Loading -->
-<script src="/main/rev-slider/js/extensions/revolution.extension.actions.min.js"></script>
-<script src="/main/rev-slider/js/extensions/revolution.extension.carousel.min.js"></script>
-<script src="/main/rev-slider/js/extensions/revolution.extension.kenburn.min.js"></script>
-<script src="/main/rev-slider/js/extensions/revolution.extension.layeranimation.min.js"></script>
-<script src="/main/rev-slider/js/extensions/revolution.extension.migration.min.js"></script>
-<script src="/main/rev-slider/js/extensions/revolution.extension.navigation.min.js"></script>
-<script src="/main/rev-slider/js/extensions/revolution.extension.parallax.min.js"></script>
-<script src="/main/rev-slider/js/extensions/revolution.extension.slideanims.min.js"></script>
-<script src="/main/rev-slider/js/extensions/revolution.extension.video.min.js"></script>
-
-</body>
+                        </div> <!-- /row -->
+                    </div> <!-- /container-->
+                </section>
+            </div> <!-- / main-shop-fullwidth-grid -->
+        </div>
+    </form>
+</div>
 </html>
