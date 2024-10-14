@@ -23,10 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -68,12 +65,36 @@ public class WineService {
         wine.getId(), wine.getWineName(),
         wine.getCountry(), wine.getRegion(),
         wine.getPrice(), wine.getWineType(),
-        wine.getMember().getId(), wine.getWineImg()); // 각 항목 널일때.. 어떻게 처리할지 다 잡아야하나? 초기값으로 넣은 데이터들은 조인된 멤버테이블의 정보가 없어.
+        wine.getMember().getId(), wine.getWineImg());
     return wineDTO;
   }
 
   public Wine getWineById(Long id) {
     return wineRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+  }
+
+  public List<Wine> getSimilarWines(Wine wine) {
+    List<Wine> similarWines = new ArrayList<>();
+    // 1.타입이 같고 전문가 평점 평균이 높은 1개
+    Wine sameTypeMostRating = wineRepository.findSameTypeMostRating(wine);
+    similarWines.add(sameTypeMostRating);
+
+  // 2.아로마 One이 같고 높은것 1개
+    Wine sameMostAroma = wineRepository.findMostFrequentAromaOneWine(wine);
+    similarWines.add(sameMostAroma);
+
+
+   // 3.푸드 One이 같고 전문가 평점 카운트가 높은 1개
+    Wine sameMostFood = wineRepository.findMostFrequentFoodOneWine(wine);
+    similarWines.add(sameMostFood);
+
+
+    // 4.국가가 같고 전문가 평점 평균이 높은 1개
+    Wine sameCountryMostRating = wineRepository.findSameCountryMostRating(wine);
+    similarWines.add(sameCountryMostRating);
+
+
+    return similarWines;
   }
 }
 

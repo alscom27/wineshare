@@ -6,6 +6,7 @@ import com.keduit.wineshare.dto.WineDTO;
 import com.keduit.wineshare.dto.WineSearchDTO;
 import com.keduit.wineshare.entity.QWine;
 import com.keduit.wineshare.entity.QWineDevelop;
+import com.keduit.wineshare.entity.Wine;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberExpression;
@@ -22,7 +23,9 @@ import java.util.List;
 public class WineRepositoryCustomImpl implements WineRepositoryCustom {
   private JPAQueryFactory queryFactory;
 
-  public WineRepositoryCustomImpl(EntityManager em) { this.queryFactory = new JPAQueryFactory(em); }
+  public WineRepositoryCustomImpl(EntityManager em) {
+    this.queryFactory = new JPAQueryFactory(em);
+  }
 
   // 와인타입 필터
   private BooleanExpression searchWineTypeEq(WineType searchWineType) {
@@ -66,7 +69,6 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
   }
 
 
-
   // 나중에 필터나 정렬 조건으로 추가해주기
   @Override
   public Page<WineDTO> getWinePage(WineSearchDTO wineSearchDTO, Pageable pageable) {
@@ -105,5 +107,94 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         .fetchOne();
     return new PageImpl<>(result, pageable, total);
   }
+
+  // 1. 타입이 같은것 중 전문가 평점이 높은것...
+  @Override
+  public Wine findSameTypeMostRating(Wine wine) {
+    QWine qWine = QWine.wine;
+    QWineDevelop qWineDevelop = QWineDevelop.wineDevelop;
+
+    // 타입이 같은 와인 중에서 각 와인의 expertRating의 평균을 계산
+    return queryFactory
+        .select(qWine)
+        .from(qWine)
+        .join(qWine.wineDevelops, qWineDevelop) // WineDevelop과 조인
+        .where(qWine.wineType.eq(wine.getWineType()) // 같은 타입 필터링
+            .and(qWine.ne(wine))) // 현재 와인은 제외하기
+        .groupBy(qWine.id) // 와인 ID로 그룹화
+        .orderBy(qWineDevelop.expertRating.avg().desc()) // 평균 expertRating으로 내림차순 정렬
+        .fetchFirst(); // 가장 첫 번째 결과(가장 높은 평균 expertRating)를 가져옴
+  }
+  // 2. 국가가 같은 와인 중 전문가 평점이 높은것
+  @Override
+  public Wine findSameCountryMostRating(Wine wine) {
+    QWine qWine = QWine.wine;
+    QWineDevelop qWineDevelop = QWineDevelop.wineDevelop;
+
+    // 같은 국가의 와인 중에서 각 와인의 expertRating의 평균을 계산
+    return queryFactory
+        .select(qWine)
+        .from(qWine)
+        .join(qWine.wineDevelops, qWineDevelop) // WineDevelop과 조인
+        .where(qWine.country.eq(wine.getCountry()) // 같은 타입 필터링
+            .and(qWine.ne(wine))) // 현재 와인은 제외하기
+        .groupBy(qWine.id) // 와인 ID로 그룹화
+        .orderBy(qWineDevelop.expertRating.avg().desc()) // 평균 expertRating으로 내림차순 정렬
+        .fetchFirst(); // 가장 첫 번째 결과(가장 높은 평균 expertRating)를 가져옴
+  }
+  // 3. 가장 높은 카운트의 아로마원을 제일 많이 가지고 있는 와인
+  @Override
+  public Wine findMostFrequentAromaOneWine(Wine wine) {
+    QWine qWine = QWine.wine;
+    QWineDevelop qWineDevelop = QWineDevelop.wineDevelop;
+
+    // 현재 와인의 WineDevelop에서 가장 많이 나오는 aromaOne 찾기
+    String mostFrequentAromaOne = queryFactory
+        .select(qWineDevelop.aromaOne)
+        .from(qWineDevelop)
+        .where(qWineDevelop.wine.eq(wine))
+        .groupBy(qWineDevelop.aromaOne)
+        .orderBy(qWineDevelop.aromaOne.count().desc())
+        .fetchFirst();
+
+    // 찾은 aromaOne을 가진 다른 와인들 중에서 aromaOne의 카운트가 가장 높은 와인 찾기
+    return queryFactory
+        .select(qWine)
+        .from(qWine)
+        .join(qWine.wineDevelops, qWineDevelop)
+        .where(qWineDevelop.aromaOne.eq(mostFrequentAromaOne)
+            .and(qWine.ne(wine))) // 현재 와인은 제외하기
+        .groupBy(qWine.id)
+        .orderBy(qWineDevelop.aromaOne.count().desc())
+        .fetchFirst();
+  }
+  // 가장 높은 카운트의 푸드원을 제일 많이 가지고 있는 와인
+  @Override
+  public Wine findMostFrequentFoodOneWine(Wine wine) {
+    QWine qWine = QWine.wine;
+    QWineDevelop qWineDevelop = QWineDevelop.wineDevelop;
+
+    // 현재 와인의 WineDevelop에서 가장 많이 나오는 foodOne 찾기
+    String mostFrequentFoodOne = queryFactory
+        .select(qWineDevelop.foodOne)
+        .from(qWineDevelop)
+        .where(qWineDevelop.wine.eq(wine))
+        .groupBy(qWineDevelop.foodOne)
+        .orderBy(qWineDevelop.foodOne.count().desc())
+        .fetchFirst();
+
+    // 찾은 foodOne을 가진 다른 와인들 중에서 foodOne의 카운트가 가장 높은 와인 찾기
+    return queryFactory
+        .select(qWine)
+        .from(qWine)
+        .join(qWine.wineDevelops, qWineDevelop)
+        .where(qWineDevelop.foodOne.eq(mostFrequentFoodOne)
+            .and(qWine.ne(wine))) // 현재 와인은 제외하기
+        .groupBy(qWine.id)
+        .orderBy(qWineDevelop.foodOne.count().desc())
+        .fetchFirst();
+  }
+
+
 }
 

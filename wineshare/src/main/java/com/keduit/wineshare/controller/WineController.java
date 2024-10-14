@@ -1,13 +1,12 @@
 package com.keduit.wineshare.controller;
 
 import com.keduit.wineshare.dto.*;
+import com.keduit.wineshare.entity.AromaWheel;
+import com.keduit.wineshare.entity.FoodPairing;
 import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.entity.Wine;
 import com.keduit.wineshare.repository.WineRepository;
-import com.keduit.wineshare.service.MemberService;
-import com.keduit.wineshare.service.WineDevelopService;
-import com.keduit.wineshare.service.WineReviewService;
-import com.keduit.wineshare.service.WineService;
+import com.keduit.wineshare.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +35,8 @@ public class WineController {
   private final WineRepository wineRepository;
   private final WineDevelopService wineDevelopService;
   private final WineReviewService wineReviewService;
+  private final AromaWheelService aromaWheelService;
+  private final FoodPairingService foodPairingService;
 
   // 와인 목록
   @GetMapping({"/list", "/list/{page}"})
@@ -118,14 +119,33 @@ public class WineController {
   public String wineDetail(@PathVariable("wineId") Long wineId, Model model) {
     Wine wine = wineService.getWineById(wineId);
     WineDTO wineDTO = wineService.getWineDetail(wineId);
+    // 카운트, 평균낸 DTO
     WineDevelopDTO wineDevelopCount = wineDevelopService.getCountDevelop(wine);
     // 리뷰 별점 평균 추가
     WineReviewDTO wineReviewRating = wineReviewService.getCountReviewRating(wine);
-    List<WineDevelopDTO> wineDevelopDTOList = wineDevelopService.findAllByWine(wine);
+    // 모든 평가 DTO 리스트
+    List<WineDevelopDTO> wineDevelopDTOList = wineDevelopService.findAllByWine(wine); // 이건 모델로도 쓰고..
+    // 페이지로 추가해야할것 // 이건 에이잭스인거같고..
+    // 모든 리뷰 DTO 리스트
+    // 페이지로 추가해야할것 // 이건 에이잭스 같고..
+
+    // 아로마 객체..
+    AromaWheel aromaOne = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaOne());
+    AromaWheel aromaTwo = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaTwo());
+    FoodPairing foodOne = foodPairingService.getFoodPairingByFood(wineDevelopCount.getFoodOne());
+    FoodPairing foodTwo = foodPairingService.getFoodPairingByFood(wineDevelopCount.getFoodTwo());
+
+    List<Wine> similarWineList = wineService.getSimilarWines(wine);
+
     model.addAttribute("wine", wineDTO);
     model.addAttribute("wineDevelopCount", wineDevelopCount);
     model.addAttribute("wineDevelopList", wineDevelopDTOList);
     model.addAttribute("wineReviewRating", wineReviewRating);
+    model.addAttribute("aromaOne", aromaOne);
+    model.addAttribute("aromaTwo", aromaTwo);
+    model.addAttribute("foodOne", foodOne);
+    model.addAttribute("foodTwo", foodTwo);
+    model.addAttribute("similarWineList", similarWineList);
     return "wine/wineDetail";
   }
 

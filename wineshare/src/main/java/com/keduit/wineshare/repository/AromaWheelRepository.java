@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface AromaWheelRepository extends JpaRepository<AromaWheel, Long> {
 
-  @Query("SELECT a.aromaValue FROM AromaWheel a WHERE a.aroma = ?1")
-  String findAromaValueByAroma(String aroma);
+  AromaWheel findByAroma(String aroma);
 }
