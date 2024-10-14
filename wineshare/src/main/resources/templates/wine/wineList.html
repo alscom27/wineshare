@@ -91,30 +91,33 @@
                     </div>
                     <div class="price-filter clearfix">
                         <div id="slide-range"></div>
-                        <span class="filter"><a class="hvr-shutter-out-horizontal" th:onclick=" 'javascript:page(0)'" >FILTER</a></span>
+<!--                        <span class="filter"><a class="hvr-shutter-out-horizontal" th:onclick=" 'javascript:page(0)'" >FILTER</a></span>-->
                         <p class="amount">
                             Price: <span id="amount"></span>
                         </p>
                     </div>
-                </div>
-            </div>
-            <!-- 정렬용 셀렉트바 -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="filter-shop clearfix">
-                        <div class="sort-filter">
-                            <h5>Sort by</h5>
-                            <select th:field="*{sortBy}" style="width:auto;">
-                                <option value="">최신 등록 순</option>
-                                <option value="priceDesc">가격 높은 순</option>
-                                <option value="priceAsc">가격 낮은 순</option>
-                                <option value="ratingDesc">평점 높은 순</option>
-                                <option value="ratingAsc">평점 낮은 순</option>
-                            </select>
+
+                    <!-- 정렬용 셀렉트바 -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="filter-shop">
+                                <div class="sort-filter">
+                                    <h5>Sort by</h5>
+                                    <select th:field="*{sortBy}" style="width:auto;">
+                                        <option value="">최신 등록 순</option>
+                                        <option value="priceDesc">가격 높은 순</option>
+                                        <option value="priceAsc">가격 낮은 순</option>
+                                        <option value="ratingDesc">평점 높은 순</option>
+                                        <option value="ratingAsc">평점 낮은 순</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
+
         </div>
 
 
