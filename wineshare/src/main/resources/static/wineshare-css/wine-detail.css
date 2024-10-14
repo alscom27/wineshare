@@ -117,12 +117,12 @@ td:nth-child(even) {
 
 .fa-star {
     font-size: 20px;
-    color: #ccc; /* 비활성화된 별 색상 */
+    color: #ccc !important; /* 비활성화된 별 색상 */
     /*transition: color 0.2s;*/
 }
 
 .fa-star.active {
-    color: #ffb136; /* 활성화된 별 색상 */
+    color: #ffb136 !important; /* 활성화된 별 색상 */
 }
 
 

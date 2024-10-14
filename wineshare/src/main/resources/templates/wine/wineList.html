@@ -6,7 +6,6 @@
 <!-- 사용자 css -->
 <th:block layout:fragment="css">
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/wine-list.css}">
-
 </th:block>
 
 <!--/* 사용자 스크립트 추가 */-->
@@ -14,8 +13,6 @@
     <script th:inline="javascript">
 
         $(document).ready(function() {
-
-
             $('#sortBy').change(function (){
                 page(0);
             });
@@ -24,9 +21,8 @@
                page(0);
             });
 
-
         });
-        // 요거랑 컨트롤러쪽에서만 ajax로 바꾸면.. 될거같은데!ㅉ@!!!@@ㅃㅃㅉ#ㅆㅎㅁㅆㅃ
+
         // 페이지네이션 클릭 시 페이지 이동
         function page(page) {
             // th:field 는 value, name, id 를 모두 대체함 id(#)으로 호출 가능
@@ -36,11 +32,94 @@
             const minPrice = $("#slide-range").slider("values", 0); // 슬라이더의 최소값
             const maxPrice = $("#slide-range").slider("values", 1); // 슬라이더의 최대값
 
-            location.href = "/wines/list/" + page
-                + "?minPrice=" + minPrice
-                + "&maxPrice=" + maxPrice
-                + "&searchWineType=" + searchWineType
-                + "&sortBy=" + sortBy;
+            $.ajax({
+                url: `/wines/list/json/${page}`,
+                type: 'GET',
+                data: {
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    searchWineType: searchWineType,
+                    sortBy: sortBy
+                },
+                success: function (response) {
+                    const wineListContainer = $('#wineListContainer');
+                    wineListContainer.empty();
+                    response.wines.forEach(function (wine) {
+                        const wineItem = `
+                        <li class="product-item features arrivals">
+                            <div class="product-thumb clearfix">
+                                <a href="/wines/wine/${wine.id}" class="product-thumb">
+                                    <img src="${wine.wineImg === 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg === 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                                                         class="wine_image"
+                                                         onerror="this.onerror=null; this.src='/image/wineDefault.png';">
+                                </a>
+                            </div>
+                            <div class="product-info text-center clearfix">
+                                <div class="price">
+                                    <ins>
+                                        <span class="amount">${wine.price == null || wine.price === 0 ? '가격정보없음' : wine.price + ' ₩'}</span>
+                                    </ins>
+                                </div>
+                                <span class="product-title">${wine.wineName}</span>
+                            </div>
+                            <div class="product-review">
+                                <div class="add-cart">
+                                    <a href="#" class="like2"><i class="fa fa-heart-o"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                        `;
+                        wineListContainer.append(wineItem);
+                    });
+                    updatePagination(response.currentPage, response.totalPages);
+                },
+                error: function (err) {
+                    console.error('Error fetching data:', err);
+                }
+            });
+        }
+
+
+        function updatePagination(currentPage, totalPages) {
+            const paginationContainer = $('.flat-pagination');
+            paginationContainer.empty(); // 기존 페이지네이션 비우기
+
+            // 이전 버튼
+            const prevDisabled = currentPage === 0 ? 'disabled' : '';
+            paginationContainer.append(`
+        <li class="prev hvr-shutter-out-horizontal ${prevDisabled}">
+            <a ${prevDisabled ? '' : 'onclick="page(' + (currentPage - 1) + ')"'} aria-label="Previous">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </a>
+        </li>
+    `);
+
+            // maxPage를 정의합니다. (예: 5)
+            const maxPage = 5;
+
+            // 페이지 번호 계산
+            let start = Math.floor(currentPage / maxPage) * maxPage; // 현재 페이지 기준으로 시작
+            let end = Math.min(start + maxPage, totalPages); // 최대 maxPage 개수 표시
+
+            // 페이지 번호 추가
+            for (let i = start; i < end; i++) {
+                const activeClass = i === currentPage ? 'page-active' : '';
+                paginationContainer.append(`
+            <li class="hvr-shutter-out-horizontal ${activeClass}">
+                <a onclick="page(${i})" aria-label="Page">${i + 1}</a>
+            </li>
+        `);
+            }
+
+            // 다음 버튼
+            const nextDisabled = currentPage === totalPages - 1 ? 'disabled' : '';
+            paginationContainer.append(`
+        <li class="next hvr-shutter-out-horizontal ${nextDisabled}">
+            <a ${nextDisabled ? '' : 'onclick="page(' + (currentPage + 1) + ')"'} aria-label="Next">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+        </li>
+    `);
         }
 
 
@@ -137,7 +216,7 @@
                                                 <a th:href="@{'/wines/wine/' + ${wine.id}}" class="product-thumb">
                                                     <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
                                                          th:class="wine_image"
-                                                         onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className='wine_image'">
+                                                         onerror="this.onerror=null; this.src='/image/wineDefault.png';">
                                                 </a>
                                             </div>
                                             <div class="product-info text-center clearfix">
@@ -170,7 +249,7 @@
                                             <i class="fa fa-angle-left" aria-hidden="true"></i>
                                         </a>
                                     </li>
-                                    <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}">
+                                    <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${page == 1} ? 'page-active' : ''">
                                         <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text" >
                                             [[${page}]]
                                         </a>
