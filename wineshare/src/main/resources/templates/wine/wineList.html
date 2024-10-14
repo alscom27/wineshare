@@ -45,6 +45,7 @@
                     const wineListContainer = $('#wineListContainer');
                     wineListContainer.empty();
                     response.wines.forEach(function (wine) {
+                        const formattedPrice = wine.price == null || wine.price === 0 ? '가격정보없음' : new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(wine.price);
                         const wineItem = `
                         <li class="product-item features arrivals">
                             <div class="product-thumb clearfix">
@@ -57,7 +58,7 @@
                             <div class="product-info text-center clearfix">
                                 <div class="price">
                                     <ins>
-                                        <span class="amount">${wine.price == null || wine.price === 0 ? '가격정보없음' : wine.price + ' ₩'}</span>
+                                        <span class="amount">${formattedPrice}</span>
                                     </ins>
                                 </div>
                                 <span class="product-title">${wine.wineName}</span>
@@ -222,7 +223,7 @@
                                             <div class="product-info text-center clearfix">
                                                 <div class="price">
                                                     <ins>
-                                                        <span class="amount" th:text="${wine.price == null || wine.price == 0 ? '가격정보없음' : wine.price + ' ₩'}">와인 가격</span>
+                                                        <span class="amount" th:text="${wine.price == null || wine.price == 0 ? '가격정보없음' : #numbers.formatCurrency(wine.price)}">와인 가격</span>
                                                     </ins>
                                                 </div>
                                                 <span class="product-title" th:text="${wine.wineName}">와인 이름</span>

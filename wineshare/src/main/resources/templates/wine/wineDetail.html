@@ -69,11 +69,11 @@
             <div class="content-wrap">
               <h2 class="heading" th:text="${wine.wineName}"></h2>
               <div class="post-rating">
-                <i class="fa fa-star active" aria-hidden="true"></i> <!-- 별색깔 적용 안됨... 뭔지 모르겠음... -->
-                <span th:text="${wineDevelopCount.ExpertRating}"></span>
+                <i class="fa fa-star active" aria-hidden="true"></i>
+                <span th:text="${#numbers.formatDecimal(wineDevelopCount.ExpertRating, 1, 1)}"></span>
 
               </div>
-              <h2 class="dolar" th:text="${wine.price == null || wine.price == 0 ? '가격정보없음' : wine.price + ' ₩'}">$19.99</h2>
+              <h2 class="dolar" th:text="${wine.price == null || wine.price == 0 ? '가격정보없음' : #numbers.formatCurrency(wine.price)}">$19.99</h2>
 
               <div class="info-content">
                 <ul>
@@ -131,7 +131,7 @@
           </td>
 
         </tr>
-        <tr>
+        <tr th:if="${wine.wineType == T(com.keduit.wineshare.constant.WineType).RED}">
           <td>
             <div class="tasteStructureNm">Smooth</div>
           </td>
@@ -146,7 +146,7 @@
           </td>
 
         </tr>
-        <tr>
+        <tr th:if="${wine.wineType != T(com.keduit.wineshare.constant.WineType).SPARKLING}">
           <td>
             <div class="tasteStructureNm">Dry</div>
           </td>
@@ -175,7 +175,7 @@
             <div class="tasteStructureNm">Acidic</div>
           </td>
         </tr>
-        <tr>
+        <tr th:if="${wine.wineType == T(com.keduit.wineshare.constant.WineType).SPARKLING}">
           <td>
             <div class="tasteStructureNm">Gentle</div>
           </td>
@@ -362,7 +362,7 @@
 
                     <div class="post-comment">
                       <div class="post-rating">
-                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i> <!-- 넘버시퀀스로.. 별점준만큼 th:each -->
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -420,7 +420,7 @@
 
                         </div>
 
-                        <div class="taste-category">
+                        <div class="taste-category" th:if="${wine.wineType == T(com.keduit.wineshare.constant.WineType).RED}">
                           <h3>Tannin</h3>
                           <select class="select-option">
                             <option value="0">0</option>
@@ -432,7 +432,7 @@
                           </select>
                         </div>
 
-                        <div class="taste-category">
+                        <div class="taste-category" th:if="${wine.wineType != T(com.keduit.wineshare.constant.WineType).SPARKLING}">
                           <h3>Sweetness</h3>
                           <select class="select-option">
                             <option value="0">0</option>
@@ -456,7 +456,7 @@
                           </select>
                         </div>
 
-                        <div class="taste-category">
+                        <div class="taste-category" th:if="${wine.wineType == T(com.keduit.wineshare.constant.WineType).SPARKLING}">
                           <h3>Fizz</h3>
                           <select class="select-option">
                             <option value="0">0</option>
