@@ -11,10 +11,25 @@
       width: 50px;
       height: 50px;
     }
+    .wine_img {
+      height: 400px;
+      width: auto;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .progress-bar {
+      position:relative;
+      width: 10%;
+      transform: translateX(-10%);
+    }
+    .review_box {
+      margin: 10px auto;
+    }
   </style>
 </th:block>
 
-<!-- 추가된 js 이렇게 경로주는게 맞나싶어요... -->
+<!-- 추가된 js  -->
 <th:block layout:fragment="script">
   <script type="text/javascript" th:href="@{/wine-detail.js}"></script>
 </th:block>
@@ -37,71 +52,26 @@
       </div>
     </div>
   </div> <!-- /.page-title -->
+
   <div class="main-shop-detail-review" >
-    <section class="main-shop-detail">
+    <section class="main-shop-detail" style="padding: 100px 0 50px 0;">
       <div class="container">
         <div class="row">
           <div class="col-lg-6 col-md-6">
             <div class="image-wrap">
-              <div class="image-rallary mg-bottom-45">
-                <div class="themesflat-gallery  style-2 has-arrows arrow-center arrow-circle offset-v-82 has-thumb w170  clearfix" data-gap="0" data-column="1" data-column2="1" data-column3="1" data-auto="false">
-                  <div class="owl-carousel owl-theme">
-                    <div class="gallery-item" >
-                      <div class="inner">
-                        <div class="thumb">
-                          <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
-                               th:class="wine_image"
-                               onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className=''">
-                          <div class="search-images">
-                            <a data-type="iframe" href="/main/image/homepage127.png" class="zoom-pic" >
-                              <i class="icon_zoom-in_alt "  aria-hidden="true"></i>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="gallery-item" >
-                      <div class="inner">
-                        <div class="thumb">
-                          <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
-                               th:class="wine_image"
-                               onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className=''">
-                          <div class="search-images">
-                            <a data-type="iframe" th:href="@{image/homepage127.png}" class="zoom-pic" >
-                              <i class="icon_zoom-in_alt "  aria-hidden="true"></i>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="gallery-item active" >
-                      <div class="inner">
-                        <div class="thumb">
-                          <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
-                               th:class="wine_image"
-                               onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className=''">
-                          <div class="search-images">
-                            <a data-type="iframe" href="/main/image/homepage127.png" class="zoom-pic" >
-                              <i class="icon_zoom-in_alt "  aria-hidden="true"></i>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div><!-- /.themesflat-cousel-box -->
-              </div>
+              <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                   th:class="wine_img"
+                   onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className='wine_img'">
+
             </div>
           </div>
           <div class="col-lg-6 col-md-6">
             <div class="content-wrap">
               <h2 class="heading" th:text="${wine.wineName}"></h2>
-              <div class="post-rating" th:text="${wineDevelopCount.ExpertRating}">
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
+              <div class="post-rating">
+                <i class="fa fa-star active" aria-hidden="true"></i> <!-- 별색깔 적용 안됨... 뭔지 모르겠음... -->
+                <span th:text="${wineDevelopCount.ExpertRating}"></span>
+
               </div>
               <h2 class="dolar" th:text="${wine.price == null || wine.price == 0 ? '가격정보없음' : wine.price + ' ₩'}">$19.99</h2>
 
@@ -137,102 +107,6 @@
               </div>
             </div>
           </div>
-          <!--   리뷰 공간     -->
-          <div class="col-lg-11">
-            <div class="woocommerce-tabs wc-tabs-wrapper">
-              <ul class="tabs">
-                <li><a class="tab active" data-id ='#tab-description' href="#">Pro Review</a></li>
-                <li><a class="tab" data-id ='#tab-reviews' href="#">User Review</a></li>
-              </ul>
-              <!--    전문가 리뷰      -->
-              <div id="tab-description" class="tab-content">
-                <div class="comment-respond">
-                  <form class="comment-form">
-                    <p><a href="#">Add Preview</a> </p>
-                    <p class="comment-form-author">
-                      <!-- <label>Name *</label> -->
-                      <input  name="author" type="text" placeholder="Name" required="required">
-                    </p>
-                    <p class="comment-form-email">
-                      <!-- <label>Email *</label> -->
-                      <input  name="email" type="email" placeholder="Email" required="required">
-                    </p>
-                    <div class="clearfix"></div>
-                    <p class="your-rating"><a href="#">Your Rating</a> </p>
-                    <div class="my-rating">
-                      <i class="fa fa-star" aria-hidden="true" data-value="1"></i>
-                      <i class="fa fa-star" aria-hidden="true" data-value="2"></i>
-                      <i class="fa fa-star" aria-hidden="true" data-value="3"></i>
-                      <i class="fa fa-star" aria-hidden="true" data-value="4"></i>
-                      <i class="fa fa-star" aria-hidden="true" data-value="5"></i>
-                    </div>
-                    <p class="comment-form-comment">
-                      <!-- <label>Comment</label>  -->
-                      <textarea  name="comment" placeholder="Comment" required="required"></textarea>
-                    </p>
-                    <p class="submit-form">
-                      <button name="submit" type="submit"  class="submit btn btn-styl hvr-shutter-out-horizontal" >SUBMIT</button>
-                    </p>
-                  </form>
-                </div>  <!-- /comment-respond -->
-              </div>
-              <!--    사용자 리뷰      -->
-              <div id="tab-reviews" class="tab-content">
-                <div id="reviews" class="woocommerce-Reviews">
-                  <div class="post-bottom-second post-bottom">
-                    <div class="avatar">
-                      <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
-                           th:class="wine_image"
-                           onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className='profile_img'">
-                      <div class="post-rating">
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                      </div>
-                    </div>
-                    <div class="post-comment">
-                      <div class="comment-meta comment"><a href="#"> May 28, 2018</a></div>
-                      <div class="comment-title comment"><a href="#">Brandon Kelley</a></div>
-                      <div class="comment-text comment">
-                        <a href="#">Vasse Felix chief executive, Paul Holmes a Court said no plans have yet been made for the buildings on the property</a>
-                      </div>
-                    </div>
-                  </div> <!-- /post-bottom-second -->
-                  <div class="comment-respond">
-                    <form class="comment-form">
-                      <p><a href="#">Add Preview</a> </p>
-                      <p class="comment-form-author">
-                        <!-- <label>Name *</label> -->
-                        <input  name="author" type="text" placeholder="Name" required="required">
-                      </p>
-                      <p class="comment-form-email">
-                        <!-- <label>Email *</label> -->
-                        <input  name="email" type="email" placeholder="Email" required="required">
-                      </p>
-                      <div class="clearfix"></div>
-                      <p class="your-rating"><a href="#">Your Rating</a> </p>
-                      <div class="my-rating">
-                        <i class="fa fa-star" aria-hidden="true" data-value="1"></i>
-                        <i class="fa fa-star" aria-hidden="true" data-value="2"></i>
-                        <i class="fa fa-star" aria-hidden="true" data-value="3"></i>
-                        <i class="fa fa-star" aria-hidden="true" data-value="4"></i>
-                        <i class="fa fa-star" aria-hidden="true" data-value="5"></i>
-                      </div>
-                      <p class="comment-form-comment">
-                        <!-- <label>Comment</label>  -->
-                        <textarea  name="comment" placeholder="Comment" required="required"></textarea>
-                      </p>
-                      <p class="submit-form">
-                        <button name="submit" type="submit"  class="submit btn btn-styl hvr-shutter-out-horizontal" >SUBMIT</button>
-                      </p>
-                    </form>
-                  </div>  <!-- /comment-respond -->
-                </div>
-              </div>
-            </div>
-          </div>
         </div> <!-- /row-->
       </div> <!-- /container -->
     </section> <!-- /main-shop-detail -->
@@ -248,7 +122,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" th:aria-valuenow="${wineDevelopCount.body}" aria-valuemin="0" aria-valuemax="5">
-              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.body / 5 * 100} + '%') + '; position:relative; width: 10%; transform: translateX(-10%);'"></div>
+              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.body / 5 * 100} + '%') + ';'"></div>
             </div>
 
           </td>
@@ -263,7 +137,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.tannin / 5 * 100} + '%') + '; position:relative; width: 10%;'"></div>
+              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.tannin / 5 * 100} + '%') + ';'"></div>
             </div>
 
           </td>
@@ -278,7 +152,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.sweetness / 5 * 100} + '%') + '; position:relative; width: 10%;'"></div>
+              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.sweetness / 5 * 100} + '%') + ';'"></div>
             </div>
 
           </td>
@@ -293,7 +167,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.acidity / 5 * 100} + '%') + '; position:relative; width: 10%; transform: translateX(-10%);'"></div>
+              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.acidity / 5 * 100} + '%') + ';'"></div>
             </div>
 
           </td>
@@ -307,7 +181,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.fizz / 5 * 100} + '%') + '; position:relative; width: 10%;'"></div>
+              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.fizz / 5 * 100} + '%') + ';'"></div>
             </div>
 
           </td>
@@ -325,11 +199,11 @@
         <h2>Aroma Wheel</h2>
         <div class="card">
           <img class="aroma" src="https://cdn-icons-png.flaticon.com/128/1791/1791364.png" alt="aroma">
-          <p>이곳은 카드 1의 내용입니다.</p>
+          <p th:text="${wineDevelopCount.aromaOne}">이곳은 카드 1의 내용입니다.</p>
         </div>
         <div class="card">
           <img class="aroma" src="https://cdn-icons-png.flaticon.com/128/1791/1791354.png" alt="aroma">
-          <p>이곳은 카드 2의 내용입니다.</p>
+          <p th:text="${wineDevelopCount.aromaTwo}">이곳은 카드 2의 내용입니다.</p>
         </div>
       </div>
 
@@ -337,196 +211,15 @@
         <h2>Food Pairing</h2>
         <div class="food">
           <img class="pairing" src="https://cdn-icons-png.flaticon.com/128/1046/1046769.png" alt="pairing">
-          <p>이곳은 카드 1의 내용입니다.</p>
+          <p th:text="${wineDevelopCount.foodOne}">이곳은 카드 1의 내용입니다.</p>
         </div>
         <div class="food">
           <img class="pairing" src="https://cdn-icons-png.flaticon.com/128/819/819827.png" alt="pairing">
-          <p>이곳은 카드 2의 내용입니다.</p>
+          <p th:text="${wineDevelopCount.foodTwo}">이곳은 카드 2의 내용입니다.</p>
         </div>
       </div>
     </div>
-    <!-- 전문가 맛 그래프 입력 폼 -->
 
-    <div class="pro-taste">
-      <div class="taste-like">
-        <div class="taste-body">
-          <h3>Body</h3>
-          <span class="taste-title"> Light ~ Bold </span>
-          <select class="select-option">
-            <option value="min">0</option>
-            <option value="0.5">0.5</option>
-            <option value="1">1</option>
-            <option value="1.5">1.5</option>
-            <option value="2">2</option>
-            <option value="2.5">2.5</option>
-            <option value="3">3</option>
-            <option value="3.5">3.5</option>
-            <option value="4">4</option>
-            <option value="4.5">4.5</option>
-            <option value="5">5</option>
-          </select>
-
-        </div>
-
-        <div class="taste-tannin">
-          <h3>Tannin</h3>
-          <span class="taste-title"> Smooth ~ Tannic</span>
-          <select class="select-option">
-            <option value="min">0</option>
-            <option value="0.5">0.5</option>
-            <option value="1">1</option>
-            <option value="1.5">1.5</option>
-            <option value="2">2</option>
-            <option value="2.5">2.5</option>
-            <option value="3">3</option>
-            <option value="3.5">3.5</option>
-            <option value="4">4</option>
-            <option value="4.5">4.5</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-
-        <div class="taste-sweetness">
-          <h3>Sweetness</h3>
-          <span class="taste-title"> Dry ~ Sweet </span>
-          <select class="select-option">
-            <option value="min">0</option>
-            <option value="0.5">0.5</option>
-            <option value="1">1</option>
-            <option value="1.5">1.5</option>
-            <option value="2">2</option>
-            <option value="2.5">2.5</option>
-            <option value="3">3</option>
-            <option value="3.5">3.5</option>
-            <option value="4">4</option>
-            <option value="4.5">4.5</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-
-        <div class="taste-acidity">
-          <h3>Acidity</h3>
-          <span class="taste-title"> Soft ~ Acidic</span>
-          <select class="select-option">
-            <option value="min">0</option>
-            <option value="0.5">0.5</option>
-            <option value="1">1</option>
-            <option value="1.5">1.5</option>
-            <option value="2">2</option>
-            <option value="2.5">2.5</option>
-            <option value="3">3</option>
-            <option value="3.5">3.5</option>
-            <option value="4">4</option>
-            <option value="4.5">4.5</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-
-        <div class="taste-fizz">
-          <h3>Fizz</h3>
-          <span class="taste-title"> Gentle ~ Fizzy </span>
-          <select class="select-option">
-            <option value="min">0</option>
-            <option value="0.5">0.5</option>
-            <option value="1">1</option>
-            <option value="1.5">1.5</option>
-            <option value="2">2</option>
-            <option value="2.5">2.5</option>
-            <option value="3">3</option>
-            <option value="3.5">3.5</option>
-            <option value="4">4</option>
-            <option value="4.5">4.5</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-      </div>
-
-    </div>
-
-
-
-    <!-- 전문가 아로마 휠, 페어링 입력 폼 -->
-
-    <div class="admin-review">
-      <!--   아로마 휠 & 푸드 페어링       -->
-      <div class="aromaOne">
-        <h5>Aroma Type 1</h5>
-        <select>
-          <option value="레몬, 라임, 자몽">Citrus</option>
-          <option value="배, 사과, 풋사과">TreeFruit</option>
-          <option value="복숭아, 자두, 살구">StoneFruit</option>
-          <option value="구아바, 패션프루트, 리치">TropicalFruit</option>
-          <option value="산딸기, 딸기, 커런트">Berry</option>
-          <option value="장미, 자스민, 라벤더">Fruit</option>
-          <option value="딜, 타임, 바질">Herb</option>
-          <option value="피망, 토마토, 아스파라거스">Vegetable</option>
-          <option value="빵, 버터, 효모">Fermented</option>
-          <option value="카라멜, 초콜렛, 커피, 토스트">Roasted</option>
-          <option value="바닐라, 후추, 정향">Spice</option>
-          <option value="아몬드, 헤이즐넛, 피칸">Nuts</option>
-          <option value="백단목, 백향목, 솔향">Tree</option>
-          <option value="꿀, 모과">Sugar</option>
-          <option value="버섯, 이끼, 송로">Fungi</option>
-        </select>
-      </div>
-
-      <div class="aromaOne">
-        <h5>Aroma Type 2</h5>
-        <select>
-          <option value="레몬, 라임, 자몽">Citrus</option>
-          <option value="배, 사과, 풋사과">TreeFruit</option>
-          <option value="복숭아, 자두, 살구">StoneFruit</option>
-          <option value="구아바, 패션프루트, 리치">TropicalFruit</option>
-          <option value="산딸기, 딸기, 커런트">Berry</option>
-          <option value="장미, 자스민, 라벤더">Fruit</option>
-          <option value="딜, 타임, 바질">Herb</option>
-          <option value="피망, 토마토, 아스파라거스">Vegetable</option>
-          <option value="빵, 버터, 효모">Fermented</option>
-          <option value="카라멜, 초콜렛, 커피, 토스트">Roasted</option>
-          <option value="바닐라, 후추, 정향">Spice</option>
-          <option value="아몬드, 헤이즐넛, 피칸">Nuts</option>
-          <option value="백단목, 백향목, 솔향">Tree</option>
-          <option value="꿀, 모과">Sugar</option>
-          <option value="버섯, 이끼, 송로">Fungi</option>
-        </select>
-      </div>
-
-      <div class="foodOne">
-        <h5>Food Paring 1</h5>
-        <select>
-          <option value="Beef">Beef</option>
-          <option value="Chicken">Chicken</option>
-          <option value="Pork">Pork</option>
-          <option value="Mushroom">Mushroom</option>
-          <option value="Charcuterie">Charcuterie</option>
-          <option value="Cheese">Cheese</option>
-          <option value="Pasta">Pasta</option>
-          <option value="Spicy">Spicy</option>
-          <option value="Snack">Snack</option>
-          <option value="Shell">Shell</option>
-          <option value="Fish">Fish</option>
-          <option value="Vegetable">Vegetable</option>
-        </select>
-      </div>
-
-      <div class="foodOne">
-        <h5>Food Paring 2</h5>
-        <select>
-          <option value="Beef">Beef</option>
-          <option value="Chicken">Chicken</option>
-          <option value="Pork">Pork</option>
-          <option value="Mushroom">Mushroom</option>
-          <option value="Charcuterie">Charcuterie</option>
-          <option value="Cheese">Cheese</option>
-          <option value="Pasta">Pasta</option>
-          <option value="Spicy">Spicy</option>
-          <option value="Snack">Snack</option>
-          <option value="Shell">Shell</option>
-          <option value="Fish">Fish</option>
-          <option value="Vegetable">Vegetable</option>
-        </select>
-      </div>
-    </div>
 
 
 
@@ -534,10 +227,10 @@
 
 
     <!-- 비슷한 와인 리스트 -->
-    <section class="flat-products style2">
+    <section class="flat-products style2" style="padding: 100px 0 50px 0;">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-lg-10" style="margin: 0 auto;">
             <div class="title-section">
               <h1 class="our-product-main"><a href="#">Similar Wine</a></h1>
               <div class="our-product-image">
@@ -645,6 +338,328 @@
         </div> <!-- /row -->
       </div> <!-- /container -->
     </section> <!-- /flat-products-->
+
+    <!--   리뷰 공간     -->
+    <section class="main-shop-detail" style="padding: 0 0 50px 0;">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-11" >
+            <div class="woocommerce-tabs wc-tabs-wrapper">
+              <ul class="tabs">
+                <li><a class="tab active" data-id ='#tab-description' href="#">Expert Review</a></li>
+                <li><a class="tab" data-id ='#tab-reviews' href="#">User Review</a></li>
+              </ul>
+              <!--    전문가 리뷰      -->
+              <div id="tab-description" class="tab-content">
+                <div class="post-bottom-second post-bottom" >
+                  <div class="review_box" th:each="develop, status : ${wineDevelopList}">
+                    <div class="avatar">
+                      <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                           th:class="profile_img"
+                           onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className='profile_img'">
+
+                    </div>
+
+                    <div class="post-comment">
+                      <div class="post-rating">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                      </div>
+                      <div class="comment-title comment" th:text="${develop.memberId}"></div> <!-- 멤버아이디로 멤버이름 불러오는 메소드 js로 만들거나 에초에 멤버아이디 말고 멤버 받도록 하거나 -->
+                      <div class="comment-text comment" th:text="${develop.expertComment}">
+
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- /post-bottom-second -->
+
+                <!-- 페이지 네이션 -->
+                <!--                  <div class="blog-pagination text-center"-->
+                <!--                       th:with="start=${(wines.number / maxPage) * maxPage + 1},-->
+                <!--                                        end=${(wines.totalPages == 0) ?-->
+                <!--                                        1 : (start + (maxPage - 1) < wines.totalPages ?-->
+                <!--                                        start + (maxPage - 1) : wines.totalPages)}">-->
+                <!--                    <ul class="flat-pagination">-->
+                <!--                      <li class="prev hvr-shutter-out-horizontal" th:classappend="${wines.first} ? 'disabled'">-->
+                <!--                        <a th:onclick="'javascript:page(' + ${wines.number -1} + ')'" aria-label="Previous" >-->
+                <!--                          <i class="fa fa-angle-left" aria-hidden="true"></i>-->
+                <!--                        </a>-->
+                <!--                      </li>-->
+                <!--                      <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}">-->
+                <!--                        <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text" >-->
+                <!--                          [[${page}]]-->
+                <!--                        </a>-->
+                <!--                      </li>-->
+                <!--                      <li class="next hvr-shutter-out-horizontal" th:classappend="${wines.last} ? 'disabled'">-->
+                <!--                        <a th:onclick="'javascript:page(' + ${wines.number + 1} + ')'" aria-label="Next" >-->
+                <!--                          <i class="fa fa-angle-right" aria-hidden="true"></i>-->
+                <!--                        </a>-->
+                <!--                      </li>-->
+                <!--                    </ul>-->
+                <!--                  </div>-->
+
+                <div class="comment-respond">
+                  <form class="comment-form">
+                    <!-- 전문가 맛 그래프 입력 폼 -->
+                    <p>Add Review</p>
+                    <div class="pro-taste">
+                      <div class="taste-like">
+                        <div class="taste-category">
+                          <h3>Body</h3>
+                          <select class="select-option">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+
+                        </div>
+
+                        <div class="taste-category">
+                          <h3>Tannin</h3>
+                          <select class="select-option">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+
+                        <div class="taste-category">
+                          <h3>Sweetness</h3>
+                          <select class="select-option">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+
+                        <div class="taste-category">
+                          <h3>Acidity</h3>
+                          <select class="select-option">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+
+                        <div class="taste-category">
+                          <h3>Fizz</h3>
+                          <select class="select-option">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+                      </div>
+
+                    </div>
+
+
+
+                    <!-- 전문가 아로마 휠, 페어링 입력 폼 -->
+
+                    <div class="pro-taste">
+                      <div class="taste-like">
+
+                      <!--   아로마 휠 & 푸드 페어링       -->
+                        <div class="taste-category">
+                        <h3>Aroma1</h3>
+                        <select>
+                          <option value="Citrus">Citrus</option>
+                          <option value="TreeFruit">TreeFruit</option>
+                          <option value="StoneFruit">StoneFruit</option>
+                          <option value="TropicalFruit">TropicalFruit</option>
+                          <option value="Berry">Berry</option>
+                          <option value="Floral">Floral</option>
+                          <option value="Herb">Herb</option>
+                          <option value="Vegetable">Vegetable</option>
+                          <option value="Fermented">Fermented</option>
+                          <option value="Roasted">Roasted</option>
+                          <option value="Spice">Spice</option>
+                          <option value="Nuts">Nuts</option>
+                          <option value="Tree">Tree</option>
+                          <option value="Sugar">Sugar</option>
+                          <option value="Fungi">Fungi</option>
+                        </select>
+                      </div>
+
+                        <div class="taste-category">
+                        <h3>Aroma2</h3>
+                        <select>
+                          <option value="Citrus">Citrus</option>
+                          <option value="TreeFruit">TreeFruit</option>
+                          <option value="StoneFruit">StoneFruit</option>
+                          <option value="TropicalFruit">TropicalFruit</option>
+                          <option value="Berry">Berry</option>
+                          <option value="Floral">Floral</option>
+                          <option value="Herb">Herb</option>
+                          <option value="Vegetable">Vegetable</option>
+                          <option value="Fermented">Fermented</option>
+                          <option value="Roasted">Roasted</option>
+                          <option value="Spice">Spice</option>
+                          <option value="Nuts">Nuts</option>
+                          <option value="Tree">Tree</option>
+                          <option value="Sugar">Sugar</option>
+                          <option value="Fungi">Fungi</option>
+                        </select>
+                      </div>
+
+                        <div class="taste-category">
+                        <h3>Paring1</h3>
+                        <select>
+                          <option value="Beef">Beef</option>
+                          <option value="Chicken">Chicken</option>
+                          <option value="Pork">Pork</option>
+                          <option value="Mushroom">Mushroom</option>
+                          <option value="Charcuterie">Charcuterie</option>
+                          <option value="Cheese">Cheese</option>
+                          <option value="Pasta">Pasta</option>
+                          <option value="Spicy">Spicy</option>
+                          <option value="Snack">Snack</option>
+                          <option value="Shell">Shell</option>
+                          <option value="Fish">Fish</option>
+                          <option value="Vegetable">Vegetable</option>
+                        </select>
+                      </div>
+
+                        <div class="taste-category">
+                        <h3>Paring2</h3>
+                        <select>
+                          <option value="Beef">Beef</option>
+                          <option value="Chicken">Chicken</option>
+                          <option value="Pork">Pork</option>
+                          <option value="Mushroom">Mushroom</option>
+                          <option value="Charcuterie">Charcuterie</option>
+                          <option value="Cheese">Cheese</option>
+                          <option value="Pasta">Pasta</option>
+                          <option value="Spicy">Spicy</option>
+                          <option value="Snack">Snack</option>
+                          <option value="Shell">Shell</option>
+                          <option value="Fish">Fish</option>
+                          <option value="Vegetable">Vegetable</option>
+                        </select>
+                      </div>
+                      </div>
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                    <p class="your-rating">Rating</p>
+                    <div class="my-rating">
+                      <i class="fa fa-star" aria-hidden="true" data-value="1"></i>
+                      <i class="fa fa-star" aria-hidden="true" data-value="2"></i>
+                      <i class="fa fa-star" aria-hidden="true" data-value="3"></i>
+                      <i class="fa fa-star" aria-hidden="true" data-value="4"></i>
+                      <i class="fa fa-star" aria-hidden="true" data-value="5"></i>
+                    </div>
+                    <p class="comment-form-comment">
+                      <!-- <label>Comment</label>  -->
+                      <textarea  name="comment" placeholder="Comment" required="required"></textarea>
+                    </p>
+                    <p class="submit-form">
+                      <button name="submit" type="submit"  class="submit btn btn-styl hvr-shutter-out-horizontal" >SUBMIT</button>
+                    </p>
+                  </form>
+                </div>  <!-- /comment-respond -->
+              </div>
+              <!--    사용자 리뷰      -->
+              <div id="tab-reviews" class="tab-content">
+                <div id="reviews" class="woocommerce-Reviews">
+                  <div class="post-bottom-second post-bottom">
+                    <div class="avatar">
+                      <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                           th:class="profile_img"
+                           onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className='profile_img'">
+                      <div class="post-rating">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                    <div class="post-comment">
+                      <div class="comment-meta comment"><a href="#"> May 28, 2018</a></div>
+                      <div class="comment-title comment"><a href="#">Brandon Kelley</a></div>
+                      <div class="comment-text comment">
+                        <a href="#">Vasse Felix chief executive, Paul Holmes a Court said no plans have yet been made for the buildings on the property</a>
+                      </div>
+                    </div>
+                  </div> <!-- /post-bottom-second -->
+
+                  <!-- 페이지 네이션 -->
+<!--                  <div class="blog-pagination text-center"-->
+<!--                       th:with="start=${(wines.number / maxPage) * maxPage + 1},-->
+<!--                                        end=${(wines.totalPages == 0) ?-->
+<!--                                        1 : (start + (maxPage - 1) < wines.totalPages ?-->
+<!--                                        start + (maxPage - 1) : wines.totalPages)}">-->
+<!--                    <ul class="flat-pagination">-->
+<!--                      <li class="prev hvr-shutter-out-horizontal" th:classappend="${wines.first} ? 'disabled'">-->
+<!--                        <a th:onclick="'javascript:page(' + ${wines.number -1} + ')'" aria-label="Previous" >-->
+<!--                          <i class="fa fa-angle-left" aria-hidden="true"></i>-->
+<!--                        </a>-->
+<!--                      </li>-->
+<!--                      <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}">-->
+<!--                        <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text" >-->
+<!--                          [[${page}]]-->
+<!--                        </a>-->
+<!--                      </li>-->
+<!--                      <li class="next hvr-shutter-out-horizontal" th:classappend="${wines.last} ? 'disabled'">-->
+<!--                        <a th:onclick="'javascript:page(' + ${wines.number + 1} + ')'" aria-label="Next" >-->
+<!--                          <i class="fa fa-angle-right" aria-hidden="true"></i>-->
+<!--                        </a>-->
+<!--                      </li>-->
+<!--                    </ul>-->
+<!--                  </div>-->
+
+
+                  <div class="comment-respond">
+                    <form class="comment-form">
+                      <p>Add Review</p>
+
+                      <div class="clearfix"></div>
+                      <p class="your-rating">Rating</p>
+                      <div class="my-rating">
+                        <i class="fa fa-star" aria-hidden="true" data-value="1"></i>
+                        <i class="fa fa-star" aria-hidden="true" data-value="2"></i>
+                        <i class="fa fa-star" aria-hidden="true" data-value="3"></i>
+                        <i class="fa fa-star" aria-hidden="true" data-value="4"></i>
+                        <i class="fa fa-star" aria-hidden="true" data-value="5"></i>
+                      </div>
+                      <p class="comment-form-comment">
+                        <!-- <label>Comment</label>  -->
+                        <textarea  name="comment" placeholder="Comment" required="required"></textarea>
+                      </p>
+                      <p class="submit-form">
+                        <button name="submit" type="submit"  class="submit btn btn-styl hvr-shutter-out-horizontal" >SUBMIT</button>
+                      </p>
+                    </form>
+                  </div>  <!-- /comment-respond -->
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 
 

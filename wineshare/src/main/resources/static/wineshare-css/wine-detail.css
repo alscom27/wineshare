@@ -6,23 +6,14 @@ table {
 }
 
 th, td {
-
   padding: 5px; /* 패딩 */
   text-align: left; /* 왼쪽 정렬 */
-  border-left:1px solid #000000
-
-  border- right:1px solid #000000
-
-  border- top:1px solid #000000
-
-  border- bottom:1px solid #000000
 
 }
 
 
-
 td:nth-child(even) {
-  width: 100%; /* 짝수 행 배경 색상 */
+  width: 100%;
 }
 
 .taste-Graph .progress {
@@ -127,7 +118,7 @@ td:nth-child(even) {
 .fa-star {
     font-size: 20px;
     color: #ccc; /* 비활성화된 별 색상 */
-    transition: color 0.2s;
+    /*transition: color 0.2s;*/
 }
 
 .fa-star.active {
@@ -135,79 +126,29 @@ td:nth-child(even) {
 }
 
 
-.aromaOne{
-     width:10%;
-     text-align:center;
-}
 
-.foodOne{
-    width:10%;
-    text-align:center;
-}
 
-.aromaOne h5{
-    padding: 10px;
-}
-
-.foodOne h5{
-    padding: 10px;
-}
-
-.admin-review{
-    width:80%;
-    margin: 0 auto;
-    height:150px;
-    display:flex;
-    justify-content: space-evenly;
-
-}
 
 .taste-like{
-    width:80%;
+    width:98%;
     margin: 0 auto;
-    height:200px;
     display:flex;
     justify-content: space-evenly;
     gap: 5px;
 }
 
-.taste-body{
-
-      width:15%;
-      text-align:center;
-}
-
-.taste-tannin{
-
-       width:15%;
-       text-align:center;
-}
-
-.taste-sweetness{
-
-    width:15%;
+.taste-category{
+    width:20%;
     text-align:center;
-}
-
-.taste-acidity{
-
-    width:15%;
-    text-align:center;
-}
-
-.taste-fizz{
-
-    width:15%;
-    text-align:center;
+    font-size: 0.9em;
 }
 
 .taste-like h3{
-    font-weight: bold;
+    font-size: 0.9em;
     padding: 10px;
 }
 
 .select-option{
-    width:40%;
     margin: 0 auto;
 }
 
