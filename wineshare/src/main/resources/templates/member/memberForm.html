@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf.layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
 <!-- register css Fiels -->
 <th:block layout:fragment="css">
 <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/register.css}">
@@ -27,7 +29,7 @@
         <h1 class="header">Create Account</h1>
 
         <!-- 타임리프를 사용한 회원가입 폼 -->
-        <form th:action="@{/register}" method="post" class="login-form">
+        <form th:action="@{/templates/register}" method="post" class="login-form">
 
             <!-- 이메일 입력 -->
             <div class="form-group">
@@ -71,11 +73,10 @@
 
         <div class="footer-text">
             <!-- 로그인 페이지로 이동 -->
-            Already have an account? <a th:href="@{/login}">Sign In</a>
+            Already have an account? <a th:href="@{/templates/login}">Sign In</a>
         </div>
     </div>
 
-    <a id="scroll-top"><i class="fa fa-angle-right" aria-hidden="true"></i></a> <!-- /#scroll-top -->
 </div>
 
 

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -23,9 +25,10 @@ public class MemberController {
    private final PasswordEncoder passwordEncoder;
 
   @GetMapping("/new")
-  public String memberForm(Model model){
+  public String memberForm(Model model, HttpServletRequest request ){
+    HttpSession session = request.getSession();
     model.addAttribute("memberDTO", new MemberDTO());
-    return "/member/memberForm";
+    return "member/memberForm";
   }
 
   @PostMapping("/new")
@@ -37,8 +40,8 @@ public class MemberController {
     }
 
     try{
-//      Member member = Member.createMember(memberDTO, passwordEncoder);
-//      memberService.saveMember(member);
+      Member member = Member.createMember(memberDTO, passwordEncoder);
+      memberService.saveMember(member);
     }catch(IllegalStateException e){
       model.addAttribute("errorMessage", e.getMessage());
       return "member/memberForm";
