@@ -151,5 +151,9 @@ public class WineService {
         wine.getMember().getId(), wine.getWineImg()); // 각 항목 널일때.. 어떻게 처리할지 다 잡아야하나? 초기값으로 넣은 데이터들은 조인된 멤버테이블의 정보가 없어.
     return wineDTO;
   }
+
+  public Wine getWineById(Long id) {
+    return wineRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+  }
 }
 

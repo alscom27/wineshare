@@ -2,11 +2,13 @@ package com.keduit.wineshare.controller;
 
 import com.keduit.wineshare.dto.PriceRangeDTO;
 import com.keduit.wineshare.dto.WineDTO;
+import com.keduit.wineshare.dto.WineDevelopDTO;
 import com.keduit.wineshare.dto.WineSearchDTO;
 import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.entity.Wine;
 import com.keduit.wineshare.repository.WineRepository;
 import com.keduit.wineshare.service.MemberService;
+import com.keduit.wineshare.service.WineDevelopService;
 import com.keduit.wineshare.service.WineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,6 +33,7 @@ public class WineController {
   private final WineService wineService;
   private final MemberService memberService;
   private final WineRepository wineRepository;
+  private final WineDevelopService wineDevelopService;
 
   // 와인 목록
   @GetMapping({"/list", "/list/{page}"})
@@ -93,9 +96,14 @@ public class WineController {
 
   // 와인상세
   @GetMapping("/wine/{wineId}")
-  public String wineDetail(Model model, @PathVariable("wineId") Long wineId) {
+  public String wineDetail(@PathVariable("wineId") Long wineId, Model model) {
+    Wine wine = wineService.getWineById(wineId);
     WineDTO wineDTO = wineService.getWineDetail(wineId);
+    WineDevelopDTO wineDevelopCount = wineDevelopService.getCountDevelop(wine);
+    List<WineDevelopDTO> wineDevelopDTOList = wineDevelopService.findAllByWine(wine);
     model.addAttribute("wine", wineDTO);
+    model.addAttribute("wineDevelopCount", wineDevelopCount);
+    model.addAttribute("wineDevelopList", wineDevelopDTOList);
     return "wine/wineDetail";
   }
 

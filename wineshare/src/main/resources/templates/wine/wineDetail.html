@@ -6,11 +6,17 @@
 <!-- 추가된 css -->
 <th:block layout:fragment="css">
   <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/wine-detail.css}">
+  <style>
+    .profile_img {
+      width: 50px;
+      height: 50px;
+    }
+  </style>
 </th:block>
 
 <!-- 추가된 js 이렇게 경로주는게 맞나싶어요... -->
 <th:block layout:fragment="script">
-  <link rel="javascript" type="text/javascript" th:href="@{/wine-detail.js}">
+  <script type="text/javascript" th:href="@{/wine-detail.js}"></script>
 </th:block>
 
 
@@ -31,7 +37,7 @@
       </div>
     </div>
   </div> <!-- /.page-title -->
-  <div class="main-shop-detail-review">
+  <div class="main-shop-detail-review" >
     <section class="main-shop-detail">
       <div class="container">
         <div class="row">
@@ -43,7 +49,9 @@
                     <div class="gallery-item" >
                       <div class="inner">
                         <div class="thumb">
-                          <img src="/main/image/homepage152.png" alt="Image">
+                          <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                               th:class="wine_image"
+                               onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className=''">
                           <div class="search-images">
                             <a data-type="iframe" href="/main/image/homepage127.png" class="zoom-pic" >
                               <i class="icon_zoom-in_alt "  aria-hidden="true"></i>
@@ -55,9 +63,11 @@
                     <div class="gallery-item" >
                       <div class="inner">
                         <div class="thumb">
-                          <img src="/main/image/homepage152.png" alt="Image">
+                          <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                               th:class="wine_image"
+                               onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className=''">
                           <div class="search-images">
-                            <a data-type="iframe" href="/main/image/homepage127.png" class="zoom-pic" >
+                            <a data-type="iframe" th:href="@{image/homepage127.png}" class="zoom-pic" >
                               <i class="icon_zoom-in_alt "  aria-hidden="true"></i>
                             </a>
                           </div>
@@ -67,7 +77,9 @@
                     <div class="gallery-item active" >
                       <div class="inner">
                         <div class="thumb">
-                          <img src="/main/image/homepage152.png" alt="Image">
+                          <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                               th:class="wine_image"
+                               onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className=''">
                           <div class="search-images">
                             <a data-type="iframe" href="/main/image/homepage127.png" class="zoom-pic" >
                               <i class="icon_zoom-in_alt "  aria-hidden="true"></i>
@@ -83,34 +95,35 @@
           </div>
           <div class="col-lg-6 col-md-6">
             <div class="content-wrap">
-              <h2 class="heading"><a href="">Vivonne sauvignon 1988</a></h2>
-              <div class="post-rating">
+              <h2 class="heading" th:text="${wine.wineName}"></h2>
+              <div class="post-rating" th:text="${wineDevelopCount.ExpertRating}">
                 <i class="fa fa-star" aria-hidden="true"></i>
                 <i class="fa fa-star" aria-hidden="true"></i>
                 <i class="fa fa-star" aria-hidden="true"></i>
                 <i class="fa fa-star" aria-hidden="true"></i>
                 <i class="fa fa-star" aria-hidden="true"></i>
               </div>
-              <h2 class="dolar">$19.99</h2>
-              <div class="content-text">
-                <p>A New Generation of Winernakers Lorem ipsum dolor sit amet sectetu adipiscing elit. Aenean commodo ligula eget dolor.</p>
-              </div>
+              <h2 class="dolar" th:text="${wine.price == null || wine.price == 0 ? '가격정보없음' : wine.price + ' ₩'}">$19.99</h2>
+
               <div class="info-content">
                 <ul>
                   <li>
-                                <span>
-                                    <span class="note">Name: </span> 01NA55
-                                </span>
+                    <span class="note">
+                      Type:
+                      <span th:text="${wine.wineType}"></span>
+                    </span>
                   </li>
                   <li>
-                                <span>
-                                    <span class="note">Country:</span> Italy
-                                </span>
+                    <span class="note">
+                      Country:
+                      <span th:text="${wine.country}"></span>
+                    </span>
                   </li>
                   <li>
-                                <span>
-                                    <span class="note">Type:</span>  Red
-                                </span>
+                    <span class="note">
+                      Region:
+                      <span th:text="${wine.region}"></span>
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -168,7 +181,9 @@
                 <div id="reviews" class="woocommerce-Reviews">
                   <div class="post-bottom-second post-bottom">
                     <div class="avatar">
-                      <img src="/main/image/comment1.jpg" alt="image">
+                      <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' || wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                           th:class="wine_image"
+                           onerror="this.onerror=null; this.src='/image/wineDefault.png'; this.className='profile_img'">
                       <div class="post-rating">
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -232,8 +247,8 @@
             <div class="tasteStructureNm">Light</div>
           </td>
           <td>
-            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5">
-              <div class="progress-bar" style="width: 75%;"></div>
+            <div class="progress" role="progressbar" aria-label="Basic example" th:aria-valuenow="${wineDevelopCount.body}" aria-valuemin="0" aria-valuemax="5">
+              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.body / 5 * 100} + '%') + '; position:relative; width: 10%; transform: translateX(-10%);'"></div>
             </div>
 
           </td>
@@ -248,7 +263,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" style="width: 75%;"></div>
+              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.tannin / 5 * 100} + '%') + '; position:relative; width: 10%;'"></div>
             </div>
 
           </td>
@@ -263,7 +278,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" style="width: 75%;"></div>
+              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.sweetness / 5 * 100} + '%') + '; position:relative; width: 10%;'"></div>
             </div>
 
           </td>
@@ -278,7 +293,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" style="width: 75%;"></div>
+              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.acidity / 5 * 100} + '%') + '; position:relative; width: 10%; transform: translateX(-10%);'"></div>
             </div>
 
           </td>
@@ -292,7 +307,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" style="width: 75%;"></div>
+              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.fizz / 5 * 100} + '%') + '; position:relative; width: 10%;'"></div>
             </div>
 
           </td>

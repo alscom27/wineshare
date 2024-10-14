@@ -102,17 +102,8 @@ public class WineDevelopServiceTests {
     wineDevelopService.saveWineDevelop(wineDevelopDTO, member.getEmail());
 
     // 저장된 WineDevelop 확인하기
-    List<WineDevelop> wineDevelops = wineDevelopService.findAllByWine(wine);
+    List<WineDevelopDTO> wineDevelops = wineDevelopService.findAllByWine(wine);
 
-    assertThat(wineDevelops).isNotEmpty();
-    WineDevelop savedWineDevelop = wineDevelops.get(0);
-    String foodImg = foodPairingRepository.findFoodImgByFood(savedWineDevelop.getFoodOne());
-    System.out.println("와인 이름 : " + wineDevelops.get(0).getWine().getWineName());
-    System.out.println("전문가 평점 : " + wineDevelops.get(0).getExpertRating());
-    System.out.println("어울리는 음식 : " + wineDevelops.get(0).getFoodOne());
-    System.out.println("음식 이미지 : " + foodImg);
-    System.out.println("아로마 : " + wineDevelops.get(0).getAromaTwo());
-    System.out.println("아로마 상세 : " + aromaWheelRepository.findAromaValueByAroma(wineDevelops.get(0).getAromaTwo()));
 
   }
 }

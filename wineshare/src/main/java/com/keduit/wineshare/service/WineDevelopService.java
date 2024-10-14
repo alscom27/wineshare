@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,7 +56,47 @@ public class WineDevelopService {
 
 
   // 특정 와인에 속한 모든 와인디벨롭을 리스트로 반환 하는 메소드
-  public List<WineDevelop> findAllByWine(Wine wine) {
-    return wineDevelopRepository.findByWine(wine);
+  public List<WineDevelopDTO> findAllByWine(Wine wine) {
+
+    List<WineDevelop> wineDevelops = wineDevelopRepository.findByWine(wine);
+    List<WineDevelopDTO> wineDevelopDTOList = new ArrayList<>();
+    for (WineDevelop wineDevelop : wineDevelops) {
+      WineDevelopDTO wineDevelopDTO = new WineDevelopDTO();
+      wineDevelopDTO.setWindId(wineDevelop.getId());
+      wineDevelopDTO.setMemberId(wineDevelop.getMember().getId());
+      wineDevelopDTO.setExpertRating(wineDevelop.getExpertRating());
+      wineDevelopDTO.setExpertComment(wineDevelop.getExpertComment());
+      wineDevelopDTO.setSweetness(wineDevelop.getSweetness());
+      wineDevelopDTO.setAcidity(wineDevelop.getAcidity());
+      wineDevelopDTO.setBody(wineDevelop.getBody());
+      wineDevelopDTO.setTannin(wineDevelop.getTannin());
+      wineDevelopDTO.setFizz(wineDevelop.getFizz());
+      wineDevelopDTO.setAromaOne(wineDevelop.getAromaOne());
+      wineDevelopDTO.setAromaTwo(wineDevelop.getAromaTwo());
+      wineDevelopDTO.setFoodOne(wineDevelop.getFoodOne());
+      wineDevelopDTO.setFoodTwo(wineDevelop.getFoodTwo());
+      wineDevelopDTOList.add(wineDevelopDTO);
+    }
+
+    return wineDevelopDTOList;
+  }
+
+  // 리스트로 받은 와인디벨롭의 각 항목을 평균내거나 카운트하는 메소드
+  public WineDevelopDTO getCountDevelop(Wine wine) {
+    List<WineDevelop> wineDevelops = wineDevelopRepository.findByWine(wine);
+    double expertRating = wineDevelops.stream().mapToDouble(WineDevelop::getExpertRating).average().orElse(0.0);
+    double sweetness = wineDevelops.stream().mapToDouble(WineDevelop::getSweetness).average().orElse(0.0);
+    double acidity = wineDevelops.stream().mapToDouble(WineDevelop::getAcidity).average().orElse(0.0);
+    double body = wineDevelops.stream().mapToDouble(WineDevelop::getBody).average().orElse(0.0);
+    double tannin = wineDevelops.stream().mapToDouble(WineDevelop::getTannin).average().orElse(0.0);
+    double fizz = wineDevelops.stream().mapToDouble(WineDevelop::getFizz).average().orElse(0.0);
+    WineDevelopDTO wineDevelopDTO = new WineDevelopDTO();
+    wineDevelopDTO.setExpertRating(expertRating);
+    wineDevelopDTO.setSweetness(sweetness);
+    wineDevelopDTO.setAcidity(acidity);
+    wineDevelopDTO.setBody(body);
+    wineDevelopDTO.setTannin(tannin);
+    wineDevelopDTO.setFizz(fizz);
+    return wineDevelopDTO;
   }
 }
