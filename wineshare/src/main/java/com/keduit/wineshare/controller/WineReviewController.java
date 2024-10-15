@@ -20,7 +20,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("reviews")
 @RequiredArgsConstructor
-public class WinereviewController {
+public class WineReviewController {
 
   private final WineReviewRepository wineReviewRepository;
   private final WineReviewService wineReviewService;

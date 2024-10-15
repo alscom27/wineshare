@@ -19,7 +19,7 @@ public class WineDevelopDTO {
 
   private Long memberId;
 
-  @Min(0)
+  @Min(1)
   @Max(5)
   private double expertRating;
 

@@ -32,7 +32,7 @@ public class CellarController {
   private final CellarService cellarService;
 
   // 셀러 목록
-  @GetMapping("/cellar")
+  @GetMapping("/cellars")
   public String cellarList(Principal principal, Model model) {
     List<CellarDetailDTO> cellarDetailDTOList = cellarService.getCellarList(principal.getName());
     model.addAttribute("cellarWines", cellarDetailDTOList);
@@ -40,7 +40,7 @@ public class CellarController {
   }
 
   // 셀러에 와인 추가?
-  @PostMapping("/cellar")
+  @PostMapping("/cellars")
   public @ResponseBody ResponseEntity cellar(@RequestBody @Valid CellarWineDTO cellarWineDTO,
                                              BindingResult bindingResult,
                                              Principal principal) {

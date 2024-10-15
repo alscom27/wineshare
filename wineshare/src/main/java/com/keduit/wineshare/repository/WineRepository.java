@@ -1,5 +1,6 @@
 package com.keduit.wineshare.repository;
 
+import com.keduit.wineshare.constant.WineType;
 import com.keduit.wineshare.dto.WineDTO;
 import com.keduit.wineshare.dto.WineSearchDTO;
 import com.keduit.wineshare.entity.Wine;
@@ -27,10 +28,6 @@ public interface WineRepository extends JpaRepository<Wine, Long>, QuerydslPredi
   // 최대가격 조회
   @Query("SELECT MAX(w.price) FROM Wine w")
   Double findMaxPrice();
-
-
-
-
 
 
 }

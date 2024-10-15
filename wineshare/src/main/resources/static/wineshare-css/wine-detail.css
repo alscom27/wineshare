@@ -82,6 +82,7 @@ td:nth-child(even) {
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 200px; /* 카드의 너비 */
+    text-align: center;
 }
 
 .food {
@@ -92,6 +93,7 @@ td:nth-child(even) {
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 200px; /* 카드의 너비 */
+    text-align: center;
 }
 
 .aroma{
@@ -117,12 +119,12 @@ td:nth-child(even) {
 
 .fa-star {
     font-size: 20px;
-    color: #ccc; /* 비활성화된 별 색상 */
+    color: #ccc !important; /* 비활성화된 별 색상 */
     /*transition: color 0.2s;*/
 }
 
 .fa-star.active {
-    color: #ffb136; /* 활성화된 별 색상 */
+    color: #ffb136 !important; /* 활성화된 별 색상 */
 }
 
 
