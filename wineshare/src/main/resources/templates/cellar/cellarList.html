@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<!-- 사용자 css -->
+<th:block layout:fragment="css">
+  <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/wine-list.css}">
+</th:block>
+
+<!--/* 사용자 스크립트 추가 */-->
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+
+  </script>
+</th:block>
+
+<div layout:fragment="content" >
+
+
+    <!-- 각 페이지 상단에 경로 나타내주는 부분.. -->
+    <div class="page-title parallax parallax1">
+      <div class="container">
+        <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
+          <div class="breadcrumbs">
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Product</a></li>
+              <li class="blog"><a href="#">Shop Full Width</a></li>
+            </ul>
+          </div>
+          <div class="page-title-heading">
+            <h2 class="title"><a href="#">ARCHIVES PRODUCTS</a></h2>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /.page-title -->
+
+
+
+
+
+</div>
+</html>
