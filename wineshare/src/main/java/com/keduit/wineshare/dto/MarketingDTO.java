@@ -41,7 +41,7 @@ public class MarketingDTO {
 
   // 여기까지가 업장등록 밑에가되면 프로모션
 
-  private int checkEvent; //0이면 업장등록이고 1이면  // selected는 0으로(디폴트0)
+  // private int checkEvent; //0이면 업장등록이고 1이면  // selected는 0으로(디폴트0)
 
   private String checkContent;  //체크가 1이면 활성화 (행사내용)
 
