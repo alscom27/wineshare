@@ -1,0 +1,61 @@
+.login-form-container{
+    width:40%;
+    margin: 0 auto;
+    margin-top: 3%;
+    margin-bottom: 5%;
+    position: relative;
+    border: 1px solid #e5e5e5;
+    padding: 100px 20px;
+}
+
+.login-header{
+    position: absolute;
+    top: 10px;
+}
+
+.login-button{
+    position: absolute;
+    right: 2%;
+    bottom: 10px;
+    font-size: 14px;
+    color: #c02323;
+    border: 1px solid #c02323;
+    padding: 7px 35px;
+
+}
+
+.login-footer{
+    position:absolute;
+    bottom: 10px;
+
+}
+
+.account-container{
+    width:50%;
+     margin: 0 auto;
+        margin-top: 3%;
+        margin-bottom: 5%;
+        position: relative;
+        border: 1px solid #e5e5e5;
+        padding: 130px 20px;
+}
+
+.account-header{
+    position:absolute;
+    top:20px;
+}
+
+.rrn-group{
+    width: 53%;
+    display: flex;
+}
+
+.phone-group{
+    display: flex;
+    width:45%;
+}
+
+.form-group-phone{
+    position:absolute;
+    bottom: 60px;
+}

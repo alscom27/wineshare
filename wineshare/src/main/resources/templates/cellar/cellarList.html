@@ -11,7 +11,35 @@
 <!--/* 사용자 스크립트 추가 */-->
 <th:block layout:fragment="script">
   <script th:inline="javascript">
+    function deleteCartItem(obj){
+         console.log("obj => " + obj);
+         const cartItemId = obj.dataset.id;
+         const token = $("meta[name='_csrf']").attr("content");
+         const header = $("meta[name='_csrf_header']").attr("content");
+         const url = "/cellarWine/" + cellarWineId;
 
+         $.ajax({
+             url: url,
+             type: "DELETE",
+             beforeSend: function(xhr){
+                 xhr.setRequestHeader(header, token);
+             },
+             dataType: "json",
+             cache: false,
+             success: function(result, status){
+                 alert("찜한 상품을 삭제했습니다.");
+                 location.href = "/cellar";
+             },
+             error: function(xhr, status, error){
+                 if(xhr.status == '401'){
+                     alert("로그인 후 사용해주세요.");
+                     location.href = "/members/login";
+                 } else {
+                     alert(xhr.responseJSON.messages);
+                 }
+             }
+         })
+     }
   </script>
 </th:block>
 
