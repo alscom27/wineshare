@@ -1,6 +1,8 @@
 package com.keduit.wineshare.dto;
 
 import com.keduit.wineshare.entity.Member;
+import com.keduit.wineshare.entity.Wine;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,7 +17,7 @@ import java.util.List;
 @ToString
 public class WineDevelopDTO {
 
-  private Long windId;
+  private Long wineId;
 
   private Long memberId;
 
@@ -56,6 +58,22 @@ public class WineDevelopDTO {
   private String foodOne;
   private String foodTwo;
 
+  public WineDevelopDTO() {}
 
-
+  @QueryProjection
+  public WineDevelopDTO(Long wineId, Long memberId, double expertRating, String expertComment, double sweetness, double acidity, double body, double tannin, double fizz, String aromaOne, String aromaTwo, String foodOne, String foodTwo) {
+    this.wineId = wineId;
+    this.memberId = memberId;
+    this.expertRating = expertRating;
+    this.expertComment = expertComment;
+    this.sweetness = sweetness;
+    this.acidity = acidity;
+    this.body = body;
+    this.tannin = tannin;
+    this.fizz = fizz;
+    this.aromaOne = aromaOne;
+    this.aromaTwo = aromaTwo;
+    this.foodOne = foodOne;
+    this.foodTwo = foodTwo;
+  }
 }

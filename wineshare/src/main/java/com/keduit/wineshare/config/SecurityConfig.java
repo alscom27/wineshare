@@ -35,7 +35,7 @@ public class SecurityConfig {
     http.authorizeRequests()
         .mvcMatchers("/", "/members/**", "error", "favicon.ico",
             "/wines/**", "/wine", "/boards/**", "/marketings/**", "/admins/**",
-            "/cellars/**", "/cellar/**",
+            "/cellars/**", "/cellar/**", "/develops/**",
             // 여기부터 css
             "/contact/**",
             "/fonts/**",

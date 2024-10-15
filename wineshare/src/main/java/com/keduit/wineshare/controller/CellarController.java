@@ -36,7 +36,7 @@ public class CellarController {
   public String cellarList(Principal principal, Model model) {
     List<CellarDetailDTO> cellarDetailDTOList = cellarService.getCellarList(principal.getName());
     model.addAttribute("cellarWines", cellarDetailDTOList);
-    return "/cellar/cellarList";
+    return "cellar/cellarList";
   }
 
   // 셀러에 와인 추가?

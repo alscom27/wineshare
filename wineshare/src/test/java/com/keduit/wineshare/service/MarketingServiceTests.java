@@ -33,7 +33,6 @@ public class MarketingServiceTests {
     marketingDTO.setMarketingTitle("테스트 업장명");
     marketingDTO.setMarketingContent("테스트 업장 소개");
     marketingDTO.setMarketCategory(MarketCategory.BOTTLESHOP);
-    marketingDTO.setCheckEvent(0);
     marketingDTO.setEventOrNot(EventOrNot.END);
     marketingDTO.setMarketImg("테스트 업장 사진");
     marketingDTO.setMarketLink("테스트 업장 링크");

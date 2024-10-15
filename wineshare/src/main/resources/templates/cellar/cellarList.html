@@ -3,6 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
+<head>
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
 <!-- 사용자 css -->
 <th:block layout:fragment="css">
   <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/wine-list.css}">
@@ -11,6 +16,35 @@
 <!--/* 사용자 스크립트 추가 */-->
 <th:block layout:fragment="script">
   <script th:inline="javascript">
+    function deleteCellarWine(obj){
+      console.log("obj => " + obj);
+      const cellarWineId = obj.dataset.id;
+      const token = $("meta[name='_csrf']").attr("content");
+      const header = $("meta[name='_csrf_header']").attr("content");
+      const url = "/cellarWine/" + cellarWineId;
+
+      $.ajax({
+        url: url,
+        type: "DELETE",
+        beforeSend: function(xhr){
+          xhr.setRequestHeader(header, token);
+        },
+        dataType: "json",
+        cache: false,
+        success: function(result, status){
+          alert("찜한 상품을 삭제했습니다.");
+          location.href = "/cellar";
+        },
+        error: function(xhr, status, error){
+          if(xhr.status == '401'){
+            alert("로그인 후 사용해주세요.");
+            location.href = "/members/login";
+          } else {
+            alert(xhr.responseJSON.messages);
+          }
+        }
+      })
+    }
 
   </script>
 </th:block>
@@ -56,11 +90,11 @@
                   <tbody>
                   <tr th:each="cellarWine : ${cellarWines}">
                     <td class="text-center image"><img th:src="${cellarWine.wineImg}" th:alt="${cellarWine.cellarWineId}"></td>
-                    <td class="list text" th:text="${cellarWine.cellarWineId}"></td>
+                    <td class="list text" th:text="${cellarWine.wineName}"></td>
                     <td class="text-center list price" th:text="${cellarWine.wineType}"></td>
                     <td class="text-center delete">
                       <button class="close" type="button" aria-label="Close">
-                                        <span aria-hidden="true" th:data-id="${cellarwine.cellarWineId}"
+                                        <span aria-hidden="true" th:data-id="${cellarWine.cellarWineId}"
                                               onclick="deleteCellarWine(this)">x</span>
                       </button>
                     </td>

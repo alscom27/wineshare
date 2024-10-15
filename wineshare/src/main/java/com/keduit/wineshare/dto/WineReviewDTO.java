@@ -2,6 +2,7 @@ package com.keduit.wineshare.dto;
 
 import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.entity.Wine;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,8 +31,21 @@ public class WineReviewDTO {
 
   private Wine wine;
 
+  private Long wineId;
+
+  private Long memberId;
+
   private LocalDateTime regTime;
 
   private LocalDateTime updateTime;
 
+  public WineReviewDTO() {}
+
+  @QueryProjection
+  public WineReviewDTO(Long wineId, Long memberId, double regularRating, String regularReview) {
+    this.wineId = wineId;
+    this.memberId = memberId;
+    this.regularRating = regularRating;
+    this.regularReview = regularReview;
+  }
 }

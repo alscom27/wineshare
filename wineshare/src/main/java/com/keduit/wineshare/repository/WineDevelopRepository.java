@@ -4,11 +4,12 @@ import com.keduit.wineshare.entity.Wine;
 import com.keduit.wineshare.entity.WineDevelop;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface WineDevelopRepository extends JpaRepository<WineDevelop, Long> {
+public interface WineDevelopRepository extends JpaRepository<WineDevelop, Long>, QuerydslPredicateExecutor<WineDevelop>, WineDevelopRepositoryCustom{
 
   List<WineDevelop> findByWine(Wine wine);
 
