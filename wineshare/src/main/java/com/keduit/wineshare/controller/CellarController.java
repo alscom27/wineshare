@@ -47,7 +47,7 @@ public class CellarController {
   public void list(){
     log.info("cellarList");
   }
-  }
+}
 
 //  // 셀러에 와인 추가?
 //  @PostMapping("/cellars")

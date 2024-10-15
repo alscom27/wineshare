@@ -1,0 +1,37 @@
+.review-form{
+    width:80%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.review-form-title{
+    margin-top: 3%;
+    margin-bottom: 2.5%;
+}
+
+
+.review-button{
+    height: 50px;
+}
+
+.review-reg-button{
+    float:right;
+
+}
+
+
+.my-rating {
+    display: flex;
+    cursor: pointer;
+}
+
+.fa-star {
+    font-size: 20px;
+    color: #ccc !important; /* 비활성화된 별 색상 */
+    /*transition: color 0.2s;*/
+}
+
+.fa-star.active {
+    color: #ffb136 !important; /* 활성화된 별 색상 */
+}
+
