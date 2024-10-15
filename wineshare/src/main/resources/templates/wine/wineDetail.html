@@ -38,6 +38,12 @@
     .heart.mg-item-ct {
       cursor: pointer;
     }
+    .heart.mg-item-ct.active {
+      background-color: #c02323 !important;
+    }
+    .fa.fa-heart.active {
+      color: white !important;
+    }
   </style>
 </th:block>
 
@@ -45,13 +51,15 @@
 <th:block layout:fragment="script">
   <script type="text/javascript" th:href="@{/wine-detail.js}"></script>
   <script th:inline="javascript">
-    function addCellar() {
+    function addCellar(element) {
       const token = $("meta[name='_csrf']").attr("content");
       const header = $("meta[name='_csrf_header']").attr("content");
 
+      const wineId = $(element).data('wine-id');
+      console.log(wineId);
       const url = "/cellars";
       const paramData = {
-        wineId: $('#wineId').val()
+        wineId: wineId
       };
       const param = JSON.stringify(paramData);
 
@@ -66,7 +74,9 @@
         cache: false,
         success: function (result, status) {
           alert('셀러에 추가되었습니다.');
-          location.href = '/wines/wine/' + $('#wineId').val();
+          $(element).addClass('active')
+          $(element).find('i').addClass('active');
+          location.href = '/wines/wine/' + wineId;
         },
         error: function (xhr, status, error) {
           if (xhr.status == '401') {
@@ -178,10 +188,9 @@
               <div class="content-cart clearfix">
                 <br>
                 <div class="cart clearfix">
-                  <!-- 셀러에 넣을 때 쓸 아이디 -->
-                  <input type="hidden" id="wineId" th:value="${wine.id}">
-                  <div class="heart mg-item-ct" onclick="addCellar()">
-                    <i class="fa fa-heart" aria-hidden="true"></i>
+                  <div class="heart mg-item-ct" onclick="addCellar(this)" th:data-wine-id="${wine.id}"
+                       th:classappend="${isInCellar} ? 'active' : ''">
+                    <i class="fa fa-heart" aria-hidden="true" th:classappend="${isInCellar} ? 'active' : ''"></i>
                   </div>
                 </div>
               </div>

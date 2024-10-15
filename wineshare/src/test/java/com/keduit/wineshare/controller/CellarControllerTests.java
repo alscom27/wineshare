@@ -73,7 +73,7 @@ class CellarControllerTests {
   @WithMockUser(username = "test@example.com")
   void testAddCellar() throws Exception {
     CellarWineDTO cellarWineDTO = new CellarWineDTO();
-    cellarWineDTO.setWindId(1L);  // 적절한 와인 ID로 설정합니다.
+    cellarWineDTO.setWineId(1L);  // 적절한 와인 ID로 설정합니다.
 
     mockMvc.perform(post("/cellar")
             .contentType(MediaType.APPLICATION_JSON)

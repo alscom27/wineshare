@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/wines")
@@ -37,14 +34,32 @@ public class WineController {
   private final WineReviewService wineReviewService;
   private final AromaWheelService aromaWheelService;
   private final FoodPairingService foodPairingService;
+  private final CellarService cellarService;
 
   // 와인 목록
   @GetMapping({"/list", "/list/{page}"})
   public String wineList(WineSearchDTO wineSearchDTO,
                          @PathVariable("page") Optional<Integer> page,
-                         Model model) {
+                         Model model, Principal principal) {
     Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 12);
     Page<WineDTO> wines = wineService.getWinePage(wineSearchDTO, pageable);
+
+    // 사용자가 로그인했는지 확인하고, 로그인한 경우 셀러에 있는지 확인
+    if (principal != null) {
+      String email = principal.getName();
+      List<Boolean> isInCellarList = new ArrayList<>();
+
+      for (WineDTO wine : wines) {
+        boolean isInCellar = cellarService.isWineInCellar(wine.getId(), email);
+        isInCellarList.add(isInCellar);
+      }
+
+      model.addAttribute("isInCellarList", isInCellarList);
+    } else {
+      // 비로그인 상태에서는 모든 isInCellar 값을 false로 설정
+      List<Boolean> isInCellarList = Collections.nCopies(wines.getContent().size(), false);
+      model.addAttribute("isInCellarList", isInCellarList);
+    }
     model.addAttribute("wines", wines);
     model.addAttribute("wineSearchDTO", wineSearchDTO);
     model.addAttribute("maxPage", 5);
@@ -116,7 +131,7 @@ public class WineController {
 
   // 와인상세
   @GetMapping("/wine/{wineId}")
-  public String wineDetail(@PathVariable("wineId") Long wineId, Model model) {
+  public String wineDetail(@PathVariable("wineId") Long wineId, Model model, Principal principal) {
     Wine wine = wineService.getWineById(wineId);
     WineDTO wineDTO = wineService.getWineDetail(wineId);
     // 카운트, 평균낸 DTO
@@ -137,6 +152,11 @@ public class WineController {
 
     List<Wine> similarWineList = wineService.getSimilarWines(wine);
 
+    boolean isinCellar = false;
+    if (principal != null) {
+      isinCellar = cellarService.isWineInCellar(wineId, principal.getName());
+    }
+
     model.addAttribute("wine", wineDTO);
     model.addAttribute("wineDevelopCount", wineDevelopCount);
     model.addAttribute("wineDevelopList", wineDevelopDTOList);
@@ -146,6 +166,7 @@ public class WineController {
     model.addAttribute("foodOne", foodOne);
     model.addAttribute("foodTwo", foodTwo);
     model.addAttribute("similarWineList", similarWineList);
+    model.addAttribute("isInCellar", isinCellar);
     return "wine/wineDetail";
   }
 

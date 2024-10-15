@@ -36,8 +36,12 @@ public class CellarService {
 
   // 셀러에 추가하기
   public Long addCellar(CellarWineDTO cellarWineDTO, String email) {
-    Wine wine = wineRepository.findById(cellarWineDTO.getWindId())
+    Wine wine = wineRepository.findById(cellarWineDTO.getWineId())
         .orElseThrow(() -> new EntityNotFoundException("와인을 찾을 수 없습니다."));
+
+    if(email == null) {
+      throw new EntityNotFoundException("로그인 후 이용하세요.");
+    }
 
     Member member = memberRepository.findByEmail(email); // 이메일이니 아마도 프린시팔
 
@@ -86,6 +90,28 @@ public class CellarService {
       return false;
     }
     return true;
+  }
+
+  public boolean isWineInCellar(Long wineId, String email) {
+    // 사용자의 이메일로 Member 객체 조회
+    if (email == null) {
+      return false;
+    }
+
+    Member member = memberRepository.findByEmail(email);
+    if (member == null) {
+      return false; // 사용자가 존재하지 않으면 false 반환
+    }
+
+    // 사용자의 셀러를 조회
+    Cellar cellar = cellarRepository.findByMemberId(member.getId());
+    if (cellar == null) {
+      return false; // 셀러가 없으면 false 반환
+    }
+
+    // 해당 셀러에서 와인을 찾음
+    CellarWine cellarWine = cellarWineRepository.findByCellarIdAndWineId(cellar.getId(), wineId);
+    return cellarWine != null; // 와인이 존재하면 true, 존재하지 않으면 false 반환
   }
 
   // 셀러에 있는 와인 삭제하기

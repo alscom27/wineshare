@@ -2,10 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
 
 <!-- 사용자 css -->
 <th:block layout:fragment="css">
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/wine-list.css}">
+    <style>
+        .heart.mg-item-ct.active {
+            background-color: #c02323 !important;
+        }
+        .fa.fa-heart {
+            color: #c02323 !important;
+        }
+        .heart.mg-item-ct:hover .fa.fa-heart{
+            color: white !important;
+        }
+        .fa.fa-heart.active {
+            color: white !important;
+        }
+    </style>
 </th:block>
 
 <!--/* 사용자 스크립트 추가 */-->
@@ -126,6 +144,45 @@
     `);
         }
 
+        function addCellar(element) {
+            const token = $("meta[name='_csrf']").attr("content");
+            const header = $("meta[name='_csrf_header']").attr("content");
+
+            const wineId = $(element).data('wine-id');
+            console.log(wineId);
+            const url = "/cellars";
+            const paramData = {
+                wineId: wineId
+            };
+            const param = JSON.stringify(paramData);
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                data: param,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+                dataType: "json",
+                cache: false,
+                success: function (result, status) {
+                    alert('셀러에 추가되었습니다.');
+                    $(element).addClass('active')
+                    $(element).find('i').addClass('active');
+                    location.href = '/wines/wine/' + wineId;
+                },
+                error: function (xhr, status, error) {
+                    if (xhr.status == '401') {
+                        alert('로그인 후 이용하세요.');
+                        location.href = '/members/login';
+                    } else {
+                        alert(xhr.responseText);
+                    }
+                }
+            });
+        }
+
 
 
     </script>
@@ -235,9 +292,12 @@
                                                 <span class="product-title" th:text="${wine.wineName}">와인 이름</span>
                                             </div>
                                             <div class="product-review">
-                                                <div class="add-cart">
-                                                    <a href="#" class="like2"><i class="fa fa-heart-o"></i></a>
+                                                <div class="add-cart heart">
+                                                    <a class="heart mg-item-ct" onclick="addCellar(this)" th:data-wine-id="${wine.id}" th:classappend="${isInCellarList[status.index]} ? 'active' : ''">
+                                                        <i class="fa fa-heart" aria-hidden="true" th:classappend="${isInCellarList[status.index]} ? 'active' : ''"></i>
+                                                    </a>
                                                 </div>
+
                                             </div>
                                         </li> <!-- /product-item -->
                                     </ul>
