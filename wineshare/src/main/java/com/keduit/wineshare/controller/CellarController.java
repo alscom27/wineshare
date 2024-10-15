@@ -53,6 +53,9 @@ public class CellarController {
       return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
     }
 
+    if(principal == null) {
+      return new ResponseEntity<>("로그인 후 이용하세요.", HttpStatus.UNAUTHORIZED);
+    }
     String email = principal.getName();
     Long cellarWineId;
 

@@ -12,5 +12,5 @@ import javax.validation.constraints.NotNull;
 public class CellarWineDTO {
 
   @NotNull(message = "와인을 선택해주세요.")
-  private Long windId;
+  private Long wineId;
 }
