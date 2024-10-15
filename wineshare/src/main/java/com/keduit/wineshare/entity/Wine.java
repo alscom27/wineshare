@@ -1,5 +1,6 @@
 package com.keduit.wineshare.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.keduit.wineshare.constant.WineType;
 import com.keduit.wineshare.dto.WineDTO;
 import lombok.Data;
@@ -41,7 +42,9 @@ public class Wine extends BaseEntity {
   @JoinColumn(name = "member_id")
   private Member member;
 
+
   // WineDevelop과의 관계 설정
+  @JsonIgnore
   @OneToMany(mappedBy = "wine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<WineDevelop> wineDevelops; // WineDevelop 리스트
 

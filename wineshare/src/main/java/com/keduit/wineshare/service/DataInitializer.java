@@ -4,6 +4,7 @@ import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.constant.WineType;
 import com.keduit.wineshare.constant.WithdrawStatus;
 import com.keduit.wineshare.dto.WineDevelopDTO;
+import com.keduit.wineshare.dto.WineReviewDTO;
 import com.keduit.wineshare.entity.AromaWheel;
 import com.keduit.wineshare.entity.FoodPairing;
 import com.keduit.wineshare.entity.Member;
@@ -15,6 +16,7 @@ import com.keduit.wineshare.repository.WineRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -40,14 +42,18 @@ public class DataInitializer {
   private final WineRepository wineRepository;
   private final WineDevelopService wineDevelopService;
   private final MemberRepository memberRepository;
+  private final PasswordEncoder passwordEncoder;
+  private final WineReviewService wineReviewService;
 
   @Autowired
-  public DataInitializer(FoodPairingRepository foodPairingRepository, AromaWheelRepository aromaWheelRepository, WineRepository wineRepository, WineDevelopService wineDevelopService, MemberRepository memberRepository) {
+  public DataInitializer(FoodPairingRepository foodPairingRepository, AromaWheelRepository aromaWheelRepository, WineRepository wineRepository, WineDevelopService wineDevelopService, MemberRepository memberRepository, PasswordEncoder passwordEncoder, WineReviewService wineReviewService) {
     this.foodPairingRepository = foodPairingRepository;
     this.aromaWheelRepository = aromaWheelRepository;
     this.wineRepository = wineRepository;
     this.wineDevelopService = wineDevelopService;
     this.memberRepository = memberRepository;
+    this.passwordEncoder = passwordEncoder;
+    this.wineReviewService = wineReviewService;
   }
 
   @PostConstruct // 최초 실행시 메소드 실행해줌
@@ -128,7 +134,9 @@ public class DataInitializer {
               int randomCount = getRandomDevelopCount(15, 20);
               for (int i = 0; i < randomCount; i++) {
                 WineDevelopDTO wineDevelopDTO = createRandomWineDevelop(wine, member);
+                WineReviewDTO wineReviewDTO = createRandomWineReview(wine, member);
                 wineDevelopService.saveWineDevelop(wineDevelopDTO, member.getEmail());
+                wineReviewService.registerReview(wineReviewDTO);
               }
             }
           }
@@ -145,7 +153,8 @@ public class DataInitializer {
     member.setEmail("WineParsing@init.data");
     member.setName("olimwoojin");
     member.setNickname("오리무진");
-    member.setPassword("olimwoojin");
+    String password = passwordEncoder.encode("olimwoojin");
+    member.setPassword(password);
     member.setPhoneNumber("000-0000-0000");
     member.setRRN("000000-0000000");
     member.setMemberType(MemberType.ADMIN);
@@ -222,6 +231,17 @@ public class DataInitializer {
     return random.nextInt(max - min + 1) + min;
   }
 
+  private WineReviewDTO createRandomWineReview(Wine wine, Member member) {
+    WineReviewDTO wineReviewDTO = new WineReviewDTO();
+    Random random = new Random();
+    wineReviewDTO.setWine(wine);
+    wineReviewDTO.setMember(member);
+    wineReviewDTO.setRegularReview("Good Very Nice Wine! This is Perfect Website " + random.nextInt(100));
+    wineReviewDTO.setRegularRating(1 + (random.nextInt(5)));
+
+    return wineReviewDTO;
+  }
+
   private WineDevelopDTO createRandomWineDevelop(Wine wine, Member member) {
     WineDevelopDTO wineDevelopDTO = new WineDevelopDTO();
     Random random = new Random();
@@ -243,7 +263,7 @@ public class DataInitializer {
     wineDevelopDTO.setAromaTwo(getRandomItem(aromas, usedAromas));
     wineDevelopDTO.setFoodOne(getRandomItem(foods, usedFoods));
     wineDevelopDTO.setFoodTwo(getRandomItem(foods, usedFoods));
-    wineDevelopDTO.setWindId(wine.getId());
+    wineDevelopDTO.setWineId(wine.getId());
     wineDevelopDTO.setMemberId(member.getId());
 
     return wineDevelopDTO;

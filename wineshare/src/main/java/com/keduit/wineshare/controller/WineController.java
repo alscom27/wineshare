@@ -72,7 +72,8 @@ public class WineController {
   @GetMapping({"/list/json", "/list/json/{page}"})
   @ResponseBody // JSON을 반환하기 위해 추가
   public ResponseEntity<Map<String, Object>> wineListJson(WineSearchDTO wineSearchDTO,
-                                                          @PathVariable("page") Optional<Integer> page) {
+                                                          @PathVariable("page") Optional<Integer> page,
+                                                          Principal principal) {
     Pageable pageable = PageRequest.of(page.orElse(0), 12);
     Page<WineDTO> wines = wineService.getWinePage(wineSearchDTO, pageable);
 
@@ -81,6 +82,17 @@ public class WineController {
     response.put("totalPages", wines.getTotalPages());
     response.put("currentPage", wines.getNumber());
     response.put("maxPage", 5); // 필요에 따라 조정
+
+    // 사용자가 소장하고 있는지 확인
+    List<Boolean> isInCellarList = new ArrayList<>();
+    for (WineDTO wineDTO : wines.getContent()) {
+      boolean isinCellar = false;
+      if (principal != null) {
+        isinCellar = cellarService.isWineInCellar(wineDTO.getId(), principal.getName());
+      }
+      isInCellarList.add(isinCellar);
+    }
+    response.put("isInCellar", isInCellarList); // 각 와인에 대한 소장 여부 추가
 
     return ResponseEntity.ok(response);
   }
@@ -138,11 +150,6 @@ public class WineController {
     WineDevelopDTO wineDevelopCount = wineDevelopService.getCountDevelop(wine);
     // 리뷰 별점 평균 추가
     WineReviewDTO wineReviewRating = wineReviewService.getCountReviewRating(wine);
-    // 모든 평가 DTO 리스트
-    List<WineDevelopDTO> wineDevelopDTOList = wineDevelopService.findAllByWine(wine); // 이건 모델로도 쓰고..
-    // 페이지로 추가해야할것 // 이건 에이잭스인거같고..
-    // 모든 리뷰 DTO 리스트
-    // 페이지로 추가해야할것 // 이건 에이잭스 같고..
 
     // 아로마 객체..
     AromaWheel aromaOne = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaOne());
@@ -159,7 +166,6 @@ public class WineController {
 
     model.addAttribute("wine", wineDTO);
     model.addAttribute("wineDevelopCount", wineDevelopCount);
-    model.addAttribute("wineDevelopList", wineDevelopDTOList);
     model.addAttribute("wineReviewRating", wineReviewRating);
     model.addAttribute("aromaOne", aromaOne);
     model.addAttribute("aromaTwo", aromaTwo);

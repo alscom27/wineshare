@@ -44,6 +44,13 @@
     .fa.fa-heart.active {
       color: white !important;
     }
+    .disabled {
+      pointer-events: none; /* 클릭 이벤트 방지 */
+      opacity: 0.1; /* 비활성화된 효과 */
+    }
+    .page-active {
+      background-color: #c02323 !important;
+    }
   </style>
 </th:block>
 
@@ -51,12 +58,16 @@
 <th:block layout:fragment="script">
   <script type="text/javascript" th:href="@{/wine-detail.js}"></script>
   <script th:inline="javascript">
+    $(document).ready(function () {
+      const wineId = $('#getWineId').data('wine-id');
+      getWineDevelopList(wineId, 0);
+      getWineReviewList(wineId, 0);
+    });
     function addCellar(element) {
       const token = $("meta[name='_csrf']").attr("content");
       const header = $("meta[name='_csrf_header']").attr("content");
 
       const wineId = $(element).data('wine-id');
-      console.log(wineId);
       const url = "/cellars";
       const paramData = {
         wineId: wineId
@@ -76,7 +87,6 @@
           alert('셀러에 추가되었습니다.');
           $(element).addClass('active')
           $(element).find('i').addClass('active');
-          location.href = '/wines/wine/' + wineId;
         },
         error: function (xhr, status, error) {
           if (xhr.status == '401') {
@@ -87,6 +97,185 @@
           }
         }
       });
+    }
+
+    function getWineDevelopList(wineId, developPage) {
+      const token = $("meta[name='_csrf']").attr("content");
+      const header = $("meta[name='_csrf_header']").attr("content");
+      console.log(`/develops/${wineId}/${developPage}`);
+
+      $.ajax({
+        url: `/develops/${wineId}/${developPage}`, // 템플릿 리터럴 사용
+        type: 'GET',
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(header, token);
+        },
+        cache: false,
+        success: function(data) {
+          const wineDevelopListContainer = $('#wineDevelopListContainer');
+          wineDevelopListContainer.empty(); // 기존 내용 초기화
+
+          data.wineDevelops.forEach(function(develop) {
+            const expertRating = develop.expertRating != null ? Math.round(develop.expertRating) : 0;
+
+            const item = `
+                    <div class="avatar">
+                        <img src="/wineshare-img/people.png" alt="image" class="profile_img">
+                    </div>
+                    <div class="post-comment">
+                        <div class="post-rating">
+                            <span>
+                                ${Array.from({ length: expertRating }, () => `<i class="fa fa-star active" aria-hidden="true"></i>`).join('')}
+                                ${Array.from({ length: 5 - expertRating }, () => `<i class="fa fa-star" aria-hidden="true"></i>`).join('')}
+                            </span>
+                        </div>
+                        <div class="comment-title comment">${develop.memberId}</div>
+                        <div class="comment-text comment">${develop.expertComment}</div>
+                    </div>
+                `;
+            wineDevelopListContainer.append(item); // HTML 추가
+
+          });
+          updateDevelopPage(data.currentPage, data.totalPages)
+        },
+        error: function(xhr) {
+          console.error(xhr);
+          let errorMessage = '와인 평가 정보를 불러오지 못했습니다.';
+          if (xhr.status === 401) {
+            errorMessage = '로그인이 필요합니다.';
+          } else if (xhr.status === 500) {
+            errorMessage = '서버 오류가 발생했습니다. 나중에 다시 시도하세요.';
+          }
+          alert(errorMessage);
+        }
+      });
+    }
+
+    function updateDevelopPage(currentPage, totalPages) {
+      const wineId = $('#getWineId').data('wine-id');
+      const paginationContainer = $('#developPageContainer');
+      paginationContainer.empty(); // 기존 페이지네이션 비우기
+      // 이전 버튼
+      const prevDisabled = currentPage === 0 ? 'disabled' : '';
+      paginationContainer.append(`
+        <li class="prev hvr-shutter-out-horizontal ${prevDisabled}">
+            <a ${prevDisabled ? '' : 'onclick="getWineDevelopList(' + wineId + ',' + (currentPage - 1) + ')"'} aria-label="Previous">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </a>
+        </li>
+        `);
+      // maxPage를 정의합니다. (예: 5)
+      const maxPage = 5;
+      // 페이지 번호 계산
+      let start = Math.floor(currentPage / maxPage) * maxPage; // 현재 페이지 기준으로 시작
+      let end = Math.min(start + maxPage, totalPages); // 최대 maxPage 개수 표시
+      // 페이지 번호 추가
+      for (let i = start; i < end; i++) {
+        const activeClass = i === currentPage ? 'page-active' : '';
+        paginationContainer.append(`
+            <li class="hvr-shutter-out-horizontal ${activeClass}">
+                <a onclick="getWineDevelopList(${wineId}, ${i} )" aria-label="Page">${i + 1}</a>
+            </li>
+        `);
+      }
+      // 다음 버튼
+      const nextDisabled = currentPage === totalPages - 1 ? 'disabled' : '';
+      paginationContainer.append(`
+        <li class="next hvr-shutter-out-horizontal ${nextDisabled}">
+            <a ${nextDisabled ? '' : 'onclick="getWineDevelopList('+ wineId + ',' + (currentPage + 1) + ')"'} aria-label="Next">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+        </li>
+        `);
+    }
+
+    function getWineReviewList(wineId, reviewPage) {
+      const token = $("meta[name='_csrf']").attr("content");
+      const header = $("meta[name='_csrf_header']").attr("content");
+      console.log(`/reviews/${wineId}/${reviewPage}`);
+
+      $.ajax({
+        url: `/reviews/${wineId}/${reviewPage}`, // 템플릿 리터럴 사용
+        type: 'GET',
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(header, token);
+        },
+        cache: false,
+        success: function(data) {
+          const wineReviewListContainer = $('#wineReviewListContainer');
+          wineReviewListContainer.empty(); // 기존 내용 초기화
+
+          data.wineReviews.forEach(function(review) {
+            const reviewRating = review.regularRating != null ? Math.round(review.regularRating) : 0;
+
+            const item = `
+                    <div class="avatar">
+                        <img src="/wineshare-img/people.png" alt="image" class="profile_img">
+                    </div>
+                    <div class="post-comment">
+                        <div class="post-rating">
+                            <span>
+                                ${Array.from({ length: reviewRating }, () => `<i class="fa fa-star active" aria-hidden="true"></i>`).join('')}
+                                ${Array.from({ length: 5 - reviewRating }, () => `<i class="fa fa-star" aria-hidden="true"></i>`).join('')}
+                            </span>
+                        </div>
+                        <div class="comment-title comment">${review.memberId}</div>
+                        <div class="comment-text comment">${review.regularReview}</div>
+                    </div>
+                `;
+            wineReviewListContainer.append(item); // HTML 추가
+
+          });
+          updateReviewPage(data.currentPage, data.totalPages)
+        },
+        error: function(xhr) {
+          console.error(xhr);
+          let errorMessage = '와인 리뷰 정보를 불러오지 못했습니다.';
+          if (xhr.status === 401) {
+            errorMessage = '로그인이 필요합니다.';
+          } else if (xhr.status === 500) {
+            errorMessage = '서버 오류가 발생했습니다. 나중에 다시 시도하세요.';
+          }
+          alert(errorMessage);
+        }
+      });
+    }
+    function updateReviewPage(currentPage, totalPages) {
+      const wineId = $('#getWineId').data('wine-id');
+      const paginationContainer = $('#reviewPageContainer');
+      paginationContainer.empty(); // 기존 페이지네이션 비우기
+      // 이전 버튼
+      const prevDisabled = currentPage === 0 ? 'disabled' : '';
+      paginationContainer.append(`
+        <li class="prev hvr-shutter-out-horizontal ${prevDisabled}">
+            <a ${prevDisabled ? '' : 'onclick="getWineReviewList(' + wineId + ',' + (currentPage - 1) + ')"'} aria-label="Previous">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </a>
+        </li>
+        `);
+      // maxPage를 정의합니다. (예: 5)
+      const maxPage = 5;
+      // 페이지 번호 계산
+      let start = Math.floor(currentPage / maxPage) * maxPage; // 현재 페이지 기준으로 시작
+      let end = Math.min(start + maxPage, totalPages); // 최대 maxPage 개수 표시
+      // 페이지 번호 추가
+      for (let i = start; i < end; i++) {
+        const activeClass = i === currentPage ? 'page-active' : '';
+        paginationContainer.append(`
+            <li class="hvr-shutter-out-horizontal ${activeClass}">
+                <a onclick="getWineReviewList(${wineId}, ${i} )" aria-label="Page">${i + 1}</a>
+            </li>
+        `);
+      }
+      // 다음 버튼
+      const nextDisabled = currentPage === totalPages - 1 ? 'disabled' : '';
+      paginationContainer.append(`
+        <li class="next hvr-shutter-out-horizontal ${nextDisabled}">
+            <a ${nextDisabled ? '' : 'onclick="getWineReviewList('+ wineId + ',' + (currentPage + 1) + ')"'} aria-label="Next">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+        </li>
+        `);
     }
   </script>
 </th:block>
@@ -188,7 +377,7 @@
               <div class="content-cart clearfix">
                 <br>
                 <div class="cart clearfix">
-                  <div class="heart mg-item-ct" onclick="addCellar(this)" th:data-wine-id="${wine.id}"
+                  <div class="heart mg-item-ct" onclick="addCellar(this)" th:data-wine-id="${wine.id}" id="getWineId"
                        th:classappend="${isInCellar} ? 'active' : ''">
                     <i class="fa fa-heart" aria-hidden="true" th:classappend="${isInCellar} ? 'active' : ''"></i>
                   </div>
@@ -364,57 +553,17 @@
               <!--    전문가 리뷰      -->
               <div id="tab-description" class="tab-content">
                 <div class="post-bottom-second post-bottom" >
-                  <div class="review_box" th:each="develop, status : ${wineDevelopList}">
-                    <div class="avatar">
-                      <img th:src="@{/wineshare-img/people.png}" alt="image"
-                           th:class="profile_img">
-
-                    </div>
-
-                    <div class="post-comment">
-                      <div class="post-rating">
-                        <span th:with="end=${develop.expertRating != null ? T(java.lang.Math).round(develop.expertRating) : 0}">
-                            <span th:each="i : ${#numbers.sequence(1, end)}">
-                                <i class="fa fa-star active" aria-hidden="true"></i> <!-- 채워진 별 -->
-                            </span>
-                            <span th:each="i : ${#numbers.sequence(end + 1, 5)}" th:if="${end <= 4}">
-                                <i class="fa fa-star" aria-hidden="true"></i> <!-- 빈 별 -->
-                            </span>
-                        </span>
-                      </div>
-
-                      <div class="comment-title comment" th:text="${develop.memberId}"></div> <!-- 멤버아이디로 멤버이름 불러오는 메소드 js로 만들거나 에초에 멤버아이디 말고 멤버 받도록 하거나 -->
-                      <div class="comment-text comment" th:text="${develop.expertComment}">
-
-                      </div>
-                    </div>
+                  <div class="review_box" id="wineDevelopListContainer">
+                    <!-- 전문가 평가 들어올 자리 -->
                   </div>
                 </div> <!-- /post-bottom-second -->
 
                 <!-- 페이지 네이션 -->
-                <!--                  <div class="blog-pagination text-center"-->
-                <!--                       th:with="start=${(wines.number / maxPage) * maxPage + 1},-->
-                <!--                                        end=${(wines.totalPages == 0) ?-->
-                <!--                                        1 : (start + (maxPage - 1) < wines.totalPages ?-->
-                <!--                                        start + (maxPage - 1) : wines.totalPages)}">-->
-                <!--                    <ul class="flat-pagination">-->
-                <!--                      <li class="prev hvr-shutter-out-horizontal" th:classappend="${wines.first} ? 'disabled'">-->
-                <!--                        <a th:onclick="'javascript:page(' + ${wines.number -1} + ')'" aria-label="Previous" >-->
-                <!--                          <i class="fa fa-angle-left" aria-hidden="true"></i>-->
-                <!--                        </a>-->
-                <!--                      </li>-->
-                <!--                      <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}">-->
-                <!--                        <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text" >-->
-                <!--                          [[${page}]]-->
-                <!--                        </a>-->
-                <!--                      </li>-->
-                <!--                      <li class="next hvr-shutter-out-horizontal" th:classappend="${wines.last} ? 'disabled'">-->
-                <!--                        <a th:onclick="'javascript:page(' + ${wines.number + 1} + ')'" aria-label="Next" >-->
-                <!--                          <i class="fa fa-angle-right" aria-hidden="true"></i>-->
-                <!--                        </a>-->
-                <!--                      </li>-->
-                <!--                    </ul>-->
-                <!--                  </div>-->
+                <div class="blog-pagination text-center">
+                  <ul class="flat-pagination" id="developPageContainer">
+
+                  </ul>
+                </div>
 
                 <div class="comment-respond">
                   <form class="comment-form">
@@ -596,52 +745,18 @@
               </div>
               <!--    사용자 리뷰      -->
               <div id="tab-reviews" class="tab-content">
-                <div id="reviews" class="woocommerce-Reviews">
-                  <div class="post-bottom-second post-bottom">
-                    <div class="avatar">
-                      <img th:src="@{/wineshare-img/people.png}" alt="image"
-                           th:class="profile_img">
-                      <div class="post-rating">
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                      </div>
-                    </div>
-                    <div class="post-comment">
-                      <div class="comment-meta comment"><a href="#"> May 28, 2018</a></div>
-                      <div class="comment-title comment"><a href="#">Brandon Kelley</a></div>
-                      <div class="comment-text comment">
-                        <a href="#">Vasse Felix chief executive, Paul Holmes a Court said no plans have yet been made for the buildings on the property</a>
-                      </div>
+                  <div class="post-bottom-second post-bottom" >
+                    <div class="review_box" id="wineReviewListContainer">
+                      <!-- 전문가 평가 들어올 자리 -->
                     </div>
                   </div> <!-- /post-bottom-second -->
 
                   <!-- 페이지 네이션 -->
-<!--                  <div class="blog-pagination text-center"-->
-<!--                       th:with="start=${(wines.number / maxPage) * maxPage + 1},-->
-<!--                                        end=${(wines.totalPages == 0) ?-->
-<!--                                        1 : (start + (maxPage - 1) < wines.totalPages ?-->
-<!--                                        start + (maxPage - 1) : wines.totalPages)}">-->
-<!--                    <ul class="flat-pagination">-->
-<!--                      <li class="prev hvr-shutter-out-horizontal" th:classappend="${wines.first} ? 'disabled'">-->
-<!--                        <a th:onclick="'javascript:page(' + ${wines.number -1} + ')'" aria-label="Previous" >-->
-<!--                          <i class="fa fa-angle-left" aria-hidden="true"></i>-->
-<!--                        </a>-->
-<!--                      </li>-->
-<!--                      <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}">-->
-<!--                        <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text" >-->
-<!--                          [[${page}]]-->
-<!--                        </a>-->
-<!--                      </li>-->
-<!--                      <li class="next hvr-shutter-out-horizontal" th:classappend="${wines.last} ? 'disabled'">-->
-<!--                        <a th:onclick="'javascript:page(' + ${wines.number + 1} + ')'" aria-label="Next" >-->
-<!--                          <i class="fa fa-angle-right" aria-hidden="true"></i>-->
-<!--                        </a>-->
-<!--                      </li>-->
-<!--                    </ul>-->
-<!--                  </div>-->
+                  <div class="blog-pagination text-center">
+                    <ul class="flat-pagination" id="reviewPageContainer">
+
+                    </ul>
+                  </div>
 
 
                   <div class="comment-respond">
@@ -672,7 +787,6 @@
             </div>
           </div>
         </div>
-      </div>
     </section>
   </div>
 

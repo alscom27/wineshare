@@ -5,10 +5,12 @@ import com.keduit.wineshare.entity.*;
 import com.keduit.wineshare.repository.*;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ public class WineDevelopService {
   public void saveWineDevelop(WineDevelopDTO wineDevelopDTO, String email) {
 
     // Wine ID로 디벨롭을 등록할 와인을 가져온다
-    Wine wine = wineRepository.findById(wineDevelopDTO.getWindId()).orElseThrow(EntityNotFoundException::new);
+    Wine wine = wineRepository.findById(wineDevelopDTO.getWineId()).orElseThrow(EntityNotFoundException::new);
 
     // 멤버 가져오기
     Member member = memberRepository.findByEmail(email);
@@ -64,7 +66,7 @@ public class WineDevelopService {
     List<WineDevelopDTO> wineDevelopDTOList = new ArrayList<>();
     for (WineDevelop wineDevelop : wineDevelops) {
       WineDevelopDTO wineDevelopDTO = new WineDevelopDTO();
-      wineDevelopDTO.setWindId(wineDevelop.getId());
+      wineDevelopDTO.setWineId(wineDevelop.getWine().getId());
       wineDevelopDTO.setMemberId(wineDevelop.getMember().getId());
       wineDevelopDTO.setExpertRating(wineDevelop.getExpertRating());
       wineDevelopDTO.setExpertComment(wineDevelop.getExpertComment());
@@ -82,6 +84,12 @@ public class WineDevelopService {
 
     return wineDevelopDTOList;
   }
+
+  @Transactional(readOnly = true)
+  public Page<WineDevelopDTO> getDevelopPageByWine(Long wineId, Pageable pageable) {
+    return wineDevelopRepository.getDevelopPageByWine(wineId, pageable);
+  }
+
 
   // 리스트로 받은 와인디벨롭의 각 항목을 평균내거나 카운트하는 메소드
   public WineDevelopDTO getCountDevelop(Wine wine) {

@@ -25,10 +25,18 @@ public class WineReviewService {
     WineReview wineReview = new WineReview();
     wineReview.setRegularReview(wineReviewDTO.getRegularReview());
     wineReview.setRegularRating(wineReviewDTO.getRegularRating());
+    wineReview.setMember(wineReviewDTO.getMember());
+    wineReview.setWine(wineReviewDTO.getWine());
 
     // 우선 멤버는 principal로 보드는 패스배리어블로 될거라 믿는다
 
     wineReviewRepository.save(wineReview);
+  }
+
+  // 와인상세에서 리뷰 조회하기
+
+  public Page<WineReviewDTO> getReviewPageByWine(Long wineId, Pageable pageable){
+    return wineReviewRepository.getReviewPageByWine(wineId, pageable);
   }
 
   // 와인상세에 대한 리뷰 목록조회(페이지)

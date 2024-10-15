@@ -17,10 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("reviews")
+@RequestMapping("/reviews")
 @RequiredArgsConstructor
 @Log4j2
 public class WineReviewController {
@@ -58,13 +60,19 @@ public class WineReviewController {
   }
 
   // 특정 와인 상세 리뷰 목록 가져오기
-  @GetMapping(value = "/{wineId}/{page}", produces = "application/json")
-  public ResponseEntity<Page<WineReviewDTO>> getReviewWithPage(@PathVariable("wineId") Long wineId,
-                                                               @PathVariable("page")Optional<Integer> page){
-    Pageable pageable = PageRequest.of(page.orElse(0), 5);
-    Page<WineReviewDTO> reviews = wineReviewService.getWineReviewWithPage(wineId, pageable);
-    return new ResponseEntity<>(reviews, HttpStatus.OK);
+  @GetMapping({"/{wineId}", "/{wineId}/{reviewPage}"})
+  public ResponseEntity<Map<String, Object>> getWineReviewList(@PathVariable("wineId") Long wineId,
+                                                               @PathVariable("reviewPage") Optional<Integer> reviewPage){
+    Pageable pageable = PageRequest.of(reviewPage.orElse(0), 3);
+    Page<WineReviewDTO> reviews = wineReviewService.getReviewPageByWine(wineId, pageable);
 
+    Map<String, Object> response = new HashMap<>();
+    response.put("wineReviews", reviews.getContent());
+    response.put("currentPage", reviews.getNumber());
+    response.put("totalPages", reviews.getTotalPages());
+    response.put("maxPage", 5);
+
+    return ResponseEntity.ok(response);
   }
 
 

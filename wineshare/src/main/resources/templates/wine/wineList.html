@@ -62,8 +62,10 @@
                 success: function (response) {
                     const wineListContainer = $('#wineListContainer');
                     wineListContainer.empty();
-                    response.wines.forEach(function (wine) {
+
+                    response.wines.forEach(function (wine, index) {
                         const formattedPrice = wine.price == null || wine.price === 0 ? '가격정보없음' : new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(wine.price);
+                        const isInCellar = response.isInCellar[index];
                         const wineItem = `
                         <li class="product-item features arrivals">
                             <div class="product-thumb clearfix">
@@ -85,8 +87,10 @@
                                 <span class="product-title">${wine.wineName}</span>
                             </div>
                             <div class="product-review">
-                                <div class="add-cart">
-                                    <a href="#" class="like2"><i class="fa fa-heart-o"></i></a>
+                                <div class="add-cart heart">
+                                    <a class="heart mg-item-ct ${isInCellar ? 'active' : ''}" onclick="addCellar(this)" data-wine-id="${wine.id}">
+                                        <i class="fa fa-heart ${isInCellar ? 'active' : ''}" aria-hidden="true"></i>
+                                    </a>
                                 </div>
                             </div>
                         </li>
@@ -170,7 +174,6 @@
                     alert('셀러에 추가되었습니다.');
                     $(element).addClass('active')
                     $(element).find('i').addClass('active');
-                    location.href = '/wines/wine/' + wineId;
                 },
                 error: function (xhr, status, error) {
                     if (xhr.status == '401') {

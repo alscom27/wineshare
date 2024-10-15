@@ -1,5 +1,6 @@
 package com.keduit.wineshare.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -44,6 +45,7 @@ public class WineDevelop extends BaseEntity{
   @JoinColumn(name = "member_id")
   private Member member;
 
+  @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "wine_id")
   private Wine wine;
