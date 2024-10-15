@@ -36,6 +36,7 @@ public class Board extends BaseEntity {
     this.boardTitle = boardDTO.getBoardTitle();
     this.boardContent = boardDTO.getBoardContent();
     this.boardStatus = boardDTO.getBoardStatus();
+    this.member = boardDTO.getMember();
 
     if(this.boardImg != null){
       this.boardImg = boardDTO.getBoardImg();

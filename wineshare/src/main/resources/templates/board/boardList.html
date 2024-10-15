@@ -10,10 +10,43 @@
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
+        $(document).ready(function () {
+            // 검색 버튼 클릭 시 AJAX 요청
+            $('#searchBtn').on('click', function (event) {
+                event.preventDefault(); // 기본 폼 제출 방지
 
+                const searchType = $('select[name="searchType"]').val();
+                const searchQuery = $('input[name="searchQuery"]').val();
+                const boardStatus = $('#hidden-boardStatus').val().toLowerCase();
+
+                // AJAX GET 요청
+                $.ajax({
+                    url: `/boards/${boardStatus}/list/0`,
+                    type: 'GET',
+                    data: { searchType: searchType, searchQuery: searchQuery },
+                    success: function (response) {
+                        // 검색 결과를 처리 (페이지 업데이트)
+                        $('.board_list_wrap').html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        alert('검색 중 오류가 발생했습니다: ' + error);
+                    }
+                });
+            });
+
+           // 등록 버튼 클릭 시 등록 페이지로 이동
+            $('#regBtn').on('click', function (e) {
+                e.preventDefault();
+                const boardStatus = $('#hidden-boardStatus').val();
+                if (boardStatus) {
+                    window.location.href = `/boards/${boardStatus.toLowerCase()}/new`;
+                } else {
+                    alert('게시판 상태를 확인할 수 없습니다.');
+                }
+            });
+        });
     </script>
 </th:block>
-
 
 
 <div layout:fragment="content">
@@ -23,8 +56,33 @@
     <div class="board_wrap">
 
         <div class="board_title">
-            <strong>질문 게시판</strong>
+            <strong th:text="${boardStatus} + ' Board'">게시판</strong>
         </div>
+
+<!--        th:action="@{'/board/' + ${#strings.toLowerCase(boardStatus)} + '/list/' + ${boards.number}}"-->
+        <form role="form"
+              method="get">
+            <!--            th:object="${boards}"-->
+
+            <div class="form-group" th:object="${boardSearchDTO}">
+                <select th:field="*{searchType}" class="form-control">
+                    <option value="T">제목</option>
+                    <option value="C">작성자</option>
+                    <option value="W">내용</option>
+                </select>
+
+                <div class="form-group">
+                    <input type="text" th:field="*{searchQuery}" class="form-control" placeholder="Search">
+                </div>
+                <input type="hidden" th:value="${boardStatus}" id="hidden-boardStatus">
+                <p th:text="${boardDTOs.get(0).boardStatus}"></p>
+                <button type="submit" id="searchBtn" class="btn btn-default">
+                    <i class="fa fa-search"></i>
+                </button>
+                <button type="button" id="regBtn" class="hvr-shutter-out-horizontal">게시글 등록</button>
+            </div>
+        </form>
+
 
         <div class="board_list_wrap">
             <div class="board_list">
@@ -37,31 +95,47 @@
                 </div>
 
                 <!-- 게시글 목록 출력 -->
-                <div th:each="board, status: ${boards.getContent()}">
-                    <div class="num" th:text="${board.id}"></div>
-                    <div class="title"><a th:href="'/' + ${board.boardStatus} + '/get/' + ${board.id}" th:text="${board.boardTitle}"></a></div>
-                    <div class="writer" th:text="${board.regBy}"></div>
-                    <div class="date" th:text="${#temporals.format(board.regTime.toLocalDate(), 'yy-MM-dd')}"></div>
-    <!--                <div class="count" th:text=""></div>-->
+                <!--                th:each="board : ${boardDTOs}"-->
+                <div th:each="board : ${boardDTOs}">
+                    <div class="num" th:text="${board.getId()}"></div>
+                    <div class="title"><a
+                            th:href="'/boards/' + ${#strings.toLowerCase(board.getBoardStatus())} + '/get/' + ${board.getId()}"
+                            th:text="${board.boardTitle}"></a></div>
+                    <div class="writer" th:text="${board.getWriterNickname()}"></div>
+                    <div class="date" th:text="${#temporals.format(board.getCreateDate(), 'yy-MM-dd')}"></div>
+                    <!--                <div class="count" th:text=""></div>-->
                 </div>
             </div>
 
-            <!-- 페이지 네비게이션 -->
-            <div class="board_page">
-                <a href="#" class="bt first"><<</a>
-                <a href="#" class="bt prev"><</a>
-                <a href="#" class="num on">1</a>
-                <a href="#" class="num">2</a>
-                <a href="#" class="num">3</a>
-                <a href="#" class="num">4</a>
-                <a href="#" class="num">5</a>
-                <a href="#" class="bt next">></a>
-                <a href="#" class="bt last">>></a>
+
+            <!-- 페이지네이션 -->
+            <div class="blog-pagination text-center"
+                 th:with="start=${(boards.number / maxPage) * maxPage + 1},
+                                        end=${(boards.totalPages == 0) ?
+                                        1 : (start + (maxPage - 1) < boards.totalPages ?
+                                        start + (maxPage - 1) : boards.totalPages)}">
+                <ul class="flat-pagination">
+                    <li class="prev hvr-shutter-out-horizontal" th:classappend="${boards.first} ? 'disabled'">
+                        <a th:onclick="'javascript:page(' + ${boards.number -1} + ')'" aria-label="Previous">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}">
+                        <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text">
+                            [[${page}]]
+                        </a>
+                    </li>
+                    <li class="next hvr-shutter-out-horizontal" th:classappend="${boards.last} ? 'disabled'">
+                        <a th:onclick="'javascript:page(' + ${boards.number + 1} + ')'" aria-label="Next">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
 
             <!-- 버튼 영역 -->
             <div class="bt_wrap">
-                <a th:href="@{/write}" class="on">등록</a>
+                <!--                <a th:href="@{'/boards/' + ${#strings.toLowerCase(boardStatus)} + '/new'}" class="on">등록</a>-->
                 <a th:href="@{/}">메인 홈페이지로 돌아가기</a>
             </div>
         </div>
@@ -70,9 +144,6 @@
 
 
 </div>
-
-<a id="scroll-top"><i class="fa fa-angle-right" aria-hidden="true"></i></a> <!-- /#scroll-top -->
-
 
 
 </html>
