@@ -3,6 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
+<head>
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
 <!-- 추가된 css -->
 <th:block layout:fragment="css">
   <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/wine-detail.css}">
@@ -30,12 +35,50 @@
     .review_box {
       margin: 20px auto;
     }
+    .heart.mg-item-ct {
+      cursor: pointer;
+    }
   </style>
 </th:block>
 
 <!-- 추가된 js  -->
 <th:block layout:fragment="script">
   <script type="text/javascript" th:href="@{/wine-detail.js}"></script>
+  <script th:inline="javascript">
+    function addCellar() {
+      const token = $("meta[name='_csrf']").attr("content");
+      const header = $("meta[name='_csrf_header']").attr("content");
+
+      const url = "/cellars";
+      const paramData = {
+        itemId: $('#wineId').val()
+      };
+      const param = JSON.stringify(paramData);
+
+      $.ajax({
+        url: url,
+        type: "POST",
+        contentType: "application/json",
+        data: param,
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader(header, token)},
+        dataType: "json",
+        cache: false,
+        success: function (result, status) {
+          alert('셀러에 추가되었습니다.');
+          location.href = '/wines/wine/' + $('#wineId').val();
+        },
+        error: function (xhr, status, error) {
+          if (xhr.status == '401') {
+            alert('로그인 후 이용하세요.');
+            location.href = '/members/login';
+          } else {
+            alert(xhr.responseText);
+          }
+        }
+      });
+    }
+  </script>
 </th:block>
 
 
@@ -63,6 +106,7 @@
         <div class="row">
           <div class="col-lg-6 col-md-6">
             <div class="image-wrap">
+
               <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' ||
               wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ||
               wine.wineImg == 'https://images.vivino.com/highlights/icon/top_ranked.svg'
@@ -108,7 +152,9 @@
                       (소비자)
                     </span>
                   </li>
+
                   <li>
+                    <br>
                     <span class="note">
                       Type:
                       <span th:text="${wine.wineType}"></span>
@@ -130,11 +176,14 @@
               </div>
 
               <div class="content-cart clearfix">
-                <form class="cart clearfix" method="post">
-                  <div class="heart mg-item-ct">
+                <br>
+                <div class="cart clearfix">
+                  <!-- 셀러에 넣을 때 쓸 아이디 -->
+                  <input type="hidden" id="wineId" th:value="${wine.id}">
+                  <div class="heart mg-item-ct" onclick="addCellar()">
                     <i class="fa fa-heart" aria-hidden="true"></i>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
@@ -162,7 +211,7 @@
           </td>
 
         </tr>
-        <tr th:if="${wine.wineType == T(com.keduit.wineshare.constant.WineType).RED}">
+        <tr th:if="${wine.wineType != null and wine.wineType == T(com.keduit.wineshare.constant.WineType).RED}">
           <td>
             <div class="tasteStructureNm">Smooth</div>
           </td>
@@ -177,7 +226,7 @@
           </td>
 
         </tr>
-        <tr th:if="${wine.wineType != T(com.keduit.wineshare.constant.WineType).SPARKLING}">
+        <tr th:if="${wine.wineType != null and wine.wineType != T(com.keduit.wineshare.constant.WineType).SPARKLING}">
           <td>
             <div class="tasteStructureNm">Dry</div>
           </td>
@@ -206,7 +255,7 @@
             <div class="tasteStructureNm">Acidic</div>
           </td>
         </tr>
-        <tr th:if="${wine.wineType == T(com.keduit.wineshare.constant.WineType).SPARKLING}">
+        <tr th:if="${wine.wineType != null and wine.wineType == T(com.keduit.wineshare.constant.WineType).SPARKLING}">
           <td>
             <div class="tasteStructureNm">Gentle</div>
           </td>
@@ -271,7 +320,7 @@
             <div class="product-content product-fourcolumn clearfix">
               <ul class="product style2 isotope-product clearfix">
                 <li class="product-item features arrivals" th:each="similarWine, status : ${similarWineList}">
-                  <div class="product-thumb clearfix">
+                  <div class="product-thumb clearfix" >
                     <a th:href="@{'/wines/wine/' + ${similarWine.id}}" class="product-thumb">
                       <img th:src="${similarWine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' ||
                                                     similarWine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ||
@@ -283,11 +332,6 @@
                   </div>
                   <div class="product-info text-center clearfix">
                     <span class="product-title" th:text="${similarWine.wineName}">와인이름</span>
-                  </div>
-                  <div class="product-review">
-                    <div class="add-cart">
-                      <a href="#" class="like2"><i class="fa fa-heart-o"></i></a>
-                    </div>
                   </div>
                 </li> <!-- /product-item -->
 

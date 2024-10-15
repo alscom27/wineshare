@@ -206,7 +206,7 @@ public class DataInitializer {
           wine.setCountry(location[0]);
           wine.setRegion("Unknown");
         }
-        wine.setPrice((int)(Math.random() * (1000000 - 10000 + 1)) + 30000);
+        wine.setPrice(((int)(Math.random() * ((1500000 - 10000) / 1000 + 1)) * 1000) + 10000);
         wine.setWineType(wineTypeEnum);
         wine.setMember(member);
         wines.add(wine);
