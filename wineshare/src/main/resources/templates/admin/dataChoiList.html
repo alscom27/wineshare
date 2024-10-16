@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<!-- register css Fiels -->
+<th:block layout:fragment="css">
+    <style>
+        .data-container{
+             margin: 0 auto;
+             margin-top:3%;
+             margin-bottom:5%;
+            width:80%;
+            height:200px;
+            position: relative;
+            display: flex;
+            justify-content: space-evenly;
+
+        }
+        .data-btn{
+            position:absolute;
+            top: 40%;
+        }
+
+        .data-title{
+            position: absolute;
+            left: 30px;
+        }
+
+
+
+    </style>
+</th:block>
+
+<!--<div id="loading-overlay">-->
+<!--    <div class="loader"></div>-->
+<!--</div> &lt;!&ndash; /.loading-overlay &ndash;&gt; 로딩페이지임-->
+
+<th:block layout:fragment="script">
+
+</th:block>
+
+<div layout:fragment="content">
+
+    <div class="data-container">
+        <h2 class="data-title">관리자용 데이터 대시보드</h2>
+        <div class="data-btn">
+            <button type="submit" class="btn text-white" style="background-color: #c02323;" >회원</button>
+            <button type="submit" class="btn text-white" style="background-color: #c02323;" >와인</button>
+            <button type="submit" class="btn text-white" style="background-color: #c02323;" >페어링</button>
+            <button type="submit" class="btn text-white" style="background-color: #c02323;" >아로마</button>
+            <button type="submit" class="btn text-white" style="background-color: #c02323;" >마케팅</button>
+        </div>
+    </div>
+</div>
+</html>

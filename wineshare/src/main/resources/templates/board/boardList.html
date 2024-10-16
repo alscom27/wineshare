@@ -6,6 +6,7 @@
 <th:block layout:fragment="css">
     <!-- board css Fiels -->
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/board-list.css}">
+
 </th:block>
 
 <th:block layout:fragment="script">
@@ -50,14 +51,40 @@
 
 
 <div layout:fragment="content">
-    <div class="main-homepage-1">
 
-    </div> <!-- /homepage1 -->
+    <!-- 각 페이지 상단에 경로 나타내주는 부분.. -->
+    <div class="page-title parallax parallax1">
+        <div class="container">
+            <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
+                <div class="breadcrumbs">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Product</a></li>
+                        <li class="blog"><a href="#">Boards</a></li>
+                    </ul>
+                </div>
+                <div class="page-title-heading">
+                    <h2 class="title" th:text="${boardStatus} + ' Board'"><a href="#">Board</a></h2>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /.page-title -->
+
+
     <div class="board_wrap">
 
-        <div class="board_title">
-            <strong th:text="${boardStatus} + ' Board'">게시판</strong>
-        </div>
+        <div class="banner-img upgrade-img"></div>
+        <div class="banner-img question-img"></div>
+        <div class="banner-img request-img"></div>
+
+
+
+
+<!--        <div class="board_title">-->
+<!--            <strong th:text="${boardStatus} + ' Board'">게시판</strong>-->
+<!--        </div>-->
+
+
 
 <!--        th:action="@{'/board/' + ${#strings.toLowerCase(boardStatus)} + '/list/' + ${boards.number}}"-->
         <form role="form"
@@ -65,20 +92,22 @@
             <!--            th:object="${boards}"-->
 
             <div class="form-group" th:object="${boardSearchDTO}">
-                <select th:field="*{searchType}" class="form-control">
+                <select th:field="*{searchType}" class="form-list-type">
                     <option value="T">제목</option>
                     <option value="C">작성자</option>
                     <option value="W">내용</option>
                 </select>
 
-                <div class="form-group">
-                    <input type="text" th:field="*{searchQuery}" class="form-control" placeholder="Search">
+                <div class="form-group-search">
+                    <input type="text" th:field="*{searchQuery}" class="form-control" placeholder="Search...">
+                    <button type="submit" id="searchIcon" class="btn text-white" style="background-color: #E1B848; height: fit-content;" >
+                        enter
+                    </button>
                 </div>
+                <!--    얜 머지            -->
                 <input type="hidden" th:value="${boardStatus}" id="hidden-boardStatus">
-                <button type="submit" id="searchBtn" class="btn btn-default">
-                    <i class="fa fa-search"></i>
-                </button>
-                <button type="button" id="regBtn" class="hvr-shutter-out-horizontal">게시글 등록</button>
+
+                <button type="button" id="regBtn" class="regbutton">게시글 등록</button>
             </div>
         </form>
 
@@ -86,17 +115,15 @@
         <div class="board_list_wrap">
             <div class="board_list">
                 <div class="top">
-                    <div class="num">번호</div>
-                    <div class="title">제목</div>
+                    <div class="title" style="text-align: center;">제목</div>
                     <div class="writer">글쓴이</div>
                     <div class="date">작성일</div>
-                    <div class="count">조회</div>
                 </div>
 
                 <!-- 게시글 목록 출력 -->
                 <!--                th:each="board : ${boardDTOs}"-->
                 <div th:each="board : ${boardDTOs}">
-                    <div class="num" th:text="${board.getId()}"></div>
+<!--                    <div class="num" th:text="${board.getId()}"></div>-->
                     <div class="title"><a
                             th:href="'/boards/' + ${#strings.toLowerCase(board.getBoardStatus())} + '/get/' + ${board.getId()}"
                             th:text="${board.boardTitle}"></a></div>
