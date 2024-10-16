@@ -8,7 +8,9 @@ import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.repository.BoardRepository;
 import com.keduit.wineshare.repository.MemberRepository;
 import com.keduit.wineshare.service.BoardService;
+import com.keduit.wineshare.service.ImgFileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
@@ -35,6 +38,7 @@ public class BoardController {
   private final BoardService boardService;
   private final BoardRepository boardRepository;
   private final MemberRepository memberRepository;
+  private final ImgFileService imgFileService;
 
 
   // 기본 0페이지도 주소 추가하기 하.. 할거 존나많네 주석보면서 이런말 보이면 지워야됨
@@ -69,7 +73,7 @@ public class BoardController {
       boardDTO.setBoardTitle(board.getBoardTitle());
       boardDTO.setBoardContent(board.getBoardContent());
       boardDTO.setWriterNickname(board.getRegBy());
-      boardDTO.setCreateDate(board.getRegTime());
+      boardDTO.setRegTime(board.getRegTime());
       boardDTO.setBoardStatus(board.getBoardStatus());
       // 닉네임 설정
       boardDTO.setWriterNickname(emailToNicknameMap.get(board.getRegBy())); // 닉네임 설정
@@ -90,7 +94,6 @@ public class BoardController {
                           Model model){
 
     BoardDTO boardDTO = new BoardDTO();
-//    boardDTO.setId(0L);
     boardDTO.setBoardStatus(boardStatus);
 
     model.addAttribute("boardDTO", boardDTO);
@@ -116,21 +119,31 @@ public class BoardController {
 
     // 닉네임 설정
     boardDTO.setWriterNickname(member.getNickname());
-    boardDTO.setMember(member);
+//    boardDTO.setMember(member);
 
     boardDTO.setBoardStatus(boardStatus);
-    boardDTO.setBoardImgFile(boardImgFile);
+
 
     // 이미지 파일 처리
     // 파일 처리
-    if (boardImgFile != null && !boardImgFile.isEmpty()) {
-      // 파일이 선택된 경우 처리
-      boardDTO.setBoardImgFile(boardImgFile);
-      // 파일 저장 로직 추가 (예: 파일 시스템이나 데이터베이스에 저장)
-    } else {
-      // 파일이 선택되지 않은 경우 처리
-      boardDTO.setBoardImgFile(null); // 또는 기본 이미지 설정
+    if(StringUtils.equalsIgnoreCase(boardStatus, "upgrade") || StringUtils.equalsIgnoreCase(boardStatus, "request")){
+      if (boardImgFile != null && !boardImgFile.isEmpty()) {
+        try {
+          // 파일이 선택된 경우 처리
+          imgFileService.saveBoardImg(boardDTO, boardImgFile);
+        }catch (Exception e){
+          // 파일이 선택되지 않은 경우 처리
+          model.addAttribute("errorMessage", "사진은 필수야 시발아");
+          return "board/boardForm";
+        }
+      }
+    }else if(StringUtils.equalsIgnoreCase(boardStatus, "notice") || StringUtils.equalsIgnoreCase(boardStatus, "question")){
+      boardDTO.setBoardOriImgName(null);
+      boardDTO.setBoardImgName(null);
+      boardDTO.setBoardImgUrl(null);
     }
+
+
 
     boardService.saveBoard(boardDTO);
     return "redirect:/boards/" + boardStatus + "/list/0";
@@ -141,7 +154,15 @@ public class BoardController {
   public String boardDtl(@PathVariable("boardStatus") BoardStatus boardStatus,
                          @PathVariable("boardId") Long boardId,
                          Principal principal,
-                         Model model){
+                         Model model
+                         ){
+
+    // 로그인 여부 확인
+    if (principal == null) {
+      // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+      return "redirect:/member/memberLoginForm"; // 로그인 페이지 URL
+    }
+
     BoardDTO boardDTO = boardService.getBoardDtl(boardId);
     // 닉네임 세팅
     Board board = boardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
@@ -152,7 +173,8 @@ public class BoardController {
     String currentUserEmail = principal.getName();
 
     // 작성자와 비교하여 동일한지 확인
-    boolean isAuthor = board.getMember().getEmail().equals(currentUserEmail);
+
+    boolean isAuthor = member.getEmail().equals(currentUserEmail);
 
     model.addAttribute("board", board);
     model.addAttribute("boardDTO", boardDTO);
@@ -162,32 +184,90 @@ public class BoardController {
     return "board/boardGetForm";
   }
 
-  // 수정하기 겟매핑 추가?
+  // 수정하기 겟매핑 추가
+  @GetMapping("/{boardStatus}/modify/{boardId}")
+  public String boardUpdate(@PathVariable("boardStatus") BoardStatus boardStatus,
+                            @PathVariable("boardId") Long boardId,
+                            Model model){
+    BoardDTO boardDTO = boardService.getBoardDtl(boardId);
+
+    // 작성자의 닉네임을 설정
+    Board board = boardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
+    Member member = memberRepository.findByEmail(board.getRegBy());
+    boardDTO.setWriterNickname(member.getNickname());
+
+
+
+    model.addAttribute("boardDTO", boardDTO);
+    model.addAttribute("boardStatus", boardStatus);
+    return "board/boardForm";
+  }
 
   @PostMapping({"/{boardStatus}/modify/{boardId}"})
   public String boardUpdate(@PathVariable("boardStatus") BoardStatus boardStatus,
                             @PathVariable("boardId") Long boardId,
                             @Valid BoardDTO boardDTO,
                             BindingResult bindingResult,
-                            @RequestParam("boardImg") MultipartFile boardImg,
+                            @RequestParam("boardImgFile") MultipartFile boardImgFile,
                             Model model) throws  IOException{
+
     if(bindingResult.hasErrors()){
       return "board/boardForm";
     }
 
-    boardDTO.setId(boardId);  //수정할 게시글
-    boardDTO.setBoardImgFile(boardImg); // 업로드할 이미지 파일 설정
+    System.out.println("============= controller1 ===================");
+    System.out.println(boardDTO.toString());
+    System.out.println("============= controller1 ===================");
+
+
+    // 이미지 파일 처리
+    // 파일 처리
+    if(StringUtils.equalsIgnoreCase(boardStatus, "upgrade") || StringUtils.equalsIgnoreCase(boardStatus, "request")){
+      if (boardImgFile != null && !boardImgFile.isEmpty()) {
+        try {
+          // 파일이 선택된 경우 처리
+          BoardDTO boardHaveImg = imgFileService.updateBoardImg(boardId, boardImgFile);
+          boardDTO.setBoardOriImgName(boardHaveImg.getBoardOriImgName());
+          boardDTO.setBoardImgName(boardHaveImg.getBoardImgName());
+          boardDTO.setBoardImgUrl(boardHaveImg.getBoardImgUrl());
+
+          System.out.println("=========== after img file service =========");
+          System.out.println(boardDTO.toString());
+          System.out.println("=========== after img file service =========");
+
+        }catch (Exception e){
+          // 파일이 선택되지 않은 경우 처리
+          model.addAttribute("errorMessage", "수정 실패");
+          return "board/boardForm";
+        }
+      }
+    }else if(StringUtils.equalsIgnoreCase(boardStatus, "notice") || StringUtils.equalsIgnoreCase(boardStatus, "question")){
+      boardDTO.setBoardOriImgName(null);
+      boardDTO.setBoardImgName(null);
+      boardDTO.setBoardImgUrl(null);
+    }
+
+    System.out.println("============= controller2 ===================");
+    System.out.println(boardDTO.toString());
+    System.out.println("============= controller2 ===================");
+
+
+//    boardDTO.setBoardImgFile(boardImg); // 업로드할 이미지 파일 설정
 
     boardService.updateBoard(boardDTO);
-    return "redirect:/boards/" + boardStatus + "/0";
+
+
+
+    return "redirect:/boards/" + boardStatus + "/list";
   }
 
   @PostMapping({"/{boardStatus}/remove/{boardId}"})
   public String boardDelete(@PathVariable("boardStatus") BoardStatus boardStatus,
-                            @PathVariable("boardId") Long boardId){
+                            @PathVariable("boardId") Long boardId) throws Exception {
 
+    imgFileService.deleteBoardImg(boardId);
     boardService.deleteBoard(boardId);
-    return "redirect:/boards/" + boardStatus + "/0";
+    return "redirect:/boards/" + boardStatus + "/list";
   }
 
 }

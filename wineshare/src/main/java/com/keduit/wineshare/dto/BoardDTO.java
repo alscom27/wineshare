@@ -28,16 +28,18 @@ public class BoardDTO {
 
   private BoardStatus boardStatus;
 
-  private String boardImg;  // 저장된 이미지 경로
+  //등업, 요청 사진o, // 질문, 공지 사진x
+  private String boardImgName;   // 고유아이디 이미지 파일명
 
-  private MultipartFile boardImgFile; // 업로드할 이미지파일
+  private String boardOriImgName;  // 원본 이미지 이름
+
+  private String boardImgUrl;  // 이미지 조회 경로
 
   private String writerNickname;
 
-  private Member member;
 
   @JsonFormat(pattern = "yy-MM-dd")
-  private LocalDateTime createDate;
+  private LocalDateTime regTime;
 
   public BoardDTO(){}
 

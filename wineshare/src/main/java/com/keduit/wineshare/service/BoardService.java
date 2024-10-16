@@ -21,7 +21,7 @@ import java.io.IOException;
 public class BoardService {
 
   private final BoardRepository boardRepository;
-  private final ImgFileService imgFileService;
+//  private final ImgFileService imgFileService;
 
   // 게시판 상태에 따라 이미지 업로드 허용 여부 체크
   private boolean isImgUploadAllowed(BoardStatus boardStatus){
@@ -32,19 +32,8 @@ public class BoardService {
 
   // 게시글저장
   public Long saveBoard(BoardDTO boardDTO) throws IOException {
-    // 게시판 상태에 따라 이미지 파일 처리
-    if (isImgUploadAllowed(boardDTO.getBoardStatus())){
-      MultipartFile imageFile = boardDTO.getBoardImgFile();
-      if(imageFile != null && !imageFile.isEmpty()){
-        String imagePath = imgFileService.saveBoardImg(imageFile); // 파일 저장 로직
-        boardDTO.setBoardImg(imagePath);
-      }
-    }else {
-      // 이미지 파일을 받지 않을 경우, boardImg를 null로 설정
-      boardDTO.setBoardImgFile(null);
-    }
 
-    // 게시글 등록
+
     Board board = boardDTO.createBoard();
     boardRepository.save(board);
     return board.getId();
@@ -64,18 +53,19 @@ public class BoardService {
     Board board = boardRepository.findById(boardDTO.getId())
         .orElseThrow(EntityNotFoundException::new);
 
-    // 이미지 처리
-    MultipartFile imageFile = boardDTO.getBoardImgFile();
-    if(imageFile != null && !imageFile.isEmpty()){
-      // 이미지가 업로드 된경우 기존이미지를 업데이트
-      String imagePath = imgFileService.saveBoardImg(imageFile);
-      boardDTO.setBoardImg(imagePath);  // 새로운 이미지 경로 설정
-    }else{
-      // 기존이미지 유지
-      boardDTO.setBoardImg(board.getBoardImg());
-    }
+    // 이미지 필드 설정
+    board.setBoardImgName(boardDTO.getBoardImgName());
+    board.setBoardImgUrl(boardDTO.getBoardImgUrl());
+    board.setBoardOriImgName(boardDTO.getBoardOriImgName());
 
     board.updateBoard(boardDTO);
+
+    System.out.println("======== service===========");
+    System.out.println(board.getId());
+    System.out.println(board.toString());
+    System.out.println(boardDTO.toString());
+    System.out.println("===================");
+
     return board.getId();
   }
 

@@ -23,23 +23,30 @@ public class Board extends BaseEntity {
 
   private String boardContent;
 
-  private String boardImg;  //등업, 요청 사진o, // 질문, 공지 사진x
+  //등업, 요청 사진o, // 질문, 공지 사진x
+  private String boardImgName;   // 고유아이디 이미지 파일명
+
+  private String boardOriImgName;  // 원본 이미지 이름
+
+  private String boardImgUrl;  // 이미지 조회 경로
 
   @Enumerated(EnumType.STRING)
   private BoardStatus boardStatus;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "member_id")
-  private Member member;
+//  @ManyToOne(fetch = FetchType.LAZY)
+//  @JoinColumn(name = "member_id")
+//  private Member member;
 
   public void updateBoard(BoardDTO boardDTO){
     this.boardTitle = boardDTO.getBoardTitle();
     this.boardContent = boardDTO.getBoardContent();
     this.boardStatus = boardDTO.getBoardStatus();
-    this.member = boardDTO.getMember();
+//    this.member = boardDTO.getMember();
 
-    if(this.boardImg != null){
-      this.boardImg = boardDTO.getBoardImg();
+    if(this.boardImgName != null){
+      this.boardImgName = boardDTO.getBoardImgName();
+      this.boardImgUrl = boardDTO.getBoardImgUrl();
+      this.boardOriImgName = boardDTO.getBoardOriImgName();
     }
 
   }
