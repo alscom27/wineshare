@@ -51,6 +51,24 @@
     .page-active {
       background-color: #c02323 !important;
     }
+    .fa-star, .post-rating {
+      cursor: default;
+    }
+    .comment-respond .fa-star,
+    .modify-reviewRatingInput .fa-star,
+    .modify-developRatingInput .fa-star{
+      cursor: pointer;
+    }
+    .review-content {
+      margin: 20px auto;
+    }
+    .comment-actions {
+      margin-top: 10px;
+    }
+    .display-none {
+      display: none;
+    }
+
   </style>
 </th:block>
 
@@ -62,7 +80,132 @@
       const wineId = $('#getWineId').data('wine-id');
       getWineDevelopList(wineId, 0);
       getWineReviewList(wineId, 0);
+
+
+      // 리뷰 별점 클릭 시 밸류변화
+      $('.reviewRatingInput i').on('click', function () {
+        const rating = $(this).data('value');
+        $('.reviewRatingInput i').removeClass('active'); // 기존 별점 초기화
+        $(this).prevAll().addBack().addClass('active'); // 선택한 별점과 이전 별점에 active 클래스 추가
+        $('#reviewRating').val(rating); // 숨겨진 input에 별점 저장
+      });
+
+      // 평가 별점 클릭 시 밸류 변화
+      $('.developRatingInput i').on('click', function () {
+        const rating = $(this).data('value');
+        $('.developRatingInput i').removeClass('active'); // 기존 별점 초기화
+        $(this).prevAll().addBack().addClass('active'); // 선택한 별점과 이전 별점에 active 클래스 추가
+        $('#developRating').val(rating); // 숨겨진 input에 별점 저장
+      });
+
+
+      // 리뷰 등록
+      $('.reviewForm').on('submit', function (e) {
+        e.preventDefault(); // 기본 제출 방지
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        const regularRating = $('#reviewRating').val();
+        const regularReview = $('textarea[name="reviewComment"]').val();
+        const wineId = $('#getWineId').data('wine-id'); // 와인 ID 가져오기
+
+        const reviewData = {
+          regularRating: regularRating,
+          regularReview: regularReview
+        };
+
+        $.ajax({
+          url: `/reviews/new/${wineId}`, // 서버 URL
+          type: 'POST',
+          contentType: 'application/json',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token)
+          },
+          data: JSON.stringify(reviewData),
+          success: function (response) {
+            alert(response); // 성공 메시지
+            $('textarea[name="reviewComment"]').val('');
+            getWineReviewList(wineId, 0);
+          },
+          error: function (xhr) {
+            if (xhr.status == '401') {
+              alert('로그인 후 이용하세요.');
+              location.href = '/members/login';
+            } else {
+              alert(xhr.responseText);
+            }
+          }
+        });
+      });
+
+      // 평가 등록
+      $('.developForm').on('submit', function (e) {
+        e.preventDefault(); // 기본 제출 방지
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        const expertRating = $('#developRating').val();
+        const expertComment = $('textarea[name="developComment"]').val();
+        const sweetness = $('select[name="develop-sweetness"]').val();
+        const acidity = $('select[name="develop-acidity"]').val();
+        const body = $('select[name="develop-body"]').val();
+        const tannin = $('select[name="develop-tannin"]').val();
+        const fizz = $('select[name="develop-fizz"]').val();
+        const aromaOne = $('select[name="develop-aromaOne"]').val();
+        const aromaTwo = $('select[name="develop-aromaTwo"]').val();
+        const foodOne = $('select[name="develop-foodOne"]').val();
+        const foodTwo = $('select[name="develop-foodTwo"]').val();
+        const wineId = $('#getWineId').data('wine-id'); // 와인 ID 가져오기
+
+        if (aromaOne === aromaTwo) {
+          alert('아로마는 같은 값을 선택할 수 없습니다.');
+          return;
+        }
+        if (foodOne === foodTwo) {
+          alert('페어링은 같은 값을 선택할 수 없습니다.');
+          return;
+        }
+
+        const developData = {
+          expertRating: expertRating,
+          expertComment: expertComment,
+          sweetness: sweetness,
+          acidity: acidity,
+          body: body,
+          tannin: tannin,
+          fizz: fizz,
+          aromaOne: aromaOne,
+          aromaTwo: aromaTwo,
+          foodOne: foodOne,
+          foodTwo: foodTwo
+        };
+
+        $.ajax({
+          url: `/develops/new/${wineId}`, // 서버 URL
+          type: 'POST',
+          contentType: 'application/json',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token)
+          },
+          data: JSON.stringify(developData),
+          success: function (response) {
+            alert(response); // 성공 메시지
+            $('textarea[name="developComment"]').val('');
+            getWineDevelopList(wineId, 0);
+          },
+          error: function (xhr) {
+            if (xhr.status == '401') {
+              alert('로그인 후 이용하세요.');
+              location.href = '/members/login';
+            } else {
+              alert(xhr.responseText);
+            }
+          }
+        });
+      });
     });
+
+
+
+    // 셀러 추가
     function addCellar(element) {
       const token = $("meta[name='_csrf']").attr("content");
       const header = $("meta[name='_csrf_header']").attr("content");
@@ -99,10 +242,27 @@
       });
     }
 
+    // 평가페이지 불러오기
     function getWineDevelopList(wineId, developPage) {
       const token = $("meta[name='_csrf']").attr("content");
       const header = $("meta[name='_csrf_header']").attr("content");
-      console.log(`/develops/${wineId}/${developPage}`);
+      const loginUserIdElement = $("#getLoginUserId");
+      const noLoginUserIdElement = $("#getNoLoginUserId");
+      const loginUserId = loginUserIdElement.length > 0
+              ? loginUserIdElement.data("login-user-id")
+              : noLoginUserIdElement.data("login-user-id");
+      function createBtns(developMemberId, developId) {
+        if (loginUserId === developMemberId) {
+          return `
+              <div class="comment-actions">
+                  <button class="modify-btn" onclick="modifyDevelop(${developId})">수정</button>
+                  <button class="delete-btn" onclick="deleteDevelop(${developId})">삭제</button>
+              </div>
+          `;
+        }
+        return '';
+      }
+
 
       $.ajax({
         url: `/develops/${wineId}/${developPage}`, // 템플릿 리터럴 사용
@@ -116,24 +276,39 @@
           wineDevelopListContainer.empty(); // 기존 내용 초기화
 
           data.wineDevelops.forEach(function(develop) {
-            const expertRating = develop.expertRating != null ? Math.round(develop.expertRating) : 0;
+            const developRating = develop.expertRating != null ? Math.round(develop.expertRating) : 0;
 
             const item = `
+                <div class="review-content">
                     <div class="avatar">
                         <img src="/wineshare-img/people.png" alt="image" class="profile_img">
                     </div>
-                    <div class="post-comment">
+                    <div class="post-comment" id="post-develop-${develop.id}">
                         <div class="post-rating">
                             <span>
-                                ${Array.from({ length: expertRating }, () => `<i class="fa fa-star active" aria-hidden="true"></i>`).join('')}
-                                ${Array.from({ length: 5 - expertRating }, () => `<i class="fa fa-star" aria-hidden="true"></i>`).join('')}
+                                ${Array.from({ length: developRating }, () => `<i class="fa fa-star active" aria-hidden="true"></i>`).join('')}
+                                ${Array.from({ length: 5 - developRating }, () => `<i class="fa fa-star" aria-hidden="true"></i>`).join('')}
+                                <input type="hidden" id="developRating-${develop.id}" name="developRating" value="${developRating}">
+                                <input type="hidden" id="developSweetness-${develop.id}" name="developSweetness" value="${develop.sweetness}">
+                                <input type="hidden" id="developAcidity-${develop.id}" name="developAcidity" value="${develop.acidity}">
+                                <input type="hidden" id="developBody-${develop.id}" name="developBody" value="${develop.body}">
+                                <input type="hidden" id="developTannin-${develop.id}" name="developTannin" value="${develop.tannin}">
+                                <input type="hidden" id="developFizz-${develop.id}" name="developFizz" value="${develop.fizz}">
+                                <input type="hidden" id="developAromaOne-${develop.id}" name="developAromaOne" value="${develop.aromaOne}">
+                                <input type="hidden" id="developAromaTwo-${develop.id}" name="developAromaTwo" value="${develop.aromaTwo}">
+                                <input type="hidden" id="developFoodOne-${develop.id}" name="developFoodOne" value="${develop.foodOne}">
+                                <input type="hidden" id="developFoodTwo-${develop.id}" name="developFoodTwo" value="${develop.foodTwo}">
                             </span>
                         </div>
                         <div class="comment-title comment">${develop.memberId}</div>
-                        <div class="comment-text comment">${develop.expertComment}</div>
+                        <div class="comment-text comment" id="comment-develop-${develop.id}">${develop.expertComment}</div>
+                        ${createBtns(develop.memberId, develop.id)}
                     </div>
+                </div>
                 `;
             wineDevelopListContainer.append(item); // HTML 추가
+            const commentForm = document.getElementById("comment-respond-develop"); // 평가폼
+            commentForm.className = "developForm"; //
 
           });
           updateDevelopPage(data.currentPage, data.totalPages)
@@ -150,7 +325,7 @@
         }
       });
     }
-
+    // 평가페이징
     function updateDevelopPage(currentPage, totalPages) {
       const wineId = $('#getWineId').data('wine-id');
       const paginationContainer = $('#developPageContainer');
@@ -188,11 +363,273 @@
         </li>
         `);
     }
+    // 평가삭제
+    function deleteDevelop(developId) {
+      const wineId = $('#getWineId').data('wine-id');
+      const token = $("meta[name='_csrf']").attr("content");
+      const header = $("meta[name='_csrf_header']").attr("content");
+      const page = $("#developPageContainer .page-active a").text();
+      if (confirm("이 평가를 삭제하시겠습니까?")) {
+        $.ajax({
+          url: `/develops/${developId}`,
+          type: 'DELETE',
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+          },
+          success: function (response) {
+            alert(response);
+            getWineDevelopList(wineId, page-1); // 리스트 리로드, 현재 페이지로
+          },
+          error: function(xhr) {
+            if(xhr.status == '401'){
+              alert("로그인 후 이용해주세요.");
+              location.href = "/members/login";
+            }else{
+              alert(xhr.responseText);
+            }
+          }
+        });
+      }
+    }
+    // 평가수정폼 열기
+    function modifyDevelop(developId) {
+      const page = $("#developPageContainer .page-active a").text(); // 현재 평가페이지
+      const wineId = $('#getWineId').data('wine-id'); // 현재페이지 와인아이디
+      const wineType = $('#getWineType').data('wine-type'); // 현재페이지 와인타입
+      const commentForm = document.getElementById("comment-respond-develop"); //평가폼
+      const commentDiv = $(`#comment-develop-${developId}`); // 수정하고싶은 평가의 기존 텍스트에리어
+      const currentText = commentDiv.text(); // 위에서 텍스트만 떼온거
+      const currentDiv = $(`#post-develop-${developId}`); // 현재 평가 디브
+      const currentRating = $(`#developRating-${developId}`).val();
+      const currentSweetness = $(`#developSweetness-${developId}`).val(); // 수정할 리뷰의 기존 별점
+      const currentAcidity = $(`#developAcidity-${developId}`).val(); // 수정할 리뷰의 기존 별점
+      const currentBody = $(`#developBody-${developId}`).val(); // 수정할 리뷰의 기존 별점
+      const currentTannin = $(`#developTannin-${developId}`).val(); // 수정할 리뷰의 기존 별점
+      const currentFizz = $(`#developFizz-${developId}`).val(); // 수정할 리뷰의 기존 별점
+      const currentAromaOne = $(`#developAromaOne-${developId}`).val(); // 수정할 리뷰의 기존 별점
+      const currentAromaTwo = $(`#developAromaTwo-${developId}`).val(); // 수정할 리뷰의 기존 별점
+      const currentFoodOne = $(`#developFoodOne-${developId}`).val(); // 수정할 리뷰의 기존 별점
+      const currentFoodTwo = $(`#developFoodTwo-${developId}`).val(); // 수정할 리뷰의 기존 별점
+      console.log(currentAromaOne);
+      console.log(currentAromaTwo);
 
+      // 새로 만든 별점 인풋
+      const ratingStars = `
+                ${Array.from({ length: 5 }, (_, index) =>
+                  `<i class="fa fa-star ${index < currentRating ? 'active' : ''}" data-value="${index + 1}"></i>`
+                   ).join('')}
+                 `;
+      // 별점 밸류용 히든인풋
+      const hiddenInput = `<input type="hidden" id="modify-developRating" name="developRating" value="${currentRating}">`;
+
+      function createTanninSelect() {
+        if (wineType === 'RED') {
+          return `
+                <div class="taste-category">
+                    <h3>Tannin</h3>
+                    <select class="select-option" name="modify-develop-tannin">
+                        ${[0, 1, 2, 3, 4, 5].map(value =>
+                      `<option value="${value}" ${value == currentTannin ? 'selected' : ''}>${value}</option>`).join('')}
+                    </select>
+                </div>
+            `;
+        }
+        return '';
+      }
+      function createSweetnessSelect() {
+        if (wineType !== 'SPARKLING') {
+          return `
+                <div class="taste-category">
+                    <h3>Tannin</h3>
+                    <select class="select-option" name="modify-develop-sweetness">
+                        ${[0, 1, 2, 3, 4, 5].map(value =>
+                      `<option value="${value}" ${value == currentSweetness ? 'selected' : ''}>${value}</option>`).join('')}
+                    </select>
+                </div>
+            `;
+        }
+        return '';
+      }
+      function createFizzSelect() {
+        if (wineType === 'SPARKLING') {
+          return `
+                <div class="taste-category">
+                    <h3>Tannin</h3>
+                    <select class="select-option" name="modify-develop-fizz">
+                        ${[0, 1, 2, 3, 4, 5].map(value =>
+                  `<option value="${value}" ${value == currentFizz ? 'selected' : ''}>${value}</option>`).join('')}
+                    </select>
+                </div>
+            `;
+        }
+        return '';
+      }
+
+      // 별점포함 수정용 인풋
+      const modifyInput = `
+                <div class="pro-taste">
+        <div class="taste-like">
+            <div class="taste-category">
+                <h3>Body</h3>
+                <select class="select-option" name="modify-develop-body">
+                    ${[0, 1, 2, 3, 4, 5].map(value =>
+                    `<option value="${value}" ${value == currentBody ? 'selected' : ''}>${value}</option>`).join('')}
+                </select>
+            </div>
+            ${createTanninSelect()}
+            ${createSweetnessSelect()}
+            <div class="taste-category">
+                <h3>Acidity</h3>
+                <select class="select-option" name="modify-develop-acidity">
+                    ${[0, 1, 2, 3, 4, 5].map(value =>
+                    `<option value="${value}" ${value == currentAcidity ? 'selected' : ''}>${value}</option>`).join('')}
+                </select>
+            </div>
+            ${createFizzSelect()}
+
+        </div>
+    </div>
+
+    <div class="pro-taste">
+        <div class="taste-like">
+            ${['Aroma-1', 'Aroma-2'].map((aroma, index) => `
+                <div class="taste-category">
+                    <h3>${aroma}</h3>
+                    <select name="${index === 0 ? 'modify-develop-aromaOne' : 'modify-develop-aromaTwo'}">
+                        ${[
+        "Citrus", "Tree Fruit", "Stone Fruit", "Tropical Fruit",
+        "Berry", "Floral", "Herb", "Vegetable",
+        "Fermented", "Roasted", "Spice", "Nuts",
+        "Tree", "Honey", "Fungi"
+      ].map(option => `<option value="${option}" ${index === 0 ? (option === currentAromaOne ? 'selected' : '') : (option === currentAromaTwo ? 'selected' : '')}>${option}</option>`).join('')}
+                    </select>
+                </div>
+            `).join('')}
+
+            ${['Paring-1', 'Paring-2'].map((pairing, index) => `
+                <div class="taste-category">
+                    <h3>${pairing}</h3>
+                    <select name="${index === 0 ? 'modify-develop-foodOne' : 'modify-develop-foodTwo'}">
+                        ${[
+        "Beef", "Chicken", "Pork", "Mushroom",
+        "Charcuterie", "Cheese", "Pasta", "Spicy",
+        "Snack", "Shell", "Fish", "Vegetable"
+      ].map(option =>
+              `<option value="${option}" ${index == 0 ? (option == currentFoodOne ? 'selected' : '') : (option == currentFoodTwo ? 'selected' : '')}>${option}</option>`
+      ).join('')}
+                    </select>
+                </div>
+            `).join('')}
+        </div>
+    </div>
+
+                        <div class="my-rating modify-developRatingInput">${ratingStars}</div>
+                        ${hiddenInput}
+                        <textarea id="modify-comment-${developId}" required>${currentText}</textarea>
+                       <button onclick="saveModifyDevelop(${developId})">저장</button>
+                        <button onclick="getWineDevelopList(${wineId}, ${page - 1})">취소</button>`;
+
+      currentDiv.html(modifyInput); // 현재 리뷰를 수정 입력 필드로 변경
+      const btns = document.querySelectorAll('#wineDevelopListContainer .comment-actions');
+      for(let i = 0; i < btns.length; i++) {
+        btns[i].remove();
+      }
+
+
+      // 수정에서
+      $('.modify-developRatingInput i').on('click', function() {
+        const rating = $(this).data('value');
+        $('.modify-developRatingInput i').removeClass('active'); // 기존 별점 초기화
+        $(this).prevAll().addBack().addClass('active'); // 선택한 별점과 이전 별점에 active 클래스 추가
+        $('#modify-developRating').val(rating); // 숨겨진 input에 별점 저장
+      });
+
+      commentForm.className = "developForm display-none"; // 등록폼 안보이게하기
+
+
+
+
+
+    }
+    // 평가수정 날리기
+    function saveModifyDevelop(developId) {
+      const wineId = $('#getWineId').data('wine-id');
+      const token = $("meta[name='_csrf']").attr("content");
+      const header = $("meta[name='_csrf_header']").attr("content");
+      const page = $("#developPageContainer .page-active a").text();
+      const newComment = $(`#modify-comment-${developId}`).val();
+      const newRating = $(`#modify-developRating`).val(); //
+      const newSweetness = $('select[name="modify-develop-sweetness"]').val();
+      const newAcidity = $('select[name="modify-develop-acidity"]').val();
+      const newBody = $('select[name="modify-develop-body"]').val();
+      const newTannin = $('select[name="modify-develop-tannin"]').val();
+      const newFizz = $('select[name="modify-develop-fizz"]').val();
+      const newAromaOne = $('select[name="modify-develop-aromaOne"]').val();
+      const newAromaTwo = $('select[name="modify-develop-aromaTwo"]').val();
+      const newFoodOne = $('select[name="modify-develop-foodOne"]').val();
+      const newFoodTwo = $('select[name="modify-develop-foodTwo"]').val();
+      if (newAromaOne === newAromaTwo) {
+        alert('아로마는 같은 값을 선택할 수 없습니다.');
+        return;
+      }
+      if (newFoodOne === newFoodTwo) {
+        alert('페어링은 같은 값을 선택할 수 없습니다.');
+        return;
+      }
+
+      const newDevelopData = {
+        expertRating: newRating,
+        expertComment: newComment,
+        sweetness: newSweetness,
+        acidity: newAcidity,
+        body: newBody,
+        tannin: newTannin,
+        fizz: newFizz,
+        aromaOne: newAromaOne,
+        aromaTwo: newAromaTwo,
+        foodOne: newFoodOne,
+        foodTwo: newFoodTwo
+      };
+
+      $.ajax({
+        url: `/develops/${developId}`, //
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(newDevelopData), // 수정내용 전송
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(header, token);
+        },
+        success: function(response) {
+          // 수정 성공 후 UI 업데이트
+          getWineDevelopList(wineId, page-1);
+        },
+        error: function(xhr) {
+          console.error(xhr);
+          alert("평가 수정에 실패했습니다.");
+        }
+      });
+    }
+    // 리뷰페이지 불러오기
     function getWineReviewList(wineId, reviewPage) {
       const token = $("meta[name='_csrf']").attr("content");
       const header = $("meta[name='_csrf_header']").attr("content");
-      console.log(`/reviews/${wineId}/${reviewPage}`);
+      const loginUserIdElement = $("#getLoginUserId");
+      const noLoginUserIdElement = $("#getNoLoginUserId");
+      const loginUserId = loginUserIdElement.length > 0
+              ? loginUserIdElement.data("login-user-id")
+              : noLoginUserIdElement.data("login-user-id");
+      console.log(loginUserId);
+      function createBtns(reviewMemberId, reviewId) {
+        if (loginUserId === reviewMemberId) {
+          return `
+              <div class="comment-actions">
+                  <button class="modify-btn" onclick="modifyReview(${reviewId})">수정</button>
+                  <button class="delete-btn" onclick="deleteReview(${reviewId})">삭제</button>
+              </div>
+          `;
+        }
+        return '';
+      }
 
       $.ajax({
         url: `/reviews/${wineId}/${reviewPage}`, // 템플릿 리터럴 사용
@@ -209,24 +646,33 @@
             const reviewRating = review.regularRating != null ? Math.round(review.regularRating) : 0;
 
             const item = `
+                <div class="review-content">
                     <div class="avatar">
                         <img src="/wineshare-img/people.png" alt="image" class="profile_img">
                     </div>
-                    <div class="post-comment">
+                    <div class="post-comment" id="post-review-${review.id}">
                         <div class="post-rating">
                             <span>
                                 ${Array.from({ length: reviewRating }, () => `<i class="fa fa-star active" aria-hidden="true"></i>`).join('')}
                                 ${Array.from({ length: 5 - reviewRating }, () => `<i class="fa fa-star" aria-hidden="true"></i>`).join('')}
+                                <input type="hidden" id="reviewRating-${review.id}" name="reviewRating" value="${reviewRating}">
                             </span>
                         </div>
                         <div class="comment-title comment">${review.memberId}</div>
-                        <div class="comment-text comment">${review.regularReview}</div>
+                        <div class="comment-text comment" id="comment-review-${review.id}">${review.regularReview}</div>
+                        ${createBtns(review.memberId, review.id)}
                     </div>
+
+                </div>
+
                 `;
             wineReviewListContainer.append(item); // HTML 추가
+            const commentForm = document.getElementById("comment-respond-review"); // 리뷰폼
+            commentForm.className = "reviewForm"; // 등록 폼 다시 보이게
 
           });
           updateReviewPage(data.currentPage, data.totalPages)
+
         },
         error: function(xhr) {
           console.error(xhr);
@@ -240,6 +686,7 @@
         }
       });
     }
+    // 리뷰페이지네이션
     function updateReviewPage(currentPage, totalPages) {
       const wineId = $('#getWineId').data('wine-id');
       const paginationContainer = $('#reviewPageContainer');
@@ -277,11 +724,121 @@
         </li>
         `);
     }
+    // 리뷰삭제
+    function deleteReview(reviewId) {
+      const wineId = $('#getWineId').data('wine-id');
+      const token = $("meta[name='_csrf']").attr("content");
+      const header = $("meta[name='_csrf_header']").attr("content");
+      const page = $("#reviewPageContainer .page-active a").text();
+      if (confirm("이 리뷰를 삭제하시겠습니까?")) {
+        $.ajax({
+          url: `/reviews/${reviewId}`,
+          type: 'DELETE',
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+          },
+          success: function(response) {
+            alert(response); // 성공 메시지
+            // 리뷰 삭제 후 UI 업데이트
+            getWineReviewList(wineId, page-1);
+          },
+          error: function(xhr) {
+            if(xhr.status == '401'){
+              alert("로그인 후 이용해주세요.");
+              location.href = "/members/login";
+            }else{
+              alert(xhr.responseText);
+            }
+          }
+        });
+      }
+    }
+    // 리뷰수정폼 열기
+    function modifyReview(reviewId) {
+      const page = $("#reviewPageContainer .page-active a").text(); // 현재 리뷰페이지
+      const wineId = $('#getWineId').data('wine-id'); // 현재페이지 와인아이디
+      const commentForm = document.getElementById("comment-respond-review"); // 리뷰폼
+      const commentDiv = $(`#comment-review-${reviewId}`); // 수정할 리뷰의 기존 텍스트에리어
+      const currentDiv = $(`#post-review-${reviewId}`);
+      const currentText = commentDiv.text(); // 수정할 리뷰의 기존 텍스트에리어의 내용
+      const currentRating = $(`#reviewRating-${reviewId}`).val(); // 수정할 리뷰의 기존 별점 밸류
+      console.log(currentRating);
+      // 새로 만든 별점 인풋
+      const ratingStars = `
+                ${Array.from({ length: 5 }, (_, index) =>
+                          `<i class="fa fa-star ${index < currentRating ? 'active' : ''}" data-value="${index + 1}"></i>`
+                  ).join('')}
+            `;
+      const hiddenInput = `<input type="hidden" id="modify-reviewRating" name="reviewRating" value="${currentRating}">`;
+
+      // 별점포함 수정용 인풋
+      const modifyInput = `
+                        <div class="my-rating modify-reviewRatingInput">${ratingStars}</div>
+                        ${hiddenInput}
+                        <textarea id="modify-comment-${reviewId}" required>${currentText}</textarea>
+                       <button onclick="saveModifyReview(${reviewId})">저장</button>
+                        <button onclick="getWineReviewList(${wineId}, ${page - 1})">취소</button>`;
+
+      currentDiv.html(modifyInput); // 현재 리뷰를 수정 입력 필드로 변경
+      const btns = document.querySelectorAll('#wineReviewListContainer .comment-actions');
+      for(let i = 0; i < btns.length; i++) {
+        btns[i].remove();
+      }
+
+      // 수정에서
+      $('.modify-reviewRatingInput i').on('click', function() {
+        const rating = $(this).data('value');
+        $('.modify-reviewRatingInput i').removeClass('active'); // 기존 별점 초기화
+        $(this).prevAll().addBack().addClass('active'); // 선택한 별점과 이전 별점에 active 클래스 추가
+        $('#modify-reviewRating').val(rating); // 숨겨진 input에 별점 저장
+      });
+
+      commentForm.className = "reviewForm display-none"; // 등록폼 안보이게하기
+
+
+    }
+    // 리뷰수정 날리기
+    function saveModifyReview(reviewId) {
+      const newComment = $(`#modify-comment-${reviewId}`).val();
+      const newRating = $(`#modify-reviewRating`).val(); //
+      const wineId = $('#getWineId').data('wine-id');
+      const token = $("meta[name='_csrf']").attr("content");
+      const header = $("meta[name='_csrf_header']").attr("content");
+      const page = $("#reviewPageContainer .page-active a").text();
+
+      $.ajax({
+        url: `/reviews/${reviewId}`, //
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({ regularReview: newComment,
+        regularRating: newRating}), // 수정내용 전송
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(header, token);
+        },
+        success: function(response) {
+          // 수정 성공 후 UI 업데이트
+          getWineReviewList(wineId, page-1);
+        },
+        error: function(xhr) {
+          console.error(xhr);
+          alert("리뷰 수정에 실패했습니다.");
+        }
+      });
+    }
   </script>
 </th:block>
 
 
 <div layout:fragment="content">
+  <!-- 로그인 사용자 확인용 -->
+  <span th:if="${loginUser != null}">
+    <input type="hidden" id="getLoginUserId" th:data-login-user-id="${loginUser.id != null ? loginUser.id : '0'}">
+  </span>
+  <span th:unless="${loginUser != null}">
+    <input type="hidden" id="getNoLoginUserId" data-login-user-id="0">
+  </span>
+
+  <!-- 와인 타입용 -->
   <div class="page-title parallax parallax1">
     <div class="container">
       <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
@@ -356,7 +913,7 @@
                     <br>
                     <span class="note">
                       Type:
-                      <span th:text="${wine.wineType}"></span>
+                      <span th:text="${wine.wineType}" id="getWineType" th:data-wine-type="${wine.wineType}"></span>
                     </span>
                   </li>
                   <li>
@@ -565,15 +1122,16 @@
                   </ul>
                 </div>
 
-                <div class="comment-respond">
-                  <form class="comment-form">
+                <div class="comment-respond" th:with="memberType=${loginUser != null ? loginUser.memberType : 'DEFAULT_VALUE'}">
+                  <form class="developForm" id="comment-respond-develop">
+                    <span th:if="${memberType == T(com.keduit.wineshare.constant.MemberType).ADMIN || memberType == T(com.keduit.wineshare.constant.MemberType).EXPERT}">
                     <!-- 전문가 맛 그래프 입력 폼 -->
                     <p>Add Review</p>
                     <div class="pro-taste">
                       <div class="taste-like">
                         <div class="taste-category">
                           <h3>Body</h3>
-                          <select class="select-option">
+                          <select class="select-option" name="develop-body">
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -586,7 +1144,7 @@
 
                         <div class="taste-category" th:if="${wine.wineType == T(com.keduit.wineshare.constant.WineType).RED}">
                           <h3>Tannin</h3>
-                          <select class="select-option">
+                          <select class="select-option" name="develop-tannin">
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -598,7 +1156,7 @@
 
                         <div class="taste-category" th:if="${wine.wineType != T(com.keduit.wineshare.constant.WineType).SPARKLING}">
                           <h3>Sweetness</h3>
-                          <select class="select-option">
+                          <select class="select-option" name="develop-sweetness">
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -610,7 +1168,7 @@
 
                         <div class="taste-category">
                           <h3>Acidity</h3>
-                          <select class="select-option">
+                          <select class="select-option" name="develop-acidity">
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -622,7 +1180,7 @@
 
                         <div class="taste-category" th:if="${wine.wineType == T(com.keduit.wineshare.constant.WineType).SPARKLING}">
                           <h3>Fizz</h3>
-                          <select class="select-option">
+                          <select class="select-option" name="develop-fizz">
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -644,12 +1202,12 @@
 
                       <!--   아로마 휠 & 푸드 페어링       -->
                         <div class="taste-category">
-                        <h3>Aroma1</h3>
-                        <select>
+                        <h3>Aroma-1</h3>
+                        <select name="develop-aromaOne" id="aromaOne">
                           <option value="Citrus">Citrus</option>
-                          <option value="TreeFruit">TreeFruit</option>
-                          <option value="StoneFruit">StoneFruit</option>
-                          <option value="TropicalFruit">TropicalFruit</option>
+                          <option value="Tree Fruit">Tree Fruit</option>
+                          <option value="Stone Fruit">Stone Fruit</option>
+                          <option value="Tropical Fruit">Tropical Fruit</option>
                           <option value="Berry">Berry</option>
                           <option value="Floral">Floral</option>
                           <option value="Herb">Herb</option>
@@ -659,18 +1217,18 @@
                           <option value="Spice">Spice</option>
                           <option value="Nuts">Nuts</option>
                           <option value="Tree">Tree</option>
-                          <option value="Sugar">Sugar</option>
+                          <option value="Honey">Honey</option>
                           <option value="Fungi">Fungi</option>
                         </select>
                       </div>
 
                         <div class="taste-category">
-                        <h3>Aroma2</h3>
-                        <select>
+                        <h3>Aroma-2</h3>
+                        <select name="develop-aromaTwo" id="aromaTwo">
                           <option value="Citrus">Citrus</option>
-                          <option value="TreeFruit">TreeFruit</option>
-                          <option value="StoneFruit">StoneFruit</option>
-                          <option value="TropicalFruit">TropicalFruit</option>
+                          <option value="Tree Fruit">Tree Fruit</option>
+                          <option value="Stone Fruit">Stone Fruit</option>
+                          <option value="Tropical Fruit">Tropical Fruit</option>
                           <option value="Berry">Berry</option>
                           <option value="Floral">Floral</option>
                           <option value="Herb">Herb</option>
@@ -680,14 +1238,14 @@
                           <option value="Spice">Spice</option>
                           <option value="Nuts">Nuts</option>
                           <option value="Tree">Tree</option>
-                          <option value="Sugar">Sugar</option>
+                          <option value="Honey">Honey</option>
                           <option value="Fungi">Fungi</option>
                         </select>
                       </div>
 
                         <div class="taste-category">
-                        <h3>Paring1</h3>
-                        <select>
+                        <h3>Paring-1</h3>
+                        <select name="develop-foodOne" id="foodOne">
                           <option value="Beef">Beef</option>
                           <option value="Chicken">Chicken</option>
                           <option value="Pork">Pork</option>
@@ -704,8 +1262,8 @@
                       </div>
 
                         <div class="taste-category">
-                        <h3>Paring2</h3>
-                        <select>
+                        <h3>Paring-2</h3>
+                        <select name="develop-foodTwo" id="foodTwo">
                           <option value="Beef">Beef</option>
                           <option value="Chicken">Chicken</option>
                           <option value="Pork">Pork</option>
@@ -726,28 +1284,29 @@
 
                     <div class="clearfix"></div>
                     <p class="your-rating">Rating</p>
-                    <div class="my-rating">
+                    <div class="developRatingInput">
                       <i class="fa fa-star" aria-hidden="true" data-value="1"></i>
                       <i class="fa fa-star" aria-hidden="true" data-value="2"></i>
                       <i class="fa fa-star" aria-hidden="true" data-value="3"></i>
                       <i class="fa fa-star" aria-hidden="true" data-value="4"></i>
                       <i class="fa fa-star" aria-hidden="true" data-value="5"></i>
+                      <input type="hidden" id="developRating" name="developRating" value=""> <!-- 숨겨진 입력 필드로 별점 저장 -->
                     </div>
                     <p class="comment-form-comment">
-                      <!-- <label>Comment</label>  -->
-                      <textarea  name="comment" placeholder="Comment" required="required"></textarea>
+                      <textarea  name="developComment" placeholder="Comment" required="required"></textarea>
                     </p>
                     <p class="submit-form">
-                      <button name="submit" type="submit"  class="submit btn btn-styl hvr-shutter-out-horizontal" >SUBMIT</button>
+                      <button name="submit" type="submit" class="submit btn btn-styl hvr-shutter-out-horizontal" >SUBMIT</button>
                     </p>
+                      </span>
                   </form>
                 </div>  <!-- /comment-respond -->
               </div>
-              <!--    사용자 리뷰      -->
+              <!--    일반유저 리뷰      -->
               <div id="tab-reviews" class="tab-content">
                   <div class="post-bottom-second post-bottom" >
                     <div class="review_box" id="wineReviewListContainer">
-                      <!-- 전문가 평가 들어올 자리 -->
+                      <!-- 일반유저 평가 들어올 자리 -->
                     </div>
                   </div> <!-- /post-bottom-second -->
 
@@ -758,27 +1317,31 @@
                     </ul>
                   </div>
 
-
-                  <div class="comment-respond">
-                    <form class="comment-form">
+                  <div class="comment-respond" th:with="memberType=${loginUser != null ? loginUser.memberType : 'DEFAULT_VALUE'}">
+                    <form class="reviewForm" id="comment-respond-review">
+                      <span th:if="${memberType == T(com.keduit.wineshare.constant.MemberType).ADMIN
+                      || memberType == T(com.keduit.wineshare.constant.MemberType).EXPERT
+                      || memberType == T(com.keduit.wineshare.constant.MemberType).REGULAR}" >
                       <p>Add Review</p>
 
                       <div class="clearfix"></div>
                       <p class="your-rating">Rating</p>
-                      <div class="my-rating">
+                      <div class="reviewRatingInput">
                         <i class="fa fa-star" aria-hidden="true" data-value="1"></i>
                         <i class="fa fa-star" aria-hidden="true" data-value="2"></i>
                         <i class="fa fa-star" aria-hidden="true" data-value="3"></i>
                         <i class="fa fa-star" aria-hidden="true" data-value="4"></i>
                         <i class="fa fa-star" aria-hidden="true" data-value="5"></i>
+                        <input type="hidden" id="reviewRating" name="reviewRating" value=""> <!-- 숨겨진 입력 필드로 별점 저장 -->
                       </div>
                       <p class="comment-form-comment">
                         <!-- <label>Comment</label>  -->
-                        <textarea  name="comment" placeholder="Comment" required="required"></textarea>
+                        <textarea  name="reviewComment" placeholder="Comment" required="required"></textarea>
                       </p>
                       <p class="submit-form">
                         <button name="submit" type="submit"  class="submit btn btn-styl hvr-shutter-out-horizontal" >SUBMIT</button>
                       </p>
+                      </span>
                     </form>
                   </div>  <!-- /comment-respond -->
 

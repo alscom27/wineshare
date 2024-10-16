@@ -27,6 +27,7 @@ public class WineReviewRepositoryCustomImpl implements WineReviewRepositoryCusto
     List<WineReviewDTO> content = queryFactory
         .select(
             new QWineReviewDTO(
+                wineReview.id,
                 wineReview.wine.id,
                 wineReview.member.id,
                 wineReview.regularRating,
@@ -37,6 +38,7 @@ public class WineReviewRepositoryCustomImpl implements WineReviewRepositoryCusto
         .where(wineReview.wine.id.eq(wineId))
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
+        .orderBy(wineReview.regTime.desc())
         .fetch();
 
     Long total = queryFactory

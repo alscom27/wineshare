@@ -135,7 +135,7 @@ public class DataInitializer {
               for (int i = 0; i < randomCount; i++) {
                 WineDevelopDTO wineDevelopDTO = createRandomWineDevelop(wine, member);
                 WineReviewDTO wineReviewDTO = createRandomWineReview(wine, member);
-                wineDevelopService.saveWineDevelop(wineDevelopDTO, member.getEmail());
+                wineDevelopService.saveWineDevelop(wineDevelopDTO);
                 wineReviewService.registerReview(wineReviewDTO);
               }
             }
@@ -254,11 +254,11 @@ public class DataInitializer {
 
     wineDevelopDTO.setExpertRating(1 + (random.nextInt(5))); // 1.0 ~ 5.0 사이
     wineDevelopDTO.setExpertComment("Random comment " + random.nextInt(100)); // 랜덤 댓글
-    wineDevelopDTO.setSweetness(random.nextDouble() * 5); // 0.0 ~ 5.0 사이
-    wineDevelopDTO.setAcidity(random.nextDouble() * 5); // 0.0 ~ 5.0 사이
-    wineDevelopDTO.setBody(random.nextDouble() * 5); // 0.0 ~ 5.0 사이
-    wineDevelopDTO.setTannin(random.nextDouble() * 5); // 0.0 ~ 5.0 사이
-    wineDevelopDTO.setFizz(random.nextDouble() * 5); // 0.0 ~ 5.0 사이
+    wineDevelopDTO.setSweetness(1 + (random.nextInt(5))); // 0.0 ~ 5.0 사이
+    wineDevelopDTO.setAcidity(1 + (random.nextInt(5))); // 0.0 ~ 5.0 사이
+    wineDevelopDTO.setBody(1 + (random.nextInt(5))); // 0.0 ~ 5.0 사이
+    wineDevelopDTO.setTannin(1 + (random.nextInt(5))); // 0.0 ~ 5.0 사이
+    wineDevelopDTO.setFizz(1 + (random.nextInt(5))); // 0.0 ~ 5.0 사이
     wineDevelopDTO.setAromaOne(getRandomItem(aromas, usedAromas));
     wineDevelopDTO.setAromaTwo(getRandomItem(aromas, usedAromas));
     wineDevelopDTO.setFoodOne(getRandomItem(foods, usedFoods));

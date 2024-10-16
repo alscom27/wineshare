@@ -35,16 +35,16 @@ public class SecurityConfig {
     http.authorizeRequests()
         .mvcMatchers("/", "/members/**", "error", "favicon.ico",
             "/wines/**", "/wine", "/boards/**", "/marketings/**", "/admins/**",
-            "/cellars/**", "/cellar/**", "/develops/**",
+            "/cellars/**", "/cellar/**", "/develops/**", "/reviews/**",
             // 여기부터 css
             "/contact/**",
             "/fonts/**",
             "/icon/**",
-            "/image/**", "/image/facybox/**",
+            "/image/**",
             "/javascript/**",
-            "/rev-slider/**", "/rev-slider/assets/**", "/rev-slider/css/**", "/rev-slider/fonts/revicons/**", "/rev-slider/js/extensions/**",
-            "/stylesheets/**", "/stylesheets/colors/**", "/stylesheets/fonts/**",
-            "/wineshare-css/**", "wineshare-js/**", "wineshare-img/**").permitAll()
+            "/rev-slider/**",
+            "/stylesheets/**",
+            "/wineshare-css/**", "/wineshare-js/**", "/wineshare-img/**").permitAll()
         .mvcMatchers("/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated();
     // 권한 수정하기

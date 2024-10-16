@@ -2,6 +2,7 @@ package com.keduit.wineshare.controller;
 
 import com.keduit.wineshare.dto.WineReviewDTO;
 import com.keduit.wineshare.entity.Member;
+import com.keduit.wineshare.entity.Wine;
 import com.keduit.wineshare.repository.MemberRepository;
 import com.keduit.wineshare.repository.WineRepository;
 import com.keduit.wineshare.repository.WineReviewRepository;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,13 +35,16 @@ public class WineReviewController {
   private final MemberRepository memberRepository;
 
   // 리뷰 등록
-  @PostMapping(value = "/new", consumes = "application/json", produces = "text/plain")
+  @PostMapping(value = "/new/{wineId}", consumes = "application/json", produces = "text/plain")
   public ResponseEntity<String> registerReview(@RequestBody WineReviewDTO wineReviewDTO,
+                                               @PathVariable("wineId") Long wineId,
                                                Principal principal){
     Member member = memberRepository.findByEmail(principal.getName());
+    Wine wine = wineRepository.findById(wineId).orElseThrow(EntityNotFoundException::new);
     wineReviewDTO.setMember(member);
+    wineReviewDTO.setWine(wine);
 
-    // 근데 게시판댓글도 그렇고 여기서 해당 게시글 또는 와인은 어떻게 세팅?
+
     wineReviewService.registerReview(wineReviewDTO);
     return new ResponseEntity<>("리뷰가 등록되었습니다.", HttpStatus.CREATED);
   }
@@ -47,14 +52,25 @@ public class WineReviewController {
   // 리뷰 수정
   @PutMapping(value = "/{reviewId}", consumes = "application/json", produces = "text/plain")
   public ResponseEntity<String> modifyReview(@PathVariable("reviewId") Long reviewId,
-                                             @RequestBody WineReviewDTO wineReviewDTO){
+                                             @RequestBody WineReviewDTO wineReviewDTO,
+                                             Principal principal){
+    if(!wineReviewService.validationWineReview(reviewId, principal.getName())){
+      return new ResponseEntity<>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
+    }
+
+
     wineReviewService.modifyReview(reviewId, wineReviewDTO);
     return new ResponseEntity<>("리뷰가 수정되었습니다.", HttpStatus.OK);
   }
 
-  // 댓글 삭제
+  // 리뷰 삭제
   @DeleteMapping(value = "/{reviewId}", produces = "text/plain")
-  public ResponseEntity<String> removeReview(@PathVariable("reviewId") Long reviewId){
+  public ResponseEntity<String> removeReview(@PathVariable("reviewId") Long reviewId,
+                                             Principal principal){
+
+    if(!wineReviewService.validationWineReview(reviewId, principal.getName())){
+      return new ResponseEntity<>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
+    }
     wineReviewService.remove(reviewId);
     return new ResponseEntity<>("리뷰가 삭제되었습니다.", HttpStatus.OK);
   }
@@ -75,12 +91,5 @@ public class WineReviewController {
     return ResponseEntity.ok(response);
   }
 
-
-//  // 임시
-//  @GetMapping("/wineReview")
-//  public String list(){
-//    log.info("wineReview");
-//    return "wine/wineReview";
-//  }
 
 }

@@ -29,6 +29,7 @@ public class WineDevelopRepositoryCustomImpl implements WineDevelopRepositoryCus
     List<WineDevelopDTO> content = queryFactory
         .select(
             new QWineDevelopDTO(
+                wineDevelop.id,
                 wineDevelop.wine.id,
                 wineDevelop.member.id,
                 wineDevelop.expertRating,
@@ -47,6 +48,7 @@ public class WineDevelopRepositoryCustomImpl implements WineDevelopRepositoryCus
         .where(wineDevelop.wine.id.eq(wineId)) // 와인 ID로 필터링
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
+        .orderBy(wineDevelop.regTime.desc())
         .fetch();
 
     // 전체 개수 조회

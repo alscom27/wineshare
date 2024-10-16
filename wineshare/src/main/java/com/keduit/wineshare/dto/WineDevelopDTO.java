@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @ToString
 public class WineDevelopDTO {
+  private Long id;
 
   private Long wineId;
 
@@ -61,7 +62,8 @@ public class WineDevelopDTO {
   public WineDevelopDTO() {}
 
   @QueryProjection
-  public WineDevelopDTO(Long wineId, Long memberId, double expertRating, String expertComment, double sweetness, double acidity, double body, double tannin, double fizz, String aromaOne, String aromaTwo, String foodOne, String foodTwo) {
+  public WineDevelopDTO(Long id, Long wineId, Long memberId, double expertRating, String expertComment, double sweetness, double acidity, double body, double tannin, double fizz, String aromaOne, String aromaTwo, String foodOne, String foodTwo) {
+    this.id = id;
     this.wineId = wineId;
     this.memberId = memberId;
     this.expertRating = expertRating;
