@@ -44,6 +44,7 @@ public class WineController {
     Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 12);
     Page<WineDTO> wines = wineService.getWinePage(wineSearchDTO, pageable);
 
+
     // 사용자가 로그인했는지 확인하고, 로그인한 경우 셀러에 있는지 확인
     if (principal != null) {
       String email = principal.getName();
@@ -60,6 +61,7 @@ public class WineController {
       List<Boolean> isInCellarList = Collections.nCopies(wines.getContent().size(), false);
       model.addAttribute("isInCellarList", isInCellarList);
     }
+
     model.addAttribute("wines", wines);
     model.addAttribute("wineSearchDTO", wineSearchDTO);
     model.addAttribute("maxPage", 5);
@@ -151,6 +153,15 @@ public class WineController {
     // 리뷰 별점 평균 추가
     WineReviewDTO wineReviewRating = wineReviewService.getCountReviewRating(wine);
 
+    Member member = null;
+    // 멤버 아이디 가져가기
+    if (principal == null) {
+      member = null;
+    } else {
+      member = memberService.findByEmail(principal.getName());
+    }
+
+
     // 아로마 객체..
     AromaWheel aromaOne = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaOne());
     AromaWheel aromaTwo = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaTwo());
@@ -165,6 +176,7 @@ public class WineController {
     }
 
     model.addAttribute("wine", wineDTO);
+    model.addAttribute("loginUser", member);
     model.addAttribute("wineDevelopCount", wineDevelopCount);
     model.addAttribute("wineReviewRating", wineReviewRating);
     model.addAttribute("aromaOne", aromaOne);
