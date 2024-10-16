@@ -75,7 +75,6 @@
                     <input type="text" th:field="*{searchQuery}" class="form-control" placeholder="Search">
                 </div>
                 <input type="hidden" th:value="${boardStatus}" id="hidden-boardStatus">
-                <p th:text="${boardDTOs.get(0).boardStatus}"></p>
                 <button type="submit" id="searchBtn" class="btn btn-default">
                     <i class="fa fa-search"></i>
                 </button>
@@ -102,7 +101,7 @@
                             th:href="'/boards/' + ${#strings.toLowerCase(board.getBoardStatus())} + '/get/' + ${board.getId()}"
                             th:text="${board.boardTitle}"></a></div>
                     <div class="writer" th:text="${board.getWriterNickname()}"></div>
-                    <div class="date" th:text="${#temporals.format(board.getCreateDate(), 'yy-MM-dd')}"></div>
+                    <div class="date" th:text="${#temporals.format(board.regTime, 'yy-MM-dd')}"></div>
                     <!--                <div class="count" th:text=""></div>-->
                 </div>
             </div>
