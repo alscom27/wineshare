@@ -22,7 +22,7 @@
                 <a href="about.html" title="">About Us</a>
                 <ul class="sub-menu">
                   <li><a href="About.html" title="">Wine Share</a></li>
-                  <li><a th:href="@{boards/notice/list/0}" title="">공지사항</a></li>
+                  <li><a th:href="@{boards/notice/list}" title="">공지사항</a></li>
                   <!--                                <li><a href="Coming-soon.html" title="">Bistro</a></li>-->
                   <!--                                <li><a href="404-page.html" title="">Promotion</a></li>-->
                   <!-- <li><a href="Wish-list.html" title="">Wish List</a></li>-->
@@ -57,16 +57,16 @@
               <li class="active">
                 <a href="#" title="">Boards</a>
                 <ul class="sub-menu">
-                  <li><a th:href="@{boards/upgrade/list/0}" title="">등업게시판</a></li>
-                  <li><a th:href="@{boards/question/list/0}" title="">질문게시판</a></li>
-                  <li><a th:href="@{boards/request/list/0}" title="">요청게시판</a></li>
+                  <li><a th:href="@{boards/upgrade/list}" title="">등업게시판</a></li>
+                  <li><a th:href="@{boards/question/list}" title="">질문게시판</a></li>
+                  <li><a th:href="@{boards/request/list}" title="">요청게시판</a></li>
                 </ul><!-- /.sub-menu -->
               </li>
               <li class="active">
                 <a href="#" title="">Events</a>
                 <ul class="sub-menu">
-                  <li><a href="Blog-grid-3column.html" title="">행사</a></li>
-                  <li><a href="Blog-grid-2column.html" title="">프로모션</a></li>
+                  <li><a th:href="@{marketings/list/event}" title="">행사</a></li>
+                  <li><a th:href="@{marketings/list/promotion}" title="">프로모션</a></li>
                   <!--                                    <li><a href="Blog-Right-Slidebar.html" title="">Blog Right Slidebar</a></li>-->
                   <!--                                    <li><a href="Blog-details-slidebar.html" title="">Blog Details Slidebar</a></li>-->
                   <!--                                    <li><a href="Blog-details-fullwidth.html" title="">Blog Details FullWidth</a></li>-->
@@ -105,7 +105,7 @@
                 </li>
                 <li><a href="/cellar/cellarList" title="">My Cellar</a></li>
                 <li><a href="/wines/new" title="">와인 등록</a></li>
-                <li><a href="/marketings/bistro/new" title="">업장/행사 등록</a></li>
+<!--                <li><a th:href="/marketings/register" title="">업장/행사 등록</a></li>-->
                 <li><a href="#" title="">관리자 데이터 목록</a></li>
               </ul><!-- /.sub-menu -->
             </li>

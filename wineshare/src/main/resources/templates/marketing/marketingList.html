@@ -4,215 +4,159 @@
       layout:decorate="~{layouts/layout1}">
 
 <!-- css -->
- <th:block layout:fragment="css">
-   <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/marketing-list.css}">
- </th:block>
+<th:block layout:fragment="css">
+    <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/marketing-list.css}">
+</th:block>
 
 
- <th:block layout:fragment="script">
-   <script th:inline="javascript">
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+      $(document).ready(function () {
+        // 검색 버튼 클릭 시 AJAX 요청
+        $('#searchBtn').on('click', function (event) {
+          event.preventDefault(); // 기본 폼 제출 방지
 
-   </script>
- </th:block>
+          const searchType = $('#searchType').val();
+          const searchQuery = $('#searchQuery').val();
+          const marketCategory = $('#hidden-marketCategory').val().toLowerCase();
+
+          // AJAX GET 요청
+          $.ajax({
+            url: `/marketings/${marketCategory}/list/`,
+            type: 'GET',
+            data: {searchType: searchType, searchQuery: searchQuery},
+            success: function (response) {
+              // 검색 결과를 처리 (페이지 업데이트)
+              $('.marketing_list_wrap').html(response);
+            },
+            error: function (xhr, status, error) {
+              alert('검색 중 오류가 발생했습니다: ' + error);
+            }
+          });
+        });
+
+        // 등록 버튼 클릭 시 등록 페이지로 이동
+        $('#regBtn').on('click', function (e) {
+          e.preventDefault();
+          const marketCategory = $('#hidden-marketCategory').val();
+          if (marketCategory) {
+            window.location.href = `/marketings/${marketCategory.toLowerCase()}/new`;
+          } else {
+            alert('게시판 상태를 확인할 수 없습니다.');
+          }
+        });
+      });
+    </script>
+</th:block>
 
 
 <div layout:fragment="content">
 
-<!-- 현재 컨트롤러 주석단거때문에 /marketings/bistro/list 경로로 들어가면 되는데 th 잘못넣어서 아무것도 뜨지 않음...  -->
-  <form th:action="@{/marketing/marketingList/}" role="form" method="get" th:object="${MarketingDTO}">
 
-  <!-- 검색 & 정렬 기능 -->
-  <div class="search-sort">
-      <div class="marketing-search">
-          <input type="search" id="search" placeholder="Search..." >
-      </div>
+        <!-- 검색 & 정렬 기능 -->
+        <div class="search-sort" th:object="${marketingSearchDTO}">
+            <form th:action="@{'/marketings/'+ ${marketCategory} + '/list'}" role="form" method="get">
 
-      <div class="marketing-sort">
-        <h5>Sort by</h5>
-        <select th:field="*{marketing.marketCategory}">
-          <option value="WINEBAR">WINE BAR</option>
-          <option value="BOTTLESHOP">BOTTLE SHOP</option>
-          <option value="BISTRO">BISTRO</option>
-        </select>
-      </div>
+            <div class="marketing-sort">
+                <h5>Sort by</h5>
+                <select th:field="*{sortOrder}">
+                    <option value="">기본순</option>
+                    <option value="최신순">최신순</option>
+                </select>
+            </div>
 
-    </div>
+            <div class="marketing-search">
+<!--                <input type="hidden" th:field="*{searchType}" value="T">-->
+              <input type="hidden" th:value="${marketCategory}" id="hidden-marketCategory">
+                <input type="text" th:field="*{searchQuery}" placeholder="Search...">
+                <button type="submit" id="searchBtn" class="btn btn-default">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
 
+             <div th:if="${marketCategory} != null">
+            <button type="button" id="regBtn" class="hvr-shutter-out-horizontal">등록하기</button>
+             </div>
 
-
-      <div class="main-blog-grid">
-        <div class="container clearfix">
-          <div class="col-left">
-            <article class="post">
-              <div class="featured-post">
-                <img th:src="@{/image/wines1.jpg}" th:alt="image">
-              </div>
-              <div class="content-post">
-                <div class="post-title" th:text="${marketing.marketingTitle}">
-                  <h2>업장 이름</h2>
-                </div>
-                <div class="post-content" th:text="${marketing.checkContent}">
-                  <span>행사 소개</span>
-                </div>
-                <div class="post-submit">
-                  <a th:href="${marketing.marketLink}"> READ MORE <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                </div>
-              </div>
-            </article>
-
-
-            <!--   밑에는 그냥 자리 보려고 깡통만 만듬 . 위에 완성되면 지우기!!!!!!!!        -->
-
-
-            <article class="post">
-              <div class="featured-post">
-                <img th:src="@{image/wines3.jpg}" th:alt="image">
-              </div>
-              <div class="content-post">
-                <div class="post-title">
-                  <h2>Billecart-Salmon launche new Champagne</h2>
-                </div>
-                <div class="post-meta">
-                  <span>May 21, 2018 </span>
-                </div>
-                <div class="post-content">
-                  <span>Family-owned Champagne house Bille cart Salmon has launched...</span>
-                </div>
-                <div class="post-submit">
-                  <a href="#"> READ MORE <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                </div>
-              </div>
-            </article>
-            <article class="post">
-              <div class="featured-post">
-                <img th:src="@{image/wines5.jpg}" th:alt="image">
-              </div>
-              <div class="content-post">
-                <div class="post-title">
-                  <h2>Ridgeview's latest vintage reveals brand</h2>
-                </div>
-                <div class="post-meta">
-                  <span>May 10, 2018</span>
-                </div>
-                <div class="post-content">
-                  <span>Family-owned Champagne house Bille cart Salmon has launched...</span>
-                </div>
-                <div class="post-submit">
-                  <a href="#"> READ MORE <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                </div>
-              </div>
-            </article>
-            <article class="post">
-              <div class="featured-post">
-                <img th:src="@{image/wines7.jpg}" th:alt="image">
-              </div>
-              <div class="content-post">
-                <div class="post-title">
-                  <h2>The greatest Bordeaux vintages that never were</h2>
-                </div>
-                <div class="post-meta">
-                  <span>May 10, 2018</span>
-                </div>
-                <div class="post-content">
-                  <span>Family-owned Champagne house Bille cart Salmon has launched...</span>
-                </div>
-                <div class="post-submit">
-                  <a href="#"> READ MORE <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                </div>
-              </div>
-            </article>
-          </div>
-          <div class="col-right">
-            <article class="post post-right">
-              <div class="featured-post">
-                <img th:src="@{image/wines2.jpg}" th:alt="image">
-              </div>
-              <div class="content-post">
-                <div class="post-title">
-                  <h2>Jefford on Monday: All change at Capion</h2>
-                </div>
-                <div class="post-meta">
-                  <span>May 19, 2018</span>
-                </div>
-                <div class="post-content">
-                  <span>Family-owned Champagne house Bille cart Salmon has launched...</span>
-                </div>
-                <div class="post-submit">
-                  <a href="#"> READ MORE <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                </div>
-              </div>
-            </article>
-            <article class="post post-right">
-              <div class="featured-post">
-                <img th:src="@{image/wines4.jpg}" th:alt="image">
-              </div>
-              <div class="content-post">
-                <div class="post-title">
-                  <h2>Dom Pérignon cellarmaster Geoffroy</h2>
-                </div>
-                <div class="post-meta">
-                  <span>May 25, 2018</span>
-                </div>
-                <div class="post-content">
-                  <span>Family-owned Champagne house Bille cart Salmon has launched...</span>
-                </div>
-                <div class="post-submit">
-                  <a href="#"> READ MORE <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                </div>
-              </div>
-            </article>
-            <article class="post post-right">
-              <div class="featured-post">
-                <img th:src="@{image/wines6.jpg}" th:alt="image">
-              </div>
-              <div class="content-post">
-                <div class="post-title">
-                  <h2>Barbaresco 2015: Latest raleases</h2>
-                </div>
-                <div class="post-meta">
-                  <span>May 10, 2018</span>
-                </div>
-                <div class="post-content">
-                  <span>Family-owned Champagne house Bille cart Salmon has launched...</span>
-                </div>
-                <div class="post-submit">
-                  <a href="#"> READ MORE <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                </div>
-              </div>
-            </article>
-            <article class="post post-right">
-              <div class="featured-post">
-                <img th:src="@{image/wines8.jpg}" th:alt="image">
-              </div>
-              <div class="content-post">
-                <div class="post-title">
-                  <h2>Roero 2015 & Riserva 2014: Latest releases</h2>
-                </div>
-                <div class="post-meta">
-                  <span>May 10, 2018</span>
-                </div>
-                <div class="post-content">
-                  <span>Family-owned Champagne house Bille cart Salmon has launched...</span>
-                </div>
-                <div class="post-submit">
-                  <a href="#"> READ MORE <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div> <!-- /container -->
-        <div class="blog-pagination">
-          <ul class="flat-pagination">
-            <li class="prev"><a href="#" class=" hvr-shutter-out-horizontal"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a></li>
-            <li><a href="#" class=" hvr-shutter-out-horizontal"> 1 </a></li>
-            <li><a href="#" class=" hvr-shutter-out-horizontal"> 2 </a></li>
-            <li><a href="#" class=" hvr-shutter-out-horizontal"> 3 </a></li>
-            <li class="next"><a href="#" class=" hvr-shutter-out-horizontal"> <i class="fa fa-angle-right" aria-hidden="true"></i> </a></li>
-          </ul>
+            </form>
         </div>
-      </div> <!-- /main-blog-grid -->
 
-  </form>
+
+        <div class="main-blog-grid">
+            <div class="container clearfix">
+                <div class="col-left">
+
+                    <article class="post marketing_list_wrap" th:each="marketingDTO : ${marketingDTOs}">
+
+                      <div th:if="${!marketingDTOs.isEmpty()}">
+                        <div class="featured-post">
+                            <img th:src="${marketingDTO.marketImgUrl}" th:alt="${marketingDTO.marketOriImgName}">
+                        </div>
+                      </div>
+
+                        <div class="content-post">
+                            <div class="post-title" th:text="${marketingDTO.marketingTitle}">
+                                <h2>업장 이름</h2>
+                            </div>
+                            <div class="post-content" th:text="${marketingDTO.marketingContent}">
+                                <span>업장 소개</span>
+                            </div>
+
+                            <div class="post-content" th:text="${marketingDTO.ownerNickname}">
+                                <span>비워둘까?</span>
+                            </div>
+
+                            <div th:if="${eventOrNot != null}">
+
+                                <div class="post-content" th:text="${marketingDTO.eventContent}">
+                                    <span>행사 내용</span>
+                                </div>
+
+                            </div>
+
+                            <div class="post-submit">
+                                <a th:href="${marketingDTO.marketLink}" target="_blank"> READ MORE <i class="fa fa-long-arrow-right"
+                                                                                   aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+
+                    </article>
+
+
+                    <div>
+
+                      <!-- 페이지네이션 -->
+                      <div class="blog-pagination text-center"
+                           th:with="start=${(marketings.number / maxPage) * maxPage + 1},
+                                        end=${(marketings.totalPages == 0) ?
+                                        1 : (start + (maxPage - 1) < marketings.totalPages ?
+                                        start + (maxPage - 1) : marketings.totalPages)}">
+                        <ul class="flat-pagination">
+                          <li class="prev hvr-shutter-out-horizontal" th:classappend="${marketings.first} ? 'disabled'">
+                            <a th:onclick="'javascript:page(' + ${marketings.number -1} + ')'" aria-label="Previous">
+                              <i class="fa fa-angle-left" aria-hidden="true"></i>
+                            </a>
+                          </li>
+                          <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}">
+                            <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text">
+                              [[${page}]]
+                            </a>
+                          </li>
+                          <li class="next hvr-shutter-out-horizontal" th:classappend="${marketings.last} ? 'disabled'">
+                            <a th:onclick="'javascript:page(' + ${marketings.number + 1} + ')'" aria-label="Next">
+                              <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+
+                    </div> <!-- /main-blog-grid -->
+
+                </div>
+            </div>
+        </div>
+
+
+
 </div>
-
 </html>

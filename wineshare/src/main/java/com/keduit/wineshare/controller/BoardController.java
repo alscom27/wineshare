@@ -72,7 +72,7 @@ public class BoardController {
       boardDTO.setId(board.getId());
       boardDTO.setBoardTitle(board.getBoardTitle());
       boardDTO.setBoardContent(board.getBoardContent());
-      boardDTO.setWriterNickname(board.getRegBy());
+//      boardDTO.setWriterNickname(board.getRegBy());
       boardDTO.setRegTime(board.getRegTime());
       boardDTO.setBoardStatus(board.getBoardStatus());
       // 닉네임 설정
@@ -109,6 +109,7 @@ public class BoardController {
                          @RequestParam(value = "boardImgFile", required = false) MultipartFile boardImgFile,
                          Model model) throws IOException {
     if(bindingResult.hasErrors()){
+      // 에러메시지 보내는지 확인해보자
       model.addAttribute("boardStatus", boardStatus);
       return "board/boardForm";
     }
@@ -157,7 +158,7 @@ public class BoardController {
                          Model model
                          ){
 
-    // 로그인 여부 확인
+    // 로그인 여부 확인 게시글 상세보기 안되고 로그인으로 보내라고함
     if (principal == null) {
       // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
       return "redirect:/member/memberLoginForm"; // 로그인 페이지 URL
@@ -221,7 +222,6 @@ public class BoardController {
 
 
     // 이미지 파일 처리
-    // 파일 처리
     if(StringUtils.equalsIgnoreCase(boardStatus, "upgrade") || StringUtils.equalsIgnoreCase(boardStatus, "request")){
       if (boardImgFile != null && !boardImgFile.isEmpty()) {
         try {
@@ -251,13 +251,7 @@ public class BoardController {
     System.out.println(boardDTO.toString());
     System.out.println("============= controller2 ===================");
 
-
-//    boardDTO.setBoardImgFile(boardImg); // 업로드할 이미지 파일 설정
-
     boardService.updateBoard(boardDTO);
-
-
-
     return "redirect:/boards/" + boardStatus + "/list";
   }
 

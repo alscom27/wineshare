@@ -68,7 +68,7 @@
 
                             <div th:if="${boardDTO.boardImgUrl != null}">
                                 <div>
-                                    <img th:src="${boardDTO.boardImgUrl}" alt="게시물 이미지">                                </div>
+                                    <img th:src="${boardDTO.boardImgUrl}" th:alt="${boardDTO.boardOriImgName}">                                </div>
                             </div>
 
 

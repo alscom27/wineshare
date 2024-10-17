@@ -6,6 +6,7 @@ import com.keduit.wineshare.dto.MarketingDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -28,18 +29,19 @@ public class Marketing extends BaseEntity {
 
   private String marketLink; // 업장별 링크
 
-  private String marketImg;  // 업장별 사진
+  private String marketImgName;  // 업장별 사진파일명 uuid
 
+  private String marketImgUrl; // 사진 경로
 
-
-  private String checkContent;  // 행사 설명, 체크가 1되면 폼 활성화
-
+  private String marketOriImgName;  // 원본 이미지 이름
 
   @Enumerated(EnumType.STRING)
   private MarketCategory marketCategory;  // 업장분류
 
   @Enumerated(EnumType.STRING)
   private EventOrNot eventOrNot;  // 행사 상태
+
+  private String eventContent;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
@@ -49,12 +51,24 @@ public class Marketing extends BaseEntity {
     this.marketingTitle = marketingDTO.getMarketingTitle();
     this.marketingContent = marketingDTO.getMarketingContent();
     this.marketLink = marketingDTO.getMarketLink();
-    this.marketImg = marketingDTO.getMarketImg();
-    this.eventOrNot = marketingDTO.getEventOrNot();
-    this.checkContent = marketingDTO.getCheckContent();
     this.marketCategory = marketingDTO.getMarketCategory();
 
-  }
+    if(this.marketImgName != null){
+      this.marketImgName = marketingDTO.getMarketImgName();
+      this.marketImgUrl = marketingDTO.getMarketImgUrl();
+      this.marketOriImgName = marketingDTO.getMarketOriImgName();
+    }
 
+   this.eventOrNot = marketingDTO.getEventOrNot();
+    this.eventContent = marketingDTO.getEventContent();
+
+//    if(StringUtils.equalsIgnoreCase(marketingDTO.getEventOrNot(), "on")){
+//      this.eventOrNot = EventOrNot.ON;
+//      this.eventContent = marketingDTO.getEventContent();
+//    }else{
+//      this.eventOrNot = EventOrNot.END;
+//    }
+
+  }
 
 }

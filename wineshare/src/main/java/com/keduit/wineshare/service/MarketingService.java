@@ -22,17 +22,10 @@ import java.io.IOException;
 public class MarketingService {
 
   private final MarketingRepository marketingRepository;
-  private final ImgFileService imgFileService;
+//  private final ImgFileService imgFileService;
 
   // 마케팅 저장
   public Long saveMarketing(MarketingDTO marketingDTO) throws IOException{
-
-    MultipartFile imageFile = marketingDTO.getMarketImgFile();
-    if(imageFile != null && !imageFile.isEmpty()){
-      String imagePath = imgFileService.saveMarketingImg(imageFile);
-      marketingDTO.setMarketImg(imagePath);
-    }
-    // 이미지가 null일 가정은 우선 제외함
 
     Marketing marketing = marketingDTO.createMarketing();
     marketingRepository.save(marketing);
@@ -41,20 +34,15 @@ public class MarketingService {
 
   // 마케팅은 상세조회 없고 누르면 링크다고 날아갈거임
 
+  // 마케팅 수정
   public Long updateMarketing(MarketingDTO marketingDTO) throws IOException{
     Marketing marketing = marketingRepository.findById(marketingDTO.getId())
         .orElseThrow(EntityNotFoundException::new);
 
-    // 이미지 처리
-    MultipartFile imageFile = marketingDTO.getMarketImgFile();
-    if(imageFile != null && !imageFile.isEmpty()){
-      // 이미지가 업로드 된 경우 기존이미지를 업데이트
-      String imagePath = imgFileService.saveMarketingImg(imageFile);
-      marketingDTO.setMarketImg(imagePath);
-    }else{
-      // 기존 이미지 유지
-      marketingDTO.setMarketImg(marketing.getMarketImg());
-    }
+    // 이미지 필드 설정
+    marketing.setMarketImgName(marketingDTO.getMarketImgName());
+    marketing.setMarketImgUrl(marketingDTO.getMarketImgUrl());
+    marketing.setMarketOriImgName(marketingDTO.getMarketOriImgName());
 
     marketing.updateMarketing(marketingDTO);
     return marketing.getId();

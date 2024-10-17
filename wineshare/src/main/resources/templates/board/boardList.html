@@ -21,9 +21,9 @@
 
                 // AJAX GET 요청
                 $.ajax({
-                    url: `/boards/${boardStatus}/list/0`,
+                    url: `/boards/${boardStatus}/list/`,
                     type: 'GET',
-                    data: { searchType: searchType, searchQuery: searchQuery },
+                    data: {searchType: searchType, searchQuery: searchQuery},
                     success: function (response) {
                         // 검색 결과를 처리 (페이지 업데이트)
                         $('.board_list_wrap').html(response);
@@ -34,7 +34,7 @@
                 });
             });
 
-           // 등록 버튼 클릭 시 등록 페이지로 이동
+            // 등록 버튼 클릭 시 등록 페이지로 이동
             $('#regBtn').on('click', function (e) {
                 e.preventDefault();
                 const boardStatus = $('#hidden-boardStatus').val();

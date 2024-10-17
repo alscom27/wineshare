@@ -1,8 +1,11 @@
 package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.dto.BoardDTO;
+import com.keduit.wineshare.dto.MarketingDTO;
 import com.keduit.wineshare.entity.Board;
+import com.keduit.wineshare.entity.Marketing;
 import com.keduit.wineshare.repository.BoardRepository;
+import com.keduit.wineshare.repository.MarketingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,21 +25,24 @@ public class ImgFileService {
 
   private final FileService fileService;
   private final BoardRepository boardRepository;
-  private final BoardService boardService;
+  private final MarketingRepository marketingRepository;
 
   // 경로바꿔야함 현재 프로젝트 내부로 해놨고 각자의 컴퓨터로 빼놔야함
   // 프로퍼티스도 각자의 경로로 설정하고 이그노어 갈기야함
 
   // 설정한 업로드 경로
-  @Value("${LicenseImgLocation}")
-  private String licenseImgLocation;  // 게시판 사진 경로
+  @Value("${licenseImgLocation}")
+  private String licenseImgLocation;  // 자격증 사진 경로
 
-  @Value("${RequestImgLocation}")
-  private String requestImgLocation;
+  @Value("${requestImgLocation}")
+  private String requestImgLocation;  // 요청 사진 경로
 
-  @Value("{marketingImgLocation}")
-  private String marketingImgLocation; // 마케팅 사진 경로
+  @Value("${marketImgLocation}")
+  private String marketImgLocation; // 마케팅 사진 경로
 
+
+
+  /////////////////////////// 게시판 //////////////////////////////
   //사진 저장
   public BoardDTO saveBoardImg(BoardDTO boardDTO, MultipartFile boardImgFile) throws Exception{
 
@@ -65,7 +71,6 @@ public class ImgFileService {
     }
 
     return boardDTO;
-
   }
 
   // 사진 수정
@@ -126,40 +131,76 @@ public class ImgFileService {
         fileService.deleteFile(requestImgLocation + "/" + board.getBoardImgName());
       }
     }
-
-//    // 데이터베이스에서 게시글 삭제
-//    boardRepository.delete(board);
-
   }
 
   /////////////////////// 게시판 ///////////////////
 
 ///////////////// 마케팅 /////////////////
-  // 위에 save보드이미지를 마케팅이미지로 바꾸고 경로 틀기
-  public String saveMarketingImg(MultipartFile marketingImgFile) throws IOException{
-    String uuid = UUID.randomUUID().toString();
+//사진 저장
+  public MarketingDTO saveMarketImg(MarketingDTO marketingDTO, MultipartFile marketImgFile) throws Exception{
 
-    // 파일 확장자 가져오기
-    String originalFileName =marketingImgFile.getOriginalFilename();
-    String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+    String originalFileName = marketImgFile.getOriginalFilename();
+    String imgName = "";
+    String imgUrl = "";
 
-    // 새로운 파일 이름
-    String fileName = uuid + extension;
+  // 파일 업로드
+    imgName = fileService.uploadFile(marketImgLocation, originalFileName, marketImgFile.getBytes());
+    imgUrl = "/images/market/" + imgName;
 
-    // 파일 저장 경로
-    File directory = new File(marketingImgLocation);
-    if(!directory.exists()){
-      directory.mkdirs(); // 디렉토리가 없으면 생성
+    marketingDTO.setMarketImgName(imgName);
+    marketingDTO.setMarketImgUrl(imgUrl);
+    marketingDTO.setMarketOriImgName(originalFileName);
+
+  return marketingDTO;
+}
+
+
+  // 사진 수정
+  public MarketingDTO updateMarketImg(Long marketingId, MultipartFile marketImgFile) throws Exception{
+
+    Marketing marketing = marketingRepository.findById(marketingId).orElseThrow(EntityNotFoundException::new);
+    MarketingDTO marketingDTO = MarketingDTO.of(marketing);
+
+    String originalFileName = marketImgFile.getOriginalFilename();
+    String imgUrl = "";
+    String marketImgName = "";
+
+    if (!marketImgFile.isEmpty()) {
+      // 기존 이미지 삭제
+      if (!StringUtils.isEmpty(marketing.getMarketImgName())) {
+        fileService.deleteFile(marketImgLocation + "/" + marketing.getMarketImgName());
+      }
+
+      // 새로운 이미지 업로드
+      String marketOriImgName = marketImgFile.getOriginalFilename();
+      marketImgName = fileService.uploadFile(marketImgLocation, marketOriImgName, marketImgFile.getBytes());
+
+      // 이미지 URL 설정
+      imgUrl = "/images/market/" + marketImgName;
+
+      // DTO에 이미지 정보 설정
+      marketingDTO.setMarketImgName(marketImgName);
+      marketingDTO.setMarketImgUrl(imgUrl);
+      marketingDTO.setMarketOriImgName(originalFileName);
     }
 
-    File saveFile = new File(directory, fileName);
-    marketingImgFile.transferTo(saveFile); // 파일 저장
+//    System.out.println("========= img file service ============");
+//    System.out.println(boardDTO.toString());
+//    System.out.println("========= img file service ============");
 
-    // 저장된 파일 경로 반환 (DB에 저장할 경로)
-    return fileName; //uuid 파일 이름 반환
-
+    return marketingDTO;
   }
 
+  // 사진 삭제
+  public void deleteMarketImg(Long marketingId) throws Exception{
+    Marketing marketing = marketingRepository.findById(marketingId).orElseThrow(EntityNotFoundException::new);
+
+    // 기존 이미지 삭제
+    if (!StringUtils.isEmpty(marketing.getMarketImgName())) {
+      fileService.deleteFile(marketImgLocation + "/" + marketing.getMarketImgName());
+    }
+
+  }
 
 
 }
