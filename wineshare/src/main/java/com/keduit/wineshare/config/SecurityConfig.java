@@ -17,13 +17,13 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
   @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+  public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) throws Exception{
     System.out.println("================ SecurityFilterChain =================");
     http.formLogin()
         .loginPage("/members/login")  //로그인 페이지
         .defaultSuccessUrl("/") //로그인 성공시
         .usernameParameter("email") //중요 username을 email로 사용하기로함
-        .failureUrl("/members/login/error") //로그인 실패했을 때
+        .failureHandler(customAuthenticationFailureHandler) //로그인 실패했을 때
         .and()  //그리고
         .logout() //로그아웃하면
         .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")) //매쳐로 url 매핑

@@ -4,6 +4,7 @@ package com.keduit.wineshare.entity;
 import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.constant.WithdrawStatus;
 import com.keduit.wineshare.dto.MemberDTO;
+import com.keduit.wineshare.dto.MemberModifyDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -61,6 +62,12 @@ public class Member extends BaseEntity {
     member.setWithdrawStatus(WithdrawStatus.STAY);
     return member;
 
+  }
+
+  public void updateMember(MemberModifyDTO memberModifyDTO){
+    this.setName(memberModifyDTO.getName());
+    this.setNickname(memberModifyDTO.getNickname());
+    this.setPhoneNumber(memberModifyDTO.getPhoneNumber());
   }
 
 }
