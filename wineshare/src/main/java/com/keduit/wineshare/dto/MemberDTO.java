@@ -14,6 +14,9 @@ import javax.validation.constraints.Pattern;
 @Setter
 @ToString
 public class MemberDTO {
+
+  private Long id;
+
   // 정책 맞추고 추가해서 손봐야할듯
   @NotBlank(message = "이메일은 필수 입력입니다.")
   @Email(message = "이메일 형식으로 입력해주세요.")
