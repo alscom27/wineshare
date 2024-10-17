@@ -30,7 +30,7 @@ public class WineDTO {
   private String region;
 
   @Min(value = 0, message = "가격을 입력하세요.")
-  private int price;
+  private Integer price;
 
   @NotNull(message = "와인 종류를 선택하세요.")
   private WineType wineType;

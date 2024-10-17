@@ -42,7 +42,8 @@ public class WineReviewDTO {
   public WineReviewDTO() {}
 
   @QueryProjection
-  public WineReviewDTO(Long wineId, Long memberId, double regularRating, String regularReview) {
+  public WineReviewDTO(Long id, Long wineId, Long memberId, double regularRating, String regularReview) {
+    this.id = id;
     this.wineId = wineId;
     this.memberId = memberId;
     this.regularRating = regularRating;

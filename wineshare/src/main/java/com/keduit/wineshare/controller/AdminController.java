@@ -10,6 +10,7 @@ import com.keduit.wineshare.service.MarketingService;
 import com.keduit.wineshare.service.MemberService;
 import com.keduit.wineshare.service.WineService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/admins")
 @RequiredArgsConstructor
+@Log4j2
 public class AdminController {
 
   //주입
@@ -183,6 +185,13 @@ public class AdminController {
     model.addAttribute("maxPage", 5);
 
     return "admin/dataList";
+  }
+
+  // 임시 컨트롤러
+  @GetMapping("/dataChoiList")
+  public String data(){
+    log.info("dataChoiList");
+    return "admin/dataChoiList";
   }
 
 

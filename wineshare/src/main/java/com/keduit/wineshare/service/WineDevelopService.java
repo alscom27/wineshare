@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
+
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +31,14 @@ public class WineDevelopService {
   private final FoodPairingRepository foodPairingRepository;
 
 
-  public void saveWineDevelop(WineDevelopDTO wineDevelopDTO, String email) {
+  // 평가 등록
+  public void saveWineDevelop(WineDevelopDTO wineDevelopDTO) {
 
     // Wine ID로 디벨롭을 등록할 와인을 가져온다
     Wine wine = wineRepository.findById(wineDevelopDTO.getWineId()).orElseThrow(EntityNotFoundException::new);
 
     // 멤버 가져오기
-    Member member = memberRepository.findByEmail(email);
+    Member member = memberRepository.findById(wineDevelopDTO.getMemberId()).orElseThrow(EntityNotFoundException::new);
 
     // Form 을 통해 등록된 DTO 를 Entity 로 변환
     WineDevelop wineDevelop = new WineDevelop();
@@ -59,7 +63,7 @@ public class WineDevelopService {
   }
 
 
-  // 특정 와인에 속한 모든 와인디벨롭을 리스트로 반환 하는 메소드
+  // 특정 와인에 속한 모든 와인디벨롭을 리스트로 반환 하는 메소드(목록 -> 지워도되나? 나중에확인)
   public List<WineDevelopDTO> findAllByWine(Wine wine) {
 
     List<WineDevelop> wineDevelops = wineDevelopRepository.findByWine(wine);
@@ -85,6 +89,7 @@ public class WineDevelopService {
     return wineDevelopDTOList;
   }
 
+  // 목록(ajax)
   @Transactional(readOnly = true)
   public Page<WineDevelopDTO> getDevelopPageByWine(Long wineId, Pageable pageable) {
     return wineDevelopRepository.getDevelopPageByWine(wineId, pageable);
@@ -124,6 +129,49 @@ public class WineDevelopService {
     wineDevelopDTO.setFoodOne(mostFoodOne);
     wineDevelopDTO.setFoodTwo(mostFoodTwo);
     return wineDevelopDTO;
+  }
+
+  // 권한확인(작성자==로그인유저)
+  @Transactional(readOnly = true)
+  public boolean validationWineDevelop(Long developId, String email) {
+    Member member = memberRepository.findByEmail(email);
+    WineDevelop wineDevelop = wineDevelopRepository.findById(developId).orElseThrow(EntityNotFoundException::new);
+    Member savedMember = wineDevelop.getMember();
+    if (!StringUtils.equals(member.getEmail(), savedMember.getEmail())) {
+      return false;
+    }
+    return true;
+  }
+
+  // 평가 삭제
+  public void remove(Long developId){
+    wineDevelopRepository.deleteById(developId);
+  }
+
+
+  // 평가 수정
+  public void modifyDevelop(Long developId, WineDevelopDTO wineDevelopDTO) {
+    WineDevelop wineDevelop = wineDevelopRepository.findById(developId).orElseThrow(EntityNotFoundException::new);
+
+    wineDevelop.setExpertRating(wineDevelopDTO.getExpertRating());
+    wineDevelop.setExpertComment(wineDevelopDTO.getExpertComment());
+    wineDevelop.setAromaOne(wineDevelopDTO.getAromaOne());
+    wineDevelop.setAromaTwo(wineDevelopDTO.getAromaTwo());
+    wineDevelop.setFoodOne(wineDevelopDTO.getFoodOne());
+    wineDevelop.setFoodTwo(wineDevelopDTO.getFoodTwo());
+    wineDevelop.setFizz(wineDevelopDTO.getFizz());
+    wineDevelop.setTannin(wineDevelopDTO.getTannin());
+    wineDevelop.setBody(wineDevelopDTO.getBody());
+    wineDevelop.setSweetness(wineDevelopDTO.getSweetness());
+    wineDevelop.setAcidity(wineDevelopDTO.getAcidity());
+
+    wineDevelopRepository.save(wineDevelop);
+  }
+
+  // 평가 삭제시 카운트
+  public Long countDevelopByWine(Long wineId) {
+
+    return wineDevelopRepository.countByWineId(wineId);
   }
 
 

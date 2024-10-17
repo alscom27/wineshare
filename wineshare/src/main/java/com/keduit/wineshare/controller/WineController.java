@@ -44,6 +44,7 @@ public class WineController {
     Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 12);
     Page<WineDTO> wines = wineService.getWinePage(wineSearchDTO, pageable);
 
+
     // 사용자가 로그인했는지 확인하고, 로그인한 경우 셀러에 있는지 확인
     if (principal != null) {
       String email = principal.getName();
@@ -60,6 +61,7 @@ public class WineController {
       List<Boolean> isInCellarList = Collections.nCopies(wines.getContent().size(), false);
       model.addAttribute("isInCellarList", isInCellarList);
     }
+
     model.addAttribute("wines", wines);
     model.addAttribute("wineSearchDTO", wineSearchDTO);
     model.addAttribute("maxPage", 5);
@@ -151,11 +153,59 @@ public class WineController {
     // 리뷰 별점 평균 추가
     WineReviewDTO wineReviewRating = wineReviewService.getCountReviewRating(wine);
 
+    Member member = null;
+    // 멤버 아이디 가져가기
+    if (principal == null) {
+      member = null;
+    } else {
+      member = memberService.findByEmail(principal.getName());
+    }
+
+
     // 아로마 객체..
-    AromaWheel aromaOne = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaOne());
-    AromaWheel aromaTwo = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaTwo());
-    FoodPairing foodOne = foodPairingService.getFoodPairingByFood(wineDevelopCount.getFoodOne());
-    FoodPairing foodTwo = foodPairingService.getFoodPairingByFood(wineDevelopCount.getFoodTwo());
+//    AromaWheel aromaOne = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaOne());
+//    AromaWheel aromaTwo = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaTwo());
+//    FoodPairing foodOne = foodPairingService.getFoodPairingByFood(wineDevelopCount.getFoodOne());
+//    FoodPairing foodTwo = foodPairingService.getFoodPairingByFood(wineDevelopCount.getFoodTwo());
+    AromaWheel aromaOne = null;
+    AromaWheel aromaTwo = null;
+    FoodPairing foodOne = null;
+    FoodPairing foodTwo = null;
+    if (wineDevelopCount != null) {
+      String aromaOneValue = wineDevelopCount.getAromaOne();
+      String aromaTwoValue = wineDevelopCount.getAromaTwo();
+      String foodOneValue = wineDevelopCount.getFoodOne();
+      String foodTwoValue = wineDevelopCount.getFoodTwo();
+      // AromaWheel 조회
+      if (aromaOneValue != null) {
+        aromaOne = aromaWheelService.getAromaWheelByAroma(aromaOneValue);
+      } else {
+        aromaOne = new AromaWheel();
+        aromaOne.setAroma("Unknown");
+      }
+      if (aromaTwoValue != null) {
+        aromaTwo = aromaWheelService.getAromaWheelByAroma(aromaTwoValue);
+      } else {
+        aromaTwo = new AromaWheel();
+        aromaTwo.setAroma("Unknown");
+      }
+      // FoodPairing 조회
+      if (foodOneValue != null) {
+        foodOne = foodPairingService.getFoodPairingByFood(foodOneValue);
+      } else {
+        foodOne = new FoodPairing();
+        foodOne.setFood("Unknown");
+      }
+      if (foodTwoValue != null) {
+        foodTwo = foodPairingService.getFoodPairingByFood(foodTwoValue);
+      } else {
+        foodTwo = new FoodPairing();
+      }
+
+
+      // 추가적인 처리 로직
+      // ...
+    }
 
     List<Wine> similarWineList = wineService.getSimilarWines(wine);
 
@@ -165,6 +215,7 @@ public class WineController {
     }
 
     model.addAttribute("wine", wineDTO);
+    model.addAttribute("loginUser", member);
     model.addAttribute("wineDevelopCount", wineDevelopCount);
     model.addAttribute("wineReviewRating", wineReviewRating);
     model.addAttribute("aromaOne", aromaOne);

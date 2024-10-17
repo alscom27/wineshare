@@ -25,5 +25,7 @@ public interface WineDevelopRepository extends JpaRepository<WineDevelop, Long>,
   @Query("SELECT wd.foodTwo, COUNT(wd.foodTwo) FROM WineDevelop wd WHERE wd.wine = :wine GROUP BY wd.foodTwo ORDER BY COUNT(wd.foodTwo) DESC")
   List<Object[]>  countFoodTwoByWine(@Param("wine") Wine wine);
 
+  WineDevelop findWineDevelopById(Long id);
 
+  Long countByWineId(Long id);
 }

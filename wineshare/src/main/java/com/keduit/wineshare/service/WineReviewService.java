@@ -1,14 +1,17 @@
 package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.dto.WineReviewDTO;
+import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.entity.Wine;
 import com.keduit.wineshare.entity.WineReview;
+import com.keduit.wineshare.repository.MemberRepository;
 import com.keduit.wineshare.repository.WineReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
 public class WineReviewService {
 
   private final WineReviewRepository wineReviewRepository;
+  private final MemberRepository memberRepository;
 
   // 리뷰 등록
   public void registerReview(WineReviewDTO wineReviewDTO){
@@ -28,7 +32,6 @@ public class WineReviewService {
     wineReview.setMember(wineReviewDTO.getMember());
     wineReview.setWine(wineReviewDTO.getWine());
 
-    // 우선 멤버는 principal로 보드는 패스배리어블로 될거라 믿는다
 
     wineReviewRepository.save(wineReview);
   }
@@ -57,6 +60,17 @@ public class WineReviewService {
     });
   }
 
+  // 권한확인(작성자==로그인유저)
+  @Transactional(readOnly = true)
+  public boolean validationWineReview(Long reviewId, String email) {
+    Member member = memberRepository.findByEmail(email);
+    WineReview wineReview = wineReviewRepository.findById(reviewId).orElseThrow(EntityNotFoundException::new);
+    Member savedMember = wineReview.getMember();
+    if (!StringUtils.equals(member.getEmail(), savedMember.getEmail())) {
+      return false;
+    }
+    return true;
+  }
   // 리뷰 수정
   public void modifyReview(Long reviewId, WineReviewDTO wineReviewDTO){
     WineReview review = wineReviewRepository.findById(reviewId)

@@ -14,10 +14,10 @@
     <script th:inline="javascript">
         $(document).ready(function(){
 
-          const errorMessage = [[${errorMessage}]];
-          if (errorMessage != null) {
-            alert(errorMessage);
-          }
+          // const errorMessage = [[${errorMessage}]];
+          // if (errorMessage != null) {
+          //   alert(errorMessage);
+          // }
 
           bindDomEvent();
 
@@ -99,7 +99,7 @@
             <!-- 와인 종류 선택 -->
             <div class="form-group">
                 <label th:for="wineType">Wine Type</label>
-                <select th:field="*{wineType}" >
+                <select th:field="*{wineType}" id="wineTypeSelect" onchange="toggleDevelopForm()">
                     <option value="RED">RED</option>
                     <option value="WHITE">WHITE</option>
                     <option value="SPARKLING">SPARKLING</option>
@@ -134,11 +134,10 @@
             </div>
 
             <!-- 등록 버튼 -->
-            <div th:if="${#strings.isEmpty(wineDTO.id)}">
+            <div>
                 <div class="wine-reg-button">
                     <!--    th:formaction 경로 수정해야합니덥!!!     -->
-                    <button th:formaction="@{/board/new}"
-                            type="submit" class="btn text-white" style="background-color: #c02323;">등록</button>
+                    <button type="submit" class="btn text-white" style="background-color: #c02323;">등록</button> <!-- 자바스크립트에서 와인먼저등록 후 등록한 와인아이디로 와인디벨롭에 등록하도록 -->
                     <button type="reset" class="btn text-white" style="background-color: #BDBDBD;">취소</button>
                 </div>
             </div>
@@ -146,6 +145,186 @@
 
 
         </form>
+
+        <div class="comment-respond" >
+            <form class="developForm" id="comment-respond-develop">
+                    <span>
+                    <!-- 전문가 맛 그래프 입력 폼 -->
+                    <p>Add Develop</p>
+                    <div class="pro-taste">
+                      <div class="taste-like">
+                        <div class="taste-category">
+                          <h3>Body</h3>
+                          <select class="select-option" name="develop-body">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+
+                        </div>
+
+                        <div class="taste-category" >
+                          <h3>Tannin</h3>
+                          <select class="select-option" name="develop-tannin">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+
+                        <div class="taste-category" >
+                          <h3>Sweetness</h3>
+                          <select class="select-option" name="develop-sweetness">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+
+                        <div class="taste-category">
+                          <h3>Acidity</h3>
+                          <select class="select-option" name="develop-acidity">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+
+                        <div class="taste-category">
+                          <h3>Fizz</h3>
+                          <select class="select-option" name="develop-fizz">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+                      </div>
+
+                    </div>
+
+
+
+                        <!-- 전문가 아로마 휠, 페어링 입력 폼 -->
+
+                    <div class="pro-taste">
+                      <div class="taste-like">
+
+                      <!--   아로마 휠 & 푸드 페어링       -->
+                        <div class="taste-category">
+                        <h3>Aroma-1</h3>
+                        <select name="develop-aromaOne" id="aromaOne">
+                          <option value="Citrus">Citrus</option>
+                          <option value="Tree Fruit">Tree Fruit</option>
+                          <option value="Stone Fruit">Stone Fruit</option>
+                          <option value="Tropical Fruit">Tropical Fruit</option>
+                          <option value="Berry">Berry</option>
+                          <option value="Floral">Floral</option>
+                          <option value="Herb">Herb</option>
+                          <option value="Vegetable">Vegetable</option>
+                          <option value="Fermented">Fermented</option>
+                          <option value="Roasted">Roasted</option>
+                          <option value="Spice">Spice</option>
+                          <option value="Nuts">Nuts</option>
+                          <option value="Tree">Tree</option>
+                          <option value="Honey">Honey</option>
+                          <option value="Fungi">Fungi</option>
+                        </select>
+                      </div>
+
+                        <div class="taste-category">
+                        <h3>Aroma-2</h3>
+                        <select name="develop-aromaTwo" id="aromaTwo">
+                          <option value="Citrus">Citrus</option>
+                          <option value="Tree Fruit">Tree Fruit</option>
+                          <option value="Stone Fruit">Stone Fruit</option>
+                          <option value="Tropical Fruit">Tropical Fruit</option>
+                          <option value="Berry">Berry</option>
+                          <option value="Floral">Floral</option>
+                          <option value="Herb">Herb</option>
+                          <option value="Vegetable">Vegetable</option>
+                          <option value="Fermented">Fermented</option>
+                          <option value="Roasted">Roasted</option>
+                          <option value="Spice">Spice</option>
+                          <option value="Nuts">Nuts</option>
+                          <option value="Tree">Tree</option>
+                          <option value="Honey">Honey</option>
+                          <option value="Fungi">Fungi</option>
+                        </select>
+                      </div>
+
+                        <div class="taste-category">
+                        <h3>Paring-1</h3>
+                        <select name="develop-foodOne" id="foodOne">
+                          <option value="Beef">Beef</option>
+                          <option value="Chicken">Chicken</option>
+                          <option value="Pork">Pork</option>
+                          <option value="Mushroom">Mushroom</option>
+                          <option value="Charcuterie">Charcuterie</option>
+                          <option value="Cheese">Cheese</option>
+                          <option value="Pasta">Pasta</option>
+                          <option value="Spicy">Spicy</option>
+                          <option value="Snack">Snack</option>
+                          <option value="Shell">Shell</option>
+                          <option value="Fish">Fish</option>
+                          <option value="Vegetable">Vegetable</option>
+                        </select>
+                      </div>
+
+                        <div class="taste-category">
+                        <h3>Paring-2</h3>
+                        <select name="develop-foodTwo" id="foodTwo">
+                          <option value="Beef">Beef</option>
+                          <option value="Chicken">Chicken</option>
+                          <option value="Pork">Pork</option>
+                          <option value="Mushroom">Mushroom</option>
+                          <option value="Charcuterie">Charcuterie</option>
+                          <option value="Cheese">Cheese</option>
+                          <option value="Pasta">Pasta</option>
+                          <option value="Spicy">Spicy</option>
+                          <option value="Snack">Snack</option>
+                          <option value="Shell">Shell</option>
+                          <option value="Fish">Fish</option>
+                          <option value="Vegetable">Vegetable</option>
+                        </select>
+                      </div>
+                      </div>
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                    <p class="your-rating">Rating</p>
+                    <div class="developRatingInput">
+                      <i class="fa fa-star" aria-hidden="true" data-value="1"></i>
+                      <i class="fa fa-star" aria-hidden="true" data-value="2"></i>
+                      <i class="fa fa-star" aria-hidden="true" data-value="3"></i>
+                      <i class="fa fa-star" aria-hidden="true" data-value="4"></i>
+                      <i class="fa fa-star" aria-hidden="true" data-value="5"></i>
+                      <input type="hidden" id="developRating" name="developRating" value=""> <!-- 숨겨진 입력 필드로 별점 저장 -->
+                    </div>
+                    <p class="comment-form-comment">
+                      <textarea  name="developComment" placeholder="Comment" required="required"></textarea>
+                    </p>
+                    <p class="submit-form">
+                      <button name="submit" type="submit" class="submit btn btn-styl hvr-shutter-out-horizontal" >SUBMIT</button>
+                    </p>
+                      </span>
+            </form>
+        </div>  <!-- /comment-respond -->
 
 
     </div>

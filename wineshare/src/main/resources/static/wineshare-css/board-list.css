@@ -15,6 +15,7 @@ body {
 }
 ul, li {
     list-style: none;
+    margin-top:10px;
 }
 
 a {
@@ -27,16 +28,38 @@ a {
      margin: 0 auto;
      margin-top: 3%;
      padding: 20px;
-
+    position:relative;
 }
-.board_title {
+.banner-img {
+    border: 1px solid #e5e5e5;
+    background-size: cover;
+    height:300px;
+    width:100%;
     margin-bottom: 30px;
+    background-repeat : no-repeat;
+}
 
+.upgrade-img{
+    background-image: url('/wineshare-img/banner2.jpeg');
 }
-.board_title strong {
-    color: #747474;
+
+.question-img{
+   background-image: url('/wineshare-img/banner3.jpeg');
+}
+
+.request-img{
+    background-image: url('/wineshare-img/banner4.jpeg');
+ }
+
+
+.board_title{
+    color: #FFFFFF;
     font-size: 3rem;
+    position:absolute;
+    top:8%;
+    left:5%;
 }
+
 .board_title p {
     margin-top: 5px;
     font-size: 1.4rem;
@@ -90,9 +113,7 @@ a {
 .board_list >div.top > div {
     font-weight: 600;
 }
-.board_list .num {
-    width: 10%;
-}
+
 .board_list .title{
     width: 60%;
     text-align: left;
@@ -104,11 +125,10 @@ a {
     width: 10%;
 }
 .board_list .date {
+    float:right;
     width: 10%;
 }
-.board_list.count {
-    width: 10%;
-}
+
 .board_page {
     margin-top: 30px;
     text-align: center;
@@ -143,3 +163,46 @@ a {
 .board_page a :first-child{
     border-left:1px solid #ddd;
 }
+.form-group{
+    height: 100px;
+    position: relative;
+
+}
+
+.form-list-type{
+    width:7%;
+    height: calc(1.5em + 0.25rem + 2px);
+    padding: 0.2rem 0.75rem;
+    position: absolute;
+    bottom: -10px;
+}
+
+.form-group-search{
+    width:15%;
+    display:flex;
+    position: absolute;
+    left: 100px;
+    bottom: -10px;
+}
+
+
+.regbutton{
+    width: 13%;
+    height: 27%;
+    font-size: 14px;
+    color: #c02323;
+    border: 1px solid #c02323;
+    font-size: 14px;
+    background: #c02323;
+    color: #e5e5e5;
+    padding: 7px;
+    position: absolute;
+    right: 0;
+    bottom: 5px;
+}
+
+input[type="text"]{
+    height:10%;
+}
+
+
