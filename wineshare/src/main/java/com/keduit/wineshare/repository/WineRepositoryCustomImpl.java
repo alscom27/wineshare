@@ -115,7 +115,7 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
     QWineDevelop qWineDevelop = QWineDevelop.wineDevelop;
 
     // 타입이 같은 와인 중에서 각 와인의 expertRating의 평균을 계산
-    return queryFactory
+    Wine recommendedWine = queryFactory
         .select(qWine)
         .from(qWine)
         .join(qWine.wineDevelops, qWineDevelop) // WineDevelop과 조인
@@ -124,6 +124,13 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         .groupBy(qWine.id) // 와인 ID로 그룹화
         .orderBy(qWineDevelop.expertRating.avg().desc()) // 평균 expertRating으로 내림차순 정렬
         .fetchFirst(); // 가장 첫 번째 결과(가장 높은 평균 expertRating)를 가져옴
+
+    // 추천 와인이 null인 경우 현재 와인 반환
+    if (recommendedWine == null) {
+      return wine; // 현재 와인 반환
+    }
+
+    return recommendedWine; // 추천 와인 반환
   }
   // 2. 국가가 같은 와인 중 전문가 평점이 높은것
   @Override
@@ -132,7 +139,7 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
     QWineDevelop qWineDevelop = QWineDevelop.wineDevelop;
 
     // 같은 국가의 와인 중에서 각 와인의 expertRating의 평균을 계산
-    return queryFactory
+    Wine recommendedWine = queryFactory
         .select(qWine)
         .from(qWine)
         .join(qWine.wineDevelops, qWineDevelop) // WineDevelop과 조인
@@ -141,6 +148,12 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         .groupBy(qWine.id) // 와인 ID로 그룹화
         .orderBy(qWineDevelop.expertRating.avg().desc()) // 평균 expertRating으로 내림차순 정렬
         .fetchFirst(); // 가장 첫 번째 결과(가장 높은 평균 expertRating)를 가져옴
+    // 추천 와인이 null인 경우 현재 와인 반환
+    if (recommendedWine == null) {
+      return wine; // 현재 와인 반환
+    }
+
+    return recommendedWine; // 추천 와인 반환
   }
   // 3. 가장 높은 카운트의 아로마원을 제일 많이 가지고 있는 와인
   @Override
@@ -158,7 +171,7 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         .fetchFirst();
 
     // 찾은 aromaOne을 가진 다른 와인들 중에서 aromaOne의 카운트가 가장 높은 와인 찾기
-    return queryFactory
+    Wine recommendedWine = queryFactory
         .select(qWine)
         .from(qWine)
         .join(qWine.wineDevelops, qWineDevelop)
@@ -167,6 +180,12 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         .groupBy(qWine.id)
         .orderBy(qWineDevelop.aromaOne.count().desc())
         .fetchFirst();
+    // 추천 와인이 null인 경우 현재 와인 반환
+    if (recommendedWine == null) {
+      return wine; // 현재 와인 반환
+    }
+
+    return recommendedWine; // 추천 와인 반환
   }
   // 가장 높은 카운트의 푸드원을 제일 많이 가지고 있는 와인
   @Override
@@ -184,7 +203,7 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         .fetchFirst();
 
     // 찾은 foodOne을 가진 다른 와인들 중에서 foodOne의 카운트가 가장 높은 와인 찾기
-    return queryFactory
+    Wine recommendedWine = queryFactory
         .select(qWine)
         .from(qWine)
         .join(qWine.wineDevelops, qWineDevelop)
@@ -193,6 +212,13 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         .groupBy(qWine.id)
         .orderBy(qWineDevelop.foodOne.count().desc())
         .fetchFirst();
+
+    // 추천 와인이 null인 경우 현재 와인 반환
+    if (recommendedWine == null) {
+      return wine; // 현재 와인 반환
+    }
+
+    return recommendedWine; // 추천 와인 반환
   }
 
 

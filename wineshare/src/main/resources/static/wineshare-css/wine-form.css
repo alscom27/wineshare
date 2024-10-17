@@ -11,3 +11,10 @@
 .wine-reg-button{
     float:right;
 }
+
+.comment-respond .fa-star {
+    cursor: pointer;
+}
+.fa-star.active {
+    color: #ffb136 !important;
+}

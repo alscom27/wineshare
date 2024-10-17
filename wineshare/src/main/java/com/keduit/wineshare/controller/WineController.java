@@ -11,14 +11,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 
@@ -35,6 +39,7 @@ public class WineController {
   private final AromaWheelService aromaWheelService;
   private final FoodPairingService foodPairingService;
   private final CellarService cellarService;
+  private final ImgFileService imgFileService;
 
   // 와인 목록
   @GetMapping({"/list", "/list/{page}"})
@@ -122,25 +127,40 @@ public class WineController {
   }
 
 
-  // 와인등록(db에 등록 후 리스트로)
-  // 겟매핑을 통해 들어간 와인폼에서 입력 후 전송 시 포스트매핑으로 들어옴, 와인을 저장함
+  // 와인등록(ajax)
   @PostMapping("/new")
-  public String saveWine(@Valid WineDTO wineDTO, BindingResult bindingResult, Model model, Principal principal) {
+  public ResponseEntity<Map<String, ?>> saveWine(@Valid @ModelAttribute WineDTO wineDTO,
+                                                 @RequestParam(value = "wineImgFile") MultipartFile wineImgFile,
+                                                 Principal principal) throws IOException {
     Member member = memberService.findByEmail(principal.getName());
-    // WineDTO 유효성 체크, 에러 시 와인폼 페이지를 다시 보여줌
-    if (bindingResult.hasErrors()) {
-      return "wine/wineForm";
-    }
-
-    // 와인 이름 중복 시 등록 불가능하게 처리
+    Map<String, Long> response = new HashMap<>();
     try {
+      // 와인 생성
+      if (wineImgFile != null && !wineImgFile.isEmpty()) {
+        try {
+          // 파일을 선택한 경우
+          String wineImg = imgFileService.saveWineImg(wineDTO, wineImgFile);
+          wineDTO.setWineImg(wineImg);
+        } catch (Exception e) {
+          // 500 INTERNAL SERVER ERROR 응답
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .body(Map.of("error","이미지 저장 중 오류가 발생했습니다. 다시 시도해 주세요."));
+        }
+      } else {
+        return ResponseEntity.badRequest().body(Map.of("error", "이미지 파일을 선택해 주세요."));
+      }
       Wine wine = Wine.createWine(wineDTO, member);
-      wineService.saveWine(wine);
+      Wine savedWine = wineService.saveWine(wine);
+      response.put("wineId", savedWine.getId());
+      return ResponseEntity.ok(response);
     } catch (IllegalStateException e) {
-      model.addAttribute("errorMessage", e.getMessage()); // 멤버폼 갈때 모델에 에러메세지 담아감, 가서 알러트할것.
-      return "wine/wineForm";
+      // 에러 발생 시 400 BAD REQUEST와 에러 메시지 반환
+      return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+    } catch (Exception e) {
+      // 일반적인 오류에 대해 500 INTERNAL SERVER ERROR와 에러 메시지 반환
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(Map.of("error", "와인 저장 중 오류가 발생했습니다."));
     }
-    return "redirect:/wine/wineList";
   }
 
   // 와인상세
@@ -202,9 +222,6 @@ public class WineController {
         foodTwo = new FoodPairing();
       }
 
-
-      // 추가적인 처리 로직
-      // ...
     }
 
     List<Wine> similarWineList = wineService.getSimilarWines(wine);

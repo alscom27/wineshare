@@ -82,11 +82,11 @@ public class CellarServiceTests {
   public void testAddMultipleWinesToCellar_OneByOne() {
     // 와인을 하나씩 추가하는 테스트
     CellarWineDTO cellarWineDTO1 = new CellarWineDTO();
-    cellarWineDTO1.setWindId(wine1.getId());
+    cellarWineDTO1.setWineId(wine1.getId());
     cellarService.addCellar(cellarWineDTO1, member.getEmail());
 
     CellarWineDTO cellarWineDTO2 = new CellarWineDTO();
-    cellarWineDTO2.setWindId(wine2.getId());
+    cellarWineDTO2.setWineId(wine2.getId());
     cellarService.addCellar(cellarWineDTO2, member.getEmail());
 
     // 추가된 와인이 셀러에 있는지 확인
@@ -98,11 +98,11 @@ public class CellarServiceTests {
   public void testGetCellarList_WithMultipleAdditions() {
     // 여러 번 와인을 추가한 후, 셀러 리스트 확인
     CellarWineDTO cellarWineDTO1 = new CellarWineDTO();
-    cellarWineDTO1.setWindId(wine1.getId());
+    cellarWineDTO1.setWineId(wine1.getId());
     cellarService.addCellar(cellarWineDTO1, member.getEmail());
 
     CellarWineDTO cellarWineDTO2 = new CellarWineDTO();
-    cellarWineDTO2.setWindId(wine2.getId());
+    cellarWineDTO2.setWineId(wine2.getId());
     cellarService.addCellar(cellarWineDTO2, member.getEmail());
 
     // 셀러에 담긴 모든 와인 조회

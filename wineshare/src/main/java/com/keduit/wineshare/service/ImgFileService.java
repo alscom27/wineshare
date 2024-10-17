@@ -2,6 +2,7 @@ package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.dto.BoardDTO;
 import com.keduit.wineshare.dto.MarketingDTO;
+import com.keduit.wineshare.dto.WineDTO;
 import com.keduit.wineshare.entity.Board;
 import com.keduit.wineshare.entity.Marketing;
 import com.keduit.wineshare.repository.BoardRepository;
@@ -25,6 +26,7 @@ public class ImgFileService {
 
   private final FileService fileService;
   private final BoardRepository boardRepository;
+  private final BoardService boardService;
   private final MarketingRepository marketingRepository;
 
   // 경로바꿔야함 현재 프로젝트 내부로 해놨고 각자의 컴퓨터로 빼놔야함
@@ -32,17 +34,17 @@ public class ImgFileService {
 
   // 설정한 업로드 경로
   @Value("${licenseImgLocation}")
-  private String licenseImgLocation;  // 자격증 사진 경로
+  private String licenseImgLocation;  // 게시판 사진 경로
 
   @Value("${requestImgLocation}")
-  private String requestImgLocation;  // 요청 사진 경로
+  private String requestImgLocation;
 
-  @Value("${marketImgLocation}")
+  @Value("${marketingImgLocation}")
   private String marketImgLocation; // 마케팅 사진 경로
 
+  @Value("${wineImgLocation}")
+  private String wineImgLocation; // 와인 사진 경로
 
-
-  /////////////////////////// 게시판 //////////////////////////////
   //사진 저장
   public BoardDTO saveBoardImg(BoardDTO boardDTO, MultipartFile boardImgFile) throws Exception{
 
@@ -71,6 +73,7 @@ public class ImgFileService {
     }
 
     return boardDTO;
+
   }
 
   // 사진 수정
@@ -204,3 +207,22 @@ public class ImgFileService {
 
 
 }
+
+// 와인 이미지 저장 관련
+public String saveWineImg(WineDTO wineDTO, MultipartFile wineImgFile) throws Exception{
+  String originalFileName = wineImgFile.getOriginalFilename();
+  String imgName = "";
+  String imgUrl = "";
+
+  // 파일이름
+  imgName = fileService.uploadFile(wineImgLocation, originalFileName, wineImgFile.getBytes());
+  imgUrl = "/images/wines/" + imgName;
+
+
+
+  return imgUrl; // db에 저장할 경로
+
+}
+}
+
+
