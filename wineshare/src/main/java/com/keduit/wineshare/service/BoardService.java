@@ -23,16 +23,15 @@ public class BoardService {
   private final BoardRepository boardRepository;
 //  private final ImgFileService imgFileService;
 
-  // 게시판 상태에 따라 이미지 업로드 허용 여부 체크
-  private boolean isImgUploadAllowed(BoardStatus boardStatus){
-    return boardStatus == BoardStatus.UPGRADE || boardStatus == BoardStatus.REQUEST;
-  }
+//  // 게시판 상태에 따라 이미지 업로드 허용 여부 체크
+//  private boolean isImgUploadAllowed(BoardStatus boardStatus){
+//    return boardStatus == BoardStatus.UPGRADE || boardStatus == BoardStatus.REQUEST;
+//  }
 
 
 
   // 게시글저장
   public Long saveBoard(BoardDTO boardDTO) throws IOException {
-
 
     Board board = boardDTO.createBoard();
     boardRepository.save(board);

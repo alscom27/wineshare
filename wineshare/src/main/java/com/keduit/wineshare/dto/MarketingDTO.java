@@ -1,5 +1,6 @@
 package com.keduit.wineshare.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.keduit.wineshare.constant.EventOrNot;
 import com.keduit.wineshare.constant.MarketCategory;
 import com.keduit.wineshare.entity.Marketing;
@@ -11,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -27,23 +29,27 @@ public class MarketingDTO {
 
   private String marketLink; // 업장 링크
 
-  private String marketImg; // 저장된 업장사진 경로?
+  private String marketImgName;  // 업장별 사진파일명 uuid
 
-  private MultipartFile marketImgFile; // 업로드할 이미지 파일?
+  private String marketImgUrl; // 사진 경로
+
+  private String marketOriImgName;  // 원본 이미지 이름
 
   private MarketCategory marketCategory;  // 업장분류
-
-  private EventOrNot eventOrNot; // 행사상태
-
-  private Member member;
 
   private String ownerNickname; // 위에걸 써야하는지 이걸 써야하는지 둘다 있어야하는지 모르겠음
 
   // 여기까지가 업장등록 밑에가되면 프로모션
+  private EventOrNot eventOrNot; // 행사상태
 
-  // private int checkEvent; //0이면 업장등록이고 1이면  // selected는 0으로(디폴트0)
+  private String eventContent;
 
-  private String checkContent;  //체크가 1이면 활성화 (행사내용)
+  @JsonFormat(pattern = "yy-MM-dd")
+  private LocalDateTime regTime;
+
+  private Member member;
+
+  public MarketingDTO() {}
 
   // 아마 안될거같은데 되면 땡큐고 일단 갈김
   private static ModelMapper modelMapper = new ModelMapper();
