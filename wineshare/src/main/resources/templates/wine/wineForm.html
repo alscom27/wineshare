@@ -2,6 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
 
 <!-- 사용자 css -->
 <th:block layout:fragment="css">
@@ -21,6 +25,13 @@
 
           bindDomEvent();
 
+            // 평가 별점 클릭 시 밸류 변화
+            $('.developRatingInput i').on('click', function () {
+                const rating = $(this).data('value');
+                $('.developRatingInput i').removeClass('active'); // 기존 별점 초기화
+                $(this).prevAll().addBack().addClass('active'); // 선택한 별점과 이전 별점에 active 클래스 추가
+                $('#developRating').val(rating); // 숨겨진 input에 별점 저장
+            });
         });
 
         // 이미지 파일만 등록 가능하도록 해주기
@@ -42,6 +53,111 @@
 
           });
         }
+
+        // 와인 타입 변경시 셀렉트바 토글
+        function toggleDevelopForm() {
+            const wineTypeSelect = document.getElementById("wineTypeSelect");
+            const developTanninSelector = document.getElementById("developTanninSelector");
+            const developFizzSelector = document.getElementById("developFizzSelector");
+            const developSweetnessSelector = document.getElementById("developSweetnessSelector");
+
+            if (wineTypeSelect.value === "RED") {
+                developTanninSelector.style.display = "block";
+                developFizzSelector.style.display = "none";
+            } else if (wineTypeSelect.value === "SPARKLING") {
+                developFizzSelector.style.display = "block";
+                developSweetnessSelector.style.display = "none";
+                developTanninSelector.style.display = "none";
+            } else {
+                developTanninSelector.style.display = "none";
+                developFizzSelector.style.display = "none";
+                developSweetnessSelector.style.display = "block";
+            }
+
+
+        }
+        // 와인폼 저장 -> 아이디 반환 -> 디벨롭폼 저장
+        function submitWineForm() {
+            const wineData = new FormData(document.getElementById("wineForm")); // 와인 폼 데이터 가져오기
+            const token = $("meta[name='_csrf']").attr("content");
+            const header = $("meta[name='_csrf_header']").attr("content");
+
+            // 평가 등록전에 하면 이미 와인이 등록된 상태라서 에러날거같음. 여기서 먼저 도전
+            const aromaOne = $('select[name="develop-aromaOne"]').val();
+            const aromaTwo = $('select[name="develop-aromaTwo"]').val();
+            const foodOne = $('select[name="develop-foodOne"]').val();
+            const foodTwo = $('select[name="develop-foodTwo"]').val();
+            if (aromaOne === aromaTwo) {
+                alert('아로마는 같은 값을 선택할 수 없습니다.');
+                return;
+            }
+            if (foodOne === foodTwo) {
+                alert('페어링은 같은 값을 선택할 수 없습니다.');
+                return;
+            }
+            console.log("메소드시작");
+
+            // AJAX 요청으로 와인 데이터 저장
+            $.ajax({
+                url: '/wines/new', // 와인 저장 URL
+                type: 'POST',
+                data: wineData,
+                processData: false, // FormData가 자동으로 처리되도록 설정
+                contentType: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+                success: function(response) {
+                    const wineId = response.wineId; // 서버에서 반환된 와인 ID
+                    console.log("와인등록성공");
+                    // 디벨롭 폼 데이터 가져오기
+                    const developData = {
+                        expertRating: $('#developRating').val(),
+                        expertComment: $('textarea[name="developComment"]').val(),
+                        sweetness: $('select[name="develop-sweetness"]').val(),
+                        acidity: $('select[name="develop-acidity"]').val(),
+                        body: $('select[name="develop-body"]').val(),
+                        tannin: $('select[name="develop-tannin"]').val(),
+                        fizz: $('select[name="develop-fizz"]').val(),
+                        aromaOne: aromaOne,
+                        aromaTwo: aromaTwo,
+                        foodOne: foodOne,
+                        foodTwo: foodTwo,
+                        wineId: wineId // 저장된 와인 ID 추가
+                    };
+
+                    // 디벨롭 데이터 AJAX 요청
+                    $.ajax({
+                        url: `/develops/new/${wineId}`, // 디벨롭 저장 URL
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(developData),
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader(header, token);
+                        },
+                        success: function(response) {
+                            console.log("와인평가등록성공");
+
+                        },
+                        error: function(xhr) {
+                            const errorMessage = xhr.responseText || '와인 등록 중 오류가 발생했습니다.';
+                            alert(errorMessage); // 서버에서 반환한 에러 메시지 표시
+                        }
+                    });
+
+                    alert('와인이 등록되었습니다.');
+                    window.location.assign('/wines/list');
+                },
+                error: function(xhr) {
+                    const errorMessage = xhr.responseText || '와인 등록 중 오류가 발생했습니다.';
+                    alert(errorMessage); // 서버에서 반환한 에러 메시지 표시
+
+                }
+            });
+        }
+
+
+
     </script>
 </th:block>
 
@@ -70,7 +186,7 @@
         <h1 class="wine-form-title">Wine Register</h1>
 
         <!-- 타임리프를 사용한 와인 등록 폼 -->
-        <form th:action="@{/templates/wine}" method="post" class="wineForm" th:object="${wineDTO}" enctype="multipart/form-data">
+        <form th:action="@{/wines/new}" method="post" class="wineForm" id="wineForm" th:object="${wineDTO}" enctype="multipart/form-data">
 
             <!-- 와인 이름 입력 -->
             <div class="form-group">
@@ -93,7 +209,7 @@
             <!-- 와인 가격 입력 -->
             <div class="form-group">
                 <label th:for="price">Price (₩)</label>
-                <input th:field="*{price}" type="text" placeholder="와인 가격을 입력해주세요." required/>
+                <input th:field="*{price}" type="number" placeholder="와인 가격을 입력해주세요." required/>
             </div>
 
             <!-- 와인 종류 선택 -->
@@ -133,14 +249,7 @@
                 </div>
             </div>
 
-            <!-- 등록 버튼 -->
-            <div>
-                <div class="wine-reg-button">
-                    <!--    th:formaction 경로 수정해야합니덥!!!     -->
-                    <button type="submit" class="btn text-white" style="background-color: #c02323;">등록</button> <!-- 자바스크립트에서 와인먼저등록 후 등록한 와인아이디로 와인디벨롭에 등록하도록 -->
-                    <button type="reset" class="btn text-white" style="background-color: #BDBDBD;">취소</button>
-                </div>
-            </div>
+
 
 
 
@@ -166,9 +275,9 @@
 
                         </div>
 
-                        <div class="taste-category" >
+                        <div class="taste-category" id="developTanninSelector">
                           <h3>Tannin</h3>
-                          <select class="select-option" name="develop-tannin">
+                          <select class="select-option" name="develop-tannin" >
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -178,7 +287,7 @@
                           </select>
                         </div>
 
-                        <div class="taste-category" >
+                        <div class="taste-category" id="developSweetnessSelector">
                           <h3>Sweetness</h3>
                           <select class="select-option" name="develop-sweetness">
                             <option value="0">0</option>
@@ -202,7 +311,7 @@
                           </select>
                         </div>
 
-                        <div class="taste-category">
+                        <div class="taste-category" id="developFizzSelector" style="display: none;">
                           <h3>Fizz</h3>
                           <select class="select-option" name="develop-fizz">
                             <option value="0">0</option>
@@ -320,7 +429,7 @@
                       <textarea  name="developComment" placeholder="Comment" required="required"></textarea>
                     </p>
                     <p class="submit-form">
-                      <button name="submit" type="submit" class="submit btn btn-styl hvr-shutter-out-horizontal" >SUBMIT</button>
+                      <button name="submit" type="submit" class="submit btn btn-styl hvr-shutter-out-horizontal" onclick="submitWineForm()">SUBMIT</button>
                     </p>
                       </span>
             </form>

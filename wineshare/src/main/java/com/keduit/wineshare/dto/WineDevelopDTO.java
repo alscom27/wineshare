@@ -30,28 +30,14 @@ public class WineDevelopDTO {
   private String expertComment;
 
   // 높으면 sweet, 낮으면 dry
-  @Min(0)
-  @Max(5)
   private double sweetness;
-
   // acidic, soft
-  @Min(0)
-  @Max(5)
   private double acidity;
-
   // bold, light
-  @Min(0)
-  @Max(5)
   private double body;
-
   // tannic, smooth
-  @Min(0)
-  @Max(5)
   private double tannin;
-
   // fizzy, gentle
-  @Min(0)
-  @Max(5)
   private double fizz;
 
   private String aromaOne;

@@ -1,6 +1,7 @@
 package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.dto.BoardDTO;
+import com.keduit.wineshare.dto.WineDTO;
 import com.keduit.wineshare.entity.Board;
 import com.keduit.wineshare.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,9 @@ public class ImgFileService {
 
   @Value("{marketingImgLocation}")
   private String marketingImgLocation; // 마케팅 사진 경로
+
+  @Value("${wineImgLocation}")
+  private String wineImgLocation; // 와인 사진 경로
 
   //사진 저장
   public BoardDTO saveBoardImg(BoardDTO boardDTO, MultipartFile boardImgFile) throws Exception{
@@ -162,4 +166,27 @@ public class ImgFileService {
 
 
 
+
+
+
+
+
+  // 와인 이미지 저장 관련
+  public String saveWineImg(WineDTO wineDTO, MultipartFile wineImgFile) throws Exception{
+    String originalFileName = wineImgFile.getOriginalFilename();
+    String imgName = "";
+    String imgUrl = "";
+
+    // 파일이름
+    imgName = fileService.uploadFile(wineImgLocation, originalFileName, wineImgFile.getBytes());
+    imgUrl = "/images/wines/" + imgName;
+
+
+
+    return imgUrl; // db에 저장할 경로
+
+  }
 }
+
+
+

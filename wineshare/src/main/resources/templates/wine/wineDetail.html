@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout1}">
+      layout:decorate="~{layouts/layout1}" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 
 <head>
   <meta name="_csrf" th:content="${_csrf.token}" />
@@ -80,6 +80,8 @@
       const wineId = $('#getWineId').data('wine-id');
       getWineDevelopList(wineId, 0);
       getWineReviewList(wineId, 0);
+
+      toggleGraph();
 
 
       // 리뷰 별점 클릭 시 밸류변화
@@ -203,6 +205,23 @@
       });
     });
 
+    function toggleGraph() {
+      const wineTypeNow = $('#getWineType').data('wine-type');
+      const tanninGraph = document.getElementById('tanninGraph');
+      const fizzGraph = document.getElementById('fizzGraph');
+      const sweetnessGraph = document.getElementById('sweetnessGraph');
+
+      console.log(wineTypeNow);
+      if (wineTypeNow === "RED") {
+        fizzGraph.style.display = "none";
+      } else if (wineTypeNow === "SPARKLING") {
+        sweetnessGraph.style.display = "none";
+        tanninGraph.style.display = "none";
+      } else {
+        tanninGraph.style.display = "none";
+        fizzGraph.style.display = "none";
+      }
+    }
 
 
     // 셀러 추가
@@ -959,14 +978,14 @@
             <div class="progress" role="progressbar" aria-label="Basic example" th:aria-valuenow="${wineDevelopCount.body}" aria-valuemin="0" aria-valuemax="5">
               <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.body / 5 * 100} + '%') + ';'"></div>
             </div>
-
           </td>
           <td>
             <div class="tasteStructureNm">Bold</div>
           </td>
-
         </tr>
-        <tr th:if="${wine.wineType != null and wine.wineType == T(com.keduit.wineshare.constant.WineType).RED}">
+
+        <tr id="tanninGraph">
+<!--        <tr th:if="${wine.wineType != null and wine.wineType == 'RED'}">-->
           <td>
             <div class="tasteStructureNm">Smooth</div>
           </td>
@@ -974,14 +993,13 @@
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
               <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.tannin / 5 * 100} + '%') + ';'"></div>
             </div>
-
           </td>
           <td>
             <div class="tasteStructureNm">Tannic</div>
           </td>
-
         </tr>
-        <tr th:if="${wine.wineType != null and wine.wineType != T(com.keduit.wineshare.constant.WineType).SPARKLING}">
+        <tr id="sweetnessGraph">
+        <!--        <tr th:if="${wine.wineType != null and wine.wineType != T(com.keduit.wineshare.constant.WineType).SPARKLING}">-->
           <td>
             <div class="tasteStructureNm">Dry</div>
           </td>
@@ -989,12 +1007,10 @@
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
               <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.sweetness / 5 * 100} + '%') + ';'"></div>
             </div>
-
           </td>
           <td>
             <div class="tasteStructureNm">Sweet</div>
           </td>
-
         </tr>
         <tr>
           <td>
@@ -1004,13 +1020,13 @@
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
               <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.acidity / 5 * 100} + '%') + ';'"></div>
             </div>
-
           </td>
           <td>
             <div class="tasteStructureNm">Acidic</div>
           </td>
         </tr>
-        <tr th:if="${wine.wineType != null and wine.wineType == T(com.keduit.wineshare.constant.WineType).SPARKLING}">
+        <tr id="fizzGraph">
+        <!--        <tr th:if="${wine.wineType != null and wine.wineType == T(com.keduit.wineshare.constant.WineType).SPARKLING}">-->
           <td>
             <div class="tasteStructureNm">Gentle</div>
           </td>
@@ -1018,7 +1034,6 @@
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
               <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.fizz / 5 * 100} + '%') + ';'"></div>
             </div>
-
           </td>
           <td>
             <div class="tasteStructureNm">Fizzy</div>

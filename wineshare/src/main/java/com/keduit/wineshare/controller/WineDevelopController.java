@@ -56,12 +56,20 @@ public class WineDevelopController {
   public ResponseEntity<String> registerDevelop(@RequestBody WineDevelopDTO wineDevelopDTO,
                                                 @PathVariable("wineId") Long wineId,
                                                 Principal principal) {
-    Member member = memberRepository.findByEmail(principal.getName());
-    Wine wine = wineRepository.findById(wineId).orElseThrow(EntityNotFoundException::new);
-    wineDevelopDTO.setMemberId(member.getId());
-    wineDevelopDTO.setWineId(wine.getId());
-    wineDevelopService.saveWineDevelop(wineDevelopDTO);
-    return new ResponseEntity<>("평가가 등록되었습니다.", HttpStatus.CREATED);
+    try {
+      Member member = memberRepository.findByEmail(principal.getName());
+      Wine wine = wineRepository.findById(wineId).orElseThrow(() -> new EntityNotFoundException("와인을 찾을 수 없습니다."));
+
+      wineDevelopDTO.setMemberId(member.getId());
+      wineDevelopDTO.setWineId(wine.getId());
+      wineDevelopService.saveWineDevelop(wineDevelopDTO);
+
+      return ResponseEntity.status(HttpStatus.CREATED).body("평가가 등록되었습니다.");
+    } catch (EntityNotFoundException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    } catch (Exception ex) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("등록 중 오류가 발생했습니다: " + ex.getMessage());
+    }
   }
 
   // 평가 삭제
