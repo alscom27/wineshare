@@ -21,6 +21,9 @@
             position:absolute;
             top: 40%;
         }
+        .data-btn button {
+            background-color: #c02323;
+        }
 
         .data-title{
             position: absolute;
@@ -45,11 +48,12 @@
     <div class="data-container">
         <h2 class="data-title">관리자용 데이터 대시보드</h2>
         <div class="data-btn">
-            <button type="submit" class="btn text-white" style="background-color: #c02323;" >회원</button>
-            <button type="submit" class="btn text-white" style="background-color: #c02323;" >와인</button>
-            <button type="submit" class="btn text-white" style="background-color: #c02323;" >페어링</button>
-            <button type="submit" class="btn text-white" style="background-color: #c02323;" >아로마</button>
-            <button type="submit" class="btn text-white" style="background-color: #c02323;" >마케팅</button>
+            <button type="button" onclick="location.href='/admins/members/list'" class="btn text-white" >회원</button>
+            <button type="button" onclick="location.href='/admins/wines/list'" class="btn text-white" >와인</button>
+            <button type="button" onclick="location.href='/admins/market/list'" class="btn text-white" >마케팅</button>
+            <button type="button" onclick="location.href='/admins/boards/list'" class="btn text-white" >게시판</button>
+            <button type="button" onclick="location.href='#'" class="btn text-white" >페어링</button>
+            <button type="button" onclick="location.href='#'" class="btn text-white" >아로마</button>
         </div>
     </div>
 </div>

@@ -80,24 +80,43 @@
         </div>
 
 
-        <table class="data-table">
+        <table class="data-table" th:if="${boards != null}">
             <thead>
             <tr>
-                <th>회원아이디</th>
-                <th>와인명</th>
-                <th>행사 상태</th>
+                <th>글 번호</th>
+                <th>글 제목</th>
+                <th>글 내용</th>
                 <th>작성자</th>
                 <th>등록일</th>
             </tr>
             </thead>
-
-            <tbody>
+            <tbody th:each="board, status : ${boards.getContent()}">
             <tr>
-                <td>ㅇㅇㅇ</td>
-                <td>ㅇㅇㅇ</td>
-                <td>ㅇㅇ</td>
-                <td>ㅇㅇㅇ</td>
-                <td>00.00.00</td>
+                <td th:text="${board.id}">ㅇㅇㅇ</td>
+                <td th:text="${board.boardTitle}">ㅇㅇㅇ</td>
+                <td th:text="${board.boardContent}">ㅇㅇ</td>
+                <td th:text="${board.regBy}">ㅇㅇㅇ</td>
+                <td th:text="${board.regTime}">00.00.00</td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="data-table" th:if="${wines != null}">
+            <thead>
+            <tr>
+                <th>와인 번호</th>
+                <th>와인 타입</th>
+                <th>와인 이름</th>
+                <th>작성자</th>
+                <th>등록일</th>
+            </tr>
+            </thead>
+            <tbody th:each="wine, status : ${wines.getContent()}">
+            <tr>
+                <td th:text="${wine.id}">ㅇㅇㅇ</td>
+                <td th:text="${wine.wineType}">ㅇㅇㅇ</td>
+                <td th:text="${wine.wineName}">ㅇㅇ</td>
+                <td th:text="${wine.price}">ㅇㅇㅇ</td>
+                <td th:text="${wine.country}">00.00.00</td>
             </tr>
             </tbody>
         </table>

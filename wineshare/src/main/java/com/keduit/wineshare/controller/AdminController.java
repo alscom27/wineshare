@@ -82,7 +82,7 @@ public class AdminController {
   }
 
   // 회원 리스트
-  @GetMapping({"/members/list", "/members/list{page}"})
+  @GetMapping({"/members/list", "/members/list/{page}"})
   public String adminMemberList(@PathVariable("page") Optional<Integer> page,
                            MemberSearchDTO memberSearchDTO,
                            MemberType memberType,
@@ -112,7 +112,7 @@ public class AdminController {
   }
 
   //와인 데이터 리스트
-  @GetMapping({"wines/list", "wines/list/{page}"})
+  @GetMapping({"/wines/list", "/wines/list/{page}"})
   public String adminWineList(WineSearchDTO wineSearchDTO,
                               @PathVariable("page")Optional<Integer> page,
                               Model model) {
@@ -131,7 +131,7 @@ public class AdminController {
   // 푸트페어링 리스트
 
   // 게시판 리스트
-  @GetMapping({"boards/list", "boards/list{page}"})
+  @GetMapping({"/boards/list", "/boards/list/{page}"})
   public String adminBoardList(@PathVariable("page") Optional<Integer> page,
                                BoardSearchDTO boardSearchDTO,
                                BoardStatus boardStatus,
@@ -139,27 +139,27 @@ public class AdminController {
 
     Pageable pageable = PageRequest.of(page.orElse(0), 10);
     // 정렬타입(보드상태)이 기본(null)이면 전체조회
-    if(boardStatus==null){
+//    if(boardStatus==null){
       Page<Board> boards = boardService.getBoardPage(boardSearchDTO, pageable);
       model.addAttribute("boards", boards);
       model.addAttribute("boardSearchDTO", boardSearchDTO);
       model.addAttribute("maxPage", 5);
 
       return "admin/dataList";
-    }
+//    }
 
-    // 아니면 상태별조회
-    Page<Board> boards = boardService.getBoardPageByStatus(boardSearchDTO, boardStatus, pageable);
-
-    model.addAttribute("boards", boards);
-    model.addAttribute("boardSearchDTO", boardSearchDTO);
-    model.addAttribute("maxPage", 5);
-
-    return "admin/dataList";
+//    // 아니면 상태별조회
+//    Page<Board> boards = boardService.getBoardPageByStatus(boardSearchDTO, boardStatus, pageable);
+//
+//    model.addAttribute("boards", boards);
+//    model.addAttribute("boardSearchDTO", boardSearchDTO);
+//    model.addAttribute("maxPage", 5);
+//
+//    return "admin/dataList";
   }
 
   // 마케팅 리스트
-  @GetMapping({"marketing/list", "marketing/list/{page}"})
+  @GetMapping({"/marketings/list", "/marketings/list/{page}"})
   public String adminMarketingList(@PathVariable("page") Optional<Integer> page,
                                    MarketingSearchDTO marketingSearchDTO,
                                    MarketCategory marketCategory,
