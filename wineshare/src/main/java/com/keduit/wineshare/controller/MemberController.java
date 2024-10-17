@@ -2,6 +2,7 @@ package com.keduit.wineshare.controller;
 
 import com.keduit.wineshare.dto.MemberDTO;
 import com.keduit.wineshare.entity.Member;
+import com.keduit.wineshare.repository.MemberRepository;
 import com.keduit.wineshare.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/members")
@@ -23,6 +25,7 @@ public class MemberController {
 
   private final MemberService memberService;
    private final PasswordEncoder passwordEncoder;
+  private final MemberRepository memberRepository;
 
   @GetMapping("/new")
   public String memberForm(Model model){
@@ -62,5 +65,23 @@ public class MemberController {
     return "member/memberLoginForm";
   }
 
+  @GetMapping("/modify")
+  public String modifyMember(Principal principal,
+                             Model model){
+
+    Member member = memberRepository.findByEmail(principal.getName());
+
+    MemberDTO memberDTO = new MemberDTO();
+    memberDTO.setId(memberDTO.getId());
+    memberDTO.setEmail(member.getEmail());
+    memberDTO.setName(member.getName());
+    memberDTO.setNickname(member.getNickname());
+    memberDTO.setPhoneNumber(member.getPhoneNumber());
+//    memberDTO.setPassword();
+
+    model.addAttribute("memberDTO", memberDTO);
+
+    return "member/memberForm";
+  }
 
 }

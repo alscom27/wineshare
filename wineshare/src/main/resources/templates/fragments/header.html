@@ -103,6 +103,9 @@
                 <li sec:authorize="isAuthenticated()">
                   <a href="/members/logout">Logout</a>
                 </li>
+                <li sec:authorize="isAuthenticated()">
+                  <a th:href="@{members/modify}">회원정보수정</a>
+                </li>
                 <li><a href="/cellars" title="">My Cellar</a></li>
                 <li><a href="/wines/new" title="">와인 등록</a></li>
 <!--                <li><a th:href="/marketings/register" title="">업장/행사 등록</a></li>-->
