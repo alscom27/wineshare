@@ -36,6 +36,33 @@
             if (errorMessage != null) {
                 alert(errorMessage);
             }
+
+            // 등록 버튼 클릭 시 등록 페이지로 이동
+            $('#withdrawBtn').on('click', function (e) {
+                e.preventDefault();
+                    window.location.href = `/members/withdraw`;
+            });
+
+            // let memberId = $('#memberId').val();
+            //
+            // $('#passChangeBtn').on('click', function (e) {
+            //     e.preventDefault();
+            //
+            //     // 비밀번호 변경 페이지로 이동하는 GET 요청
+            //     $.ajax({
+            //         url: '/members/pass/modify', // 비밀번호 변경 GET 매핑 URL
+            //         type: 'GET',
+            //         data : {memberId : memberId},
+            //         success: function(response) {
+            //             // 응답이 성공적으로 오면 페이지 이동
+            //             window.location.href = response.redirectUrl; // 서버에서 리다이렉션 URL을 반환한다고 가정
+            //         },
+            //         error: function() {
+            //             alert('비밀번호 변경에 실패했습니다.');
+            //         }
+            //     });
+            // });
+
         });
 
         //     function maskSsn() {
@@ -81,11 +108,11 @@
 
 
         <!-- 타임리프를 사용한 회원가입 폼 -->
-        <form action="/members/new" role="form" method="post" class="login-form"
+        <form role="form" method="post" class="login-form"
               th:object="${memberDTO}">
 
             <!-- 이메일 입력 -->
-            <div class="form-group">
+            <div class="form-group" th:if="${memberDTO.id == null}">
                 <label th:for="email">이메일</label>
                 <input th:field="*{email}" type="email" placeholder="email" required/>
                 <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError">Incorrect data</p>
@@ -102,9 +129,10 @@
                         data</p>
                 </div>
 
-                <div th:unless="${memberDTO == null}">
-                    <label th:for="password">비밀번호 변경</label>
-                    <input type="password" th:field="*{password}" placeholder="password">
+                <div th:unless="${memberDTO.id == null}">
+                    <a th:href="@{'/members/pass/modify'}">
+                        <button type="button" id="passChangeBtn">비밀번호 변경 <- 버튼임</button>
+                    </a>
                 </div>
 
             </div>
@@ -126,7 +154,7 @@
             </div>
 
             <!-- 주민등록번호 입력 -->
-            <div class="form-group">
+            <div class="form-group" th:if="${memberDTO.id == null}">
 
                 <label th:for="RRN">주민등록번호</label>
                 <input type="text" th:field="*{RRN}" placeholder="000000-0000000">
@@ -164,22 +192,32 @@
 
             <div th:if="${memberDTO.id == null}">
                 <!-- 등록 버튼 -->
-                <button type="submit" class="login-button">Register</button>
+                <button th:formaction="@{'members/new'}" type="submit" class="login-button">Register</button>
+                <button type="reset" class="btn">reset<-여기 css</button>
+
             </div>
 
             <div th:unless="${memberDTO.id == null}">
-                <button type="submit" class="login-button">Modify</button>
-                <button type="reset" class="login-button">reset</button>
+                <input type="hidden" id="memberId" th:field="*{id}">
+                <button th:formaction="@{'/members/modify'}" type="submit" class="login-button">Modify</button>
+                <button type="reset" class="btn">reset</button>
+
+<!--                '/members/withdraw'-->
+                <button id="withdrawBtn" class="">회원탈퇴</button>
             </div>
+
 
 
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         </form>
 
+        <div th:if="${memberDTO.id == null}">
         <div class="login-footer">
             <!-- 로그인 페이지로 이동 -->
             이미 가입된 회원이신가요? <a th:href="@{/members/login}">Log In</a>
         </div>
+        </div>
+
     </div>
 
 </div>

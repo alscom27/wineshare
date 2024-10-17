@@ -16,7 +16,30 @@
 
 <!--/* 사용자 js 추가 */-->
 <th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            // 페이지 로드 시 localStorage에서 이메일 가져오기
+            const savedEmail = localStorage.getItem('savedEmail');
+            if (savedEmail) {
+                $('#email').val(savedEmail); // 이메일 입력 필드에 값 설정
+                $('#remember').prop('checked', true); // 체크박스 체크
+            }
 
+            // 로그인 폼 제출 시 실행
+            $('.login-form').on('submit', function() {
+                const emailInput = $('#email').val();
+                const rememberMe = $('#remember').is(':checked');
+
+                if (rememberMe) {
+                    // 체크박스가 체크되어 있으면 localStorage에 이메일 저장
+                    localStorage.setItem('savedEmail', emailInput);
+                } else {
+                    // 체크박스가 체크되지 않으면 localStorage에서 삭제
+                    localStorage.removeItem('savedEmail');
+                }
+            });
+        });
+    </script>
 </th:block>
 
 
@@ -38,10 +61,15 @@
                 <label for="password">비밀번호</label>
                 <input id="password" name="password" type="password" placeholder="password"/>
             </div>
-            <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}">Incorrect data</p>
+<!--            <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}">Incorrect data</p>-->
+
+            <div th:if="${loginErrorMsg}" class="alert alert-danger">
+                <p th:text="${loginErrorMsg}"></p>
+            </div>
+
             <div class="custom-checkbox">
                 <input type="checkbox" name="remember" id="remember"/>
-                <label for="remember">로그인 기억하기</label>
+                <label for="remember">아이디 기억하기</label>
             </div>
 
             <button type="submit" class="login-button">Login</button>
