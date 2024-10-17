@@ -187,12 +187,21 @@ public class AdminController {
     return "admin/dataList";
   }
 
-  // 임시 컨트롤러
+  // 임시 컨트롤러1
   @GetMapping("/dataChoiList")
   public String data(){
     log.info("dataChoiList");
     return "admin/dataChoiList";
   }
+
+  // 임시 컨트롤러2
+  @GetMapping("/dataList")
+  public String dList(){
+    log.info("dataList");
+    return "admin/dataList";
+  }
+
+
 
 
 }
