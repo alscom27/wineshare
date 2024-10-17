@@ -3,7 +3,9 @@ package com.keduit.wineshare.controller;
 import com.keduit.wineshare.dto.WineDevelopDTO;
 import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.entity.Wine;
+import com.keduit.wineshare.entity.WineDevelop;
 import com.keduit.wineshare.repository.MemberRepository;
+import com.keduit.wineshare.repository.WineDevelopRepository;
 import com.keduit.wineshare.repository.WineRepository;
 import com.keduit.wineshare.service.WineDevelopService;
 import com.keduit.wineshare.service.WineService;
@@ -28,6 +30,8 @@ public class WineDevelopController {
   private final WineService wineService;
   private final MemberRepository memberRepository;
   private final WineRepository wineRepository;
+  private final WineDevelopRepository wineDevelopRepository;
+
 
   // 평가 목록
   @GetMapping({"/{wineId}", "/{wineId}/{developPage}"})
@@ -67,6 +71,15 @@ public class WineDevelopController {
 
     if(!wineDevelopService.validationWineDevelop(developId, principal.getName())){
       return new ResponseEntity<>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
+    }
+
+    // 삭제 전에 남아있는 평가 개수 확인
+    WineDevelop wineDevelop = wineDevelopRepository.findWineDevelopById(developId);
+    Long remainingCount = wineDevelopService.countDevelopByWine(wineDevelop.getWine().getId()); // wineId는 해당 평가와 연결된 와인의 ID
+
+    // 최소 하나의 평가가 남아 있어야 함
+    if (remainingCount <= 1) {
+      return new ResponseEntity<>("최소 하나의 평가를 남겨야 합니다.", HttpStatus.BAD_REQUEST);
     }
 
     wineDevelopService.remove(developId);

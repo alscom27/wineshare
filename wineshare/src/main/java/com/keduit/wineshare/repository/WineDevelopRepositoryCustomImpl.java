@@ -4,6 +4,7 @@ import com.keduit.wineshare.dto.QWineDevelopDTO;
 import com.keduit.wineshare.dto.WineDevelopDTO;
 import com.keduit.wineshare.entity.QWineDevelop;
 import com.keduit.wineshare.entity.WineDevelop;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
+import java.util.Collections;
 import java.util.List;
 
 public class WineDevelopRepositoryCustomImpl implements WineDevelopRepositoryCustom {
@@ -21,9 +23,14 @@ public class WineDevelopRepositoryCustomImpl implements WineDevelopRepositoryCus
     this.queryFactory = new JPAQueryFactory(em);
   }
 
+
   @Override
   public Page<WineDevelopDTO> getDevelopPageByWine(Long wineId, Pageable pageable) {
+    if (wineId == null) {
+      throw new IllegalArgumentException("wineId must not be null");
+    }
     QWineDevelop wineDevelop = QWineDevelop.wineDevelop;
+
 
     // 쿼리 작성
     List<WineDevelopDTO> content = queryFactory
@@ -58,6 +65,14 @@ public class WineDevelopRepositoryCustomImpl implements WineDevelopRepositoryCus
         .where(wineDevelop.wine.id.eq(wineId))
         .fetchOne();
 
-    return new PageImpl<>(content, pageable, total); // Page 객체 반환
+    if (content.isEmpty()) {
+      // 예외 발생
+      // throw new EntityNotFoundException("No WineDevelop found for wineId: " + wineId);
+
+      // 빈 페이지 반환
+      return new PageImpl<>(Collections.emptyList(), pageable, 0);
+    }
+
+    return new PageImpl<>(content, pageable, total != null ? total : 0); // Page 객체 반환
   }
 }

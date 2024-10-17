@@ -168,6 +168,12 @@ public class WineDevelopService {
     wineDevelopRepository.save(wineDevelop);
   }
 
+  // 평가 삭제시 카운트
+  public Long countDevelopByWine(Long wineId) {
+
+    return wineDevelopRepository.countByWineId(wineId);
+  }
+
 
 
 

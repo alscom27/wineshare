@@ -36,7 +36,7 @@ public class Wine extends BaseEntity {
 
   private String wineImg;
 
-  private int price;
+  private Integer price;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")

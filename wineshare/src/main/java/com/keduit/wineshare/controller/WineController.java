@@ -163,10 +163,49 @@ public class WineController {
 
 
     // 아로마 객체..
-    AromaWheel aromaOne = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaOne());
-    AromaWheel aromaTwo = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaTwo());
-    FoodPairing foodOne = foodPairingService.getFoodPairingByFood(wineDevelopCount.getFoodOne());
-    FoodPairing foodTwo = foodPairingService.getFoodPairingByFood(wineDevelopCount.getFoodTwo());
+//    AromaWheel aromaOne = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaOne());
+//    AromaWheel aromaTwo = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaTwo());
+//    FoodPairing foodOne = foodPairingService.getFoodPairingByFood(wineDevelopCount.getFoodOne());
+//    FoodPairing foodTwo = foodPairingService.getFoodPairingByFood(wineDevelopCount.getFoodTwo());
+    AromaWheel aromaOne = null;
+    AromaWheel aromaTwo = null;
+    FoodPairing foodOne = null;
+    FoodPairing foodTwo = null;
+    if (wineDevelopCount != null) {
+      String aromaOneValue = wineDevelopCount.getAromaOne();
+      String aromaTwoValue = wineDevelopCount.getAromaTwo();
+      String foodOneValue = wineDevelopCount.getFoodOne();
+      String foodTwoValue = wineDevelopCount.getFoodTwo();
+      // AromaWheel 조회
+      if (aromaOneValue != null) {
+        aromaOne = aromaWheelService.getAromaWheelByAroma(aromaOneValue);
+      } else {
+        aromaOne = new AromaWheel();
+        aromaOne.setAroma("Unknown");
+      }
+      if (aromaTwoValue != null) {
+        aromaTwo = aromaWheelService.getAromaWheelByAroma(aromaTwoValue);
+      } else {
+        aromaTwo = new AromaWheel();
+        aromaTwo.setAroma("Unknown");
+      }
+      // FoodPairing 조회
+      if (foodOneValue != null) {
+        foodOne = foodPairingService.getFoodPairingByFood(foodOneValue);
+      } else {
+        foodOne = new FoodPairing();
+        foodOne.setFood("Unknown");
+      }
+      if (foodTwoValue != null) {
+        foodTwo = foodPairingService.getFoodPairingByFood(foodTwoValue);
+      } else {
+        foodTwo = new FoodPairing();
+      }
+
+
+      // 추가적인 처리 로직
+      // ...
+    }
 
     List<Wine> similarWineList = wineService.getSimilarWines(wine);
 
