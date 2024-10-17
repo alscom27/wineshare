@@ -39,7 +39,7 @@ public class ImgFileService {
   @Value("${requestImgLocation}")
   private String requestImgLocation;
 
-  @Value("${marketingImgLocation}")
+  @Value("${marketImgLocation}")
   private String marketImgLocation; // 마케팅 사진 경로
 
   @Value("${wineImgLocation}")
@@ -205,8 +205,6 @@ public class ImgFileService {
 
   }
 
-
-}
 
 // 와인 이미지 저장 관련
 public String saveWineImg(WineDTO wineDTO, MultipartFile wineImgFile) throws Exception{
