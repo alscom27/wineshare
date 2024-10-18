@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/fragments")
+@RequestMapping("/about")
 @Log4j2
 public class TestController {
 
@@ -15,4 +15,14 @@ public class TestController {
   public void list(){
     log.info("header");
   }
+
+
+  // 사이트 소개 임시 컨트롤러
+  @GetMapping("/aboutUs")
+  public String dList(){
+    log.info("aboutUs");
+    return "about/aboutUs";
+  }
+
 }
+

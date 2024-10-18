@@ -115,28 +115,30 @@
                         </div>
 
 
-                        <div class="content-post">
-                            <div class="post-title" th:text="${marketingDTO.marketingTitle}">
-                                <h2>업장 이름</h2>
-                            </div>
-                            <div class="post-content" th:text="${marketingDTO.marketingContent}">
-                                <span>업장 소개</span>
+                        <div class="market-post">
+
+                            <div th:if="${eventOrNot != null}">
+                                <div class="market-pro-post-content" th:text="${marketingDTO.eventContent}">
+                                    <span>행사 내용</span>
+                                </div>
                             </div>
 
-                            <div class="post-content" th:text="${marketingDTO.ownerNickname}">
+                            <div class="market-post-title" th:text="${marketingDTO.marketingTitle}">
+                                <h2>업장 이름</h2>
+                            </div>
+
+                            <div class="market-post-name" th:text="${marketingDTO.ownerNickname}">
                                 <span>비워둘까?</span>
                             </div>
 
-                            <div th:if="${eventOrNot != null}">
-
-                                <div class="post-content" th:text="${marketingDTO.eventContent}">
-                                    <span>행사 내용</span>
-                                </div>
-
+                            <div class="market-post-content" th:text="${marketingDTO.marketingContent}">
+                                <span>업장 소개</span>
                             </div>
 
+
+
                             <div class="post-submit">
-                                <a th:href="${marketingDTO.marketLink}" target="_blank"> READ MORE <i class="fa fa-long-arrow-right"
+                                <a th:href="${marketingDTO.marketLink}" target="_blank" style="color:#c02323;"> READ MORE <i class="fa fa-long-arrow-right"
                                                                                    aria-hidden="true"></i></a>
                             </div>
                         </div>

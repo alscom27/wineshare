@@ -83,12 +83,7 @@
           </nav>
         </div><!-- /.nav-wrap -->
 
-<!--        여기가 유저 네임 보여주는 곳 ==========-->
-<!--        <div class="text-align-right" sec:authorize="isAuthenticated()" >-->
-<!--          <span th:text="${#authentication.name}" style="font-weight: bold;"></span>-->
-<!--          님 환영합니다.-->
 
-<!--        </div>-->
 
         <div class="search clearfix">
 
@@ -97,6 +92,16 @@
             <li><a href="#" class="header-search-icon"><i class="ti-search" aria-hidden="true"></i></a></li>
             <li><a href="#"> <i class="ti-align-justify" aria-hidden="true"></i> </a>
               <ul class="sub-menu">
+
+                <!--        여기가 유저 네임 보여주는 곳 ==========-->
+                <!--       이메일보단 닉넴으로 보여주는게 좋을듯 ==========-->
+
+                <li sec:authorize="isAuthenticated()" >
+                  <span th:text="${#authentication.name}" style="font-weight: bold;"></span>
+                  님 환영합니다.
+                </li>
+
+
                 <li sec:authorize="isAnonymous()">
                   <a th:href="@{'/members/login'}" title="">Login</a>
                 </li>
