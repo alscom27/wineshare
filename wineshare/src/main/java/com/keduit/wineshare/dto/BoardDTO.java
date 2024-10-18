@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.keduit.wineshare.constant.BoardStatus;
 import com.keduit.wineshare.entity.Board;
 import com.keduit.wineshare.entity.Member;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -37,6 +38,7 @@ public class BoardDTO {
 
   private String writerNickname;
 
+  private String regBy;
 
   @JsonFormat(pattern = "yy-MM-dd")
   private LocalDateTime regTime;
@@ -51,6 +53,15 @@ public class BoardDTO {
 
   public static BoardDTO of(Board board){
     return modelMapper.map(board, BoardDTO.class);
+  }
+
+  @QueryProjection
+  public BoardDTO(Long id, BoardStatus boardStatus, String boardTitle, String regBy, LocalDateTime regTime) {
+    this.id = id;
+    this.boardStatus = boardStatus;
+    this.boardTitle = boardTitle;
+    this.regBy = regBy;
+    this.regTime = regTime;
   }
 
 }

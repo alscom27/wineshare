@@ -46,28 +46,247 @@
             font-size:10px;
             color:#FFFFFF;
         }
+        .disabled {
+            pointer-events: none; /* 클릭 이벤트 방지 */
+            opacity: 0.1; /* 비활성화된 효과 */
+        }
 
-
-
-
-
-
+        .page-active {
+            background-color: #c02323 !important;
+        }
     </style>
 </th:block>
 
-<!--<div id="loading-overlay">-->
-<!--    <div class="loader"></div>-->
-<!--</div> &lt;!&ndash; /.loading-overlay &ndash;&gt; 로딩페이지임-->
+
 
 <th:block layout:fragment="script">
+    <script th:inline="javascript">
 
+        $(document).ready(function () {
+            let category;
+            // 각 카테고리에서 데이터 가져오기
+            if ($('#getCategoryWines').length) {
+                category = $('#getCategoryWines').data('category');
+            } else if ($('#getCategoryBoards').length) {
+                category = $('#getCategoryBoards').data('category');
+            } else if ($('#getCategoryMembers').length) {
+                category = $('#getCategoryMembers').data('category');
+            } else if ($('#getCategoryMarketings').length) {
+                category = $('#getCategoryMarketings').data('category');
+            }
+            console.log(category);
+            read(category, 0);
+        });
+
+
+        // 보드 목록 가져오기
+        function read(category, page) {
+            const token = $("meta[name='_csrf']").attr("content");
+            const header = $("meta[name='_csrf_header']").attr("content");
+            console.log(category);
+            $.ajax({
+                url: `/admins/ajax/${category}/list/${page}`,
+                type: "GET",
+                dataType: 'json',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                cache: false,
+                success: function (data) {
+                    console.log(data.currentPage);
+                    if (category === 'boards') {
+                        renderList(data.boards, category);
+                    } else if (category === 'wines') {
+                        renderList(data.wines, category);
+                    } else if (category === 'members') {
+                        renderList(data.members, category);
+                    } else if (category === 'marketings') {
+                        renderList(data.marketings, category);
+                    } else {
+                        renderList('헤헤', '헤헤')
+                    }
+
+                    updatePagination(data.currentPage, data.totalPages, category);
+                },
+                error: function (xhr) {
+                    console.error("Read Board Error ", xhr);
+                    alert("게시판 리스트 불러오기 실패");
+                }
+            });
+        }
+        // 보드 내용 메소드
+        function renderList(data, category) {
+            const contentContainer = $('#contentContainer');
+            // 비우기
+            contentContainer.empty();
+            // 테이블 변수 선언
+            let table;
+            // 카테고리에 따라 내용 변화 조건문
+            if (category === 'boards') {
+                table = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>카테고리</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>등록일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.content.map(board => `
+                            <tr>
+                                <td>${board.id}</td>
+                                <td>${board.boardStatus}</td>
+                                <td>${board.boardTitle}</td>
+                                <td>${board.regBy}</td>
+                                <td>${board.regTime}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>`;
+            } else if (category === 'wines') {
+                table = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>종류</th>
+                            <th>이름</th>
+                            <th>작성자</th>
+                            <th>등록일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.content.map(wine => `
+                            <tr>
+                                <td>${wine.id}</td>
+                                <td>${wine.wineType}</td>
+                                <td>${wine.wineName}</td>
+                                <td>${wine.country}</td>
+                                <td>${wine.region}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>`;
+            } else if (category === 'marketings') {
+                table = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>카테고리</th>
+                            <th>이름</th>
+                            <th>행사</th>
+                            <th>닉네임</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.content.map(marketing => `
+                            <tr>
+                                <td>${marketing.id}</td>
+                                <td>${marketing.marketCategory}</td>
+                                <td>${marketing.marketingTitle}</td>
+                                <td>${marketing.eventOrNot}</td>
+                                <td>${marketing.member.nickname}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>`;
+            } else if (category === 'members') {
+                table = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>등급</th>
+                            <th>메일</th>
+                            <th>이름</th>
+                            <th>상태</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.content.map(member => `
+                            <tr>
+                                <td>${member.id}</td>
+                                <td>${member.memberType}</td>
+                                <td>${member.email}</td>
+                                <td>${member.name}</td>
+                                <td>${member.withdrawStatus}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>`;
+            } else {
+                table = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>이건</th>
+                            <th>잘못된</th>
+                            <th>접근</th>
+                            <th>이전으로</th>
+                            <th>돌아가</th>
+                        </tr>
+                    </thead>
+                </table>`;
+            }
+            contentContainer.append(table); // 테이블 추가
+        }
+        // 업데이트페이지 메소드, 공통 - 커런트, 토탈은 각 ajax메소드의 결과값에서 받아오고
+        // ajax 메소드에서 업데이트페이지 호출할때 category에 해당 리스트 호출하는 메소드이름 넣어주면 된다.
+        function updatePagination(currentPage, totalPages, category) {
+            const paginationContainer = $('.flat-pagination');
+            paginationContainer.empty(); // 기존 페이지네이션 비우기
+
+            // 이전 버튼
+            const prevDisabled = currentPage === 0 ? 'disabled' : '';
+            paginationContainer.append(`
+                <li class="prev hvr-shutter-out-horizontal ${prevDisabled}">
+                    <a ${prevDisabled ? '' : 'onclick="read(\'' + category + '\', ' + (currentPage - 1) + ')"'} aria-label="Previous">
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+            `);
+
+            // maxPage 정의
+            const maxPage = 5;
+
+            // 페이지 번호 계산
+            let start = Math.floor(currentPage / maxPage) * maxPage; // 현재 페이지 기준으로 시작
+            let end = Math.min(start + maxPage, totalPages); // 최대 maxPage 개수 표시
+            // 페이지 번호 추가
+            for (let i = start; i < end; i++) {
+                const activeClass = i === currentPage ? 'page-active' : '';
+                paginationContainer.append(`
+                    <li class="hvr-shutter-out-horizontal ${activeClass}">
+                        <a onclick="read('${category}', ${i})" aria-label="Page">${i+1}</a>
+                    </li>
+                `);
+            }
+            // 다음 버튼
+            const nextDisabled = currentPage === totalPages - 1 ? 'disabled' : '';
+            paginationContainer.append(`
+                <li class="next hvr-shutter-out-horizontal ${nextDisabled}">
+                    <a ${nextDisabled ? '' : 'onclick="read(\'' + category + '\', ' + (currentPage + 1) + ')"'}  aria-label="Next">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+                </li>
+            `);
+        }
+
+    </script>
 </th:block>
 
 <div layout:fragment="content">
     <div class="data-title">
     <h1>관리자 데이터 목록</h1>
     </div>
-
+    <span th:if="${categoryWines != null}" id="getCategoryWines" th:data-category="${categoryWines}"></span>
+    <span th:if="${categoryBoards != null}" id="getCategoryBoards" th:data-category="${categoryBoards}"></span>
+    <span th:if="${categoryMembers != null}" id="getCategoryMembers" th:data-category="${categoryMembers}"></span>
+    <span th:if="${categoryMarketings != null}" id="getCategoryMarketings" th:data-category="${categoryMarketings}"></span>
     <!--  타임리프 적용안된 깡통 뷰...  -->
     <form>
         <div class="data-all">
@@ -79,73 +298,15 @@
         </div>
         </div>
 
+        <div id="contentContainer">
 
-        <table class="data-table" th:if="${boards != null}">
-            <thead>
-            <tr>
-                <th>글 번호</th>
-                <th>글 제목</th>
-                <th>글 내용</th>
-                <th>작성자</th>
-                <th>등록일</th>
-            </tr>
-            </thead>
-            <tbody th:each="board, status : ${boards.getContent()}">
-            <tr>
-                <td th:text="${board.id}">ㅇㅇㅇ</td>
-                <td th:text="${board.boardTitle}">ㅇㅇㅇ</td>
-                <td th:text="${board.boardContent}">ㅇㅇ</td>
-                <td th:text="${board.regBy}">ㅇㅇㅇ</td>
-                <td th:text="${board.regTime}">00.00.00</td>
-            </tr>
-            </tbody>
-        </table>
-        <table class="data-table" th:if="${wines != null}">
-            <thead>
-            <tr>
-                <th>와인 번호</th>
-                <th>와인 타입</th>
-                <th>와인 이름</th>
-                <th>작성자</th>
-                <th>등록일</th>
-            </tr>
-            </thead>
-            <tbody th:each="wine, status : ${wines.getContent()}">
-            <tr>
-                <td th:text="${wine.id}">ㅇㅇㅇ</td>
-                <td th:text="${wine.wineType}">ㅇㅇㅇ</td>
-                <td th:text="${wine.wineName}">ㅇㅇ</td>
-                <td th:text="${wine.price}">ㅇㅇㅇ</td>
-                <td th:text="${wine.country}">00.00.00</td>
-            </tr>
-            </tbody>
-        </table>
+        </div>
+        <div class="blog-pagination text-center">
+            <ul class="flat-pagination">
 
+            </ul>
+        </div>
 
-        <!-- 페이지네이션 -->
-<!--        <div class="blog-pagination text-center"-->
-<!--             th:with="start=${(wines.number / maxPage) * maxPage + 1},-->
-<!--                                        end=${(wines.totalPages == 0) ?-->
-<!--                                        1 : (start + (maxPage - 1) < wines.totalPages ?-->
-<!--                                        start + (maxPage - 1) : wines.totalPages)}">-->
-<!--            <ul class="flat-pagination">-->
-<!--                <li class="prev hvr-shutter-out-horizontal" th:classappend="${wines.first} ? 'disabled'">-->
-<!--                    <a th:onclick="'javascript:page(' + ${wines.number -1} + ')'" aria-label="Previous" >-->
-<!--                        <i class="fa fa-angle-left" aria-hidden="true"></i>-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--                <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${page == 1} ? 'page-active' : ''">-->
-<!--                    <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text" >-->
-<!--                        [[${page}]]-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--                <li class="next hvr-shutter-out-horizontal" th:classappend="${wines.last} ? 'disabled'">-->
-<!--                    <a th:onclick="'javascript:page(' + ${wines.number + 1} + ')'" aria-label="Next" >-->
-<!--                        <i class="fa fa-angle-right" aria-hidden="true"></i>-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
     </form>
 </div>
 </html>

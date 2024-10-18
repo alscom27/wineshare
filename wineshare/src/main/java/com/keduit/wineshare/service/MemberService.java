@@ -124,7 +124,7 @@ public class MemberService implements UserDetailsService {
 
   // 관리자용 페이지와 조회
   @Transactional(readOnly = true)
-  public Page<Member> getMemberPage(MemberSearchDTO memberSearchDTO, Pageable pageaple){
+  public Page<MemberDTO> getMemberPage(MemberSearchDTO memberSearchDTO, Pageable pageaple){
     return memberRepository.getMemberPage(memberSearchDTO, pageaple);
   }
 

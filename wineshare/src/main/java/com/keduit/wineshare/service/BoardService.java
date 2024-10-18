@@ -81,7 +81,7 @@ public class BoardService {
 
   // 관리자용 전체 게시글목록
   @Transactional(readOnly = true)
-  public Page<Board> getBoardPage(BoardSearchDTO boardSearchDTO, Pageable pageable){
+  public Page<BoardDTO> getBoardPage(BoardSearchDTO boardSearchDTO, Pageable pageable){
     return boardRepository.getBoardPage(boardSearchDTO, pageable);
   }
 

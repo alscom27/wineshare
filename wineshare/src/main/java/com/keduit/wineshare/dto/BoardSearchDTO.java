@@ -13,5 +13,6 @@ public class BoardSearchDTO {
   private String searchType;
   private String searchQuery = "";
   private BoardStatus searchBoardStatus;
+  private String boardSortBy;
 
 }

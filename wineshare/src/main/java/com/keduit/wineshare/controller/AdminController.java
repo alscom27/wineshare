@@ -14,17 +14,16 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
+import java.security.Principal;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admins")
@@ -81,125 +80,109 @@ public class AdminController {
 
   }
 
-  // 회원 리스트
-  @GetMapping({"/members/list", "/members/list/{page}"})
-  public String adminMemberList(@PathVariable("page") Optional<Integer> page,
-                           MemberSearchDTO memberSearchDTO,
-                           MemberType memberType,
-                           WithdrawStatus withdrawStatus,
-                           Model model){
-    Pageable pageable = PageRequest.of(page.orElse(0), 10);
-    Page<Member> members ;
-
-    // 회원 타입별, 회원탈퇴여부별로 필터링 추가하기
-    if(memberType==null && withdrawStatus==null){
-      // 둘다 기본이면 전체 조회
-      members = memberService.getMemberPage(memberSearchDTO, pageable);
-    }else if(memberType==null && withdrawStatus!=null){
-      // 회원 탈퇴여부로 조회
-      members = memberService.getMemberPageByWithdrawStatus(memberSearchDTO, withdrawStatus, pageable);
-    }else {
-      // 회원 타입별 조회 둘다는 뺌 해보고 추가가 차라리 더 편하면 추가 가능
-      members = memberService.getMemberPageByMemberType(memberSearchDTO, memberType, pageable);
-    }
 
 
-    model.addAttribute("members", members);
-    model.addAttribute("memberSearchDTO", memberSearchDTO);
-    model.addAttribute("maxPage", 5);
-
-    return "admin/dataList";
-  }
-
-  //와인 데이터 리스트
-  @GetMapping({"/wines/list", "/wines/list/{page}"})
-  public String adminWineList(WineSearchDTO wineSearchDTO,
-                              @PathVariable("page")Optional<Integer> page,
-                              Model model) {
-    Pageable pageable = PageRequest.of(page.orElse(0), 10);
-    Page<WineDTO> wines = wineService.getWinePage(wineSearchDTO, pageable);
-    model.addAttribute("wines", wines);
-    model.addAttribute("wineSearchDTO", wineSearchDTO);
-    model.addAttribute("maxPage", 5);
-
-    return "admin/dataList";
-  }
-  // 따로 관리자 대시보드에선 리스트로 그냥 횡스크롤 길게보여주고 각각의 데이터들에 대한 수정 삭제버튼만 있음(누르면 각각의 수정 삭제 폼으로 아이디 들고 튀고) 될거같은데? 어찌생각하시나요?
-
-  // 아로마휠 리스트
-
-  // 푸트페어링 리스트
-
-  // 게시판 리스트
-  @GetMapping({"/boards/list", "/boards/list/{page}"})
-  public String adminBoardList(@PathVariable("page") Optional<Integer> page,
-                               BoardSearchDTO boardSearchDTO,
-                               BoardStatus boardStatus,
-                               Model model) {
-
-    Pageable pageable = PageRequest.of(page.orElse(0), 10);
-    // 정렬타입(보드상태)이 기본(null)이면 전체조회
-//    if(boardStatus==null){
-      Page<Board> boards = boardService.getBoardPage(boardSearchDTO, pageable);
-      model.addAttribute("boards", boards);
-      model.addAttribute("boardSearchDTO", boardSearchDTO);
-      model.addAttribute("maxPage", 5);
-
-      return "admin/dataList";
-//    }
-
-//    // 아니면 상태별조회
-//    Page<Board> boards = boardService.getBoardPageByStatus(boardSearchDTO, boardStatus, pageable);
-//
-//    model.addAttribute("boards", boards);
-//    model.addAttribute("boardSearchDTO", boardSearchDTO);
-//    model.addAttribute("maxPage", 5);
-//
-//    return "admin/dataList";
-  }
-
-  // 마케팅 리스트
-  @GetMapping({"/marketings/list", "/marketings/list/{page}"})
-  public String adminMarketingList(@PathVariable("page") Optional<Integer> page,
-                                   MarketingSearchDTO marketingSearchDTO,
-                                   MarketCategory marketCategory,
-                                   EventOrNot eventOrNot,
-                                   Model model){
-
-    Pageable pageable = PageRequest.of(page.orElse(0), 10);
-    Page<Marketing> marketings;
-    if(marketCategory==null && eventOrNot==null){ //업장분류, 행사여부 비어있으면 전체 조회
-      marketings = marketingService.getMarketingPage(marketingSearchDTO, pageable);
-    }else if(eventOrNot != null){
-      marketings = (marketCategory == null) //업장분류 비고, 행사여부 있으면 행사여부로 필터링
-          ? marketingService.getMarketingPageByEventOrNot(marketingSearchDTO, eventOrNot, pageable)
-          // 둘 다 있으면 둘 다 필터링 조회
-          : marketingService.getMarketingPageByEventAndCategory(marketingSearchDTO, marketCategory, eventOrNot, pageable);
-
-    }else { //업장부류 있고 행사여부 비면 업장분류별 조회
-      marketings = marketingService.getMarketingPageByMarketCategory(marketingSearchDTO, marketCategory, pageable);
-    }
-
-    model.addAttribute("marketings", marketings);
-    model.addAttribute("marketingSearchDTO", marketingSearchDTO);
-    model.addAttribute("maxPage", 5);
-
-    return "admin/dataList";
-  }
-
-  // 임시 컨트롤러1
+  // 데이터 관리 선택페이지
   @GetMapping("/dataChoiList")
   public String data(){
     log.info("dataChoiList");
     return "admin/dataChoiList";
   }
 
-  // 임시 컨트롤러2
-  @GetMapping("/dataList")
-  public String dList(){
-    log.info("dataList");
+
+  // 와인 리스트
+  @GetMapping({"/wines/list"})
+  public String adminWineList(Model model) {
+    model.addAttribute("categoryWines", "wines");
     return "admin/dataList";
   }
+  // 게시판 리스트
+  @GetMapping({"/boards/list"})
+  public String adminBoardList(Model model) {
+    model.addAttribute("categoryBoards", "boards");
+    return "admin/dataList";
+  }
+  // 마케팅 리스트
+  @GetMapping({"/marketings/list"})
+  public String adminMarketingList(Model model) {
+    model.addAttribute("categoryMarketings", "marketings");
+    return "admin/dataList";
+  }
+  // 회원 리스트
+  @GetMapping({"/members/list"})
+  public String adminMemberList(Model model) {
+    model.addAttribute("categoryMembers", "members");
+    return "admin/dataList";
+  }
+
+  // 게시판 리스트 (ajax)
+  @GetMapping({"/ajax/boards/list", "/ajax/boards/list/{page}"})
+  @ResponseBody
+  public ResponseEntity<Map<String, Object>> adminBoardList(@PathVariable("page") Optional<Integer> page,
+                                                           BoardSearchDTO boardSearchDTO
+                                                       ) {
+    Pageable pageable = PageRequest.of(page.orElse(0), 20);
+    Page<BoardDTO> boards = boardService.getBoardPage(boardSearchDTO, pageable);
+
+    Map<String, Object> response = new HashMap<>();
+    response.put("boards", boards);
+    response.put("currentPage", boards.getNumber());
+    response.put("totalPages", boards.getTotalPages());
+
+    return ResponseEntity.ok(response);
+  }
+
+  // 와인 리스트 (ajax)
+  @GetMapping({"/ajax/wines/list", "/ajax/wines/list/{page}"})
+  @ResponseBody // JSON을 반환하기 위해 추가
+  public ResponseEntity<Map<String, Object>> wineListJson(WineSearchDTO wineSearchDTO,
+                                                          @PathVariable("page") Optional<Integer> page) {
+    Pageable pageable = PageRequest.of(page.orElse(0), 20);
+    Page<WineDTO> wines = wineService.getWinePage(wineSearchDTO, pageable);
+
+    Map<String, Object> response = new HashMap<>();
+    response.put("wines", wines);
+    response.put("totalPages", wines.getTotalPages());
+    response.put("currentPage", wines.getNumber());
+
+
+    return ResponseEntity.ok(response);
+  }
+
+  // 마케팅 리스트 (ajax)
+  @GetMapping({"/ajax/marketings/list", "/ajax/marketings/list/{page}"})
+  @ResponseBody
+  public ResponseEntity<Map<String, Object>> adminMarketingList(@PathVariable("page") Optional<Integer> page,
+                                   MarketingSearchDTO marketingSearchDTO){
+
+    Pageable pageable = PageRequest.of(page.orElse(0), 20);
+    Page<MarketingDTO> marketings = marketingService.getMarketingPage(marketingSearchDTO, pageable);
+
+    Map<String, Object> response = new HashMap<>();
+    response.put("marketings", marketings);
+    response.put("currentPage", marketings.getNumber());
+    response.put("totalPages", marketings.getTotalPages());
+
+    return ResponseEntity.ok(response);
+  }
+
+  // 회원 리스트(ajax)
+  @GetMapping({"/ajax/members/list", "/ajax/members/list/{page}"})
+  @ResponseBody
+  public ResponseEntity<Map<String, Object>> adminMemberList(@PathVariable("page") Optional<Integer> page,
+                                                             MemberSearchDTO memberSearchDTO){
+    Pageable pageable = PageRequest.of(page.orElse(0), 20);
+    Page<MemberDTO> members = memberService.getMemberPage(memberSearchDTO, pageable);
+
+    Map<String, Object> response = new HashMap<>();
+    response.put("members", members);
+    response.put("currentPage", members.getNumber());
+    response.put("totalPages", members.getTotalPages());
+
+    return ResponseEntity.ok(response);
+  }
+
+
 
 
 
