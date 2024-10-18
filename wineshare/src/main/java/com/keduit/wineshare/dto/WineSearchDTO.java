@@ -21,5 +21,9 @@ public class WineSearchDTO {
   private Integer minPrice;
   private Integer maxPrice;
 
+  private String searchType;
+  // N 와인이름, C 국가, W 등록자 닉네임
+  private String searchQuery = "";
+
 }
 

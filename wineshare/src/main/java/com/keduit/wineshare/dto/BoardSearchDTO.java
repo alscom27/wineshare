@@ -10,9 +10,12 @@ import lombok.ToString;
 @ToString
 public class BoardSearchDTO {
 
+  // T 제목 C 내용 W 작성자
   private String searchType;
   private String searchQuery = "";
+
+  // NOTICE, UPGRADE, QUESTION, REQUEST
   private BoardStatus searchBoardStatus;
-  private String boardSortBy;
+
 
 }

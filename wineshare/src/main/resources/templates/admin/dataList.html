@@ -63,29 +63,31 @@
     <script th:inline="javascript">
 
         $(document).ready(function () {
-            let category;
-            // 각 카테고리에서 데이터 가져오기
-            if ($('#getCategoryWines').length) {
-                category = $('#getCategoryWines').data('category');
-            } else if ($('#getCategoryBoards').length) {
-                category = $('#getCategoryBoards').data('category');
-            } else if ($('#getCategoryMembers').length) {
-                category = $('#getCategoryMembers').data('category');
-            } else if ($('#getCategoryMarketings').length) {
-                category = $('#getCategoryMarketings').data('category');
-            }
+            const category = getCurrentCategory()
             console.log(category);
             read(category, 0);
         });
 
 
+        // 현재 카테고리 가져오는 함수
+        function getCurrentCategory() {
+            const categoryElement = document.querySelector('[id^="getCategory"]'); // getCategory로 시작하는 첫 번째 ID 찾기
+            return categoryElement ? categoryElement.dataset.category : null;
+        }
+
         // 보드 목록 가져오기
         function read(category, page) {
             const token = $("meta[name='_csrf']").attr("content");
             const header = $("meta[name='_csrf_header']").attr("content");
+            // html에서 들어온 카테고리에 따라 폼에 인풋들이 달라지고, 그걸 그대로 가져갈 예정..... 아마도..:?
+            const searchData = new FormData(document.getElementById("searchForm"));
+            // FormData는 포스트 방식에서 주로 사용되고,
+            // FormData를 searchParams로 변경
+            const searchParams = new URLSearchParams(searchData).toString();
             console.log(category);
+            console.log(searchParams);
             $.ajax({
-                url: `/admins/ajax/${category}/list/${page}`,
+                url: `/admins/ajax/${category}/list/${page}?${searchParams}`,
                 type: "GET",
                 dataType: 'json',
                 beforeSend: function(xhr) {
@@ -276,6 +278,21 @@
             `);
         }
 
+        // 서치 버튼 클릭(제출) 이벤트
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.getElementById('searchForm');
+
+            // searchForm이 존재하는지 확인
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(event) {
+                    event.preventDefault(); // 기본 제출 이벤트 방지
+                    const category = getCurrentCategory(); // 현재 카테고리 가져오기
+                    read(category, 0); // 페이지 0으로 검색 실행
+                });
+            } else {
+                console.error("searchForm 요소를 찾을 수 없습니다.");
+            }
+        });
     </script>
 </th:block>
 
@@ -283,19 +300,104 @@
     <div class="data-title">
     <h1>관리자 데이터 목록</h1>
     </div>
-    <span th:if="${categoryWines != null}" id="getCategoryWines" th:data-category="${categoryWines}"></span>
-    <span th:if="${categoryBoards != null}" id="getCategoryBoards" th:data-category="${categoryBoards}"></span>
-    <span th:if="${categoryMembers != null}" id="getCategoryMembers" th:data-category="${categoryMembers}"></span>
-    <span th:if="${categoryMarketings != null}" id="getCategoryMarketings" th:data-category="${categoryMarketings}"></span>
-    <!--  타임리프 적용안된 깡통 뷰...  -->
-    <form>
+
+
+    <form id="searchForm">
         <div class="data-all">
-        <div class="data-search">
-            <input type="text" class="form-control" placeholder="Search...">
-            <button type="submit" id="searchIcon" class="data-btn" style="background-color: #c02323; height: 20px;" >
-                enter
-            </button>
-        </div>
+            <!-- 와인 -->
+
+            <div class="data-search">
+                <th:block th:if="${categoryWines != null}">
+                    <span  id="getCategoryWines" th:data-category="${categoryWines}" ></span>
+                    <input type="hidden" name="sortBy">
+                    <select name="searchWineType">
+                        <option value="">ALL</option>
+                        <option value="RED">RED</option>
+                        <option value="WHITE">WHITE</option>
+                        <option value="SPARKLING">SPARKLING</option>
+                        <option value="ROSE">ROSE</option>
+                        <option value="DESSERT">DESSERT</option>
+                        <option value="PORT">PORT</option>
+                    </select>
+                    <select name="searchType">
+                        <option value="">ALL</option>
+                        <option value="N">와인이름</option>
+                        <option value="C">생산국가</option>
+                        <option value="W">작성자</option>
+                    </select>
+                    <input type="text" name="searchQuery" class="form-control" placeholder="검색어를 입력하세요.">
+                </th:block>
+
+                <!-- 게시판 -->
+                <th:block th:if="${categoryBoards != null}">
+                    <span  id="getCategoryBoards" th:data-category="${categoryBoards}"></span>
+                    <select name="searchBoardStatus">
+                        <option value="">ALL</option>
+                        <option value="NOTICE">공지</option>
+                        <option value="UPGRADE">등업</option>
+                        <option value="QUESTION">질문</option>
+                        <option value="REQUEST">요청</option>
+                    </select>
+                    <select name="searchType">
+                        <option value="">ALL</option>
+                        <option value="T">제목</option>
+                        <option value="C">내용</option>
+                        <option value="W">작성자</option>
+                    </select>
+                    <input type="text" name="searchQuery" class="form-control" placeholder="검색어를 입력하세요.">
+                </th:block>
+
+                <!-- 멤버 -->
+                <th:block th:if="${categoryMembers != null}">
+                    <span  id="getCategoryMembers" th:data-category="${categoryMembers}"></span>
+                    <select name="memberType">
+                        <option value="">ALL</option>
+                        <option value="REGULAR">일반인</option>
+                        <option value="EXPERT">전문가</option>
+                        <option value="ADMIN">관리자</option>
+                    </select>
+                    <select name="withdrawStatus">
+                        <option value="">ALL</option>
+                        <option value="STAY">현역</option>
+                        <option value="LEAVE">은퇴</option>
+                    </select>
+                    <select name="searchType">
+                        <option value="">ALL</option>
+                        <option value="N">이름</option>
+                        <option value="E">이메일</option>
+                        <option value="K">닉네임</option>
+                    </select>
+                    <input type="text" name="searchQuery" class="form-control" placeholder="검색어를 입력하세요.">
+                </th:block>
+
+                <!-- 마케팅 -->
+                <th:block th:if="${categoryMarketings != null}">
+                    <span id="getCategoryMarketings" th:data-category="${categoryMarketings}"></span>
+                    <input type="hidden" name="sortBy">
+                    <select name="marketCategory">
+                        <option value="">ALL</option>
+                        <option value="WINEBAR">와인바</option>
+                        <option value="BOTTLESHOP">보틀샵</option>
+                        <option value="BISTRO">비스트로</option>
+                    </select>
+                    <select name="eventOrNot">
+                        <option value="">ALL</option>
+                        <option value="PROMOTION">행사진행</option>
+                        <option value="END">행사종료</option>
+                        <option value="EVENT">공식행사</option>
+                    </select>
+                    <select name="searchType">
+                        <option value="">ALL</option>
+                        <option value="T">이름</option>
+                        <option value="N">등록자</option>
+                    </select>
+
+                    <input type="text" name="searchQuery" class="form-control" placeholder="검색어를 입력하세요.">
+                </th:block>
+                <button type="submit" id="searchIcon" class="data-btn" style="background-color: #c02323; height: 20px;" >
+                    enter
+                </button>
+            </div>
         </div>
 
         <div id="contentContainer">

@@ -33,7 +33,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
     }else if(StringUtils.equals("C", searchType)){
       return QBoard.board.boardContent.like("%" + searchQuery + "%");
     }else if(StringUtils.equals("W", searchType)){
-      return QBoard.board.regBy.like("%" + searchQuery + "%");  // 닉네임으로 바꾸고싶음
+      return QBoard.board.member.nickname.like("%" + searchQuery + "%");
     }
     return null;
   }
@@ -42,21 +42,6 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
   private BooleanExpression searchBoardStatusEq(BoardStatus searchBoardStatus){
     return searchBoardStatus == null ? null : QBoard.board.boardStatus.eq(searchBoardStatus);
   }
-
-  // 관리자용 - 보드정렬(최신순, 오래된순,
-  private OrderSpecifier<?> boardSortBy(String boardSortBy) {
-    if (boardSortBy == null) {
-      return QBoard.board.regTime.desc(); // 기본정렬(최신순) - 셀렉트바 선택 안했을경우
-    } else if (StringUtils.equals("regAsc", boardSortBy)) {
-      return QBoard.board.regTime.asc(); // 오래된순
-    } else if (StringUtils.equals("regDesc", boardSortBy)) {
-      return QBoard.board.regTime.desc(); // 최신순
-    } else {
-      return QBoard.board.regTime.desc(); // 기본정렬(최신순) - 혹시 잘못된값 들어갈 경우
-    }
-  }
-
-
 
 
   // 관리자 전체 조회
@@ -79,7 +64,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
         .from(board)
         .where(searchBoardStatusEq(boardSearchDTO.getSearchBoardStatus()))
         .where(searchTypeLike(boardSearchDTO.getSearchType(), boardSearchDTO.getSearchQuery()))
-        .orderBy(boardSortBy(boardSearchDTO.getBoardSortBy()))
+        .orderBy(board.regTime.desc())
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
         .fetch();
@@ -97,7 +82,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
 
 
   @Override
-  // 게시판 상태별 페이지와 조회 관리자에서 정렬도 이거 쓰자
+  // 게시판 상태별 페이지와 조회
   public Page<Board> getBoardPageByStatus(BoardSearchDTO boardSearchDTO, BoardStatus boardStatus, Pageable pageable) {
     //기본 쿼리생성
     JPAQuery<Board> query = queryFactory.selectFrom(QBoard.board)

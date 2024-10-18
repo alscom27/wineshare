@@ -120,7 +120,10 @@ public class BoardController {
 
     // 닉네임 설정
     boardDTO.setWriterNickname(member.getNickname());
-//    boardDTO.setMember(member);
+
+    // 멤버 넣어야함
+    boardDTO.setMember(member);
+
 
     boardDTO.setBoardStatus(boardStatus);
 
