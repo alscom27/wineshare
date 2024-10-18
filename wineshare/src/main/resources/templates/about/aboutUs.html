@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<head>
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
+<!-- 사용자 css -->
+<th:block layout:fragment="css">
+  <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/about-us.css}">
+</th:block>
+
+<!--/* 사용자 스크립트 추가 */-->
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+
+  </script>
+</th:block>
+
+<div layout:fragment="content" >
+
+    <!-- 각 페이지 상단에 경로 나타내주는 부분.. -->
+    <div class="page-title parallax parallax1">
+      <div class="container">
+        <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
+          <div class="breadcrumbs">
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About US</a></li>
+              <li class="blog"><a href="#">Wine Share</a></li>
+            </ul>
+          </div>
+          <div class="page-title-heading">
+            <h2 class="title"><a href="#">Wine Share</a></h2>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /.page-title -->
+
+  <div class="about-all">
+  <!-- 사이트 소개 글  -->
+
+    <section class="flat-about-us">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5 col-md-5">
+            <img src="/image/homepage111.png" alt="image">
+          </div>
+          <div class="col-lg-7 col-md-7">
+            <div class="about-us-border">
+              <h1 class="heading-about"><a href="#">Wine Share is... </a></h1>
+              <p class="content-about">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugia: nulla pariatu: Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciats unde omnis iste natus error sit voluptatem accusantium doloremque laudartiura.</p>
+            </div>
+          </div>
+        </div> <!-- /row -->
+      </div> <!-- /container -->
+    </section> <!-- /flat-about-->
+
+    <!--  목적 소개  -->
+    <section class="flat-team">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="title-section">
+              <h1 class="our-product-main"><a href="#"> Our Purpose </a></h1>
+              <div class="our-product-image">
+                <img src="/image/homepage14.png" alt="image">
+              </div>
+            </div> <!-- /title-section -->
+          </div>
+
+          <div class="our-txt">
+            <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, excepturi fugit in inventore ipsum maiores molestiae molestias necessitatibus obcaecati sequi voluptas voluptatibus!</li>
+            <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam aspernatur consequuntur dolore doloribus eius, illum sed. Aut, excepturi fugit in inventore ipsum maiores molestiae molestias necessitatibus obcaecati sequi voluptas voluptatibus!</li>
+            <li>Lorem ipsum dolor sit amet. Aut, excepturi fugit in inventore ipsum maiores molestiae molestias necessitatibus obcaecati sequi voluptas voluptatibus!</li>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 아로마 휠  -->
+    <section class="flat-our-history">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+
+            <div class="title-section">
+              <h1 class="our-product-main"><a href="#"> Aroma Wheel </a></h1>
+              <div class="our-product-image">
+                <img src="/image/homepage14.png" alt="image">
+              </div>
+            </div> <!-- /title-section -->
+
+            <div class="wheel-about">
+              <div class="aroma-img">
+                <img src="/wineshare-img/aroma.png" alt="image" class="aroma-img">
+              </div>
+
+              <div class="aroma-txt">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad debitis delectus, dicta dolor dolores earum ex exercitationem ipsam maxime porro, possimus quaerat quis quisquam ratione repudiandae sapiente sed unde veritatis?</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad debitis delectus, dicta dolor dolores earum ex exercitationem ipsam maxime porro, possimus quaerat quis quisquam ratione repudiandae sapiente sed unde veritatis?</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad debitis delectus, dicta dolor dolores earum ex exercitationem ipsam maxime porro, possimus quaerat quis quisquam ratione repudiandae sapiente sed unde veritatis?</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div> <!-- /row -->
+      </div> <!-- /container -->
+    </section> <!-- /flat-our-history -->
+
+
+    </div>
+</div>
+</html>

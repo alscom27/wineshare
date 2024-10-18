@@ -22,13 +22,14 @@
 
 
 <div layout:fragment="content">
+    <div class="modify-all">
 
-    <div class="account-container" th:if="${passType.equals('modify')}">
-        <h1 class="account-header">비밀번호 변경</h1>
+    <div class="modify-container" th:if="${passType.equals('modify')}">
+        <h1 class="modify-header">비밀번호 변경</h1>
     </div>
 
-    <div class="account-container" th:if="${passType.equals('withdraw')}">
-        <h1 class="account-header">회원 탈퇴</h1>
+    <div class="modify-container" th:if="${passType.equals('withdraw')}">
+        <h1 class="modify-header">회원 탈퇴</h1>
     </div>
 
     <form th:method="post" role="form" class="login-form" th:object="${memberPassModifyDTO}">
@@ -43,7 +44,7 @@
             <label for="withdrawPassword">비밀번호</label>
             <input type="password" id="withdrawPassword" name="withdrawPassword" required>
             <p th:text="${errorMsg}" class="fieldError"></p>
-            <button type="submit" class="login-button" th:formaction="@{'/members/withdraw'}">회원탈퇴</button>
+            <button type="submit" class="login-button" th:formaction="@{'/members/withdraw'}" style="font-size:17px; background: #000000; border: 1px solid #000000;">회원탈퇴</button>
 
         </div>
 
@@ -61,7 +62,7 @@
             <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="fieldError">Incorrect data</p>
         </div>
 
-        <button type="submit" th:formaction="@{'/members/pass/modify'}" class="login-button">수정하기</button>
+        <button type="submit" th:formaction="@{'/members/pass/modify'}" class="login-button" style="font-size:17px;">변경하기</button>
 
         </div>
 
@@ -72,6 +73,6 @@
 
 </div>
 
-
+</div>
 
 </html>

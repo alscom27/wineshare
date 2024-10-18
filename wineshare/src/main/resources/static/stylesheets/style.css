@@ -2338,6 +2338,7 @@ footer.style1 .footer-widgets .widget-text span {
 	line-height: 48px;
 	color: #c02323;
 	letter-spacing: 1px;
+
 }
 
 .main-blog-grid .post .content-post .post-submit a i {
@@ -6501,8 +6502,8 @@ footer.style3 .footer-widgets .widget-text span {
 
 .flat-our-history {
 	padding: 100px 0 119px;
-	background-image: url(../image/homepage114.png);
-	background-position: center;
+	/*background-image: url(../image/homepage114.png);
+	background-position: center;*/
 }
 
 .flat-our-history .history-wrap {

@@ -18,10 +18,10 @@
     right: 2%;
     bottom: 10px;
     font-size: 14px;
-    color: #c02323;
+    color: #FFFFFF;
     border: 1px solid #c02323;
     padding: 7px 35px;
-
+    background: #c02323;
 }
 
 .login-footer{
@@ -61,6 +61,19 @@
     position:absolute;
     bottom: 60px;
 }
+
+.login-reset{
+    border: 1px solid #e5e5e5;
+    bottom: 10px;
+    font-size: 14px;
+    color: #191919;
+    padding: 7px 35px;
+    position:absolute;
+    right:17%;
+    background: #e5e5e5;
+}
+
+
 
 /* 약관동의 css */
 
@@ -113,4 +126,42 @@ label{
     margin-top:5px;
 }
 
-.btn
+/* 회원 정보 수정 */
+.mem-out{
+     border: 1px solid #000000;
+        bottom: 10px;
+        font-size: 14px;
+        color: #FFFFFF;
+        padding: 7px 13px;
+        position:absolute;
+        left:2%;
+        background: #000000;
+}
+
+.pass-btn{
+    border: 1px solid #E1B848;
+    bottom: 19%;
+    font-size: 20px;
+    color: #FFFFFF;
+    padding: 7px 65px;
+    position:absolute;
+    right:2%;
+    background: #E1B848;
+}
+
+/* 비번 변경 및 회원 탈퇴 */
+
+.modify-all{
+    width:50%;
+    margin: 0 auto;
+    margin-top: 3%;
+    margin-bottom: 5%;
+    position: relative;
+    border: 1px solid #e5e5e5;
+    padding: 130px 20px;
+}
+
+.modify-header{
+    position:absolute;
+    top:5%;
+}
