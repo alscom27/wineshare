@@ -85,7 +85,8 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
                 wine.price,
                 wine.wineType,
                 wine.member.id,
-                wine.wineImg
+                wine.wineImg,
+                wine.member.nickname
             )
         )
         .from(wine)

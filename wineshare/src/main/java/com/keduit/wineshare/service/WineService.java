@@ -65,7 +65,8 @@ public class WineService {
         wine.getId(), wine.getWineName(),
         wine.getCountry(), wine.getRegion(),
         wine.getPrice(), wine.getWineType(),
-        wine.getMember().getId(), wine.getWineImg());
+        wine.getMember().getId(), wine.getWineImg(),
+        wine.getMember().getNickname());
     return wineDTO;
   }
 

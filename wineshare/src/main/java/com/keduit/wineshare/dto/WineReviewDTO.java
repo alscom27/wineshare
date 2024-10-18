@@ -39,13 +39,16 @@ public class WineReviewDTO {
 
   private LocalDateTime updateTime;
 
+  private String memberNickname;
+
   public WineReviewDTO() {}
 
   @QueryProjection
-  public WineReviewDTO(Long id, Long wineId, Long memberId, double regularRating, String regularReview) {
+  public WineReviewDTO(Long id, Long wineId, Long memberId, String memberNickname, double regularRating, String regularReview) {
     this.id = id;
     this.wineId = wineId;
     this.memberId = memberId;
+    this.memberNickname = memberNickname;
     this.regularRating = regularRating;
     this.regularReview = regularReview;
   }

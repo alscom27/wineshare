@@ -39,10 +39,12 @@ public class WineDTO {
 
   private Long memberId;
 
+  private String memberNickname;
+
   public WineDTO() {}
 
   @QueryProjection
-  public WineDTO(Long id, String wineName, String country, String region, int price, WineType wineType, Long memberId,String wineImg) {
+  public WineDTO(Long id, String wineName, String country, String region, Integer price, WineType wineType, Long memberId, String wineImg, String memberNickname) {
     this.id = id;
     this.wineName = wineName;
     this.country = country;
@@ -51,6 +53,7 @@ public class WineDTO {
     this.wineType = wineType;
     this.wineImg = wineImg;
     this.memberId = memberId;
+    this.memberNickname = memberNickname;
   }
 }
 

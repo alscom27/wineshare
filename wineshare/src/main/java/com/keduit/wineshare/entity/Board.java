@@ -33,15 +33,15 @@ public class Board extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private BoardStatus boardStatus;
 
-//  @ManyToOne(fetch = FetchType.LAZY)
-//  @JoinColumn(name = "member_id")
-//  private Member member;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member_id")
+  private Member member;
+
 
   public void updateBoard(BoardDTO boardDTO){
     this.boardTitle = boardDTO.getBoardTitle();
     this.boardContent = boardDTO.getBoardContent();
     this.boardStatus = boardDTO.getBoardStatus();
-//    this.member = boardDTO.getMember();
 
     if(this.boardImgName != null){
       this.boardImgName = boardDTO.getBoardImgName();

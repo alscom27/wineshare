@@ -30,6 +30,7 @@ public class WineReviewRepositoryCustomImpl implements WineReviewRepositoryCusto
                 wineReview.id,
                 wineReview.wine.id,
                 wineReview.member.id,
+                wineReview.member.nickname,
                 wineReview.regularRating,
                 wineReview.regularReview
             )

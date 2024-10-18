@@ -56,12 +56,13 @@ public class BoardDTO {
   }
 
   @QueryProjection
-  public BoardDTO(Long id, BoardStatus boardStatus, String boardTitle, String regBy, LocalDateTime regTime) {
+  public BoardDTO(Long id, BoardStatus boardStatus, String boardTitle, String regBy, LocalDateTime regTime, String writerNickname) {
     this.id = id;
     this.boardStatus = boardStatus;
     this.boardTitle = boardTitle;
     this.regBy = regBy;
     this.regTime = regTime;
+    this.writerNickname = writerNickname;
   }
 
 }

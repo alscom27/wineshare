@@ -318,7 +318,7 @@
                                 <input type="hidden" id="developFoodTwo-${develop.id}" name="developFoodTwo" value="${develop.foodTwo}">
                             </span>
                         </div>
-                        <div class="comment-title comment">${develop.memberId}</div>
+                        <div class="comment-title comment">${develop.memberNickname}</div>
                         <div class="comment-text comment" id="comment-develop-${develop.id}">${develop.expertComment}</div>
                         ${createBtns(develop.memberId, develop.id)}
                     </div>
@@ -676,7 +676,7 @@
                                 <input type="hidden" id="reviewRating-${review.id}" name="reviewRating" value="${reviewRating}">
                             </span>
                         </div>
-                        <div class="comment-title comment">${review.memberId}</div>
+                        <div class="comment-title comment">${review.memberNickname}</div>
                         <div class="comment-text comment" id="comment-review-${review.id}">${review.regularReview}</div>
                         ${createBtns(review.memberId, review.id)}
                     </div>

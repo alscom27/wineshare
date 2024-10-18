@@ -62,7 +62,7 @@ public class MarketingRepositoryCustomImpl implements MarketingRepositoryCustom{
                 marketing.marketCategory,
                 marketing.marketingTitle,
                 marketing.eventOrNot,
-                marketing.member
+                marketing.member.nickname
             )
         )
         .from(marketing)

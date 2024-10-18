@@ -60,12 +60,12 @@ public class MarketingDTO {
   public static  MarketingDTO of(Marketing marketing){return modelMapper.map(marketing, MarketingDTO.class);}
 
   @QueryProjection
-  public MarketingDTO(Long id, MarketCategory marketCategory, String marketingTitle, EventOrNot eventOrNot, Member member) {
+  public MarketingDTO(Long id, MarketCategory marketCategory, String marketingTitle, EventOrNot eventOrNot, String ownerNickname) {
     this.id = id;
     this.marketCategory = marketCategory;
     this.marketingTitle = marketingTitle;
     this.eventOrNot = eventOrNot;
-    this.member = member;
+    this.ownerNickname = ownerNickname;
   }
 
 }

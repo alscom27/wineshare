@@ -10,23 +10,28 @@
              margin: 0 auto;
              margin-top:3%;
              margin-bottom:5%;
-            width:80%;
-            height:200px;
-            position: relative;
-            display: flex;
-            justify-content: space-evenly;
-
+             width:80%;
+            padding: 50px 0;
+            height: auto;
         }
         .data-btn{
-            position:absolute;
-            top: 40%;
+            display: grid;
+            grid-template-columns: 40% 40%;
+            grid-template-rows: repeat(3, 80%);
+            grid-gap: 50px;
+            justify-content: center;
+            padding: 50px 0;
+            margin: 0 0 100px 0;
+
         }
         .data-btn button {
             background-color: #c02323;
+            border: 0;
+            border-radius: 20px;
+
         }
 
         .data-title{
-            position: absolute;
             left: 30px;
         }
 

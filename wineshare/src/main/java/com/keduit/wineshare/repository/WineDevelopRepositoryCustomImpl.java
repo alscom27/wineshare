@@ -39,6 +39,7 @@ public class WineDevelopRepositoryCustomImpl implements WineDevelopRepositoryCus
                 wineDevelop.id,
                 wineDevelop.wine.id,
                 wineDevelop.member.id,
+                wineDevelop.member.nickname,
                 wineDevelop.expertRating,
                 wineDevelop.expertComment,
                 wineDevelop.sweetness,

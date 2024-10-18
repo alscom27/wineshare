@@ -22,6 +22,8 @@ public class WineDevelopDTO {
 
   private Long memberId;
 
+  private String memberNickname;
+
   @Min(1)
   @Max(5)
   private double expertRating;
@@ -48,10 +50,11 @@ public class WineDevelopDTO {
   public WineDevelopDTO() {}
 
   @QueryProjection
-  public WineDevelopDTO(Long id, Long wineId, Long memberId, double expertRating, String expertComment, double sweetness, double acidity, double body, double tannin, double fizz, String aromaOne, String aromaTwo, String foodOne, String foodTwo) {
+  public WineDevelopDTO(Long id, Long wineId, Long memberId, String memberNickname, double expertRating, String expertComment, double sweetness, double acidity, double body, double tannin, double fizz, String aromaOne, String aromaTwo, String foodOne, String foodTwo) {
     this.id = id;
     this.wineId = wineId;
     this.memberId = memberId;
+    this.memberNickname = memberNickname;
     this.expertRating = expertRating;
     this.expertComment = expertComment;
     this.sweetness = sweetness;
