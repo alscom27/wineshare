@@ -74,7 +74,6 @@
 
 <!-- 추가된 js  -->
 <th:block layout:fragment="script">
-  <script type="text/javascript" th:href="@{/wine-detail.js}"></script>
   <script th:inline="javascript">
     $(document).ready(function () {
       const wineId = $('#getWineId').data('wine-id');
@@ -435,8 +434,8 @@
       // 새로 만든 별점 인풋
       const ratingStars = `
                 ${Array.from({ length: 5 }, (_, index) =>
-                  `<i class="fa fa-star ${index < currentRating ? 'active' : ''}" data-value="${index + 1}"></i>`
-                   ).join('')}
+              `<i class="fa fa-star ${index < currentRating ? 'active' : ''}" data-value="${index + 1}"></i>`
+      ).join('')}
                  `;
       // 별점 밸류용 히든인풋
       const hiddenInput = `<input type="hidden" id="modify-developRating" name="developRating" value="${currentRating}">`;
@@ -448,7 +447,7 @@
                     <h3>Tannin</h3>
                     <select class="select-option" name="modify-develop-tannin">
                         ${[0, 1, 2, 3, 4, 5].map(value =>
-                      `<option value="${value}" ${value == currentTannin ? 'selected' : ''}>${value}</option>`).join('')}
+                  `<option value="${value}" ${value == currentTannin ? 'selected' : ''}>${value}</option>`).join('')}
                     </select>
                 </div>
             `;
@@ -462,7 +461,7 @@
                     <h3>Tannin</h3>
                     <select class="select-option" name="modify-develop-sweetness">
                         ${[0, 1, 2, 3, 4, 5].map(value =>
-                      `<option value="${value}" ${value == currentSweetness ? 'selected' : ''}>${value}</option>`).join('')}
+                  `<option value="${value}" ${value == currentSweetness ? 'selected' : ''}>${value}</option>`).join('')}
                     </select>
                 </div>
             `;
@@ -492,7 +491,7 @@
                 <h3>Body</h3>
                 <select class="select-option" name="modify-develop-body">
                     ${[0, 1, 2, 3, 4, 5].map(value =>
-                    `<option value="${value}" ${value == currentBody ? 'selected' : ''}>${value}</option>`).join('')}
+              `<option value="${value}" ${value == currentBody ? 'selected' : ''}>${value}</option>`).join('')}
                 </select>
             </div>
             ${createTanninSelect()}
@@ -501,7 +500,7 @@
                 <h3>Acidity</h3>
                 <select class="select-option" name="modify-develop-acidity">
                     ${[0, 1, 2, 3, 4, 5].map(value =>
-                    `<option value="${value}" ${value == currentAcidity ? 'selected' : ''}>${value}</option>`).join('')}
+              `<option value="${value}" ${value == currentAcidity ? 'selected' : ''}>${value}</option>`).join('')}
                 </select>
             </div>
             ${createFizzSelect()}
@@ -785,8 +784,8 @@
       // 새로 만든 별점 인풋
       const ratingStars = `
                 ${Array.from({ length: 5 }, (_, index) =>
-                          `<i class="fa fa-star ${index < currentRating ? 'active' : ''}" data-value="${index + 1}"></i>`
-                  ).join('')}
+              `<i class="fa fa-star ${index < currentRating ? 'active' : ''}" data-value="${index + 1}"></i>`
+      ).join('')}
             `;
       const hiddenInput = `<input type="hidden" id="modify-reviewRating" name="reviewRating" value="${currentRating}">`;
 
@@ -830,7 +829,7 @@
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify({ regularReview: newComment,
-        regularRating: newRating}), // 수정내용 전송
+          regularRating: newRating}), // 수정내용 전송
         beforeSend: function(xhr) {
           xhr.setRequestHeader(header, token);
         },

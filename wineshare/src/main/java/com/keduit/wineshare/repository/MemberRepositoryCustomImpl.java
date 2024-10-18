@@ -2,7 +2,9 @@ package com.keduit.wineshare.repository;
 
 import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.constant.WithdrawStatus;
+import com.keduit.wineshare.dto.MemberDTO;
 import com.keduit.wineshare.dto.MemberSearchDTO;
+import com.keduit.wineshare.dto.QMemberDTO;
 import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.entity.QMember;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -37,28 +39,48 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     return null;
   }
 
-  // 멤버 페이지네이션과함께 리스트 조회
+  private BooleanExpression searchMemberTypeEq(MemberType searchMemberType){
+    return searchMemberType == null ? null : QMember.member.memberType.eq(searchMemberType);
+  }
+  private BooleanExpression searchWithdrawStatusEq(WithdrawStatus searchWithdrawStatus){
+    return searchWithdrawStatus == null ? null : QMember.member.withdrawStatus.eq(searchWithdrawStatus);
+  }
+
+
+  // 관리자용 멤버조회
   @Override
-  public Page<Member> getMemberPage(MemberSearchDTO memberSearchDTO, Pageable pageable) {
-    // 검색 조건
-    BooleanExpression searchCondition = searchTypeLike(memberSearchDTO.getSearchType(), memberSearchDTO.getSearchQuery());
+  public Page<MemberDTO> getMemberPage(MemberSearchDTO memberSearchDTO, Pageable pageable) {
+      QMember member = QMember.member;
 
-    // 멤버 리스트 조회
-    List<Member> result = queryFactory
-        .selectFrom(QMember.member)
-        .where(searchCondition)
-        .offset(pageable.getOffset())
-        .limit(pageable.getPageSize())
-        .fetch();
+      List<MemberDTO> result = queryFactory
+          .select(
+              new QMemberDTO(
+                  member.id,
+                  member.memberType,
+                  member.email,
+                  member.name,
+                  member.withdrawStatus
+              )
+          )
+          .from(member)
+          .where(searchMemberTypeEq(memberSearchDTO.getMemberType()))
+          .where(searchWithdrawStatusEq(memberSearchDTO.getWithdrawStatus()))
+          .where(searchTypeLike(memberSearchDTO.getSearchType(), memberSearchDTO.getSearchQuery()))
+          .orderBy(member.regTime.desc())
+          .offset(pageable.getOffset())
+          .limit(pageable.getPageSize())
+          .fetch();
 
-    // 전체 멤버 수 카운트
-    Long total = queryFactory
-        .selectFrom(QMember.member)
-        .where(searchCondition)
-        .fetchCount();
+      Long total = queryFactory
+          .select(Wildcard.count)
+          .from(member)
+          .where(searchMemberTypeEq(memberSearchDTO.getMemberType()))
+          .where(searchWithdrawStatusEq(memberSearchDTO.getWithdrawStatus()))
+          .where(searchTypeLike(memberSearchDTO.getSearchType(), memberSearchDTO.getSearchQuery()))
+          .fetchOne();
 
-    // Page 객체 생성하여 반환
-    return new PageImpl<>(result, pageable, total);
+      return new PageImpl<>(result, pageable, total);
+
   }
 
   // 회원 타입별조회

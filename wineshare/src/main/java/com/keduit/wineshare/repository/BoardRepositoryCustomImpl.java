@@ -1,9 +1,12 @@
 package com.keduit.wineshare.repository;
 
 import com.keduit.wineshare.constant.BoardStatus;
+import com.keduit.wineshare.dto.BoardDTO;
 import com.keduit.wineshare.dto.BoardSearchDTO;
+import com.keduit.wineshare.dto.QBoardDTO;
 import com.keduit.wineshare.entity.Board;
 import com.keduit.wineshare.entity.QBoard;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -35,29 +38,62 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
     return null;
   }
 
-  // 타입별 필터링
+  // 관리자용 - 보드스테이터스 필터
+  private BooleanExpression searchBoardStatusEq(BoardStatus searchBoardStatus){
+    return searchBoardStatus == null ? null : QBoard.board.boardStatus.eq(searchBoardStatus);
+  }
+
+  // 관리자용 - 보드정렬(최신순, 오래된순,
+  private OrderSpecifier<?> boardSortBy(String boardSortBy) {
+    if (boardSortBy == null) {
+      return QBoard.board.regTime.desc(); // 기본정렬(최신순) - 셀렉트바 선택 안했을경우
+    } else if (StringUtils.equals("regAsc", boardSortBy)) {
+      return QBoard.board.regTime.asc(); // 오래된순
+    } else if (StringUtils.equals("regDesc", boardSortBy)) {
+      return QBoard.board.regTime.desc(); // 최신순
+    } else {
+      return QBoard.board.regTime.desc(); // 기본정렬(최신순) - 혹시 잘못된값 들어갈 경우
+    }
+  }
 
 
-  // 관리자 대시보드 전체 조회
+
+
+  // 관리자 전체 조회
   @Override
-  public Page<Board> getBoardPage(BoardSearchDTO boardSearchDTO, Pageable pageable) {
-    JPAQuery<Board> query = queryFactory.selectFrom(QBoard.board)
-        .where(searchTypeLike(boardSearchDTO.getSearchType(), boardSearchDTO.getSearchQuery()));
+  public Page<BoardDTO> getBoardPage(BoardSearchDTO boardSearchDTO, Pageable pageable) {
 
-    List<Board> result = query
-        .orderBy(QBoard.board.id.desc())
+    QBoard board = QBoard.board;
+
+    List<BoardDTO> result = queryFactory
+        .select(
+            new QBoardDTO(
+                board.id,
+                board.boardStatus,
+                board.boardTitle,
+                board.regBy,
+                board.regTime
+            )
+        )
+        .from(board)
+        .where(searchBoardStatusEq(boardSearchDTO.getSearchBoardStatus()))
+        .where(searchTypeLike(boardSearchDTO.getSearchType(), boardSearchDTO.getSearchQuery()))
+        .orderBy(boardSortBy(boardSearchDTO.getBoardSortBy()))
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
         .fetch();
 
     Long total = queryFactory
         .select(Wildcard.count)
-        .from(QBoard.board)
+        .from(board)
+        .where(searchBoardStatusEq(boardSearchDTO.getSearchBoardStatus()))
         .where(searchTypeLike(boardSearchDTO.getSearchType(), boardSearchDTO.getSearchQuery()))
         .fetchOne();
 
     return new PageImpl<>(result, pageable, total);
   }
+
+
 
   @Override
   // 게시판 상태별 페이지와 조회 관리자에서 정렬도 이거 쓰자

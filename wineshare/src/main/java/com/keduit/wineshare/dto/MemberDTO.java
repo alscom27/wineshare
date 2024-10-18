@@ -1,6 +1,8 @@
 package com.keduit.wineshare.dto;
 
 import com.keduit.wineshare.constant.MemberType;
+import com.keduit.wineshare.constant.WithdrawStatus;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -42,4 +44,17 @@ public class MemberDTO {
   private String RRN;
 
   private MemberType memberType;
+
+  private WithdrawStatus withdrawStatus;
+
+  public MemberDTO() {}
+
+  @QueryProjection
+  public MemberDTO(Long id, MemberType memberType, String email, String name, WithdrawStatus withdrawStatus) {
+    this.id = id;
+    this.memberType = memberType;
+    this.email = email;
+    this.name = name;
+    this.withdrawStatus = withdrawStatus;
+  }
 }

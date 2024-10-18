@@ -5,6 +5,7 @@ import com.keduit.wineshare.constant.EventOrNot;
 import com.keduit.wineshare.constant.MarketCategory;
 import com.keduit.wineshare.entity.Marketing;
 import com.keduit.wineshare.entity.Member;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -57,5 +58,14 @@ public class MarketingDTO {
   public Marketing createMarketing(){return modelMapper.map(this, Marketing.class);}
 
   public static  MarketingDTO of(Marketing marketing){return modelMapper.map(marketing, MarketingDTO.class);}
+
+  @QueryProjection
+  public MarketingDTO(Long id, MarketCategory marketCategory, String marketingTitle, EventOrNot eventOrNot, Member member) {
+    this.id = id;
+    this.marketCategory = marketCategory;
+    this.marketingTitle = marketingTitle;
+    this.eventOrNot = eventOrNot;
+    this.member = member;
+  }
 
 }

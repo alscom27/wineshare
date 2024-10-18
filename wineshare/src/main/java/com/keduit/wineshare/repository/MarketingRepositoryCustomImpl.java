@@ -2,7 +2,9 @@ package com.keduit.wineshare.repository;
 
 import com.keduit.wineshare.constant.EventOrNot;
 import com.keduit.wineshare.constant.MarketCategory;
+import com.keduit.wineshare.dto.MarketingDTO;
 import com.keduit.wineshare.dto.MarketingSearchDTO;
+import com.keduit.wineshare.dto.QMarketingDTO;
 import com.keduit.wineshare.entity.Marketing;
 import com.keduit.wineshare.entity.QMarketing;
 import com.keduit.wineshare.entity.QMember;
@@ -35,26 +37,48 @@ public class MarketingRepositoryCustomImpl implements MarketingRepositoryCustom{
     }
     return null;
   }
+  // 관리자용 - 마켓 종류 필터
+  private BooleanExpression searchMarketCategoryEq(MarketCategory searchMarketCategory){
+    return searchMarketCategory == null ? null : QMarketing.marketing.marketCategory.eq(searchMarketCategory);
+  }
+
+  // 관리자용 - 행사 필터
+  private BooleanExpression searchEventOrNotEq(EventOrNot searchEventOrNot){
+    return searchEventOrNot == null ? null : QMarketing.marketing.eventOrNot.eq(searchEventOrNot);
+  }
 
 
-  // 전체 마케팅 조회  관리자용은 필터는 있되 정렬 옵션은 뺌 그냥 최신순
+
+  // 관리자용 전체 조회
   @Override
-  public Page<Marketing> getMarketingPage(MarketingSearchDTO marketingSearchDTO, Pageable pageable) {
-    JPAQuery<Marketing> query = queryFactory.selectFrom(QMarketing.marketing)
-        .where(searchTypeLike(marketingSearchDTO.getSearchType(), marketingSearchDTO.getSearchQuery()));
+  public Page<MarketingDTO> getMarketingPage(MarketingSearchDTO marketingSearchDTO, Pageable pageable) {
 
+    QMarketing marketing = QMarketing.marketing;
 
-
-    List<Marketing> result = query
-        .orderBy(QMarketing.marketing.id.desc())
+    List<MarketingDTO> result = queryFactory
+        .select(
+            new QMarketingDTO(
+                marketing.id,
+                marketing.marketCategory,
+                marketing.marketingTitle,
+                marketing.eventOrNot,
+                marketing.member
+            )
+        )
+        .from(marketing)
+        .where(searchMarketCategoryEq(marketingSearchDTO.getMarketCategory()))
+        .where(searchEventOrNotEq(marketingSearchDTO.getEventOrNot()))
+        .where(searchTypeLike(marketingSearchDTO.getSearchType(), marketingSearchDTO.getSearchQuery()))
+        .orderBy(marketing.regTime.desc())
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
         .fetch();
 
-    // 전체 카운트
     Long total = queryFactory
         .select(Wildcard.count)
-        .from(QMarketing.marketing)
+        .from(marketing)
+        .where(searchMarketCategoryEq(marketingSearchDTO.getMarketCategory()))
+        .where(searchEventOrNotEq(marketingSearchDTO.getEventOrNot()))
         .where(searchTypeLike(marketingSearchDTO.getSearchType(), marketingSearchDTO.getSearchQuery()))
         .fetchOne();
 
