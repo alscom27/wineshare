@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -74,12 +77,25 @@ public class MemberService implements UserDetailsService {
 
     System.out.println("로그인 시 비밀번호 해시: " + member.getPassword());
 
+//    return User.builder()
+//        .username(member.getEmail())
+//        .password(member.getPassword())
+//        .roles(member.getMemberType().toString())
+//        .build();
 
-    return User.builder()
-        .username(member.getEmail())
-        .password(member.getPassword())
-        .roles(member.getMemberType().toString())
-        .build();
+    // 이넘을 GrantedAuthority로 변환
+    // SimpleGrantedAuthority 웹 시큐 컨피규어 어댑터에 있는 클래스임
+    // 근데 필터체인이랑 같이 못씀 5.4이후 버전부터는 하나만 쓰게됨 임포트하고 지웠더니 남아있네
+    List<SimpleGrantedAuthority> authorities = List.of(member.getMemberType())
+        .stream()
+        .map(type -> new SimpleGrantedAuthority("ROLE_" + type.name()))
+        .collect(Collectors.toList());
+
+    return new org.springframework.security.core.userdetails
+        .User(member.getEmail(),
+        member.getPassword(),
+        authorities);
+
   }
 
   // 비밀번호 변경 서비스에서 검증하는법

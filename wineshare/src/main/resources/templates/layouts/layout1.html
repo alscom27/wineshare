@@ -14,7 +14,12 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-
+<!--  종진 css 추가  -->
+    <style>
+        .mouse-pointer{
+            cursor : pointer;
+        }
+    </style>
     <title>WINESHARE</title>
     <!-- Bootstrap  -->
     <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/bootstrap.css}">
@@ -43,6 +48,8 @@
     <!-- 사용자 css, js 자리 -->
     <th:block layout:fragment="script"></th:block>
     <th:block layout:fragment="css"></th:block>
+
+
 </head>
 <body>
 <div th:replace="fragments/header::header"></div>
