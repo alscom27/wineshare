@@ -42,8 +42,8 @@ public class SecurityConfig {
             "/icon/**",
             "/image/**",
             "/javascript/**",
-            "/rev-slider/**",
-            "/stylesheets/**",
+            "/rev-slider/**","/rev-slider/assets/**","/rev-slider/css/**","/rev-slider/fonts/**","/rev-slider/js/**",
+            "/stylesheets/**","/stylesheets/colors/**","/stylesheets/font/**",
             "/wineshare-css/**", "/wineshare-js/**", "/wineshare-img/**").permitAll()
         .mvcMatchers("/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated();

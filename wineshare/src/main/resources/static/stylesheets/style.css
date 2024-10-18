@@ -2258,7 +2258,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-blog-grid .post .featured-post {
 	float: left;
-	margin-top: -21px;
+	/*margin-top: -21px;*/
 }
 
 .main-blog-grid .post .content-post {
@@ -2358,7 +2358,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-blog-grid .post {
 	overflow: hidden;
-	margin-bottom: 40px;
+	/*margin-bottom: 40px;*/
 }
 
 .main-blog-grid .border .content-post .post-title {

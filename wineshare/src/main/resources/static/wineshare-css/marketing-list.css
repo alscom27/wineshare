@@ -1,23 +1,90 @@
-.search-sort{
-    width:80%;
+.marketlist-container{
+    width:90%;
+    border: 1px solid #e5e5e5;
+    border-style:none;
     margin: 0 auto;
-    margin-top:5%;
-    display:flex;
-    gap:20px;
-    justify-content: flex-end;
-    align-items: flex-end;
+    margin-top:2%;
 }
 
-.marketing-search{
-    width:15%;
-
+.search-sort{
+   position: relative;
 }
 
 .marketing-sort{
-    width:11%;
+    width:10%;
     text-align: center;
+    float:right;
 }
 
 .marketing-sort h5{
     padding: 5px;
+}
+
+input[type="text"]{
+  width:60%;
+  height:25px;
+}
+
+.data-search{
+    position:absolute;
+    right:100px;
+    top:26px;
+}
+
+.data-btn{
+   font-size:10px;
+   color:#FFFFFF;
+   position: absolute;
+   right:54px;
+   top:0px;
+   border: 1px solid #E1B848;
+   border-radius:5px;
+}
+
+.market-reg{
+    padding: 7px 20px;
+    border: 1px solid #c02323;
+    border-radius:5px;
+}
+
+.marketing_list_wrap{
+    width:100%;
+    border: 1px solid #000000;
+}
+
+.featured-post{
+    width: 50%;
+    height:100%;
+    padding:0;
+    margin: 0;
+}
+
+.market-img{
+    width: 100%;
+    height:100%;
+    position: relative;
+    left:0;
+    bottom:0;
+}
+
+.content-post{
+    margin-top:15%;
+}
+
+.post-title{
+  font-size: 24px;
+  color: #191919;
+}
+
+.post-content{
+   font-size: 14px;
+   line-height: 36px;
+   color: #a6a6a6;
+}
+
+.article-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap:15px;
 }
