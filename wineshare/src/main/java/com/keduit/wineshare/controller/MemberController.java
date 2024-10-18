@@ -5,6 +5,7 @@ import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.repository.MemberRepository;
 import com.keduit.wineshare.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/members")
 @RequiredArgsConstructor
+@Log4j2
 public class MemberController {
 
   private final MemberService memberService;
@@ -83,5 +85,14 @@ public class MemberController {
 
     return "member/memberForm";
   }
+
+
+  // 임시 컨트롤러
+  @GetMapping("/memberAgree")
+  public String agree(){
+    log.info("memberAgree");
+    return "member/memberAgree";
+  }
+
 
 }

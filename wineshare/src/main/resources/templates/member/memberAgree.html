@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<!-- 사용자 css -->
+<th:block layout:fragment="css">
+  <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/login-form.css}">
+
+</th:block>
+
+<!--/* 사용자 js 추가 */-->
+<th:block layout:fragment="script">
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+    const termsService = document.getElementById('terms_service');
+    const termsPrivacy = document.getElementById('terms_privacy');
+    const termsPromo = document.getElementById('terms_promo');
+    const selectAll = document.getElementById('select_all');
+    const btnAgree = document.getElementById('btn_agr');
+    const btnCancel = document.getElementById('btn_can');
+
+    function checkRequired() {
+    return termsService.checked && termsPrivacy.checked;
+    }
+
+    function updateSelectAll() {
+    selectAll.checked = termsService.checked && termsPrivacy.checked && termsPromo.checked;
+    }
+
+    function handleIndividualCheck() {
+    updateSelectAll();
+    }
+
+    [termsService, termsPrivacy, termsPromo].forEach(checkbox => {
+    checkbox.addEventListener('change', handleIndividualCheck);
+    });
+
+    selectAll.addEventListener('change', function() {
+    [termsService, termsPrivacy, termsPromo].forEach(checkbox => {
+    checkbox.checked = selectAll.checked;
+    });
+    });
+
+    btnAgree.addEventListener('click', function() {
+    if (!checkRequired()) {
+    alert("개인정보 수집 및 이용에 대한 안내 모두 동의해주세요.");
+    } else {
+    agree_sec.style.display = "none";
+    infoInput.style.display = "block";
+    }
+    });
+
+    btnCancel.addEventListener('click', function() {
+    [termsService, termsPrivacy, termsPromo, selectAll].forEach(checkbox => {
+    checkbox.checked = false;
+    });
+    });
+  });
+  </script>
+</th:block>
+
+
+<div layout:fragment="content">
+
+
+    <div class="terms_sec">
+      <div class="temrs_sec_field">
+
+        <ul class="terms_list">
+          <li class="terms_box">
+            <h2>홈페이지 이용약관 동의 (필수)</h2>
+            <div class="txt_box" tabindex="0">
+              <p class="article_txt">
+              <p>1조. 회원 가입은 무료입니다. 다만, 18세 미만인 자는 회원으로 가입할 수 없습니다.</p>
+              <p>
+                2조. 회원ID(계정)는 1인당 1개의 ID만 생성 및 등록이 가능하며, ID생성을 위해 필요한 개인정보를 허위로 제공하거나, 본인이 아닌 타인의 정보를 무단으로
+                사용하여
+                회원ID를 만들 수 없습니다. 이를 위반할 경우, 회원에게 제공되는 서비스의 제한이 있을 수 있으며, 본 약관 각 조항에서 정하고 있는 불이익을 받을 수 있습니다.
+              </p>
+              <p>
+                3조. 회원에게 부여된 회원번호(ID) 및 비밀번호의 관리소홀, 부정사용에 의하여 발생하는 모든 결과에 대한 책임은 회원에게 있습니다.
+              </p>
+              <P>
+                4조. 회원 자신의 ID가 부정하게 사용된 경우 해당 회원은 반드시 회사에 그 사실을 지체 없이 통보하여 조치를 받아야 하며, 통보의 지연으로 인해 발생하는 손해는
+                회사가
+                책임지지 않습니다.
+              </P>
+              <P>
+                5조.회원은 가입 시 기재하는 이름을 포함한 모든 정보에 실명 등 사실에 기초한 정보를 기재하여야 합니다. 실명이나 실제 정보를 입력하지 않은 회원은 법적인 보호를 받을
+                수 없으며 회사로부터 서비스 이용 제한 등의 조치를 받을 수 있습니다.
+              </P>
+              <p>
+                6조.
+                1. 회사는 전기통신사업법 제84조의2에 따라 발신번호의 변조 방지를 위해 번호인증을 통한 발신번호 사전 등록서비스를 제공 및 운영합니다.
+                2. 회사는 이용자의 회원가입 시 타인의 명의를 도용한 부정가입을 방지하기 위해 본인인증 서비스 사업자가 제공하는 인증방법을 통해 본인인증서비스를 제공 및
+                운영합니다.
+                3. 회사는 회원을 보호하기 위하여 보안 및 인증수단을 회사 보안 정책에 따라 시행 및 변경할 수 있습니다.
+                4. 회사는 회원의 발신번호 사전등록 및 본인 인증 절차를 거친 후 Wine Share 서비스를 제공하여야 합니다.
+                5. 본인 인증 서비스에 대한 동의 거부 시, 회원 가입이 불가하며, Wine Share 서비스를 이용할 수 없습니다.
+              </p>
+              <p>
+                7조. 회원 등록정보의 이용
+                1. 회사는 회원 등록정보를 집단적인 통계치 형태로 사용할 수 있습니다.
+              </p>
+
+            </div>
+            <!-- <div class="check_container"> -->
+            <label for="terms_service">동의합니다.</label>
+            <input type="checkbox" id="terms_service">
+            <!-- </div> -->
+          </li>
+          <li class="terms_box">
+            <h2>개인정보 수집 및 이용동의 (필수)</h2>
+            <div class="txt_box" tabindex="0">
+              <!-- tabindex="0" tab키로만 이동 가능 -->
+              <p class="article_txt">
+              <p>본인은 Wine Share(이하 '회사'라 합니다.)가 제공하는 회원 서비스(이하 '서비스'라 합니다.)를 이용하기 위해, 다음과 같이 '회사'가 본인의 개인정보를 수집/이용하는
+                것에 동의합니다.
+              </p>
+              <p>
+                ※ 귀하께서는 개인정보 수집·이용에 대한 동의를 거부하실 수 있으나, 동의를 거부하실 경우 회원가입, 서비스 이용 등을 하실 수 없습니다.
+              </p>
+              <p>
+              <p>
+                1. 개인정보 항목·목적·보유기간
+                구분 필수
+                항목 성명, 생년월일, 성별, 아이디, 비밀번호, 휴대전화번호, E-Mail, DI (Duplication information)
+                목적 - 회원가입(홈페이지), 본인확인
+                - 서비스 제공
+                * 상품(제품), 서비스 결제, 환불, 배송 등
+                * 개인 맞춤형 서비스 제공
+                - 회원관리, 부정이용 방지
+                - 서비스 관련 이벤트 및 행사정보 안내
+                (별도 마케팅정보 수신 동의 회원에 한함)
+                보유 및 이용기간 :회원 탈퇴 후 30일간 보관 (반복 재가입 등의 방법을이용한 서비스 부정이용 방지) 또는 관계법령에 의한 별도 보존기간 (2. 관계법령에 의한
+                개인정보
+                보존기간참고)
+              </p>
+              <p>
+                2. 관계법령에 의한 개인정보 보존기간
+                - 서비스이용기록, 접속로그, 접속IP정보 (통신비밀보호법 : 3개월)
+                - 표시/광고에 관한 기록 (전자상거래법 : 6개월)
+                - 계약 또는 청약철회 등에 관한 기록 (전자상거래법 : 5년)
+                - 대금결제 및 재화 등의 공급에 관한 기록 (전자상거래법 : 5년)
+                - 소비자의 불만 또는 분쟁처리에 관한 기록 (전자상거래법 : 3년)
+              </p>
+              </p>
+            </div>
+            <!-- <div class="check_container"></div> -->
+            <label for="terms_privacy">동의합니다.</label>
+            <input type="checkbox" id="terms_privacy">
+            <!-- </div> -->
+          </li>
+          <!-- 프로모션 선택 동의 -->
+          <li class="terms_box">
+            <h2>프로모션 정보 수신동의 (선택)</h2>
+            <div class="txt_box prmo_txt_without" style="height: 150px;">
+              <p class="promo_txt">
+                Wine Share 에서 제공하는 이벤트/혜택 등 다양한 정보를 휴대전화(네이버앱 알림 또는 문자), 이메일로 받아보실 수 있습니다.
+                일부 서비스(별도 회원 체계로 운영하거나 Wine Share 가입 이후 추가 가입하여 이용하는 서비스 등)의 경우, 개별 서비스에 대해 별도 수신 동의를 받을 수 있으며,
+                이때에도 수신 동의에 대해 별도로 안내하고 동의를 받습니다.
+              </p>
+            </div>
+            <!-- <div class="check_container"> -->
+            <label for="terms_promo">동의합니다.</label>
+            <input type="checkbox" id="terms_promo">
+            <!-- </div> -->
+          </li>
+          <li class="terms_box li_last">
+            <h2>회원가입 유의사항</h2>
+            <div class="last_terms_txt">
+              <span>• 반드시 회원님 명의로 된 휴대폰, 아이핀을 이용해주세요</span><br>
+              <span>• 타인의 개인정보를 도용하여 가입할 경우 향후 적발 시 서비스 이용제한 및 법적 제재를 받을 수 있습니다.</span>
+            </div>
+            <!-- <div class="check_container"> -->
+            <label for="select_all">모두 동의합니다.</label>
+            <input type="checkbox" id="select_all">
+            <!-- </div> -->
+          </li>
+          <p></p>
+          <p></p>
+          <li class="terms_box li_last">
+            <div class="btn_area">
+              <button type="submit" class="btn text-white" id="btn_agr"
+                      style="background-color: #c02323;">확인</button>
+              <button type="reset" class="btn text-white" id="btn_can"
+                      style="background-color: #BDBDBD;">취소</button>
+
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+
+
+</div>
+</html>

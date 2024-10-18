@@ -52,30 +52,51 @@
 
 <div layout:fragment="content">
 
+    <!-- 각 페이지 상단에 경로 나타내주는 부분.. -->
+    <div class="page-title parallax parallax1">
+        <div class="container">
+            <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
+                <div class="breadcrumbs">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li class="blog"><a href="#">Marketing</a></li>
+                    </ul>
+                </div>
+                <div class="page-title-heading">
+                    <h2 class="title" th:text="${marketCategory}"><a href="#">Marketing</a></h2>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /.page-title -->
 
+
+
+    <div class="marketlist-container">
         <!-- 검색 & 정렬 기능 -->
         <div class="search-sort" th:object="${marketingSearchDTO}">
             <form th:action="@{'/marketings/'+ ${marketCategory} + '/list'}" role="form" method="get">
 
             <div class="marketing-sort">
                 <h5>Sort by</h5>
-                <select th:field="*{sortOrder}">
+                <select th:field="*{sortOrder}" style="height: 25px; font-size:12px;">
                     <option value="">기본순</option>
                     <option value="최신순">최신순</option>
                 </select>
             </div>
 
-            <div class="marketing-search">
-<!--                <input type="hidden" th:field="*{searchType}" value="T">-->
-              <input type="hidden" th:value="${marketCategory}" id="hidden-marketCategory">
-                <input type="text" th:field="*{searchQuery}" placeholder="Search...">
-                <button type="submit" id="searchBtn" class="btn btn-default">
-                    <i class="fa fa-search"></i>
-                </button>
-            </div>
+                <div class="data-all">
+                    <div class="data-search">
+                        <!--                <input type="hidden" th:field="*{searchType}" value="T">-->
+                        <input type="hidden" th:value="${marketCategory}" id="hidden-marketCategory">
+                        <input type="text" class="form-control" th:field="*{searchQuery}" placeholder="Search...">
+                        <button type="submit" id="searchIcon" class="data-btn" style="background-color: #E1B848; height: 25px;" >
+                            enter
+                        </button>
+                    </div>
+                </div>
 
              <div th:if="${marketCategory} != null">
-            <button type="button" id="regBtn" class="hvr-shutter-out-horizontal">등록하기</button>
+            <button type="button" id="regBtn" class="market-reg" style="background-color: #c02323; color:#FFFFFF" >등록하기</button>
              </div>
 
             </form>
@@ -84,15 +105,15 @@
 
         <div class="main-blog-grid">
             <div class="container clearfix">
-                <div class="col-left">
+                <div class="article-container">
 
                     <article class="post marketing_list_wrap" th:each="marketingDTO : ${marketingDTOs}">
 
-                      <div th:if="${!marketingDTOs.isEmpty()}">
-                        <div class="featured-post">
-                            <img th:src="${marketingDTO.marketImgUrl}" th:alt="${marketingDTO.marketOriImgName}">
+
+                        <div th:if="${!marketingDTOs.isEmpty()}" class="featured-post">
+                            <img class="market-img" th:src="${marketingDTO.marketImgUrl}" th:alt="${marketingDTO.marketOriImgName}">
                         </div>
-                      </div>
+
 
                         <div class="content-post">
                             <div class="post-title" th:text="${marketingDTO.marketingTitle}">
@@ -121,12 +142,12 @@
                         </div>
 
                     </article>
+                </div>
 
 
-                    <div>
 
                       <!-- 페이지네이션 -->
-                      <div class="blog-pagination text-center"
+                      <div class="blog-pagination mar-page"
                            th:with="start=${(marketings.number / maxPage) * maxPage + 1},
                                         end=${(marketings.totalPages == 0) ?
                                         1 : (start + (maxPage - 1) < marketings.totalPages ?
@@ -152,11 +173,11 @@
 
                     </div> <!-- /main-blog-grid -->
 
-                </div>
+
             </div>
         </div>
 
-
+    </div>
 
 </div>
 </html>
