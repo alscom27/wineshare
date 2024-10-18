@@ -2,28 +2,31 @@ package com.keduit.wineshare.controller;
 
 import com.keduit.wineshare.dto.CellarDetailDTO;
 import com.keduit.wineshare.dto.CellarWineDTO;
-import com.keduit.wineshare.entity.Member;
-import com.keduit.wineshare.entity.Wine;
-import com.keduit.wineshare.repository.WineRepository;
+
 import com.keduit.wineshare.service.CellarService;
-import com.keduit.wineshare.service.WineService;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.EntityNotFoundException;
+
+
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
+
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,10 +36,24 @@ public class CellarController {
 
   // 셀러 목록
   @GetMapping("/cellars")
-  public String cellarList(Principal principal, Model model) {
-    List<CellarDetailDTO> cellarDetailDTOList = cellarService.getCellarList(principal.getName());
-    model.addAttribute("cellarWines", cellarDetailDTOList);
+  public String cellarList() {
     return "cellar/cellarList";
+  }
+
+  // 셀러 목록(ajax)
+  @GetMapping({"/cellars/list/{page}", "/cellars/list"})
+  @ResponseBody
+  public ResponseEntity<Map<String, Object>> cellarList(@PathVariable("page") Optional<Integer> page,
+                                                        Principal principal) {
+    Map<String, Object> response = new HashMap<>();
+    Pageable pageable = PageRequest.of(page.orElse(0), 6);
+    Page<CellarDetailDTO> cellarWines = cellarService.getCellarWines(pageable, principal.getName());
+
+    response.put("cellarWines", cellarWines.getContent());
+    response.put("totalPages", cellarWines.getTotalPages());
+    response.put("currentPage", cellarWines.getNumber());
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
   // 셀러에 와인 추가?

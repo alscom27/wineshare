@@ -4,6 +4,7 @@ import com.keduit.wineshare.constant.WineType;
 import com.keduit.wineshare.dto.QWineDTO;
 import com.keduit.wineshare.dto.WineDTO;
 import com.keduit.wineshare.dto.WineSearchDTO;
+import com.keduit.wineshare.entity.QBoard;
 import com.keduit.wineshare.entity.QWine;
 import com.keduit.wineshare.entity.QWineDevelop;
 import com.keduit.wineshare.entity.Wine;
@@ -25,6 +26,18 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
 
   public WineRepositoryCustomImpl(EntityManager em) {
     this.queryFactory = new JPAQueryFactory(em);
+  }
+
+  //N 와인이름 C 국가이름 W 작성자
+  private BooleanExpression searchTypeLike(String searchType, String searchQuery){
+    if(StringUtils.equals("N", searchType)){
+      return QWine.wine.wineName.like("%"+searchQuery+"%");
+    }else if(StringUtils.equals("C", searchType)){
+      return QWine.wine.country.like("%"+searchQuery+"%");
+    }else if(StringUtils.equals("W", searchType)){
+      return QWine.wine.member.nickname.like("%"+searchQuery+"%");
+    }
+    return null;
   }
 
   // 와인타입 필터
@@ -92,6 +105,7 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         .from(wine)
         .leftJoin(wine.wineDevelops, wineDevelop)
         .where(searchWineTypeEq(wineSearchDTO.getSearchWineType()))
+        .where(searchTypeLike(wineSearchDTO.getSearchType(), wineSearchDTO.getSearchQuery()))
         .where(priceBetween(wineSearchDTO.getMinPrice(), wineSearchDTO.getMaxPrice()))
         .groupBy(wine.id)
         .orderBy(sortBy(wineSearchDTO.getSortBy()))

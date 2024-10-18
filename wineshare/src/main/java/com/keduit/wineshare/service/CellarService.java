@@ -12,6 +12,8 @@ import com.keduit.wineshare.repository.MemberRepository;
 import com.keduit.wineshare.repository.WineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -77,6 +79,14 @@ public class CellarService {
     cellarDetailDTOList = cellarWineRepository.findCellarDetailDTOList(cellar.getId());
 
     return cellarDetailDTOList;
+  }
+
+  @Transactional(readOnly = true)
+  public Page<CellarDetailDTO> getCellarWines(Pageable pageable, String email) {
+    Member member = memberRepository.findByEmail(email);
+    Cellar cellar = cellarRepository.findByMemberId(member.getId());
+    return cellarWineRepository.getCellarWines(pageable, cellar.getId());
+
   }
 
   // 로그인한 사람과 셀러 아이디가 같은지 확인

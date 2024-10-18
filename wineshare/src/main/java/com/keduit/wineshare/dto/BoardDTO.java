@@ -43,6 +43,8 @@ public class BoardDTO {
   @JsonFormat(pattern = "yy-MM-dd")
   private LocalDateTime regTime;
 
+  private Member member;
+
   public BoardDTO(){}
 
   private static ModelMapper modelMapper = new ModelMapper();

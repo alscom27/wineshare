@@ -32,8 +32,8 @@ public class MarketingRepositoryCustomImpl implements MarketingRepositoryCustom{
   private BooleanExpression searchTypeLike(String searchType, String searchQuery){
     if(StringUtils.equals("T", searchType)){
       return QMarketing.marketing.marketingTitle.like("%" + searchQuery + "%");
-    }else if(StringUtils.equals(searchType, null)){
-      return QMarketing.marketing.marketingTitle.like("%" + searchQuery + "%");
+    }else if(StringUtils.equals("N", searchType)){
+      return QMarketing.marketing.member.nickname.like("%" + searchQuery + "%");
     }
     return null;
   }
