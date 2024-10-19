@@ -40,7 +40,6 @@ public class WineService {
     return wineRepository.save(wine);
   }
 
-
   // 와인이름 중복 체크하는 메소드
   private void validateWine(Wine wine) {
     Wine findWine = wineRepository.findByWineName(wine.getWineName());
@@ -49,14 +48,10 @@ public class WineService {
     }
   }
 
-
-
-
   @Transactional(readOnly = true)
   public Page<WineDTO> getWinePage(WineSearchDTO wineSearchDTO, Pageable pageable) {
     return wineRepository.getWinePage(wineSearchDTO, pageable);
   }
-
 
   @Transactional(readOnly = true)
   public WineDTO getWineDetail(Long wineId) {
@@ -80,22 +75,23 @@ public class WineService {
     Wine sameTypeMostRating = wineRepository.findSameTypeMostRating(wine);
     similarWines.add(sameTypeMostRating);
 
-  // 2.아로마 One이 같고 높은것 1개
+    // 2.아로마 One이 같고 높은것 1개
     Wine sameMostAroma = wineRepository.findMostFrequentAromaOneWine(wine);
     similarWines.add(sameMostAroma);
 
-
-   // 3.푸드 One이 같고 전문가 평점 카운트가 높은 1개
+    // 3.푸드 One이 같고 전문가 평점 카운트가 높은 1개
     Wine sameMostFood = wineRepository.findMostFrequentFoodOneWine(wine);
     similarWines.add(sameMostFood);
-
 
     // 4.국가가 같고 전문가 평점 평균이 높은 1개
     Wine sameCountryMostRating = wineRepository.findSameCountryMostRating(wine);
     similarWines.add(sameCountryMostRating);
 
-
     return similarWines;
+  }
+
+  public void remove(Long wineId) {
+    wineRepository.deleteById(wineId);
   }
 }
 

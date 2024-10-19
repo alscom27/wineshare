@@ -189,7 +189,6 @@
           data: JSON.stringify(developData),
           success: function (response) {
             alert(response); // 성공 메시지
-            $('textarea[name="developComment"]').val('');
             getWineDevelopList(wineId, 0);
           },
           error: function (xhr) {
@@ -843,6 +842,32 @@
         }
       });
     }
+    // 와인 삭제 메소드
+    function deleteWine(wineId) {
+      const token = $("meta[name='_csrf']").attr("content");
+      const header = $("meta[name='_csrf_header']").attr("content");
+      if (confirm("이 와인을 삭제하시겠습니까?")) {
+        $.ajax({
+          url: `/wines/${wineId}`,
+          type: 'DELETE',
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+          },
+          success: function(response) {
+            alert(response); // 성공 메시지
+            location.href = "/wines/list";
+          },
+          error: function(xhr) {
+            if(xhr.status == '401'){
+              alert("로그인 후 이용해주세요.");
+              location.href = "/members/login";
+            }else{
+              alert(xhr.responseText);
+            }
+          }
+        });
+      }
+    }
   </script>
 </th:block>
 
@@ -955,6 +980,10 @@
                   <div class="heart mg-item-ct" onclick="addCellar(this)" th:data-wine-id="${wine.id}" id="getWineId"
                        th:classappend="${isInCellar} ? 'active' : ''">
                     <i class="fa fa-heart" aria-hidden="true" th:classappend="${isInCellar} ? 'active' : ''"></i>
+                  </div>
+                  <div class="wine-modify-delete-btn-box">
+                    <button class="modify-btn" th:onclick="'location.href=\'/wines/wine/get/' + ${wine.id} + '\''">수정</button>
+                    <button class="delete-btn" th:onclick="'javascript:deleteWine('+ ${wine.id} +')'">삭제</button>
                   </div>
                 </div>
               </div>

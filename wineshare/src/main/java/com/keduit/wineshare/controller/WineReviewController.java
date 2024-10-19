@@ -69,7 +69,7 @@ public class WineReviewController {
                                              Principal principal){
 
     if(!wineReviewService.validationWineReview(reviewId, principal.getName())){
-      return new ResponseEntity<>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
+      return new ResponseEntity<>("삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);
     }
     wineReviewService.remove(reviewId);
     return new ResponseEntity<>("리뷰가 삭제되었습니다.", HttpStatus.OK);

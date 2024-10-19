@@ -1,5 +1,6 @@
 package com.keduit.wineshare.controller;
 
+import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.dto.*;
 import com.keduit.wineshare.entity.AromaWheel;
 import com.keduit.wineshare.entity.FoodPairing;
@@ -13,11 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -174,14 +172,12 @@ public class WineController {
     WineReviewDTO wineReviewRating = wineReviewService.getCountReviewRating(wine);
 
     Member member = null;
-    // 멤버 아이디 가져가기
+    // 로그인한 멤버 아이디 가져가기
     if (principal == null) {
       member = null;
     } else {
       member = memberService.findByEmail(principal.getName());
     }
-
-
     // 아로마 객체..
 //    AromaWheel aromaOne = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaOne());
 //    AromaWheel aromaTwo = aromaWheelService.getAromaWheelByAroma(wineDevelopCount.getAromaTwo());
@@ -220,12 +216,15 @@ public class WineController {
         foodTwo = foodPairingService.getFoodPairingByFood(foodTwoValue);
       } else {
         foodTwo = new FoodPairing();
+        foodTwo.setFood("Unknown");
       }
 
     }
 
+    // 유사한 와인 리스트 찾아주기(조건 네개)
     List<Wine> similarWineList = wineService.getSimilarWines(wine);
 
+    // 로그인한 멤버의 셀러에 있는 와인 찾아오기
     boolean isinCellar = false;
     if (principal != null) {
       isinCellar = cellarService.isWineInCellar(wineId, principal.getName());
@@ -242,6 +241,28 @@ public class WineController {
     model.addAttribute("similarWineList", similarWineList);
     model.addAttribute("isInCellar", isinCellar);
     return "wine/wineDetail";
+  }
+
+
+  // 관리자, 전문가용 수정폼 가기
+  @GetMapping("/wine/get/{wineId}")
+  public String adminWineDetail(@PathVariable("wineId") Long wineId, Model model) {
+    WineDTO wineDTO = wineService.getWineDetail(wineId);
+    model.addAttribute("wine", wineDTO);
+    return "wine/wineModify";
+  }
+
+  @DeleteMapping("/{wineId}")
+  @ResponseBody
+  public ResponseEntity<String> deleteWine(@PathVariable("wineId") Long wineId,
+                                           Principal principal) {
+    Member member = memberService.findByEmail(principal.getName());
+    if (member.getMemberType() != MemberType.ADMIN) {
+      return new ResponseEntity<>("와인 삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);
+    }
+
+    wineService.remove(wineId);
+    return new ResponseEntity<>("와인이 삭제되었습니다.", HttpStatus.OK);
   }
 
 
