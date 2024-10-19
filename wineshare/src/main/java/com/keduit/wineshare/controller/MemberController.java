@@ -86,11 +86,20 @@ public class MemberController {
   //    return "member/memberLoginForm";
   //  }
 
-  @GetMapping("/modify")
+  @GetMapping({"/modify", "/modify/{memberId}"})
   public String modifyMember(Principal principal,
+                             @PathVariable("memberId") Long memberId,
                              Model model) {
 
-    Member member = memberRepository.findByEmail(principal.getName());
+    Member member;
+    if(memberId != null) { // 멤버아이디를 통해 들어왔으면 멤버아이디로 멤버 정보 가져오기
+      member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
+    } else { // 멤버아이디가 없으면 프린시펄로 정보 가져오기
+      member = memberRepository.findByEmail(principal.getName());
+    }
+
+
+    // 관리자용 추가
 
 //    MemberDTO memberDTO = new MemberDTO();
 //    memberDTO.setId(member.getId());

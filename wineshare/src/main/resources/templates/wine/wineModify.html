@@ -45,6 +45,35 @@
     });
   }
 
+  // 와인폼 저장 -> 아이디 반환 -> 디벨롭폼 저장
+  function modifyWine(wineId) {
+    const wineData = new FormData(document.getElementById("wineForm")); // 와인 폼 데이터 가져오기
+    const token = $("meta[name='_csrf']").attr("content");
+    const header = $("meta[name='_csrf_header']").attr("content");
+
+
+    console.log("메소드시작");
+
+    // AJAX 요청으로 와인 데이터 저장
+    $.ajax({
+      url: `/wines/${wineId}`,
+      type: 'PUT',
+      data: wineData,
+      processData: false, // FormData가 자동으로 처리되도록 설정
+      contentType: false,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader(header, token)
+      },
+      success: function(response) {
+        console.log("와인정보 수정 성공");
+        window.location.assign('/wines/wine/' + `${wineId}`);
+      },
+      error: function(xhr) {
+        const errorMessage = xhr.responseText || '와인정보 수정 중 오류가 발생했습니다.';
+        alert(errorMessage); // 서버에서 반환한 에러 메시지 표시
+      }
+    });
+  }
 </script>
 </th:block>
 
@@ -68,7 +97,7 @@
     <h1 class="wine-form-title">Wine Register</h1>
 
     <!-- 타임리프를 사용한 와인 등록 폼 -->
-    <form th:action="@{/wines/modify}" method="post" class="wineForm" id="wineForm" th:object="${wine}" enctype="multipart/form-data">
+    <form class="wineForm" id="wineForm" th:object="${wine}" enctype="multipart/form-data">
 
       <!-- 와인 이름 입력 -->
       <div class="form-group">
@@ -137,6 +166,11 @@
           </div>
         </div>
       </div>
+
+
+      <p class="submit-form">
+        <button type="button" class="submit btn btn-styl hvr-shutter-out-horizontal" th:onclick="'modifyWine(' + ${wine.id} + ')'">SUBMIT</button>
+      </p>
     </form>
   </div>
 </div>

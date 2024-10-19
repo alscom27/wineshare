@@ -141,6 +141,11 @@
                             <tr>
                                 <td>${board.id}</td>
                                 <td>${board.boardStatus}</td>
+                                <td>
+                                    <a href="/boards/${board.boardStatus}/get/${board.id}">
+                                        ${board.boardTitle}
+                                    </a>
+                                </td>
                                 <td>${board.boardTitle}</td>
                                 <td>${board.writerNickname}</td>
                                 <td>${board.regTime}</td>
@@ -193,7 +198,11 @@
                             <tr>
                                 <td>${marketing.id}</td>
                                 <td>${marketing.marketCategory}</td>
-                                <td>${marketing.marketingTitle}</td>
+                                <td>
+                                    <a href="/marketings/${marketing.marketCategory}/new/${marketing.id}">
+                                        ${marketing.marketingTitle}
+                                    </a>
+                                </td>
                                 <td>${marketing.eventOrNot}</td>
                                 <td>${marketing.ownerNickname}</td>
                             </tr>
@@ -217,7 +226,11 @@
                             <tr>
                                 <td>${member.id}</td>
                                 <td>${member.memberType}</td>
-                                <td>${member.email}</td>
+                                <td>
+                                    <a href="/members/modify/${member.id}">
+                                        ${member.email}
+                                    </a>
+                                </td>
                                 <td>${member.name}</td>
                                 <td>${member.withdrawStatus}</td>
                             </tr>
@@ -414,5 +427,6 @@
         </div>
 
     </form>
+    <p style="text-align: center;"><a th:href="@{'/admins/dataChoiList'}">관리자 대시보드 돌아가기</a></p>
 </div>
 </html>

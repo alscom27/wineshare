@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
@@ -156,10 +157,18 @@ public class MarketingController {
   }
 
   // 업장별 등록으로 보내기
-  @GetMapping({"/{marketCategory}/new"})
+  @GetMapping({"/{marketCategory}/new", "/{marketCategory}/new/{marketId}"})
   public String marketingForm(@PathVariable("marketCategory") MarketCategory marketCategory,
+                              @PathVariable("marketId") Long marketingId,
                               Model model) {
-    MarketingDTO marketingDTO = new MarketingDTO();
+    MarketingDTO marketingDTO;
+    if(marketingId != null) {
+      Marketing marketing = marketingRepository.findById(marketingId).orElseThrow(EntityNotFoundException::new);
+      marketingDTO = MarketingDTO.of(marketing);
+    } else {
+      marketingDTO = new MarketingDTO();
+    }
+
     marketingDTO.setMarketCategory(marketCategory);
 
     model.addAttribute("marketingDTO", marketingDTO);

@@ -81,6 +81,7 @@
       getWineReviewList(wineId, 0);
 
       toggleGraph();
+      toggleMember();
 
 
       // 리뷰 별점 클릭 시 밸류변화
@@ -203,21 +204,50 @@
       });
     });
 
+    // 멤버타입에 따라 페이지 디테일(버튼,폼) 바꿔주는 메소드
+    function toggleMember() {
+      const getMemberType = $('#getMemberType');
+      const getNoMemberType = $('#getNoMemberType');
+      const memberTypeNow = getMemberType.length > 0 ? getMemberType.data('member-type') : getNoMemberType.data('member-type');
+
+      const developForm = document.getElementById('comment-respond-develop');
+      const modifyBtn = document.getElementById('modify-btn');
+      const deleteBtn = document.getElementById('delete-btn');
+
+      console.log(memberTypeNow);
+      if (memberTypeNow !== "ADMIN") {
+        deleteBtn.style.display = "none";
+      }
+      if (memberTypeNow !== "EXPERT" && memberTypeNow !== "ADMIN") {
+        modifyBtn.style.display = "none";
+        developForm.style.display = "none";
+      }
+    }
+
+    // 와인타입에 따라 그래프와 셀렉트바 바꿔주는 메소드
     function toggleGraph() {
       const wineTypeNow = $('#getWineType').data('wine-type');
       const tanninGraph = document.getElementById('tanninGraph');
       const fizzGraph = document.getElementById('fizzGraph');
       const sweetnessGraph = document.getElementById('sweetnessGraph');
+      const tanninSelector = document.getElementById('tanninSelector');
+      const fizzSelector = document.getElementById('fizzSelector');
+      const sweetnessSelector = document.getElementById('sweetnessSelector');
 
       console.log(wineTypeNow);
       if (wineTypeNow === "RED") {
         fizzGraph.style.display = "none";
+        fizzSelector.style.display = "none";
       } else if (wineTypeNow === "SPARKLING") {
         sweetnessGraph.style.display = "none";
+        sweetnessSelector.style.display = "none";
         tanninGraph.style.display = "none";
+        tanninSelector.style.display = "none"
       } else {
         tanninGraph.style.display = "none";
+        tanninSelector.style.display = "none"
         fizzGraph.style.display = "none";
+        fizzSelector.style.display = "none";
       }
     }
 
@@ -875,10 +905,12 @@
 <div layout:fragment="content">
   <!-- 로그인 사용자 확인용 -->
   <span th:if="${loginUser != null}">
-    <input type="hidden" id="getLoginUserId" th:data-login-user-id="${loginUser.id != null ? loginUser.id : '0'}">
+    <span id="getLoginUserId" th:data-login-user-id="${loginUser.id}"> </span>
+    <span id="getMemberType" th:data-member-type="${loginUser.memberType}"></span>
   </span>
   <span th:unless="${loginUser != null}">
-    <input type="hidden" id="getNoLoginUserId" data-login-user-id="0">
+    <span id="getNoLoginUserId" data-login-user-id="0"></span>
+    <span id="getNoMemberType" th:data-member-type="0"></span>
   </span>
 
   <!-- 와인 타입용 -->
@@ -982,8 +1014,8 @@
                     <i class="fa fa-heart" aria-hidden="true" th:classappend="${isInCellar} ? 'active' : ''"></i>
                   </div>
                   <div class="wine-modify-delete-btn-box">
-                    <button class="modify-btn" th:onclick="'location.href=\'/wines/wine/get/' + ${wine.id} + '\''">수정</button>
-                    <button class="delete-btn" th:onclick="'javascript:deleteWine('+ ${wine.id} +')'">삭제</button>
+                    <button class="modify-btn" id="modify-btn" th:onclick="'location.href=\'/wines/wine/get/' + ${wine.id} + '\''">수정</button>
+                    <button class="delete-btn" id="delete-btn" th:onclick="'javascript:deleteWine('+ ${wine.id} +')'">삭제</button>
                   </div>
                 </div>
               </div>
@@ -993,7 +1025,7 @@
       </div> <!-- /container -->
     </section> <!-- /main-shop-detail -->
 
-    <!-- 사용자 맛 그래프 뷰 -->
+    <!--  맛 그래프  -->
     <div class="taste-Graph">
       <h3>Wine Taste Like</h3>
       <table class="tasteStructure">
@@ -1013,7 +1045,6 @@
         </tr>
 
         <tr id="tanninGraph">
-<!--        <tr th:if="${wine.wineType != null and wine.wineType == 'RED'}">-->
           <td>
             <div class="tasteStructureNm">Smooth</div>
           </td>
@@ -1027,7 +1058,7 @@
           </td>
         </tr>
         <tr id="sweetnessGraph">
-        <!--        <tr th:if="${wine.wineType != null and wine.wineType != T(com.keduit.wineshare.constant.WineType).SPARKLING}">-->
+
           <td>
             <div class="tasteStructureNm">Dry</div>
           </td>
@@ -1054,7 +1085,6 @@
           </td>
         </tr>
         <tr id="fizzGraph">
-        <!--        <tr th:if="${wine.wineType != null and wine.wineType == T(com.keduit.wineshare.constant.WineType).SPARKLING}">-->
           <td>
             <div class="tasteStructureNm">Gentle</div>
           </td>
@@ -1165,9 +1195,8 @@
                   </ul>
                 </div>
 
-                <div class="comment-respond" th:with="memberType=${loginUser != null ? loginUser.memberType : 'DEFAULT_VALUE'}">
+                <div class="comment-respond">
                   <form class="developForm" id="comment-respond-develop">
-                    <span th:if="${memberType == T(com.keduit.wineshare.constant.MemberType).ADMIN || memberType == T(com.keduit.wineshare.constant.MemberType).EXPERT}">
                     <!-- 전문가 맛 그래프 입력 폼 -->
                     <p>Add Review</p>
                     <div class="pro-taste">
@@ -1185,7 +1214,7 @@
 
                         </div>
 
-                        <div class="taste-category" th:if="${wine.wineType == T(com.keduit.wineshare.constant.WineType).RED}">
+                        <div class="taste-category" id="tanninSelector">
                           <h3>Tannin</h3>
                           <select class="select-option" name="develop-tannin">
                             <option value="0">0</option>
@@ -1197,7 +1226,7 @@
                           </select>
                         </div>
 
-                        <div class="taste-category" th:if="${wine.wineType != T(com.keduit.wineshare.constant.WineType).SPARKLING}">
+                        <div class="taste-category" id="sweetnessSelector">
                           <h3>Sweetness</h3>
                           <select class="select-option" name="develop-sweetness">
                             <option value="0">0</option>
@@ -1221,7 +1250,7 @@
                           </select>
                         </div>
 
-                        <div class="taste-category" th:if="${wine.wineType == T(com.keduit.wineshare.constant.WineType).SPARKLING}">
+                        <div class="taste-category" id="fizzSelector">
                           <h3>Fizz</h3>
                           <select class="select-option" name="develop-fizz">
                             <option value="0">0</option>
@@ -1341,7 +1370,6 @@
                     <p class="submit-form">
                       <button name="submit" type="submit" class="submit btn btn-styl hvr-shutter-out-horizontal" >SUBMIT</button>
                     </p>
-                      </span>
                   </form>
                 </div>  <!-- /comment-respond -->
               </div>
@@ -1360,13 +1388,9 @@
                     </ul>
                   </div>
 
-                  <div class="comment-respond" th:with="memberType=${loginUser != null ? loginUser.memberType : 'DEFAULT_VALUE'}">
+                  <div class="comment-respond">
                     <form class="reviewForm" id="comment-respond-review">
-                      <span th:if="${memberType == T(com.keduit.wineshare.constant.MemberType).ADMIN
-                      || memberType == T(com.keduit.wineshare.constant.MemberType).EXPERT
-                      || memberType == T(com.keduit.wineshare.constant.MemberType).REGULAR}" >
                       <p>Add Review</p>
-
                       <div class="clearfix"></div>
                       <p class="your-rating">Rating</p>
                       <div class="reviewRatingInput">
@@ -1384,7 +1408,6 @@
                       <p class="submit-form">
                         <button name="submit" type="submit"  class="submit btn btn-styl hvr-shutter-out-horizontal" >SUBMIT</button>
                       </p>
-                      </span>
                     </form>
                   </div>  <!-- /comment-respond -->
 

@@ -90,8 +90,29 @@ public class WineService {
     return similarWines;
   }
 
+  // 와인삭제
   public void remove(Long wineId) {
     wineRepository.deleteById(wineId);
+  }
+
+  // 와인수정
+  public void modifyWine(Long wineId, WineDTO wineDTO) {
+    Wine wine = wineRepository.findById(wineId).orElseThrow(EntityNotFoundException::new);
+
+
+    Wine findWine = wineRepository.findByWineName(wineDTO.getWineName());
+    // 원래 이름일땐 상관없고 기존 등록된 다른 와인 이름과 중복되면,
+    if (findWine != null && !Objects.equals(wine.getWineName(), findWine.getWineName())) {
+      throw new IllegalStateException("이미 등록된 와인 이름입니다.");
+    }
+    wine.setWineName(wineDTO.getWineName());
+    wine.setCountry(wineDTO.getCountry());
+    wine.setRegion(wineDTO.getRegion());
+    wine.setPrice(wineDTO.getPrice());
+    wine.setWineType(wineDTO.getWineType());
+    wine.setWineImg(wineDTO.getWineImg());
+
+    wineRepository.save(wine);
   }
 }
 

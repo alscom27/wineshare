@@ -5,9 +5,13 @@ import com.keduit.wineshare.dto.MarketingDTO;
 import com.keduit.wineshare.dto.WineDTO;
 import com.keduit.wineshare.entity.Board;
 import com.keduit.wineshare.entity.Marketing;
+import com.keduit.wineshare.entity.Wine;
 import com.keduit.wineshare.repository.BoardRepository;
 import com.keduit.wineshare.repository.MarketingRepository;
+import com.keduit.wineshare.repository.WineRepository;
+import groovy.util.logging.Log4j2;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,15 +23,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Log4j2
 public class ImgFileService {
 
   private final FileService fileService;
   private final BoardRepository boardRepository;
   private final BoardService boardService;
   private final MarketingRepository marketingRepository;
+  private final WineRepository wineRepository;
 
   // 경로바꿔야함 현재 프로젝트 내부로 해놨고 각자의 컴퓨터로 빼놔야함
   // 프로퍼티스도 각자의 경로로 설정하고 이그노어 갈기야함
@@ -207,20 +214,33 @@ public class ImgFileService {
 
 
 // 와인 이미지 저장 관련
-public String saveWineImg(WineDTO wineDTO, MultipartFile wineImgFile) throws Exception{
-  String originalFileName = wineImgFile.getOriginalFilename();
-  String imgName = "";
-  String imgUrl = "";
+  public String saveWineImg(WineDTO wineDTO, MultipartFile wineImgFile) throws Exception{
 
-  // 파일이름
-  imgName = fileService.uploadFile(wineImgLocation, originalFileName, wineImgFile.getBytes());
-  imgUrl = "/images/wines/" + imgName;
+    String originalFileName = wineImgFile.getOriginalFilename();
+    String imgName = "";
+    String imgUrl = "";
 
 
+    // 기존 이미지가 있는 경우 처리
+    if (wineDTO.getWineImg() != null) {
+      // 와인 ID로 와인 객체를 조회
+      Wine wine = wineRepository.findById(wineDTO.getId())
+          .orElseThrow(() -> new EntityNotFoundException("와인을 찾을 수 없습니다."));
 
-  return imgUrl; // db에 저장할 경로
+      // 기존 이미지 파일 삭제 ?? 왜안되지
+      String existingImagePath = wineImgLocation + "/" + wine.getWineImg();
+      fileService.deleteFile(existingImagePath);
+      log.info("기존 이미지 삭제: " + existingImagePath);
+    }
+    // 파일이름
+    imgName = fileService.uploadFile(wineImgLocation, originalFileName, wineImgFile.getBytes());
+    imgUrl = "/images/wines/" + imgName;
 
-}
+
+
+    return imgUrl; // db에 저장할 경로
+
+  }
 }
 
 

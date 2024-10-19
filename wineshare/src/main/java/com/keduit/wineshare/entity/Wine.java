@@ -48,6 +48,10 @@ public class Wine extends BaseEntity {
   @OneToMany(mappedBy = "wine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<WineDevelop> wineDevelops; // WineDevelop 리스트
 
+  @JsonIgnore
+  @OneToMany(mappedBy = "wine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<WineReview> wineReviews; // WineReview 리스트
+
 
 
 

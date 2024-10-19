@@ -133,7 +133,6 @@ public class WineController {
     Member member = memberService.findByEmail(principal.getName());
     Map<String, Long> response = new HashMap<>();
     try {
-      // 와인 생성
       if (wineImgFile != null && !wineImgFile.isEmpty()) {
         try {
           // 파일을 선택한 경우
@@ -252,17 +251,56 @@ public class WineController {
     return "wine/wineModify";
   }
 
+
+  // 와인 삭제, 관리자만 가능
   @DeleteMapping("/{wineId}")
   @ResponseBody
   public ResponseEntity<String> deleteWine(@PathVariable("wineId") Long wineId,
                                            Principal principal) {
     Member member = memberService.findByEmail(principal.getName());
+
+    // 관리자만
     if (member.getMemberType() != MemberType.ADMIN) {
       return new ResponseEntity<>("와인 삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);
     }
-
     wineService.remove(wineId);
     return new ResponseEntity<>("와인이 삭제되었습니다.", HttpStatus.OK);
+  }
+
+
+  // 와인 삭제, 등록한 전문가와 관리자만 가능
+  @PutMapping("/{wineId}")
+  @ResponseBody
+  public ResponseEntity<String> modifyWine(@PathVariable("wineId") Long wineId,
+                                           @RequestParam(value = "wineImgFile", required = false) MultipartFile wineImgFile,
+                                           @ModelAttribute WineDTO wineDTO,
+                                           Principal principal) {
+    // 와인아이디->와인->멤버
+    Wine wine = wineService.getWineById(wineId);
+    Member savedMember = wine.getMember();
+    // 프린시펄->멤버
+    Member member = memberService.findByEmail(principal.getName());
+    // 등록한 사람이거나 관리자 이면 수정가능
+    if (savedMember == member || member.getMemberType() == MemberType.ADMIN) {
+      try {
+        // 이미지 파일이 존재하는 경우 처리
+        if (wineImgFile != null && !wineImgFile.isEmpty()) {
+          String wineImg = imgFileService.saveWineImg(wineDTO, wineImgFile);
+          wineDTO.setWineImg(wineImg); // DTO에 저장된 이미지 경로 설정
+        } else {
+          wineDTO.setWineImg(wine.getWineImg());
+        }
+
+        // 와인 정보 수정
+        wineService.modifyWine(wineId, wineDTO);
+        return new ResponseEntity<>("와인 정보가 수정되었습니다.", HttpStatus.OK);
+      } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body("와인 정보 수정 중 오류가 발생했습니다.");
+      }
+    }
+    // 나머지 권한없음
+    return new ResponseEntity<>("와인 정보 수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
   }
 
 
