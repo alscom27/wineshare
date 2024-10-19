@@ -20,5 +20,6 @@ public class MarketingSearchDTO {
   // END, EVENT, PROMOTION
   private EventOrNot eventOrNot;
 
+  private String sortOrder;
 
 }
