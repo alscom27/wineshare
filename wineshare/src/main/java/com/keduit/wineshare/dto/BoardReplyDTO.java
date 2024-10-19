@@ -18,6 +18,8 @@ public class BoardReplyDTO {
 
   private Long memberId;
 
+  private String replyNickname;
+
   private Long boardId;
 
   private LocalDateTime regTime;

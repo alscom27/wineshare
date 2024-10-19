@@ -92,15 +92,7 @@ public class BoardController {
     // 게시글의 작성자가 전문가인지
     boolean isExpert = members.stream().anyMatch(member -> member.getMemberType() == MemberType.EXPERT);
 
-    Member member = null;
-    if(principal == null){
-      member = null;
-    }else{
-      member = memberRepository.findByEmail(principal.getName());
-    }
 
-
-    model.addAttribute("loginUser", member);
     // ㅋㅋㅋㅋ진짜 존나돌아갔다..이거보다 쉬운게 있을텐데
     model.addAttribute("isAdmin", isAdmin);
     model.addAttribute("isExpert", isExpert);
@@ -207,6 +199,7 @@ public class BoardController {
     Board board = boardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
     Member member = memberRepository.findByEmail(board.getRegBy());
     boardDTO.setWriterNickname(member.getNickname());
+    boardDTO.setId(board.getId());
 
     // 현재 사용자의 이메일을 가져옵니다.
     String currentUserEmail = principal.getName();
@@ -217,6 +210,9 @@ public class BoardController {
     // 게시글의 작성자가 현재 유저인지 회원인지
     boolean isRegural = member.getMemberType().equals(MemberType.REGULAR);
 
+    Member curruntMember = memberRepository.findByEmail(principal.getName());
+
+    model.addAttribute("loginUser", curruntMember);
     model.addAttribute("isRegural", isRegural);
     model.addAttribute("memberId", member.getId());
     model.addAttribute("board", board);

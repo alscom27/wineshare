@@ -18,7 +18,7 @@
                 page(0);
             });
 
-            const boardStatus = $("#hidden-boardStatus").val().toString().toLowerCase();
+            const boardStatus = $("#boardStatus").data('board-status');
             const token = $("meta[name='_csrf']").attr("content");
             const header = $("meta[name='_csrf_header']").attr("content");
 
@@ -50,7 +50,7 @@
 
             $('#regBtn2').on('click', function (e) {
                 e.preventDefault();
-                const boardStatus = $('#hidden-boardStatus').val();
+                const boardStatus = $("#boardStatus").data('board-status');
                 const isLoggedIn = $('#isLoggedIn').val() === 'true'; // 로그인 여부 확인
 
                 if (!isLoggedIn) {
@@ -68,48 +68,18 @@
       function page(page){
           const searchType = $("#searchType").val();
           const searchQuery = $("#searchQuery").val();
+          const boardStatus = $("#boardStatus").data('board-status');
+
 
           // url
           location.href="/boards/" + boardStatus + "/list/" + page
               + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
       }
 
-      // 등록버튼들
-      // function regBoard(){
-      //     const token = $("meta[name='_csrf']").attr("content");
-      //     const header = $("meta[name='_csrf_header']").attr("content");
-      //
-      //     const url = "/boards/" + boardStatus + "/new"
-      //     console.log(boardStatus);
-      //
-      //
-      //     $.ajax({
-      //         url : url,
-      //         type : "GET",
-      //         // contentType : "application.json",
-      //         beforeSend : function (xhr){
-      //             xhr.setRequestHeader(header, token)},
-      //         dataType : "json",
-      //         cache : false,
-      //         success : function (result, status){
-      //             alert("됐냐?");
-      //             location.href= url;
-      //         },
-      //         error : function (xhr, status, error){
-      //             if(xhr.status == '401'){
-      //                 alert("로그인이 필요합니다.")
-      //                 location.href='/members/login';
-      //             }else{
-      //                 console.log(boardStatus);
-      //                 console.log(xhr.status);
-      //                 alert(xhr.responseText);
-      //             }
-      //         }
-      //
-      //
-      //
-      //     })
-      // }
+      // 페이지
+
+
+
 
     </script>
 </th:block>
@@ -169,7 +139,7 @@
                     </button>
                 </div>
                 <!--    얜 머지         -->
-                <input type="hidden" th:value="${boardStatus}" id="hidden-boardStatus">
+                <input type="hidden" id="boardStatus" th:data-board-status="${boardStatus}">
                 <!-- 로그인 여부 -->
                 <input type="hidden" id="isLoggedIn" th:value="${isLoggedIn}">
 

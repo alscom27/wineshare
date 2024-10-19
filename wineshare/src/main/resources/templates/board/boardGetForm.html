@@ -15,12 +15,39 @@
         .fieldError {
             color: #bd2130;
         }
+        .profile_img{
+            width: 50px;
+            height: 50px;
+        }
+        .reply_box{
+            margin: 60px auto;
+        }
+        .reply-content{
+            margin: 40px auto;
+        }
+        .disabled{
+            pointer-events: none;
+            opacity: 0.1;
+        }
+        .page-active{
+            background-color: #c02323 !important;
+        }
+        .comment-actions{
+            margin-top: 10px;
+        }
+        .display-none{
+            display: none;
+        }
     </style>
 </th:block>
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $(document).ready(function () {
+
+            const boardId = $('#getBoardId').data('board-id');
+            getBoardReplyList(boardId, 0);
+            console.log(boardId);
 
             $('#upgradeBtn').on('click', function () {
                 const memberId = $(this).data('member-id'); // 게시글 작성자의 ID를 가져오는 방법
@@ -50,7 +77,7 @@
                 e.preventDefault();
                 const token = $("meta[name='_csrf']").attr("content");
                 const header = $("meta[name='_csrf_header']").attr("content");
-                const reply = $('textarea[name="replyComment"]').val();
+                const reply = $('textarea[name="reply"]').val();
                 const boardId = $('#getBoardId').data('board-id');
 
                 const replyData = {reply: reply};
@@ -65,7 +92,7 @@
                     data: JSON.stringify(replyData),
                     success: function (response) {
                         alert(response); //성공메세지
-                        $('textarea[name="replyComment"]').val('');
+                        $('textarea[name="reply"]').val('');
                         getBoardReplyList(boardId, 0); // 메소드만들기
                     },
                     error: function (xhr) {
@@ -80,190 +107,191 @@
             });
 
 
-            // 댓글페이지 불러오기
-            function getBoardReplyList(boardId, replyPage) {
-                const token = $("meta[name='_csrf']").attr("content");
-                const header = $("meta[name='_csrf_header']").attr("content");
-                const loginUserIdElement = $("#getLoginUserId");
-                const noLoginUserIdElement = $("#getNoLoginUserId");
-                const loginUserId = loginUserIdElement.length > 0
-                    ? loginUserIdElement.data("login-user-id")
-                    : noLoginUserIdElement.data("login-user-id");
-                console.log(loginUserId);
+        }); // ready끝
 
-                function createBtns(replyMemberId, replyId) {
-                    if (loginUserId === replyMemberId) {
-                        return `
+        // 댓글페이지 불러오기
+        function getBoardReplyList(boardId, replyPage) {
+            const token = $("meta[name='_csrf']").attr("content");
+            const header = $("meta[name='_csrf_header']").attr("content");
+            const loginUserIdElement = $("#getLoginUserId");
+            const noLoginUserIdElement = $("#getNoLoginUserId");
+            const loginUserId = loginUserIdElement.length > 0
+                ? loginUserIdElement.data("login-user-id")
+                : noLoginUserIdElement.data("login-user-id");
+            console.log(loginUserId);
+
+            function createBtns(replyMemberId, replyId) {
+                if (loginUserId === replyMemberId) {
+                    return `
 <div class="comment-actions">
 <button class="modify-btn" onclick="modifyReply(${replyId})">수정</button>
 <button class="delete-btn" onclick="deleteReply(${replyId})">삭제</button>
 </div>`;
-                    }
-                return '';
                 }
+                return '';
+            }
 
-                $.ajax({
-                    url : `/replies/${boardId}/${replyPage}`,
-                    type : 'GET',
-                    beforeSend : function (xhr){
-                        xhr.setRequestHeader(header, token);
-                    },
-                    cache : false,
-                    success : function (data){
-                        const boardReplyListContainer = $('#boardReplyListContainer');
-                        boardReplyListContainer.empty();
+            $.ajax({
+                url : `/replies/${boardId}/${replyPage}`,
+                type : 'GET',
+                beforeSend : function (xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                cache : false,
+                success : function (data){
+                    const boardReplyListContainer = $('#boardReplyListContainer');
+                    boardReplyListContainer.empty();
 
-                        data.boardReplys.forEach(function (reply){
-                            const item = `
+                    data.boardReplys.forEach(function (reply){
+                        console.log(reply.memberId);
+                        const item = `
 <div class="reply-content">
 <div class="avatar">
 <img src="/wineshare-img/people.png" alt="image" class="profile_img">
 </div>
 <div class="post-comment" id="post-reply-${reply.id}">
-<div class="comment-title comment">${reply.memberId}</div>
+<div class="comment-title comment">${reply.replyNickname}</div>
 <div class="comment-text comment" id="comment-reply-${reply.id}">${reply.reply}</div>
 ${createBtns(reply.memberId, reply.id)}
 </div>
 </div>`;
-                            boardReplyListContainer.append(item);
-                            const commentForm = document.getElementById("comment-respond-reply");
-                            commentForm.className = "replyForm";
-                        });
-                        updateReplyPage(data.currentPage, data.totalPages)
-                    },
-                    error : function (xhr){
-                        console.error(xhr);
-                        let errorMessage = '댓글 정보를 불러오지 못했습니다.';
-                        if (xhr.status === 401){
-                            errorMessage = '로그인이 필요합니다.';
-                        }else if(xhr.status === 500){
-                            errorMessage = '서버 오류가 발생했습니다. 나중에 다시 시도하세요.';
-                        }
-                        alert(errorMessage);
+                        boardReplyListContainer.append(item);
+                        const commentForm = document.getElementById("comment-respond-reply");
+                        commentForm.className = "reply-form";
+                    });
+                    updateReplyPage(data.currentPage, data.totalPages)
+                },
+                error : function (xhr){
+                    console.error(xhr);
+                    let errorMessage = '댓글 정보를 불러오지 못했습니다.';
+                    if (xhr.status === 401){
+                        errorMessage = '로그인이 필요합니다.';
+                    }else if(xhr.status === 500){
+                        errorMessage = '서버 오류가 발생했습니다. 나중에 다시 시도하세요.';
                     }
-                });
-            }
+                    alert(errorMessage);
+                }
+            });
+        }
 
-            // 댓글 페이지 네이션
-            function updateReplyPage(currentPage, totalPages){
-                const boardId = $('#getBoardId').data('board-id');
-                const paginationContainer = $('#replyPageContainer');
-                paginationContainer.empty();
-                //이전버튼
-                const prevDisabled = currentPage === 0 ? 'disabled' : '';
-                paginationContainer.append(`
+        // 댓글 페이지 네이션
+        function updateReplyPage(currentPage, totalPages){
+            const boardId = $('#getBoardId').data('board-id');
+            const paginationContainer = $('#replyPageContainer');
+            paginationContainer.empty();
+            //이전버튼
+            const prevDisabled = currentPage === 0 ? 'disabled' : '';
+            paginationContainer.append(`
    <li class="prev hvr-shutter-out-horizontal ${prevDisabled}">
             <a ${prevDisabled ? '' : 'onclick="getBoardReplyList(' + boardId + ',' + (currentPage - 1) + ')"'} aria-label="Previous">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>
             </a>
         </li>
 `);
-                //maxpage
-                const maxPage = 5;
-                let start = Math.floor(currentPage / maxPage) * maxPage;
-                let end = Math.min(start + maxPage, totalPages);
+            //maxpage
+            const maxPage = 5;
+            let start = Math.floor(currentPage / maxPage) * maxPage;
+            let end = Math.min(start + maxPage, totalPages);
 
-                // 페이지 번호추가
-                for (let i = start; i<end; i++){
-                    const activeClass = i === currentPage ? 'page-active' : '';
-                    paginationContainer.append(`
+            // 페이지 번호추가
+            for (let i = start; i<end; i++){
+                const activeClass = i === currentPage ? 'page-active' : '';
+                paginationContainer.append(`
                      <li class="hvr-shutter-out-horizontal ${activeClass}">
                 <a onclick="getBoardReplyList(${boardId}, ${i} )" aria-label="Page">${i + 1}</a>
             </li>
                     `);
-                }
-                // 다음버튼
-                const nextDisabled = currentPage === totalPages -1 ? 'disabled' : '';
-                paginationContainer.append(`
+            }
+            // 다음버튼
+            const nextDisabled = currentPage === totalPages -1 ? 'disabled' : '';
+            paginationContainer.append(`
                  <li class="next hvr-shutter-out-horizontal ${nextDisabled}">
             <a ${nextDisabled ? '' : 'onclick="getBoardReplyList('+ boardId + ',' + (currentPage + 1) + ')"'} aria-label="Next">
                 <i class="fa fa-angle-right" aria-hidden="true"></i>
             </a>
         </li>
                 `);
-            }
+        }
 
-            // 댓글삭제
-            function deleteReply(replyId){
-                const boardId = $("#getBoardId").data('board-id');
-                const token = $("meta[name='_csrf']").attr("content");
-                const header = $("meta[name='_csrf_header']").attr("content");
-                const page = $("#replyPageContainer .page-active a").text();
-                if(confirm("댓글을 삭제하시겠습니까?")){
-                    $.ajax({
-                        url : `/replis/${replyId}`,
-                        type : 'DELETE',
-                        beforeSend : function (xhr){
-                            xhr.setRequestHeader(header, token);
-                        },
-                        success : function (response){
-                            alert(response);
-                            getBoardReplyList(boardId, page-1);
-                        },
-                        error : function (xhr){
-                            if(xhr.status == '401'){
-                                alert("로그인 후 이용해주세요.");
-                                location.href = '/members/login';
-                            }else{
-                                alert(xhr.responseText);
-                            }
-                        }
-                    });
-                }
-            }
-
-            // 댓글 수정폼 열기
-            function modifyReply(replyId){
-                const page = $("#replyPageContainer .page-active a").text();
-                const boardId = $('#getBoardId').data('board-id'); // 현재페이지 게시글아이디
-                const commentForm = document.getElementById("comment-respond-reoly"); // 리뷰폼
-                const commentDiv = $(`#comment-reply-${replyId}`); // 수정할 리뷰의 기존 텍스트에리어
-                const currentDiv = $(`#post-reply-${replyId}`);
-                const currentText = commentDiv.text(); // 수정할 리뷰의 기존 텍스트에리어의 내용
-
-                const modifyInput = `
-                        <textarea id="modify-comment-${replyId}" required>${currentText}</textarea>
-                       <button onclick="saveModifyReply(${replyId})">저장</button>
-                        <button onclick="getBoardReplyList(${replyId}, ${page - 1})">취소</button>`;
-
-                currentDiv.html(modifyInput);
-                const btns = document.querySelectorAll("#boardReplyListContainer .comment-actions");
-                for(let i=0; i<btns.length; i++){
-                    btns[i].remove();
-                }
-
-                // 수정에서
-                commentForm.className = "replyForm display-none";
-            }
-
-            // 리뷰 수정 날리기
-            function saveModifyReply(replyId){
-                const newComment = $(`#modify-comment-${replyId}`).val();
-                const boardId = $('#getBoardId').data('board-id');
-                const token = $("meta[name='_csrf']").attr("content");
-                const header = $("meta[name='_csrf_header']").attr("content");
-                const page = $("#replyPageContainer .page-active a").text();
-
+        // 댓글삭제
+        function deleteReply(replyId){
+            const boardId = $("#getBoardId").data('board-id');
+            const token = $("meta[name='_csrf']").attr("content");
+            const header = $("meta[name='_csrf_header']").attr("content");
+            const page = $("#replyPageContainer .page-active a").text();
+            if(confirm("댓글을 삭제하시겠습니까?")){
                 $.ajax({
                     url : `/replies/${replyId}`,
-                    type : 'PUT',
-                    contentType : 'application/json',
-                    data : JSON.stringify({reply : newComment}),
+                    type : 'DELETE',
                     beforeSend : function (xhr){
                         xhr.setRequestHeader(header, token);
                     },
                     success : function (response){
+                        alert(response);
                         getBoardReplyList(boardId, page-1);
                     },
                     error : function (xhr){
-                        console.error(xhr);
-                        alert("댓글 수정에 실패했습니다.")
+                        if(xhr.status == '401'){
+                            alert("로그인 후 이용해주세요.");
+                            location.href = '/members/login';
+                        }else{
+                            alert(xhr.responseText);
+                        }
                     }
                 });
+            }
+        }
 
+        // 댓글 수정폼 열기
+        function modifyReply(replyId){
+            const page = $("#replyPageContainer .page-active a").text();
+            const boardId = $('#getBoardId').data('board-id'); // 현재페이지 게시글아이디
+            const commentForm = document.getElementById("comment-respond-reply"); // 리뷰폼
+            const commentDiv = $(`#comment-reply-${replyId}`); // 수정할 리뷰의 기존 텍스트에리어
+            const currentDiv = $(`#post-reply-${replyId}`);
+            const currentText = commentDiv.text(); // 수정할 리뷰의 기존 텍스트에리어의 내용
+
+            const modifyInput = `
+                        <textarea id="modify-comment-${replyId}" required>${currentText}</textarea>
+                       <button onclick="saveModifyReply(${replyId})">저장</button>
+                        <button onclick="getBoardReplyList(${boardId}, ${page - 1})">취소</button>`;
+
+            currentDiv.html(modifyInput);
+            const btns = document.querySelectorAll("#boardReplyListContainer .comment-actions");
+            for(let i=0; i<btns.length; i++){
+                btns[i].remove();
             }
 
-        });
+            // 수정에서
+            commentForm.className = "reply-form display-none";
+        }
+
+        // 리뷰 수정 날리기
+        function saveModifyReply(replyId){
+            const newComment = $(`#modify-comment-${replyId}`).val();
+            const boardId = $('#getBoardId').data('board-id');
+            const token = $("meta[name='_csrf']").attr("content");
+            const header = $("meta[name='_csrf_header']").attr("content");
+            const page = $("#replyPageContainer .page-active a").text();
+
+            $.ajax({
+                url : `/replies/${replyId}`,
+                type : 'PUT',
+                contentType : 'application/json',
+                data : JSON.stringify({reply : newComment}),
+                beforeSend : function (xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                success : function (response){
+                    getBoardReplyList(boardId, page-1);
+                },
+                error : function (xhr){
+                    console.error(xhr);
+                    alert("댓글 수정에 실패했습니다.")
+                }
+            });
+
+        }
     </script>
 </th:block>
 
@@ -367,10 +395,8 @@ ${createBtns(reply.memberId, reply.id)}
 
                                 <div class="comment-respond"
                                      th:with="memberType=${loginUser != null ? loginUser.memberType : 'DEFAULT_VALUE'}">
-                                    <form class="replyForm" id="comment-respond-reply">
-                      <span th:if="${memberType == T(com.keduit.wineshare.constant.MemberType).ADMIN
-                      || memberType == T(com.keduit.wineshare.constant.MemberType).EXPERT
-                      || memberType == T(com.keduit.wineshare.constant.MemberType).REGULAR}">
+                                    <form class="reply-form" id="comment-respond-reply">
+
                       <p>Add Reply</p>
 
 
@@ -381,7 +407,6 @@ ${createBtns(reply.memberId, reply.id)}
                           <p class="submit-form">
                         <button name="submit" type="submit" class="submit btn btn-styl hvr-shutter-out-horizontal">SUBMIT</button>
                       </p>
-                      </span>
                                     </form>
                                 </div>  <!-- /comment-respond -->
 

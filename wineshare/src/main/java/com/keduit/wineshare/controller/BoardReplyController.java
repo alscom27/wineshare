@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("replies")
+@RequestMapping("/replies")
 @RequiredArgsConstructor
 public class BoardReplyController {
 
@@ -33,7 +33,7 @@ public class BoardReplyController {
 
 
   // 댓글등록
-  @PostMapping(value = "/new{boardId}", consumes = "application/json", produces = "text/plain")
+  @PostMapping(value = "/new/{boardId}", consumes = "application/json", produces = "text/plain")
   public ResponseEntity<String> registerReply(@RequestBody BoardReplyDTO boardReplyDTO,
                                               @PathVariable("boardId") Long boardId,
                                               Principal principal){
@@ -78,6 +78,7 @@ public class BoardReplyController {
                                                               @PathVariable("page")Optional<Integer> page){
     Pageable pageable = PageRequest.of(page.orElse(0), 5);
     Page<BoardReplyDTO> replies = boardReplyService.getBoardReplyWithPage(boardId, pageable);
+
 
     Map<String, Object> response = new HashMap<>();
     response.put("boardReplys", replies.getContent());

@@ -5,6 +5,7 @@ import com.keduit.wineshare.entity.BoardReply;
 import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.entity.WineReview;
 import com.keduit.wineshare.repository.BoardReplyRepository;
+import com.keduit.wineshare.repository.BoardRepository;
 import com.keduit.wineshare.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,13 +23,15 @@ public class BoardReplyService {
 
   private final BoardReplyRepository boardReplyRepository;
   private final MemberRepository memberRepository;
+  private final BoardRepository boardRepository;
 
   // 댓글 등록
   public void registerReply(BoardReplyDTO boardReplyDTO){
     BoardReply boardReply = new BoardReply();
+    boardReply.setId(0L);
     boardReply.setReply(boardReplyDTO.getReply());
     boardReply.setMember(memberRepository.findById(boardReplyDTO.getMemberId()).orElseThrow(EntityNotFoundException::new));
-    boardReply.setBoard(boardReply.getBoard());
+    boardReply.setBoard(boardRepository.findById(boardReplyDTO.getBoardId()).orElseThrow(EntityNotFoundException::new));
 
     boardReplyRepository.save(boardReply);
   }
@@ -44,6 +47,7 @@ public class BoardReplyService {
       dto.setMemberId(reply.getMember().getId());
       dto.setBoardId(reply.getBoard().getId());
       dto.setRegTime(reply.getRegTime());
+      dto.setReplyNickname(reply.getMember().getNickname());
       dto.setUpdateTime(reply.getUpdateTime());
       return dto;
     });
