@@ -25,13 +25,6 @@
 
           bindDomEvent();
 
-            // 평가 별점 클릭 시 밸류 변화
-            $('.developRatingInput i').on('click', function () {
-                const rating = $(this).data('value');
-                $('.developRatingInput i').removeClass('active'); // 기존 별점 초기화
-                $(this).prevAll().addBack().addClass('active'); // 선택한 별점과 이전 별점에 active 클래스 추가
-                $('#developRating').val(rating); // 숨겨진 input에 별점 저장
-            });
         });
 
         // 이미지 파일만 등록 가능하도록 해주기
@@ -87,6 +80,11 @@
             const aromaTwo = $('select[name="develop-aromaTwo"]').val();
             const foodOne = $('select[name="develop-foodOne"]').val();
             const foodTwo = $('select[name="develop-foodTwo"]').val();
+            const developComment = $('textarea[name="developComment"]').val();
+            if (developComment.length === 0) {
+                alert('평가 코멘트를 작성해주세요.');
+                return;
+            }
             if (aromaOne === aromaTwo) {
                 alert('아로마는 같은 값을 선택할 수 없습니다.');
                 return;
@@ -110,48 +108,51 @@
                 success: function(response) {
                     const wineId = response.wineId; // 서버에서 반환된 와인 ID
                     console.log("와인등록성공");
-                    // 디벨롭 폼 데이터 가져오기
-                    const developData = {
-                        expertRating: $('#developRating').val(),
-                        expertComment: $('textarea[name="developComment"]').val(),
-                        sweetness: $('select[name="develop-sweetness"]').val(),
-                        acidity: $('select[name="develop-acidity"]').val(),
-                        body: $('select[name="develop-body"]').val(),
-                        tannin: $('select[name="develop-tannin"]').val(),
-                        fizz: $('select[name="develop-fizz"]').val(),
-                        aromaOne: aromaOne,
-                        aromaTwo: aromaTwo,
-                        foodOne: foodOne,
-                        foodTwo: foodTwo,
-                        wineId: wineId // 저장된 와인 ID 추가
-                    };
+                    saveWineDevelop(wineId, aromaOne, aromaTwo, foodOne, foodTwo, developComment);
+                },
+                error: function(xhr) {
+                    const errorMessage = xhr.responseText || '와인 등록 중 오류가 발생했습니다.';
+                    alert(errorMessage); // 서버에서 반환한 에러 메시지 표시
+                }
+            });
+        }
 
-                    // 디벨롭 데이터 AJAX 요청
-                    $.ajax({
-                        url: `/develops/new/${wineId}`, // 디벨롭 저장 URL
-                        type: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify(developData),
-                        beforeSend: function (xhr) {
-                            xhr.setRequestHeader(header, token);
-                        },
-                        success: function(response) {
-                            console.log("와인평가등록성공");
+        function saveWineDevelop(wineId, aromaOne, aromaTwo, foodOne, foodTwo, developComment) {
+            const token = $("meta[name='_csrf']").attr("content");
+            const header = $("meta[name='_csrf_header']").attr("content");
 
-                        },
-                        error: function(xhr) {
-                            const errorMessage = xhr.responseText || '와인 등록 중 오류가 발생했습니다.';
-                            alert(errorMessage); // 서버에서 반환한 에러 메시지 표시
-                        }
-                    });
+            const developData = {
+                expertRating: $('#developRating').val(),
+                expertComment: developComment,
+                sweetness: $('select[name="develop-sweetness"]').val(),
+                acidity: $('select[name="develop-acidity"]').val(),
+                body: $('select[name="develop-body"]').val(),
+                tannin: $('select[name="develop-tannin"]').val(),
+                fizz: $('select[name="develop-fizz"]').val(),
+                aromaOne: aromaOne,
+                aromaTwo: aromaTwo,
+                foodOne: foodOne,
+                foodTwo: foodTwo,
+                wineId: wineId // 저장된 와인 ID 추가
+            };
 
+            // 디벨롭 데이터 AJAX 요청
+            $.ajax({
+                url: `/develops/new/${wineId}`, // 디벨롭 저장 URL
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(developData),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function(response) {
+                    console.log("와인평가등록성공");
                     alert('와인이 등록되었습니다.');
                     window.location.assign('/wines/list');
                 },
                 error: function(xhr) {
                     const errorMessage = xhr.responseText || '와인 등록 중 오류가 발생했습니다.';
                     alert(errorMessage); // 서버에서 반환한 에러 메시지 표시
-
                 }
             });
         }
@@ -176,7 +177,7 @@
                     </ul>
                 </div>
                 <div class="page-title-heading">
-                    <h2 class="title"><a href="#">Wine Form</a></h2>
+                    <h2 class="title">Wine Form</h2>
                 </div>
             </div>
         </div>
@@ -256,10 +257,9 @@
         </form>
 
         <div class="comment-respond" >
-            <form class="developForm" id="comment-respond-develop">
-                    <span>
+
                     <!-- 전문가 맛 그래프 입력 폼 -->
-                    <p>Add Develop</p>
+
                     <div class="pro-taste">
                       <div class="taste-like">
                         <div class="taste-category">
@@ -429,10 +429,9 @@
                       <textarea  name="developComment" placeholder="Comment" required="required"></textarea>
                     </p>
                     <p class="submit-form">
-                      <button name="submit" type="submit" class="submit btn btn-styl hvr-shutter-out-horizontal" onclick="submitWineForm()">SUBMIT</button>
+                      <button name="submit" class="submit btn btn-styl hvr-shutter-out-horizontal" onclick="submitWineForm()">SUBMIT</button>
                     </p>
-                      </span>
-            </form>
+
         </div>  <!-- /comment-respond -->
 
 
