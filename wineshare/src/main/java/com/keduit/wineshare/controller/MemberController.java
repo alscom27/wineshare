@@ -1,5 +1,7 @@
 package com.keduit.wineshare.controller;
 
+import com.keduit.wineshare.constant.BoardStatus;
+import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.constant.WithdrawStatus;
 import com.keduit.wineshare.dto.MemberDTO;
 import com.keduit.wineshare.dto.MemberModifyDTO;
@@ -8,6 +10,8 @@ import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.repository.MemberRepository;
 import com.keduit.wineshare.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -32,11 +36,11 @@ import java.util.Map;
 public class MemberController {
 
   private final MemberService memberService;
-   private final PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
   private final MemberRepository memberRepository;
 
   @GetMapping("/new")
-  public String memberForm(Model model){
+  public String memberForm(Model model) {
 //    HttpSession session = request.getSession();
     model.addAttribute("memberDTO", new MemberDTO());
     model.addAttribute("authority", "regular");
@@ -46,15 +50,15 @@ public class MemberController {
   @PostMapping("/new")
   public String memberForm(@Valid MemberDTO memberDTO,
                            BindingResult bindingResult,
-                           Model model){
-    if(bindingResult.hasErrors()){
+                           Model model) {
+    if (bindingResult.hasErrors()) {
       return "member/memberForm";
     }
 
-    try{
+    try {
       Member member = Member.createMember(memberDTO, passwordEncoder);
       memberService.saveMember(member);
-    }catch(IllegalStateException e){
+    } catch (IllegalStateException e) {
       model.addAttribute("errorMessage", e.getMessage());
       return "member/memberForm";
     }
@@ -62,16 +66,16 @@ public class MemberController {
 
   }
 
- @GetMapping("/login")
+  @GetMapping("/login")
   public String loginMember(HttpServletRequest request,
-                            Model model){
+                            Model model) {
 
-   // 세션에서 에러 메시지를 가져와서 모델에 추가
-   String errorMsg = (String) request.getSession().getAttribute("loginErrorMsg");
-   if (errorMsg != null) {
-     model.addAttribute("loginErrorMsg", errorMsg);
-     request.getSession().removeAttribute("loginErrorMsg"); // 메시지 제거
-   }
+    // 세션에서 에러 메시지를 가져와서 모델에 추가
+    String errorMsg = (String) request.getSession().getAttribute("loginErrorMsg");
+    if (errorMsg != null) {
+      model.addAttribute("loginErrorMsg", errorMsg);
+      request.getSession().removeAttribute("loginErrorMsg"); // 메시지 제거
+    }
 
     return "member/memberLoginForm";
   }
@@ -84,7 +88,7 @@ public class MemberController {
 
   @GetMapping("/modify")
   public String modifyMember(Principal principal,
-                             Model model){
+                             Model model) {
 
     Member member = memberRepository.findByEmail(principal.getName());
 
@@ -104,11 +108,11 @@ public class MemberController {
 
     String authority;
 
-    if(StringUtils.equalsIgnoreCase(member.getMemberType(), "admin")){
+    if (StringUtils.equalsIgnoreCase(member.getMemberType(), "admin")) {
       authority = "admin";
-    }else if(StringUtils.equalsIgnoreCase(member.getMemberType(), "expert")){
+    } else if (StringUtils.equalsIgnoreCase(member.getMemberType(), "expert")) {
       authority = "expert";
-    }else {
+    } else {
       authority = "regular";
     }
 
@@ -121,17 +125,17 @@ public class MemberController {
   @PostMapping("/modify")
   public String modifyMember(@Valid MemberModifyDTO memberModifyDTO,
                              BindingResult bindingResult,
-                             Model model){
+                             Model model) {
 
     Member member = memberRepository.findById(memberModifyDTO.getId()).orElseThrow(EntityNotFoundException::new);
 
     String authority;
 
-    if(StringUtils.equalsIgnoreCase(member.getMemberType(), "admin")){
+    if (StringUtils.equalsIgnoreCase(member.getMemberType(), "admin")) {
       authority = "admin";
-    }else if(StringUtils.equalsIgnoreCase(member.getMemberType(), "expert")){
+    } else if (StringUtils.equalsIgnoreCase(member.getMemberType(), "expert")) {
       authority = "expert";
-    }else {
+    } else {
       authority = "regular";
     }
 
@@ -139,7 +143,7 @@ public class MemberController {
 //    System.out.println(memberDTO.toString());
 //    System.out.println(member.toString());
 
-    if(bindingResult.hasErrors()){
+    if (bindingResult.hasErrors()) {
       model.addAttribute("authority", authority);
       model.addAttribute("memberDTO", memberModifyDTO);
       return "redirect:/members/modify";
@@ -153,7 +157,7 @@ public class MemberController {
   @GetMapping("/pass/modify")
 //  @ResponseBody
   public String memberPassModify(Principal principal,
-                                 Model model){
+                                 Model model) {
 
     Member member = memberRepository.findByEmail(principal.getName());
 
@@ -177,7 +181,7 @@ public class MemberController {
                                  BindingResult bindingResult,
                                  Principal principal,
                                  HttpServletRequest request,
-                                 HttpServletResponse response){
+                                 HttpServletResponse response) {
 
     // 어의없네 이거막아서 된다고?
 //    if(bindingResult.hasErrors()){
@@ -203,7 +207,7 @@ public class MemberController {
 
   @GetMapping("/withdraw")
   public String withdrawMember(Principal principal,
-                               Model model){
+                               Model model) {
 
     model.addAttribute("passType", "withdraw");
     return "member/memberPassForm";
@@ -214,12 +218,12 @@ public class MemberController {
                                @RequestParam("withdrawPassword") String withdrawPassword,
                                HttpServletRequest request,
                                HttpServletResponse response,
-                               Model model){
+                               Model model) {
     Member member = memberRepository.findByEmail(principal.getName());
 
     boolean passMatches = passwordEncoder.matches(withdrawPassword, member.getPassword());
 
-    if(passMatches){
+    if (passMatches) {
       member.setWithdrawStatus(WithdrawStatus.LEAVE);
       memberRepository.save(member);
 
@@ -235,6 +239,22 @@ public class MemberController {
     return "member/memberPassForm";
   }
 
+  // 등업 버튼
+  @PostMapping("/expert/{boardStatus}/{memberId}")
+  @ResponseBody
+  public ResponseEntity<String> memberUpgrade(@PathVariable("boardStatus") BoardStatus boardStatusStr,
+                                              @PathVariable("memberId") Long memberId,
+                                              Model model) {
+    try {
+      Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
+      member.setMemberType(MemberType.EXPERT);
+      memberService.upgradeMember(member);
+      return ResponseEntity.ok("회원 권한이 변경되었습니다.");
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body("등업 처리중 오류가 발생했습니다." + e.getMessage());
+    }
+  }
 
 
 }

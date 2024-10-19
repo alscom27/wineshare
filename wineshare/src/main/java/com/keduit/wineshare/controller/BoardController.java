@@ -1,6 +1,7 @@
 package com.keduit.wineshare.controller;
 
 import com.keduit.wineshare.constant.BoardStatus;
+import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.dto.BoardDTO;
 import com.keduit.wineshare.dto.BoardSearchDTO;
 import com.keduit.wineshare.entity.Board;
@@ -10,10 +11,14 @@ import com.keduit.wineshare.repository.MemberRepository;
 import com.keduit.wineshare.service.BoardService;
 import com.keduit.wineshare.service.ImgFileService;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,6 +51,7 @@ public class BoardController {
   public String getBoardListByStatus(@PathVariable("boardStatus")BoardStatus boardStatus,
                                      @PathVariable("page") Optional<Integer> page,
                                      BoardSearchDTO boardSearchDTO,
+                                     Principal principal,
                                      Model model){
 
 
@@ -80,7 +86,24 @@ public class BoardController {
       return boardDTO;
     }).collect(Collectors.toList());
 
+    // 어드민인지(로그인 한 사람이)
+    boolean isAdmin = principal instanceof KafkaProperties.Admin;
+
+    // 게시글의 작성자가 전문가인지
+    boolean isExpert = members.stream().anyMatch(member -> member.getMemberType() == MemberType.EXPERT);
+
+    Member member = null;
+    if(principal == null){
+      member = null;
+    }else{
+      member = memberRepository.findByEmail(principal.getName());
+    }
+
+
+    model.addAttribute("loginUser", member);
     // ㅋㅋㅋㅋ진짜 존나돌아갔다..이거보다 쉬운게 있을텐데
+    model.addAttribute("isAdmin", isAdmin);
+    model.addAttribute("isExpert", isExpert);
     model.addAttribute("boardDTOs", boardDTOs);
     model.addAttribute("boards", boards);
     model.addAttribute("boardStatus", boardStatus);
@@ -89,9 +112,21 @@ public class BoardController {
     return "board/boardList";
   }
 
+  // 게시글 등록버튼시 로그인 여부 땜에 만듬
+  @GetMapping("/isLoggedIn")
+  public ResponseEntity<Boolean> isLoggedIn(Principal principal) {
+    boolean isLoggedIn = principal != null;
+    return ResponseEntity.ok(isLoggedIn);
+  }
+
   @GetMapping({"/{boardStatus}/new"})
   public String boardForm(@PathVariable("boardStatus") BoardStatus boardStatus,
+                          Principal principal,
                           Model model){
+
+
+
+
 
     BoardDTO boardDTO = new BoardDTO();
     boardDTO.setBoardStatus(boardStatus);
@@ -155,12 +190,12 @@ public class BoardController {
   public String boardDtl(@PathVariable("boardStatus") BoardStatus boardStatus,
                          @PathVariable("boardId") Long boardId,
                          Principal principal,
-                         Model model
-                         ){
+                         Model model){
 
     // 로그인 여부 확인 게시글 상세보기 안되고 로그인으로 보내라고함
     if (principal == null) {
       // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+      model.addAttribute("errorMsg", "로그인 후 이용해주세요.");
       return "redirect:/member/memberLoginForm"; // 로그인 페이지 URL
     }
 
@@ -174,9 +209,13 @@ public class BoardController {
     String currentUserEmail = principal.getName();
 
     // 작성자와 비교하여 동일한지 확인
-
     boolean isAuthor = member.getEmail().equals(currentUserEmail);
 
+    // 게시글의 작성자가 현재 유저인지 회원인지
+    boolean isRegural = member.getMemberType().equals(MemberType.REGULAR);
+
+    model.addAttribute("isRegural", isRegural);
+    model.addAttribute("memberId", member.getId());
     model.addAttribute("board", board);
     model.addAttribute("boardDTO", boardDTO);
     model.addAttribute("isAuthor", isAuthor);

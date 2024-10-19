@@ -51,6 +51,12 @@ public class MemberService implements UserDetailsService {
     return member.getId();
   }
 
+  public Long upgradeMember(Member member){
+    member.upgradeMember(member);
+    memberRepository.save(member);
+    return member.getId();
+  }
+
   private void validateMember(Member member) {
     Member findMember = memberRepository.findByEmail(member.getEmail());
     if(findMember != null) {

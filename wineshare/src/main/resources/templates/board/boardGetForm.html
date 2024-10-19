@@ -1,31 +1,269 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout1}">
 
 <th:block layout:fragment="css">
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/board-form.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/board-get-form.css}">
 
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/board-form.css}">-->
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">-->
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/board-form.css}">-->
+    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">-->
 
     <style>
-        .fieldError{
+        .fieldError {
             color: #bd2130;
         }
     </style>
 </th:block>
 
 <th:block layout:fragment="script">
-
-<!--    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>-->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>-->
-<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
-
     <script th:inline="javascript">
-        // const boardStatus = $('#hidden-boardStatus').val();
+        $(document).ready(function () {
 
+            $('#upgradeBtn').on('click', function () {
+                const memberId = $(this).data('member-id'); // 게시글 작성자의 ID를 가져오는 방법
+                const token = $("meta[name='_csrf']").attr("content");
+                const header = $("meta[name='_csrf_header']").attr("content");
+                const boardStatus = $("#boardStatus").data("board-status") // 게시판 상태
+
+                // AJAX 요청
+                $.ajax({
+                    url: `/members/expert/${boardStatus}/${memberId}`,
+                    type: 'POST',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token); // CSRF 토큰 설정
+                    },
+                    success: function (response) {
+                        alert("회원 권한이 변경되었습니다."); // 성공 메시지
+                        window.location.href = `/boards/${boardStatus}/list`; // 페이지 새로고침
+                    },
+                    error: function (xhr, status, error) {
+                        alert("등업 처리 중 오류가 발생했습니다: " + xhr.responseText); // 오류 메시지
+                    }
+                });
+            });
+
+            // 댓글 등록
+            $('.reply-form').on('submit', function (e) {
+                e.preventDefault();
+                const token = $("meta[name='_csrf']").attr("content");
+                const header = $("meta[name='_csrf_header']").attr("content");
+                const reply = $('textarea[name="replyComment"]').val();
+                const boardId = $('#getBoardId').data('board-id');
+
+                const replyData = {reply: reply};
+
+                $.ajax({
+                    url: `/replies/new/${boardId}`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token)
+                    },
+                    data: JSON.stringify(replyData),
+                    success: function (response) {
+                        alert(response); //성공메세지
+                        $('textarea[name="replyComment"]').val('');
+                        getBoardReplyList(boardId, 0); // 메소드만들기
+                    },
+                    error: function (xhr) {
+                        if (xhr.status == ' 401') {
+                            alert('로그인 후 이용하세요.');
+                            location.href = '/members/login';
+                        } else {
+                            alert(xhr.responseText);
+                        }
+                    }
+                })
+            });
+
+
+            // 댓글페이지 불러오기
+            function getBoardReplyList(boardId, replyPage) {
+                const token = $("meta[name='_csrf']").attr("content");
+                const header = $("meta[name='_csrf_header']").attr("content");
+                const loginUserIdElement = $("#getLoginUserId");
+                const noLoginUserIdElement = $("#getNoLoginUserId");
+                const loginUserId = loginUserIdElement.length > 0
+                    ? loginUserIdElement.data("login-user-id")
+                    : noLoginUserIdElement.data("login-user-id");
+                console.log(loginUserId);
+
+                function createBtns(replyMemberId, replyId) {
+                    if (loginUserId === replyMemberId) {
+                        return `
+<div class="comment-actions">
+<button class="modify-btn" onclick="modifyReply(${replyId})">수정</button>
+<button class="delete-btn" onclick="deleteReply(${replyId})">삭제</button>
+</div>`;
+                    }
+                return '';
+                }
+
+                $.ajax({
+                    url : `/replies/${boardId}/${replyPage}`,
+                    type : 'GET',
+                    beforeSend : function (xhr){
+                        xhr.setRequestHeader(header, token);
+                    },
+                    cache : false,
+                    success : function (data){
+                        const boardReplyListContainer = $('#boardReplyListContainer');
+                        boardReplyListContainer.empty();
+
+                        data.boardReplys.forEach(function (reply){
+                            const item = `
+<div class="reply-content">
+<div class="avatar">
+<img src="/wineshare-img/people.png" alt="image" class="profile_img">
+</div>
+<div class="post-comment" id="post-reply-${reply.id}">
+<div class="comment-title comment">${reply.memberId}</div>
+<div class="comment-text comment" id="comment-reply-${reply.id}">${reply.reply}</div>
+${createBtns(reply.memberId, reply.id)}
+</div>
+</div>`;
+                            boardReplyListContainer.append(item);
+                            const commentForm = document.getElementById("comment-respond-reply");
+                            commentForm.className = "replyForm";
+                        });
+                        updateReplyPage(data.currentPage, data.totalPages)
+                    },
+                    error : function (xhr){
+                        console.error(xhr);
+                        let errorMessage = '댓글 정보를 불러오지 못했습니다.';
+                        if (xhr.status === 401){
+                            errorMessage = '로그인이 필요합니다.';
+                        }else if(xhr.status === 500){
+                            errorMessage = '서버 오류가 발생했습니다. 나중에 다시 시도하세요.';
+                        }
+                        alert(errorMessage);
+                    }
+                });
+            }
+
+            // 댓글 페이지 네이션
+            function updateReplyPage(currentPage, totalPages){
+                const boardId = $('#getBoardId').data('board-id');
+                const paginationContainer = $('#replyPageContainer');
+                paginationContainer.empty();
+                //이전버튼
+                const prevDisabled = currentPage === 0 ? 'disabled' : '';
+                paginationContainer.append(`
+   <li class="prev hvr-shutter-out-horizontal ${prevDisabled}">
+            <a ${prevDisabled ? '' : 'onclick="getBoardReplyList(' + boardId + ',' + (currentPage - 1) + ')"'} aria-label="Previous">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </a>
+        </li>
+`);
+                //maxpage
+                const maxPage = 5;
+                let start = Math.floor(currentPage / maxPage) * maxPage;
+                let end = Math.min(start + maxPage, totalPages);
+
+                // 페이지 번호추가
+                for (let i = start; i<end; i++){
+                    const activeClass = i === currentPage ? 'page-active' : '';
+                    paginationContainer.append(`
+                     <li class="hvr-shutter-out-horizontal ${activeClass}">
+                <a onclick="getBoardReplyList(${boardId}, ${i} )" aria-label="Page">${i + 1}</a>
+            </li>
+                    `);
+                }
+                // 다음버튼
+                const nextDisabled = currentPage === totalPages -1 ? 'disabled' : '';
+                paginationContainer.append(`
+                 <li class="next hvr-shutter-out-horizontal ${nextDisabled}">
+            <a ${nextDisabled ? '' : 'onclick="getBoardReplyList('+ boardId + ',' + (currentPage + 1) + ')"'} aria-label="Next">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+        </li>
+                `);
+            }
+
+            // 댓글삭제
+            function deleteReply(replyId){
+                const boardId = $("#getBoardId").data('board-id');
+                const token = $("meta[name='_csrf']").attr("content");
+                const header = $("meta[name='_csrf_header']").attr("content");
+                const page = $("#replyPageContainer .page-active a").text();
+                if(confirm("댓글을 삭제하시겠습니까?")){
+                    $.ajax({
+                        url : `/replis/${replyId}`,
+                        type : 'DELETE',
+                        beforeSend : function (xhr){
+                            xhr.setRequestHeader(header, token);
+                        },
+                        success : function (response){
+                            alert(response);
+                            getBoardReplyList(boardId, page-1);
+                        },
+                        error : function (xhr){
+                            if(xhr.status == '401'){
+                                alert("로그인 후 이용해주세요.");
+                                location.href = '/members/login';
+                            }else{
+                                alert(xhr.responseText);
+                            }
+                        }
+                    });
+                }
+            }
+
+            // 댓글 수정폼 열기
+            function modifyReply(replyId){
+                const page = $("#replyPageContainer .page-active a").text();
+                const boardId = $('#getBoardId').data('board-id'); // 현재페이지 게시글아이디
+                const commentForm = document.getElementById("comment-respond-reoly"); // 리뷰폼
+                const commentDiv = $(`#comment-reply-${replyId}`); // 수정할 리뷰의 기존 텍스트에리어
+                const currentDiv = $(`#post-reply-${replyId}`);
+                const currentText = commentDiv.text(); // 수정할 리뷰의 기존 텍스트에리어의 내용
+
+                const modifyInput = `
+                        <textarea id="modify-comment-${replyId}" required>${currentText}</textarea>
+                       <button onclick="saveModifyReply(${replyId})">저장</button>
+                        <button onclick="getBoardReplyList(${replyId}, ${page - 1})">취소</button>`;
+
+                currentDiv.html(modifyInput);
+                const btns = document.querySelectorAll("#boardReplyListContainer .comment-actions");
+                for(let i=0; i<btns.length; i++){
+                    btns[i].remove();
+                }
+
+                // 수정에서
+                commentForm.className = "replyForm display-none";
+            }
+
+            // 리뷰 수정 날리기
+            function saveModifyReply(replyId){
+                const newComment = $(`#modify-comment-${replyId}`).val();
+                const boardId = $('#getBoardId').data('board-id');
+                const token = $("meta[name='_csrf']").attr("content");
+                const header = $("meta[name='_csrf_header']").attr("content");
+                const page = $("#replyPageContainer .page-active a").text();
+
+                $.ajax({
+                    url : `/replies/${replyId}`,
+                    type : 'PUT',
+                    contentType : 'application/json',
+                    data : JSON.stringify({reply : newComment}),
+                    beforeSend : function (xhr){
+                        xhr.setRequestHeader(header, token);
+                    },
+                    success : function (response){
+                        getBoardReplyList(boardId, page-1);
+                    },
+                    error : function (xhr){
+                        console.error(xhr);
+                        alert("댓글 수정에 실패했습니다.")
+                    }
+                });
+
+            }
+
+        });
     </script>
 </th:block>
 
@@ -38,7 +276,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div th:text="${boardStatus}" class="form-title">
+                        <div th:text="${boardStatus}" id="boardStatus" th:data-board-status="${boardStatus}"
+                             class="form-title">
                             상세보기
                         </div>
                     </div>
@@ -46,18 +285,26 @@
             </div>
 
             <div th:if="${isAuthor}">
-<!--                수정 버튼 -->
+                <!--                수정 버튼 -->
                 <button th:formaction="@{'/boards/' + ${#strings.toLowerCase(boardStatus)} + '/modify/' + ${boardDTO.id}}"
-                        type="submit" class="hvr-shutter-out-horizontal">수정하기</button>
+                        type="submit" class="hvr-shutter-out-horizontal">수정하기
+                </button>
             </div>
-
 
 
             <div class="form-body">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
+                            <input type="hidden" id="getBoardId" th:data-board-id="${boardDTO.id}">
 
+                            <span th:if="${loginUser != null}">
+                              <input type="hidden" id="getLoginUserId"
+                                     th:data-login-user-id="${loginUser.id != null ? loginUser.id : '0'}">
+                          </span>
+                            <span th:unless="${loginUser != null}">
+                                <input type="hidden" id="getNoLoginUserId" data-login-user-id="0">
+                            </span>
 
 
                             <div th:field="*{boardTitle}" th:text="*{boardTitle}"></div>
@@ -69,7 +316,7 @@
 
                             <div th:if="${boardDTO.boardImgUrl != null}">
                                 <div>
-                                    <img th:src="${boardDTO.boardImgUrl}" alt="게시물 이미지">                                </div>
+                                    <img th:src="${boardDTO.boardImgUrl}" alt="게시물 이미지"></div>
                             </div>
 
 
@@ -79,142 +326,84 @@
                 </div>
             </div>
 
-            <div th:if="${#strings.equalsIgnoreCase(boardStatus, 'upgrade')}">
-                <button type="button">등업</button>
+            <div th:if="${boardStatus == 'UPGRADE'}">
+            <div th:if="${isRegural == true}">
+                <div sec:authorize="hasRole('ADMIN')">
+                    <button id="upgradeBtn" class="btn btn-primary btn-xs pull-right" th:data-member-id="${memberId}">등업
+                        버튼
+                    </button>
+                </div>
+            </div>
             </div>
 
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
         </form>
 
-    <!-- 댓글 섹션 -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            댓글
-            <button id="addReplyBtn" class="btn btn-primary btn-xs pull-right">댓글 등록</button>
-        </div>
-        <div class="panel-body">
-            <ul class="chat" id="replyList" th:each="reply : ${replies}">
-                <li class="left clearfix" data-rno="${reply.id}">
-                    <div>
-                        <div class="header">
-                            <strong class="primary-font" th:text="${reply.writerNickname}"></strong>
-                            <small class="pull-right text-muted" th:text="${#temporals.format(reply.regTime, 'yyyy-MM-dd HH:mm')}"></small>
-                        </div>
-                        <p th:text="${reply.reply}"></p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <!-- /댓글 섹션 -->
 
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">댓글 관리</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="reply">댓글</label>
-                            <input class="form-control" name="reply" id="reply">
+        <!-- 댓글 섹션 -->
+        <section class="main-shop-detail" style="padding: 0 0 50px 0;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <div class="woocommerce-tabs wc-tabs-wrapper">
+                            <ul class="tabs">
+                                <li><a class="tab active" data-id='#tab-replys' href="#">User Reply</a></li>
+                            </ul>
+                            <!--    모든유저  댓글      -->
+                            <div id="tab-replys" class="tab-content">
+                                <div class="post-bottom-second post-bottom">
+                                    <div class="reply_box" id="boardReplyListContainer">
+                                        <!-- 일반유저 평가 들어올 자리 -->
+                                    </div>
+                                </div> <!-- /post-bottom-second -->
+
+                                <!-- 페이지 네이션 -->
+                                <div class="blog-pagination text-center">
+                                    <ul class="flat-pagination" id="replyPageContainer">
+
+                                    </ul>
+                                </div>
+
+                                <div class="comment-respond"
+                                     th:with="memberType=${loginUser != null ? loginUser.memberType : 'DEFAULT_VALUE'}">
+                                    <form class="replyForm" id="comment-respond-reply">
+                      <span th:if="${memberType == T(com.keduit.wineshare.constant.MemberType).ADMIN
+                      || memberType == T(com.keduit.wineshare.constant.MemberType).EXPERT
+                      || memberType == T(com.keduit.wineshare.constant.MemberType).REGULAR}">
+                      <p>Add Reply</p>
+
+
+                                                <p class="comment-form-comment">
+                           <label>Comment</label>
+                        <textarea name="reply" placeholder="Comment" required="required"></textarea>
+                          </p>
+                          <p class="submit-form">
+                        <button name="submit" type="submit" class="submit btn btn-styl hvr-shutter-out-horizontal">SUBMIT</button>
+                      </p>
+                      </span>
+                                    </form>
+                                </div>  <!-- /comment-respond -->
+
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="replyer">작성자</label>
-                            <input class="form-control" name="replyer" id="replyer" readonly>
-                        </div>
-<!--                        <div class="form-group">-->
-<!--                            <label for="replydate">작성일</label>-->
-<!--                            <input class="form-control" name="replydate" id="replydate" readonly>-->
-<!--                        </div>-->
-                    </div>
-                    <div class="modal-footer">
-                        <button id="modalModBtn" type="button" class="btn btn-warning">수정</button>
-                        <button id="modalRemoveBtn" type="button" class="btn btn-danger">삭제</button>
-                        <button id="modalRegisterBtn" type="button" class="btn btn-primary">등록</button>
-                        <button id="modalCloseBtn" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+        <!-- /댓글 섹션 -->
+
+        <!-- Modal -->
+
         <!-- /.modal -->
 
 
-
-</div>
+    </div>
 
 </div>
 
 <script>
-    const replyList = $("#replyList")
-    let currentReplyId;
 
-    // 댓글 등록 모달창 이벤트
-    $("#addReplyBtn").on("click", function (e){
-        e.preventDefault();
-
-        $("#reply").val("");    // 입력필드 초기화
-        $("#writerNickname").val("currentUser"); // 현재 사용자 이름 설정
-        // $("#replydate").val(""); // 작성일 초기화
-        $("#modalRegisterBtn").show();
-        $("#modalModBtn").hide();
-        $("#modalRemoveBtn").hide();
-        $("#myModal").modal("show"); // 모달 표시
-    });
-
-    // 댓글 등록
-    $("#modalRegisterBtn").on("click", function () {
-        const replyData = {
-            reply: $("#reply").val(),
-            boardId: $("#bno").val()
-        };
-
-        $.ajax({
-            type : "POST",
-            url : "/replies/new",
-            contentType : "application/json",
-            data : JSON.stringify(replyData),
-            success : function (response){
-                alert(response);
-                showList();     // 댓글 목록 새로고침
-                $("#myModal").modal("hide");
-            },
-            error : function (){
-                alert("댓글 등록 실패")
-            }
-        });
-    });
-
-
-    // 댓글 목록 표시
-    function showList() {
-        $.ajax({
-            type: "GET",
-            url: "/replies/" + $("#bno").val() + "/1",
-            success: function (data) {
-                replyUL.empty();
-                data.content.forEach(function (reply) {
-                    replyUL.append(`
-                        <li class="left clearfix" data-rno="${reply.id}">
-                            <div>
-                                <div class="header">
-                                    <strong class="primary-font">${reply.writerNickname}</strong>
-                                    <small class="pull-right text-muted">${reply.regTime}</small>
-                                </div>
-                                <p>${reply.reply}</p>
-                            </div>
-                        </li>
-                    `);
-                });
-            },
-            error: function () {
-                alert("댓글 목록 로드 실패.");
-            }
-        });
-    }
 
 </script>
 

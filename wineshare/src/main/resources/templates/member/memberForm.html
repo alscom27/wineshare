@@ -84,11 +84,11 @@
 
         <div th:if="${memberDTO.id == null}">
 
-            <div th:if="${authority.equals('admin')}">
+            <div th:if="${authority != null and authority.equals('admin')}">
                 <h1 class="account-header">Create Admin Account</h1>
             </div>
 
-            <div th:unless="${authority.equals('admin')}">
+            <div th:unless="${authority != null and authority.equals('admin')}">
                 <h1 class="account-header">Create Account</h1>
             </div>
 
@@ -192,7 +192,7 @@
 
             <div th:if="${memberDTO.id == null}">
                 <!-- 등록 버튼 -->
-                <button th:formaction="@{'members/new'}" type="submit" class="login-button">Register</button>
+                <button th:formaction="@{'/members/new'}" type="submit" class="login-button">Register</button>
                 <button type="reset" class="btn">reset<-여기 css</button>
 
             </div>
