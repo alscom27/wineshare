@@ -2,12 +2,16 @@ package com.keduit.wineshare.service;
 
 import com.keduit.wineshare.dto.BoardReplyDTO;
 import com.keduit.wineshare.entity.BoardReply;
+import com.keduit.wineshare.entity.Member;
+import com.keduit.wineshare.entity.WineReview;
 import com.keduit.wineshare.repository.BoardReplyRepository;
+import com.keduit.wineshare.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -17,13 +21,14 @@ import javax.persistence.EntityNotFoundException;
 public class BoardReplyService {
 
   private final BoardReplyRepository boardReplyRepository;
+  private final MemberRepository memberRepository;
 
   // 댓글 등록
   public void registerReply(BoardReplyDTO boardReplyDTO){
     BoardReply boardReply = new BoardReply();
     boardReply.setReply(boardReplyDTO.getReply());
-
-    //
+    boardReply.setMember(memberRepository.findById(boardReplyDTO.getMemberId()).orElseThrow(EntityNotFoundException::new));
+    boardReply.setBoard(boardReply.getBoard());
 
     boardReplyRepository.save(boardReply);
   }
@@ -42,6 +47,18 @@ public class BoardReplyService {
       dto.setUpdateTime(reply.getUpdateTime());
       return dto;
     });
+  }
+
+  // 권한확인(작성자==로그인유저)
+  @Transactional(readOnly = true)
+  public boolean validationBoardReply(Long replyId, String email) {
+    Member member = memberRepository.findByEmail(email);
+    BoardReply boardReply = boardReplyRepository.findById(replyId).orElseThrow(EntityNotFoundException::new);
+    Member savedMember = boardReply.getMember();
+    if (!StringUtils.equals(member.getEmail(), savedMember.getEmail())) {
+      return false;
+    }
+    return true;
   }
 
   // 댓글 수정

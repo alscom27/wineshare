@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout1}">
 
 <th:block layout:fragment="css">
@@ -11,46 +12,110 @@
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-        $(document).ready(function () {
-            // 검색 버튼 클릭 시 AJAX 요청
-            $('#searchBtn').on('click', function (event) {
-                event.preventDefault(); // 기본 폼 제출 방지
+        $(document).ready(function (){
+            $('#searchIcon').on("click", function (e){
+                e.preventDefault();
+                page(0);
+            });
 
-                const searchType = $('select[name="searchType"]').val();
-                const searchQuery = $('input[name="searchQuery"]').val();
-                const boardStatus = $('#hidden-boardStatus').val().toLowerCase();
+            const boardStatus = $("#hidden-boardStatus").val().toString().toLowerCase();
+            const token = $("meta[name='_csrf']").attr("content");
+            const header = $("meta[name='_csrf_header']").attr("content");
 
-                // AJAX GET 요청
+            // 등록 버튼 클릭 시 등록 페이지로 이동
+            $('#regBtn1').on('click', function (e) {
+                e.preventDefault();
+
+                // 로그인 여부 확인
                 $.ajax({
-                    url: `/boards/${boardStatus}/list/`,
+                    url: '/boards/isLoggedIn', // 로그인 여부 확인 API
                     type: 'GET',
-                    data: {searchType: searchType, searchQuery: searchQuery},
-                    success: function (response) {
-                        // 검색 결과를 처리 (페이지 업데이트)
-                        $('.board_list_wrap').html(response);
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token); // CSRF 토큰 추가
                     },
-                    error: function (xhr, status, error) {
-                        alert('검색 중 오류가 발생했습니다: ' + error);
+                    success: function(isLoggedIn) {
+                        if (!isLoggedIn) {
+                            alert('로그인 후 이용하세요.');
+                            location.href = '/members/login'; // 로그인 페이지로 리다이렉트
+                        } else {
+                            // 게시글 등록 페이지로 이동
+                            location.href = `/boards/${boardStatus}/new`;
+                        }
+                    },
+                    error: function(xhr, status, error){
+                        alert("로그인 상태 확인 중 오류가 발생했습니다.");
                     }
                 });
             });
 
-            // 등록 버튼 클릭 시 등록 페이지로 이동
-            $('#regBtn').on('click', function (e) {
+            $('#regBtn2').on('click', function (e) {
                 e.preventDefault();
                 const boardStatus = $('#hidden-boardStatus').val();
-                if (boardStatus) {
-                    window.location.href = `/boards/${boardStatus.toLowerCase()}/new`;
+                const isLoggedIn = $('#isLoggedIn').val() === 'true'; // 로그인 여부 확인
+
+                if (!isLoggedIn) {
+                    alert('로그인 후 이용하세요. 2');
+                    location.href = '/members/login'; // 로그인 페이지로 리다이렉트
                 } else {
-                    alert('게시판 상태를 확인할 수 없습니다.');
+                    // 게시글 등록 페이지로 이동
+                    location.href = `/boards/${boardStatus.toLowerCase()}/new`;
                 }
             });
         });
+
+
+      // 검색버튼 페이지
+      function page(page){
+          const searchType = $("#searchType").val();
+          const searchQuery = $("#searchQuery").val();
+
+          // url
+          location.href="/boards/" + boardStatus + "/list/" + page
+              + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
+      }
+
+      // 등록버튼들
+      // function regBoard(){
+      //     const token = $("meta[name='_csrf']").attr("content");
+      //     const header = $("meta[name='_csrf_header']").attr("content");
+      //
+      //     const url = "/boards/" + boardStatus + "/new"
+      //     console.log(boardStatus);
+      //
+      //
+      //     $.ajax({
+      //         url : url,
+      //         type : "GET",
+      //         // contentType : "application.json",
+      //         beforeSend : function (xhr){
+      //             xhr.setRequestHeader(header, token)},
+      //         dataType : "json",
+      //         cache : false,
+      //         success : function (result, status){
+      //             alert("됐냐?");
+      //             location.href= url;
+      //         },
+      //         error : function (xhr, status, error){
+      //             if(xhr.status == '401'){
+      //                 alert("로그인이 필요합니다.")
+      //                 location.href='/members/login';
+      //             }else{
+      //                 console.log(boardStatus);
+      //                 console.log(xhr.status);
+      //                 alert(xhr.responseText);
+      //             }
+      //         }
+      //
+      //
+      //
+      //     })
+      // }
+
     </script>
 </th:block>
 
 
-<div layout:fragment="content">
+<div layout:fragment="content" class="content">
 
     <!-- 각 페이지 상단에 경로 나타내주는 부분.. -->
     <div class="page-title parallax parallax1">
@@ -73,9 +138,9 @@
 
     <div class="board_wrap">
 
-        <div class="banner-img upgrade-img"></div>
-        <div class="banner-img question-img"></div>
-        <div class="banner-img request-img"></div>
+        <div class="banner-img upgrade-img" th:if="${#strings.toLowerCase(boardStatus) == 'upgrade'}"></div>
+        <div class="banner-img question-img" th:if="${#strings.toLowerCase(boardStatus) == 'question'}"></div>
+        <div class="banner-img request-img" th:if="${#strings.toLowerCase(boardStatus) == 'request'}"></div>
 
 
 
@@ -87,8 +152,7 @@
 
 
 <!--        th:action="@{'/board/' + ${#strings.toLowerCase(boardStatus)} + '/list/' + ${boards.number}}"-->
-        <form role="form"
-              method="get">
+        <form role="form" method="get">
             <!--            th:object="${boards}"-->
 
             <div class="form-group" th:object="${boardSearchDTO}">
@@ -104,10 +168,21 @@
                         enter
                     </button>
                 </div>
-                <!--    얜 머지            -->
+                <!--    얜 머지         -->
                 <input type="hidden" th:value="${boardStatus}" id="hidden-boardStatus">
+                <!-- 로그인 여부 -->
+                <input type="hidden" id="isLoggedIn" th:value="${isLoggedIn}">
 
-                <button type="button" id="regBtn" class="regbutton">게시글 등록</button>
+                <div th:if="${#strings.toLowerCase(boardStatus) != 'notice'}">
+                <button type="button" id="regBtn1" class="regbutton" onclick="regBoard()">게시글 등록</button>
+                </div>
+
+                <div th:unless="${#strings.toLowerCase(boardStatus) != 'notice'}" sec:authorize="hasRole('ADMIN')">
+<!--                    <div th:if="${isAdmin}">-->
+                    <button type="button" id="regBtn2" class="regbutton" onclick="regBoard()">게시글 등록</button>
+<!--                    </div>-->
+                </div>
+
             </div>
         </form>
 
@@ -128,6 +203,7 @@
                             th:href="'/boards/' + ${#strings.toLowerCase(board.getBoardStatus())} + '/get/' + ${board.getId()}"
                             th:text="${board.boardTitle}"></a></div>
                     <div class="writer" th:text="${board.getWriterNickname()}"></div>
+                    <div th:if="${isExpert}">(전문가)</div>
                     <div class="date" th:text="${#temporals.format(board.regTime, 'yy-MM-dd')}"></div>
                     <!--                <div class="count" th:text=""></div>-->
                 </div>

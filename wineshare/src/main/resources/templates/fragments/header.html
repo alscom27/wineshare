@@ -21,7 +21,7 @@
                 <span class="mouse-pointer">About Us</span>
                 <ul class="sub-menu">
                   <li><a href="About.html" title="">Wine Share</a></li>
-                  <li><a th:href="@{boards/notice/list}" title="">공지사항</a></li>
+                  <li><a th:href="@{'boards/notice/list'}" title="notice">공지사항</a></li>
                   <!--                                <li><a href="Coming-soon.html" title="">Bistro</a></li>-->
                   <!--                                <li><a href="404-page.html" title="">Promotion</a></li>-->
                   <!-- <li><a href="Wish-list.html" title="">Wish List</a></li>-->
@@ -113,7 +113,7 @@
                 <li><a th:href="@{'/cellars'}" sec:authorize="isAuthenticated()">My Cellar</a></li>
                 <li><a th:href="@{'/wines/new'}" sec:authorize="hasRole('EXPERT') or hasRole('ADMIN')">와인 등록</a></li>
 <!--                <li><a th:href="/marketings/register" title="">업장/행사 등록</a></li>-->
-                <li ><a th:href="@{'/admins/dataChoiList'}" title="">관리자 데이터 목록</a></li>
+                <li ><a th:href="@{'/admins/dataChoiList'}" sec:authorize="hasRole('ADMIN')">관리자 데이터 목록</a></li>
               </ul><!-- /.sub-menu -->
             </li>
           </ul>

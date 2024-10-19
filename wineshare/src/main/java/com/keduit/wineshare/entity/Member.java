@@ -70,4 +70,8 @@ public class Member extends BaseEntity {
     this.setPhoneNumber(memberModifyDTO.getPhoneNumber());
   }
 
+  public void upgradeMember(Member member){
+    this.setMemberType(member.getMemberType());
+  }
+
 }
