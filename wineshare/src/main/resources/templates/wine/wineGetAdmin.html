@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
+<!-- 사용자 css -->
+<th:block layout:fragment="css">
+  <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/wine-form.css}">
+
+</th:block>
+
+<th:block layout:fragment="script">
+<script th:inline="javascript">
+  $(document).ready(function(){
+
+    bindDomEvent();
+
+  });
+  // 이미지 파일만 등록 가능하도록 해주기
+  function bindDomEvent() {
+    $(".custom-file-input").on("change", function() {
+      const fileName = $(this).val().split("\\").pop();
+      // 체인지가 일어난곳(this)의 밸류(들어간 파일의 경로)
+      // 경로를 스플릿하면 경로의 마지막이 제일 위로 쌓이고, 팝하면 그걸 꺼내옴 = 파일명
+      let fileExt = fileName.substring(fileName.lastIndexOf(".")+1); // 확장자 추출
+      fileExt = fileExt.toLowerCase(); // 확장자를 소문자로 변환
+
+      if (fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif" && fileExt != "png" && fileExt != "bmp") {
+        alert("이미지 파일만 등록이 가능합니다.");
+        return;
+      }
+
+      $(this).siblings(".custom-file-label").html(fileName);
+      // 파일 이름 띄워주기 (this=custom-file-input 의 형제 중 custom-file-label 에 fileName을 html로 넣어줌)
+
+    });
+  }
+  // 와인 타입 변경시 셀렉트바 토글
+  function toggleDevelopForm() {
+    const wineTypeSelect = document.getElementById("wineTypeSelect");
+    const developTanninSelector = document.getElementById("developTanninSelector");
+    const developFizzSelector = document.getElementById("developFizzSelector");
+    const developSweetnessSelector = document.getElementById("developSweetnessSelector");
+
+    if (wineTypeSelect.value === "RED") {
+      developTanninSelector.style.display = "block";
+      developFizzSelector.style.display = "none";
+    } else if (wineTypeSelect.value === "SPARKLING") {
+      developFizzSelector.style.display = "block";
+      developSweetnessSelector.style.display = "none";
+      developTanninSelector.style.display = "none";
+    } else {
+      developTanninSelector.style.display = "none";
+      developFizzSelector.style.display = "none";
+      developSweetnessSelector.style.display = "block";
+    }
+  }
+</script>
+</th:block>
+
+<div layout:fragment="content">
+
+  <!-- 각 페이지 상단에 경로 나타내주는 부분.. -->
+  <div class="page-title parallax parallax1">
+    <div class="container">
+      <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
+        <div class="breadcrumbs">
+
+        </div>
+        <div class="page-title-heading">
+          <h2 class="title">Admin Wine Data</h2>
+        </div>
+      </div>
+    </div>
+  </div> <!-- /.page-title -->
+
+  <div class="wine-form">
+    <h1 class="wine-form-title">Wine Register</h1>
+
+    <!-- 타임리프를 사용한 와인 등록 폼 -->
+    <form th:action="@{/wines/modify}" method="post" class="wineForm" id="wineForm" th:object="${wineDTO}" enctype="multipart/form-data">
+
+      <!-- 와인 이름 입력 -->
+      <div class="form-group">
+        <label th:for="wineName">Wine Name</label>
+        <input th:field="*{wineName}" type="text" placeholder="와인 이름을 입력해주세요." required/>
+      </div>
+
+      <!-- 생산 국가 입력 -->
+      <div class="form-group">
+        <label th:for="country">Wine Country</label>
+        <input th:field="*{country}" type="text" placeholder="생산 국가를 입력해주세요." required/>
+      </div>
+
+      <!-- 생산 지역 입력 -->
+      <div class="form-group">
+        <label th:for="region">Wine Region</label>
+        <input th:field="*{region}" type="text" placeholder="생산 지역을 입력해주세요." required/>
+      </div>
+
+      <!-- 와인 가격 입력 -->
+      <div class="form-group">
+        <label th:for="price">Price (₩)</label>
+        <input th:field="*{price}" type="number" placeholder="와인 가격을 입력해주세요." required/>
+      </div>
+
+      <!-- 와인 종류 선택 -->
+      <div class="form-group">
+        <label th:for="wineType">Wine Type</label>
+        <select th:field="*{wineType}" id="wineTypeSelect" onchange="toggleDevelopForm()">
+          <option value="RED">RED</option>
+          <option value="WHITE">WHITE</option>
+          <option value="SPARKLING">SPARKLING</option>
+          <option value="ROSE">ROSE</option>
+          <option value="DESSERT">DESSERT</option>
+          <option value="PORT">PORT</option>
+        </select>
+      </div>
+
+      <!-- 이미지 첨부 -->
+      <div class="form-group">
+        <label th:for="wineImg">Wine Image</label>
+        <div th:if="${#strings.isEmpty(wineDTO.wineImg)}">
+          <div class="form-img">
+            <div class="custom-file img-div">
+              <input type="file" class="custom-file-input" name="wineImgFile">
+              <label class="custom-file-label" th:text="와인이미지"></label>
+            </div>
+          </div>
+        </div>
+
+        <div th:if="${not #strings.isEmpty(wineDTO.wineImg)}">
+          <div class="form-img">
+            <div class="custom-file img-div">
+              <input type="file" class="custom-file-input" name="wineImgFile">
+              <input type="hidden" name="id" th:value="${wineDTO.id}">
+              <label class="custom-file-label"
+                     th:text="와인 이미지를 동록해주세요."></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+</html>
