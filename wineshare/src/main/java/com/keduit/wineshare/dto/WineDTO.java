@@ -55,5 +55,13 @@ public class WineDTO {
     this.memberId = memberId;
     this.memberNickname = memberNickname;
   }
+
+  // 경로 떼고 파일이름만 보여주는 메소드
+  public String getWineImgName() {
+    if (wineImg != null && wineImg.startsWith("/images/wines/")) {
+      return wineImg.substring("/images/wines/".length());
+    }
+    return wineImg;
+  }
 }
 

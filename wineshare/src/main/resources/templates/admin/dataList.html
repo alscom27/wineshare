@@ -165,7 +165,11 @@
                             <tr>
                                 <td>${wine.id}</td>
                                 <td>${wine.wineType}</td>
-                                <td>${wine.wineName}</td>
+                                <td>
+                                    <a href="/wines/wine/${wine.id}">
+                                        ${wine.wineName}
+                                    </a>
+                                </td>
                                 <td>${wine.price}</td>
                                 <td>${wine.memberNickname}</td>
                             </tr>
