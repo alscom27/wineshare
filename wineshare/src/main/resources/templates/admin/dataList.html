@@ -6,6 +6,10 @@
 <!-- register css Fiels -->
 <th:block layout:fragment="css">
     <style>
+        .list-form-container{
+            margin-bottom:4%;
+        }
+
         th, td{
            border: 1px solid #e5e5e5;
            padding:10px;
@@ -26,18 +30,22 @@
         .data-title{
             margin-top:3%;
             margin-left:10%;
+            margin-bottom:3%;
             }
 
         input[type="text"]{
-            width:10%;
-            height:20px;
+            width:100%;
+            height:45px;
             }
 
         .data-all{
             width:80%;
             margin: 0 auto;
+
         }
         .data-search{
+            width: 40%;
+            gap: 10px;
             display:flex;
             justify-content: flex-end;
         }
@@ -45,6 +53,7 @@
         .data-btn{
             font-size:10px;
             color:#FFFFFF;
+            border-radius:5px;
         }
         .disabled {
             pointer-events: none; /* 클릭 이벤트 방지 */
@@ -141,11 +150,6 @@
                             <tr>
                                 <td>${board.id}</td>
                                 <td>${board.boardStatus}</td>
-                                <td>
-                                    <a href="/boards/${board.boardStatus}/get/${board.id}">
-                                        ${board.boardTitle}
-                                    </a>
-                                </td>
                                 <td>${board.boardTitle}</td>
                                 <td>${board.writerNickname}</td>
                                 <td>${board.regTime}</td>
@@ -170,11 +174,7 @@
                             <tr>
                                 <td>${wine.id}</td>
                                 <td>${wine.wineType}</td>
-                                <td>
-                                    <a href="/wines/wine/${wine.id}">
-                                        ${wine.wineName}
-                                    </a>
-                                </td>
+                                <td>${wine.wineName}</td>
                                 <td>${wine.price}</td>
                                 <td>${wine.memberNickname}</td>
                             </tr>
@@ -198,11 +198,7 @@
                             <tr>
                                 <td>${marketing.id}</td>
                                 <td>${marketing.marketCategory}</td>
-                                <td>
-                                    <a href="/marketings/${marketing.marketCategory}/new/${marketing.id}">
-                                        ${marketing.marketingTitle}
-                                    </a>
-                                </td>
+                                <td>${marketing.marketingTitle}</td>
                                 <td>${marketing.eventOrNot}</td>
                                 <td>${marketing.ownerNickname}</td>
                             </tr>
@@ -226,11 +222,7 @@
                             <tr>
                                 <td>${member.id}</td>
                                 <td>${member.memberType}</td>
-                                <td>
-                                    <a href="/members/modify/${member.id}">
-                                        ${member.email}
-                                    </a>
-                                </td>
+                                <td>${member.email}</td>
                                 <td>${member.name}</td>
                                 <td>${member.withdrawStatus}</td>
                             </tr>
@@ -314,6 +306,8 @@
 </th:block>
 
 <div layout:fragment="content">
+
+   <div class="list-form-container">
     <div class="data-title">
     <h1>관리자 데이터 목록</h1>
     </div>
@@ -328,7 +322,7 @@
                     <span  id="getCategoryWines" th:data-category="${categoryWines}" ></span>
                     <input type="hidden" name="sortBy">
                     <select name="searchWineType">
-                        <option value="">ALL</option>
+                        <option value="">All Type</option>
                         <option value="RED">RED</option>
                         <option value="WHITE">WHITE</option>
                         <option value="SPARKLING">SPARKLING</option>
@@ -411,10 +405,13 @@
 
                     <input type="text" name="searchQuery" class="form-control" placeholder="검색어를 입력하세요.">
                 </th:block>
-                <button type="submit" id="searchIcon" class="data-btn" style="background-color: #c02323; height: 20px;" >
+
+                <button type="submit" id="searchIcon" class="data-btn" style="background-color: #c02323; height: 45px;" >
                     enter
                 </button>
+
             </div>
+
         </div>
 
         <div id="contentContainer">
@@ -427,6 +424,8 @@
         </div>
 
     </form>
-    <p style="text-align: center;"><a th:href="@{'/admins/dataChoiList'}">관리자 대시보드 돌아가기</a></p>
+
+   </div>
 </div>
+
 </html>

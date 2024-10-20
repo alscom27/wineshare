@@ -1,6 +1,8 @@
 .marketing-form{
     width: 80%;
     margin: 0 auto;
+
+    margin-bottom: 3%;
 }
 
 .marketing-form h1{
@@ -10,6 +12,7 @@
 
 .wine-reg-button{
     float:right;
+
 }
 
 /*#event-content{*/

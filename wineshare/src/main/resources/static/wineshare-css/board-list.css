@@ -187,7 +187,6 @@ a {
 
 
 .regbutton{
-    width: 13%;
     height: 27%;
     font-size: 14px;
     color: #c02323;
@@ -195,10 +194,11 @@ a {
     font-size: 14px;
     background: #c02323;
     color: #e5e5e5;
-    padding: 7px;
+    padding: 7px 20px;
     position: absolute;
     right: 0;
     bottom: 5px;
+    border-radius:5px;
 }
 
 input[type="text"]{
