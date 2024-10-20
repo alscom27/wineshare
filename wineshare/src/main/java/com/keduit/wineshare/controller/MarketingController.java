@@ -159,7 +159,7 @@ public class MarketingController {
   // 업장별 등록으로 보내기
   @GetMapping({"/{marketCategory}/new", "/{marketCategory}/new/{marketId}"})
   public String marketingForm(@PathVariable("marketCategory") MarketCategory marketCategory,
-                              @PathVariable("marketId") Long marketingId,
+                              @PathVariable(value = "marketId", required = false) Long marketingId,
                               Model model) {
     MarketingDTO marketingDTO;
     if(marketingId != null) {
