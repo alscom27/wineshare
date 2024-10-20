@@ -259,7 +259,8 @@
             <form class="developForm" id="comment-respond-develop">
                     <span>
                     <!-- 전문가 맛 그래프 입력 폼 -->
-                    <p>Add Develop</p>
+                    <h2 class="add-develop">Add Develop</h2>
+
                     <div class="pro-taste">
                       <div class="taste-like">
                         <div class="taste-category">
@@ -330,11 +331,11 @@
 
                         <!-- 전문가 아로마 휠, 페어링 입력 폼 -->
 
-                    <div class="pro-taste">
-                      <div class="taste-like">
+                    <div class="aroma-food-all">
+                      <div class="aroma-food">
 
                       <!--   아로마 휠 & 푸드 페어링       -->
-                        <div class="taste-category">
+                        <div class="wheel-category">
                         <h3>Aroma-1</h3>
                         <select name="develop-aromaOne" id="aromaOne">
                           <option value="Citrus">Citrus</option>
@@ -355,7 +356,7 @@
                         </select>
                       </div>
 
-                        <div class="taste-category">
+                        <div class="wheel-category">
                         <h3>Aroma-2</h3>
                         <select name="develop-aromaTwo" id="aromaTwo">
                           <option value="Citrus">Citrus</option>
@@ -376,7 +377,7 @@
                         </select>
                       </div>
 
-                        <div class="taste-category">
+                        <div class="wheel-category">
                         <h3>Paring-1</h3>
                         <select name="develop-foodOne" id="foodOne">
                           <option value="Beef">Beef</option>
@@ -394,7 +395,7 @@
                         </select>
                       </div>
 
-                        <div class="taste-category">
+                        <div class="wheel-category">
                         <h3>Paring-2</h3>
                         <select name="develop-foodTwo" id="foodTwo">
                           <option value="Beef">Beef</option>
@@ -428,13 +429,14 @@
                     <p class="comment-form-comment">
                       <textarea  name="developComment" placeholder="Comment" required="required"></textarea>
                     </p>
-                    <p class="submit-form">
-                      <button name="submit" type="submit" class="submit btn btn-styl hvr-shutter-out-horizontal" onclick="submitWineForm()">SUBMIT</button>
-                    </p>
+
                       </span>
             </form>
         </div>  <!-- /comment-respond -->
 
+        <p class="submit-form">
+            <button name="submit" type="submit" class="submit btn btn-styl hvr-shutter-out-horizontal" onclick="submitWineForm()">SUBMIT</button>
+        </p>
 
     </div>
 

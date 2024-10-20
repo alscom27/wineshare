@@ -6,6 +6,10 @@
 <!-- register css Fiels -->
 <th:block layout:fragment="css">
     <style>
+        .list-form-container{
+            margin-bottom:4%;
+        }
+
         th, td{
            border: 1px solid #e5e5e5;
            padding:10px;
@@ -26,18 +30,22 @@
         .data-title{
             margin-top:3%;
             margin-left:10%;
+            margin-bottom:3%;
             }
 
         input[type="text"]{
-            width:10%;
-            height:20px;
+            width:100%;
+            height:45px;
             }
 
         .data-all{
             width:80%;
             margin: 0 auto;
+
         }
         .data-search{
+            width: 40%;
+            gap: 10px;
             display:flex;
             justify-content: flex-end;
         }
@@ -45,6 +53,7 @@
         .data-btn{
             font-size:10px;
             color:#FFFFFF;
+            border-radius:5px;
         }
         .disabled {
             pointer-events: none; /* 클릭 이벤트 방지 */
@@ -297,6 +306,8 @@
 </th:block>
 
 <div layout:fragment="content">
+
+   <div class="list-form-container">
     <div class="data-title">
     <h1>관리자 데이터 목록</h1>
     </div>
@@ -311,7 +322,7 @@
                     <span  id="getCategoryWines" th:data-category="${categoryWines}" ></span>
                     <input type="hidden" name="sortBy">
                     <select name="searchWineType">
-                        <option value="">ALL</option>
+                        <option value="">All Type</option>
                         <option value="RED">RED</option>
                         <option value="WHITE">WHITE</option>
                         <option value="SPARKLING">SPARKLING</option>
@@ -394,10 +405,13 @@
 
                     <input type="text" name="searchQuery" class="form-control" placeholder="검색어를 입력하세요.">
                 </th:block>
-                <button type="submit" id="searchIcon" class="data-btn" style="background-color: #c02323; height: 20px;" >
+
+                <button type="submit" id="searchIcon" class="data-btn" style="background-color: #c02323; height: 45px;" >
                     enter
                 </button>
+
             </div>
+
         </div>
 
         <div id="contentContainer">
@@ -410,5 +424,8 @@
         </div>
 
     </form>
+
+   </div>
 </div>
+
 </html>
