@@ -8,6 +8,15 @@
     <!-- board css Fiels -->
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/board-list.css}">
 
+    <style>
+        .disabled{
+            pointer-events: none;
+            opacity: 0.1;
+        }
+        .page-active{
+            background-color: #c02323 !important;
+        }
+    </style>
 </th:block>
 
 <th:block layout:fragment="script">
