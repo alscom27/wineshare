@@ -88,7 +88,7 @@ public class MemberController {
 
   @GetMapping({"/modify", "/modify/{memberId}"})
   public String modifyMember(Principal principal,
-                             @PathVariable("memberId") Long memberId,
+                             @PathVariable(value = "memberId", required = false) Long memberId,
                              Model model) {
 
     Member member;

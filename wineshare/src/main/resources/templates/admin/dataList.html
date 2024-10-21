@@ -135,114 +135,133 @@
             // 카테고리에 따라 내용 변화 조건문
             if (category === 'boards') {
                 table = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>카테고리</th>
-                            <th>제목</th>
-                            <th>작성자</th>
-                            <th>등록일</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${data.content.map(board => `
-                            <tr>
-                                <td>${board.id}</td>
-                                <td>${board.boardStatus}</td>
-                                <td>${board.boardTitle}</td>
-                                <td>${board.writerNickname}</td>
-                                <td>${board.regTime}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>`;
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>카테고리</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>등록일</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${data.content.map(board => `
+                    <tr>
+                        <td>${board.id}</td>
+                        <td>${board.boardStatus}</td>
+                        <td>
+                            <a href="/boards/${board.boardStatus}/get/${board.id}">
+                                ${board.boardTitle}
+                            </a>
+                        </td>
+                        <td>${board.boardTitle}</td>
+                        <td>${board.writerNickname}</td>
+                        <td>${board.regTime}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>`;
             } else if (category === 'wines') {
                 table = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>종류</th>
-                            <th>이름</th>
-                            <th>가격</th>
-                            <th>작성자</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${data.content.map(wine => `
-                            <tr>
-                                <td>${wine.id}</td>
-                                <td>${wine.wineType}</td>
-                                <td>${wine.wineName}</td>
-                                <td>${wine.price}</td>
-                                <td>${wine.memberNickname}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>`;
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>종류</th>
+                    <th>이름</th>
+                    <th>가격</th>
+                    <th>작성자</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${data.content.map(wine => `
+                    <tr>
+                        <td>${wine.id}</td>
+                        <td>${wine.wineType}</td>
+                        <td>
+                            <a href="/wines/wine/${wine.id}">
+                                ${wine.wineName}
+                            </a>
+                        </td>
+                        <td>${wine.price}</td>
+                        <td>${wine.memberNickname}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>`;
             } else if (category === 'marketings') {
                 table = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>카테고리</th>
-                            <th>이름</th>
-                            <th>행사</th>
-                            <th>작성자</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${data.content.map(marketing => `
-                            <tr>
-                                <td>${marketing.id}</td>
-                                <td>${marketing.marketCategory}</td>
-                                <td>${marketing.marketingTitle}</td>
-                                <td>${marketing.eventOrNot}</td>
-                                <td>${marketing.ownerNickname}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>`;
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>카테고리</th>
+                    <th>이름</th>
+                    <th>행사</th>
+                    <th>작성자</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${data.content.map(marketing => `
+                    <tr>
+                        <td>${marketing.id}</td>
+                        <td>${marketing.marketCategory}</td>
+                        <td>
+                            <a href="/marketings/${marketing.marketCategory}/new/${marketing.id}">
+                                ${marketing.marketingTitle}
+                            </a>
+                        </td>
+                        <td>${marketing.eventOrNot}</td>
+                        <td>${marketing.ownerNickname}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>`;
             } else if (category === 'members') {
                 table = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>등급</th>
-                            <th>메일</th>
-                            <th>이름</th>
-                            <th>상태</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${data.content.map(member => `
-                            <tr>
-                                <td>${member.id}</td>
-                                <td>${member.memberType}</td>
-                                <td>${member.email}</td>
-                                <td>${member.name}</td>
-                                <td>${member.withdrawStatus}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>`;
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>등급</th>
+                    <th>메일</th>
+                    <th>이름</th>
+                    <th>상태</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${data.content.map(member => `
+                    <tr>
+                        <td>${member.id}</td>
+                        <td>${member.memberType}</td>
+                        <td>
+                            <a href="/members/modify/${member.id}">
+                                ${member.email}
+                            </a>
+                        </td>
+                        <td>${member.name}</td>
+                        <td>${member.withdrawStatus}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>`;
             } else {
                 table = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>이건</th>
-                            <th>잘못된</th>
-                            <th>접근</th>
-                            <th>이전으로</th>
-                            <th>돌아가</th>
-                        </tr>
-                    </thead>
-                </table>`;
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>이건</th>
+                    <th>잘못된</th>
+                    <th>접근</th>
+                    <th>이전으로</th>
+                    <th>돌아가</th>
+                </tr>
+            </thead>
+        </table>`;
             }
+            contentContainer.append(table); // 테이블 추가
+        }
             contentContainer.append(table); // 테이블 추가
         }
         // 업데이트페이지 메소드, 공통 - 커런트, 토탈은 각 ajax메소드의 결과값에서 받아오고
@@ -424,7 +443,7 @@
         </div>
 
     </form>
-
+       <p style="text-align: center;"><a th:href="@{'/admins/dataChoiList'}">관리자 대시보드 돌아가기</a></p>
    </div>
 </div>
 
