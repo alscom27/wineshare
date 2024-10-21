@@ -115,6 +115,7 @@ public class MemberController {
     memberModifyDTO.setNickname(member.getNickname());
     memberModifyDTO.setPhoneNumber(member.getPhoneNumber());
 
+
     String authority;
 
     if (StringUtils.equalsIgnoreCase(member.getMemberType(), "admin")) {

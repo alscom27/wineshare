@@ -4,10 +4,7 @@ import com.keduit.wineshare.constant.WineType;
 import com.keduit.wineshare.dto.QWineDTO;
 import com.keduit.wineshare.dto.WineDTO;
 import com.keduit.wineshare.dto.WineSearchDTO;
-import com.keduit.wineshare.entity.QBoard;
-import com.keduit.wineshare.entity.QWine;
-import com.keduit.wineshare.entity.QWineDevelop;
-import com.keduit.wineshare.entity.Wine;
+import com.keduit.wineshare.entity.*;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberExpression;
@@ -234,6 +231,53 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
     }
 
     return recommendedWine; // 추천 와인 반환
+  }
+
+  // 여기부터 메인에 들어갈 추천와인
+  // 별점 상위 3개
+  @Override
+  public List<Wine> findRecommendedRatingWines() {
+    QWine qWine = QWine.wine;
+    QWineDevelop qWineDevelop = QWineDevelop.wineDevelop;
+
+
+    // 타입이 같은 와인 중에서 각 와인의 expertRating의 평균을 계산
+    return queryFactory
+        .select(qWine)
+        .from(qWine)
+        .join(qWine.wineDevelops, qWineDevelop) // WineDevelop과 조인
+        .groupBy(qWine.id) // 와인 ID로 그룹화
+        .orderBy(qWineDevelop.expertRating.avg().desc()) // 평균 expertRating으로 내림차순 정렬
+        .limit(3)
+        .fetch(); // 가장 첫 번째 결과(가장 높은 평균 expertRating)를 가져옴
+
+  }
+
+  @Override
+  public List<Wine> findRecommendedCellarWines() {
+    QWine wine = QWine.wine;
+    QCellarWine cellarWine = QCellarWine.cellarWine;
+
+    return queryFactory
+        .select(wine)
+        .from(wine)
+        .join(wine.cellarWines, cellarWine)
+        .groupBy(wine.id)
+        .orderBy(cellarWine.wine.wineName.count().desc())
+        .limit(3)
+        .fetch();
+  }
+
+  @Override
+  public List<Wine> findRecommendedDescWines() {
+    QWine wine = QWine.wine;
+
+    return queryFactory
+        .select(wine)
+        .from(wine)
+        .orderBy(wine.regTime.desc())
+        .limit(3)
+        .fetch();
   }
 
 

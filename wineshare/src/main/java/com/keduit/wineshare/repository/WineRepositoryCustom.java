@@ -6,11 +6,16 @@ import com.keduit.wineshare.entity.Wine;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface WineRepositoryCustom {
   Page<WineDTO> getWinePage(WineSearchDTO wineSearchDTO, Pageable pageable);
   Wine findSameTypeMostRating(Wine wine);
   Wine findSameCountryMostRating(Wine wine);
   Wine findMostFrequentAromaOneWine(Wine wine);
   Wine findMostFrequentFoodOneWine(Wine wine);
+  List<Wine> findRecommendedRatingWines();
+  List<Wine> findRecommendedCellarWines();
+  List<Wine> findRecommendedDescWines();
 }
 

@@ -290,7 +290,7 @@
                                 <div class="product-content product-fourcolumn clearfix">
 
                                     <ul class="product style2 isotope-product clearfix" id="wineListContainer" >
-                                        <li class="product-item features arrivals" th:each="wine, status : ${wines.getContent()}" >
+                                        <li class="product-item features arrivals" th:each="wine, status : ${wines}" >
                                             <div class="product-thumb clearfix">
                                                 <a th:href="@{'/wines/wine/' + ${wine.id}}" class="product-thumb">
                                                     <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' ||
@@ -315,7 +315,6 @@
                                                         <i class="fa fa-heart" aria-hidden="true" th:classappend="${isInCellarList[status.index]} ? 'active' : ''"></i>
                                                     </a>
                                                 </div>
-
                                             </div>
                                         </li> <!-- /product-item -->
                                     </ul>
