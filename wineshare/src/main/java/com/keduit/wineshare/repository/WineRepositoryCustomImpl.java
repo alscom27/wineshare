@@ -47,6 +47,11 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
     return QWineDevelop.wineDevelop.expertRating.avg();
   }
 
+  // 인기순
+  private NumberExpression<Long> cellarCount() {
+    return QCellarWine.cellarWine.wine.id.count();
+  }
+
   // 정렬...
   private OrderSpecifier<?> sortBy(String sortBy) {
     if (sortBy == null) {
@@ -61,6 +66,8 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
     } else if (StringUtils.equals("ratingDesc", sortBy)) {
       // 평균 별점 내림차순
       return averageRating().desc();
+    } else if (StringUtils.equals("cellarDesc", sortBy)) {
+      return cellarCount().desc();
     } else {
       return QWine.wine.regTime.desc(); // 기본정렬(최신순)
     }
@@ -84,6 +91,7 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
   public Page<WineDTO> getWinePage(WineSearchDTO wineSearchDTO, Pageable pageable) {
     QWine wine = QWine.wine;
     QWineDevelop wineDevelop = QWineDevelop.wineDevelop;
+    QCellarWine cellarWine = QCellarWine.cellarWine;
 
     List<WineDTO> result = queryFactory
         .select(
@@ -101,11 +109,12 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         )
         .from(wine)
         .leftJoin(wine.wineDevelops, wineDevelop)
+        .leftJoin(wine.cellarWines, cellarWine) // 셀러와의 조인 추가
         .where(searchWineTypeEq(wineSearchDTO.getSearchWineType()))
         .where(searchTypeLike(wineSearchDTO.getSearchType(), wineSearchDTO.getSearchQuery()))
         .where(priceBetween(wineSearchDTO.getMinPrice(), wineSearchDTO.getMaxPrice()))
-        .groupBy(wine.id)
-        .orderBy(sortBy(wineSearchDTO.getSortBy()))
+        .groupBy(wine.id) // 그룹화
+        .orderBy(cellarCount().desc(), sortBy(wineSearchDTO.getSortBy())) // 셀러 카운트로 정렬
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
         .fetch();

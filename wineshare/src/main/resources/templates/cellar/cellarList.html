@@ -23,6 +23,19 @@
       height: 150px;
       width: auto;
     }
+    .blog-pagination {
+      margin: 50px auto;
+    }
+    .delete-box {
+      position: relative;
+      font-size: 2em;
+    }
+    .delete-box span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
   </style>
 </th:block>
 
@@ -87,10 +100,8 @@
                         </td>
                         <td class="list text">${cellarWine.wineName}</td>
                         <td class="text-center list price">${cellarWine.wineType}</td>
-                        <td class="text-center delete">
-                            <button class="close" type="button" aria-label="Close">
+                        <td class="text-center delete-box">
                                 <span aria-hidden="true" data-id="${cellarWine.cellarWineId}" onclick="deleteCellarWine(this)">×</span>
-                            </button>
                         </td>
                     </tr>
                 `).join('')}

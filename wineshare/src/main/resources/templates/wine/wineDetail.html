@@ -62,11 +62,21 @@
     .review-content {
       margin: 20px auto;
     }
-    .comment-actions {
-      margin-top: 10px;
+    .comment-actions, .modify-actions {
+      margin-top: 5px;
+      margin-left: -5px;
+    }
+    .comment-actions button,
+    .modify-actions button {
+      font-size: 0.9em;
+      color: #aaa;
     }
     .display-none {
       display: none;
+    }
+    .similar-wine-inner-text {
+      color: #aaa;
+      font-size: 0.8em;
     }
 
   </style>
@@ -573,8 +583,9 @@
                         <div class="my-rating modify-developRatingInput">${ratingStars}</div>
                         ${hiddenInput}
                         <textarea id="modify-comment-${developId}" required>${currentText}</textarea>
+                        <div class="modify-actions">
                        <button onclick="saveModifyDevelop(${developId})">저장</button>
-                        <button onclick="getWineDevelopList(${wineId}, ${page - 1})">취소</button>`;
+                        <button onclick="getWineDevelopList(${wineId}, ${page - 1})">취소</button></div>`;
 
       currentDiv.html(modifyInput); // 현재 리뷰를 수정 입력 필드로 변경
       const btns = document.querySelectorAll('#wineDevelopListContainer .comment-actions');
@@ -823,8 +834,9 @@
                         <div class="my-rating modify-reviewRatingInput">${ratingStars}</div>
                         ${hiddenInput}
                         <textarea id="modify-comment-${reviewId}" required>${currentText}</textarea>
+                        <div class="modify-actions">
                        <button onclick="saveModifyReview(${reviewId})">저장</button>
-                        <button onclick="getWineReviewList(${wineId}, ${page - 1})">취소</button>`;
+                        <button onclick="getWineReviewList(${wineId}, ${page - 1})">취소</button></div>`;
 
       currentDiv.html(modifyInput); // 현재 리뷰를 수정 입력 필드로 변경
       const btns = document.querySelectorAll('#wineReviewListContainer .comment-actions');
@@ -1013,7 +1025,7 @@
                        th:classappend="${isInCellar} ? 'active' : ''">
                     <i class="fa fa-heart" aria-hidden="true" th:classappend="${isInCellar} ? 'active' : ''"></i>
                   </div>
-                  <div class="wine-modify-delete-btn-box">
+                  <div class="wine-modify-delete-btn-box comment-actions">
                     <button class="modify-btn" id="modify-btn" th:onclick="'location.href=\'/wines/wine/get/' + ${wine.id} + '\''">수정</button>
                     <button class="delete-btn" id="delete-btn" th:onclick="'javascript:deleteWine('+ ${wine.id} +')'">삭제</button>
                   </div>
@@ -1162,8 +1174,11 @@
                     <span class="product-title" th:text="${similarWine.wineName}">와인이름</span>
                   </div>
                   <div class="product-review">
-                    <div class="add-cart heart" th:if="${status.index == 0}">
-                      어울리는음식
+                    <div class="add-cart heart">
+                      <span class="similar-wine-inner-text" th:if="${status.index == 0}">같은 종류의 와인</span>
+                      <span class="similar-wine-inner-text" th:if="${status.index == 1}">아로마가 비슷한 와인</span>
+                      <span class="similar-wine-inner-text" th:if="${status.index == 2}">어울리는 음식이 비슷한 와인</span>
+                      <span class="similar-wine-inner-text" th:if="${status.index == 3}">같은 생산국의 와인</span>
                     </div>
                   </div>
                 </li> <!-- /product-item -->
