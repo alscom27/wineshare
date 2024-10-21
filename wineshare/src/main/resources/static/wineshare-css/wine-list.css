@@ -1,29 +1,29 @@
-.widget.widget-filter .price_slider {
-    float: left;
-    width: 300px;
-    top: 13px;
-}
 
+/* 필터영역 */
 .widget.widget-filter{
-    width:70%;
+    width:80%;
     padding: 15px;
     margin: 30px auto;
     height: 150px;
     border: 1px solid #e5e5e5;
     position:relative;
 }
+
+/* 프라이스레인지 글씨 */
 .widget.widget-filter h2{
     position:absolute;
     padding: 0 15px;
     top:20px;
-    left:43%;
+    left:50%;
+    transform: translateX(-50%);
     font-size: 24px;
 }
 
-
+/* 레인지바 */
 .widget.widget-filter .ui-slider-horizontal {
-    margin-left:36%;
     margin-top: 60px;
+    left:50%;
+    transform: translateX(-50%);
     width: 30%;
     height: 2px;
     background-color: #e1e1e1;
@@ -112,59 +112,51 @@
     color: #fff;
 }
 
-.type-filter{
-    position:absolute;
-    top:30px;
-    left:50px;
-    width:13%;
-    text-align:center;
-}
-.type-filter h5{
-    padding: 10px;
-}
 
 
-.widget-filter span.filter {
-    float: left;
-    display: inline-block;
-    margin-top: 20px;
-}
-
-.widget-filter span.filter a {
-    padding: 0 25px;
-    color: #c02323;
-    border: 1px solid #c02323;
-    font-family: Marcellus;
-    font-size: 14px;
-    line-height: 36px;
-    position: absolute;
-    right: 35px;
-    bottom: 10px;
-
-}
-
-.widget-filter span.filter a:hover {
-    color: #fff;
-}
-
+/* 가격 변화하는 글씨 */
 .widget-filter p.amount {
     position: absolute;
-    left: 45%;
+    left: 50%;
+    transform: translateX(-50%);
     margin-top: 30px;
 }
 
-.filter-shop .sort-filter{
-    position: absolute;
-    top:-50px;
-    right: 4%;
-    width:13%;
-    text-align:center;
-
-}
-
-.sort-filter h5{
+.widget-filter h5 {
     padding: 10px;
+    text-align: center;
 }
+.widget-filter .input-box{
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
+    width:12%;
+}
+.sort-filter {
+    left: 19%;
+}
+.type-filter {
+    left: 5%;
+}
+.search-box {
+    right: 5%;
+}
+.search-filter {
+    right: 19%;
+}
+.search-icon {
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
+    right: 1%;
+    width: 3%;
+}
+.search-icon i {
+    font-size: 16px;
+}
+
+
+
 
 .wine_image {
     width: auto;

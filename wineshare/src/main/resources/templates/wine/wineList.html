@@ -48,6 +48,8 @@
             // th:field 는 value, name, id 를 모두 대체함 id(#)으로 호출 가능
             const searchWineType = $('#searchWineType').val();
             const sortBy = $('#sortBy').val();
+            const searchType = $('#searchType').val();
+            const searchQuery = $('#searchQuery').val();
             // 슬라이더에서 설정된 가격범위
             const minPrice = $("#slide-range").slider("values", 0); // 슬라이더의 최소값
             const maxPrice = $("#slide-range").slider("values", 1); // 슬라이더의 최대값
@@ -59,7 +61,9 @@
                     minPrice: minPrice,
                     maxPrice: maxPrice,
                     searchWineType: searchWineType,
-                    sortBy: sortBy
+                    sortBy: sortBy,
+                    searchType: searchType,
+                    searchQuery: searchQuery
                 },
                 success: function (response) {
                     const wineListContainer = $('#wineListContainer');
@@ -219,7 +223,7 @@
             <!-- 필터 레인지 바 -->
             <div class="sidebar-inner clearfix">
                 <div class="widget widget-filter">
-                    <div class="type-filter">
+                    <div class="type-filter input-box">
                         <h5>Type</h5>
                         <select th:field="*{searchWineType}" >
                             <option value="">ALL</option>
@@ -231,33 +235,42 @@
                             <option value="PORT">PORT</option>
                         </select>
                     </div>
+                    <!-- 정렬용 셀렉트바 -->
+                    <div class="sort-filter input-box">
+                        <h5>정렬기준</h5>
+                        <select th:field="*{sortBy}" >
+                            <option value="">최신 등록 순</option>
+                            <option value="priceDesc">가격 높은 순</option>
+                            <option value="priceAsc">가격 낮은 순</option>
+                            <option value="ratingDesc">평점 높은 순</option>
+                            <option value="ratingAsc">평점 낮은 순</option>
+                        </select>
+                    </div>
                     <div class="text-title">
                         <h2 class="widget-title text-center">Price Range</h2>
                     </div>
                     <div class="price-filter clearfix">
                         <div id="slide-range"></div>
-<!--                        <span class="filter"><a class="hvr-shutter-out-horizontal" th:onclick=" 'javascript:page(0)'" >FILTER</a></span>-->
                         <p class="amount">
                             Price: <span id="amount"></span>
                         </p>
                     </div>
-
                     <!-- 정렬용 셀렉트바 -->
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="filter-shop">
-                                <div class="sort-filter">
-                                    <h5>Sort by</h5>
-                                    <select th:field="*{sortBy}" style="width:auto;">
-                                        <option value="">최신 등록 순</option>
-                                        <option value="priceDesc">가격 높은 순</option>
-                                        <option value="priceAsc">가격 낮은 순</option>
-                                        <option value="ratingDesc">평점 높은 순</option>
-                                        <option value="ratingAsc">평점 낮은 순</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="search-filter input-box">
+                        <h5>검색기준</h5>
+                        <select th:field="*{searchType}" >
+                            <option value="">전체 검색</option>
+                            <option value="N">와인명 검색</option>
+                            <option value="C">생산국 검색</option>
+                        </select>
+                    </div>
+                    <div  class="input-box search-box">
+                        <h5>검색어</h5>
+                        <input type="text" th:field="*{searchQuery}" placeholder="search...">
+                    </div>
+                    <div class="search-icon">
+                        <h5> </h5>
+                        <i class="fa fa-search" aria-hidden="true" onclick="page(0)"></i>
                     </div>
 
                 </div>
@@ -267,17 +280,17 @@
 
 
 
-        <div class="main-shop-fullwidth-grid">
+        <div class="main-shop-fullwidth-grid" >
             <div class="container">
 
-                <section class="flat-products style3">
+                <section class="flat-products style3" style="margin:-50px auto 0 auto;">
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="product-content product-fourcolumn clearfix">
 
-                                    <ul class="product style2 isotope-product clearfix" id="wineListContainer">
-                                        <li class="product-item features arrivals" th:each="wine, status : ${wines.getContent()}">
+                                    <ul class="product style2 isotope-product clearfix" id="wineListContainer" >
+                                        <li class="product-item features arrivals" th:each="wine, status : ${wines.getContent()}" >
                                             <div class="product-thumb clearfix">
                                                 <a th:href="@{'/wines/wine/' + ${wine.id}}" class="product-thumb">
                                                     <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' ||
