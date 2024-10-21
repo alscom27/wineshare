@@ -21,6 +21,12 @@
     <script th:inline="javascript">
         $(document).ready(function () {
 
+            // 주민 번호 합치기
+            $('.form-group-rrn').on('input', function (){
+                let rrnFirst = $("#rrnFirst").val();
+                let rrnSecond = $("#rrnSecond").val();
+                $('#RRN').val(rrnFirst + '-' + rrnSecond);
+            })
 
             // 전화번호 합치기
             $('.phone-group input').on('input', function () {
@@ -43,37 +49,12 @@
                     window.location.href = `/members/withdraw`;
             });
 
-            // let memberId = $('#memberId').val();
-            //
-            // $('#passChangeBtn').on('click', function (e) {
-            //     e.preventDefault();
-            //
-            //     // 비밀번호 변경 페이지로 이동하는 GET 요청
-            //     $.ajax({
-            //         url: '/members/pass/modify', // 비밀번호 변경 GET 매핑 URL
-            //         type: 'GET',
-            //         data : {memberId : memberId},
-            //         success: function(response) {
-            //             // 응답이 성공적으로 오면 페이지 이동
-            //             window.location.href = response.redirectUrl; // 서버에서 리다이렉션 URL을 반환한다고 가정
-            //         },
-            //         error: function() {
-            //             alert('비밀번호 변경에 실패했습니다.');
-            //         }
-            //     });
-            // });
 
-        });
 
-        //     function maskSsn() {
-        //     const rrnSecondInput = document.getElementById("rrnSecond");
-        //     const inputLength = rrnSecondInput.value.length;
-        //
-        //     // 입력값을 *로 변환
-        //     if (inputLength > 0) {
-        //         rrnSecondInput.value = "*".repeat(inputLength);
-        //     }
-        // }
+        }); //ready
+
+
+
     </script>
 </th:block>
 
@@ -154,10 +135,14 @@
             </div>
 
             <!-- 주민등록번호 입력 -->
-            <div class="form-group" th:if="${memberDTO.id == null}">
+            <div class="form-group form-group-rrn" th:if="${memberDTO.id == null}">
 
                 <label th:for="RRN">주민등록번호</label>
-                <input type="text" th:field="*{RRN}" placeholder="000000-0000000">
+                <input type="text" id="rrnFirst" placeholder="000000" maxlength="6" required>
+                <spqn>-</spqn>
+                <input type="password" id="rrnSecond" placeholder="0000000" maxlength="7" required oninput="maskRrn()">
+
+                <input type="hidden" th:field="*{RRN}">
                 <p th:if="${#fields.hasErrors('RRN')}" th:errors="*{RRN}" class="fieldError">Incorrect data</p>
 
                 <!--                미안해 수림아 나중에 쓸게 -->

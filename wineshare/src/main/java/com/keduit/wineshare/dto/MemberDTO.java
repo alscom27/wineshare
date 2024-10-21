@@ -39,7 +39,7 @@ public class MemberDTO {
   private String phoneNumber;
 
   @NotBlank(message = "주민등록번호는 필수 입력입니다.")
-  @Pattern(regexp = "^(\\d{6})-(\\d{7})$", message = "주민등록번호는 123456-1234567 형식으로 입력해야 합니다.")
+  @Pattern(regexp = "^(\\d{6})-(\\d{7})$", message = "주민등록번호는 6자리-7자리 형식으로 입력해야 합니다.")
   // 이건 사용자편의상 스크립트로 하이픈을 붙여주던 하이픈 앞뒤로 입력받고 하이픈 붙여서 넘기는게 좋아보임
   private String RRN;
 

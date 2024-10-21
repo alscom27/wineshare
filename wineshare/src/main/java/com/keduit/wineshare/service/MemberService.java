@@ -77,6 +77,7 @@ public class MemberService implements UserDetailsService {
       throw new BadCredentialsException("사용자를 찾을 수 없습니다.");
     }
 
+    // 탈퇴 조건
     if(member.getWithdrawStatus() == WithdrawStatus.LEAVE){
       throw new BadCredentialsException("탈퇴한 회원입니다.");
     }
