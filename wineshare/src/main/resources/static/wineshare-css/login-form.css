@@ -22,6 +22,7 @@
     border: 1px solid #c02323;
     padding: 7px 35px;
     background: #c02323;
+    border-radius:5px;
 }
 
 .login-footer{
@@ -66,11 +67,12 @@
     border: 1px solid #e5e5e5;
     bottom: 10px;
     font-size: 14px;
-    color: #191919;
     padding: 7px 35px;
     position:absolute;
     right:17%;
     background: #e5e5e5;
+    color: #191919;
+    border-radius:5px;
 }
 
 
@@ -136,6 +138,7 @@ label{
         position:absolute;
         left:2%;
         background: #000000;
+        border-radius:5px;
 }
 
 .pass-btn{
@@ -147,6 +150,7 @@ label{
     position:absolute;
     right:2%;
     background: #E1B848;
+    border-radius:5px;
 }
 
 /* 비번 변경 및 회원 탈퇴 */
@@ -159,6 +163,7 @@ label{
     position: relative;
     border: 1px solid #e5e5e5;
     padding: 130px 20px;
+    border-radius:5px;
 }
 
 .modify-header{

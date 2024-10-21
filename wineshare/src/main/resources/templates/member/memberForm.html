@@ -131,7 +131,7 @@
 
                 <div th:unless="${memberDTO.id == null}">
                     <a th:href="@{'/members/pass/modify'}">
-                        <button type="button" id="passChangeBtn">비밀번호 변경 <- 버튼임</button>
+                        <button type="button" id="passChangeBtn" class="pass-btn">비밀번호 변경</button>
                     </a>
                 </div>
 
@@ -193,17 +193,17 @@
             <div th:if="${memberDTO.id == null}">
                 <!-- 등록 버튼 -->
                 <button th:formaction="@{'/members/new'}" type="submit" class="login-button">Register</button>
-                <button type="reset" class="btn">reset<-여기 css</button>
+                <button type="reset" class="login-reset">reset</button>
 
             </div>
 
             <div th:unless="${memberDTO.id == null}">
                 <input type="hidden" id="memberId" th:field="*{id}">
                 <button th:formaction="@{'/members/modify'}" type="submit" class="login-button">Modify</button>
-                <button type="reset" class="btn">reset</button>
+                <button type="reset" class="login-reset">reset</button>
 
 <!--                '/members/withdraw'-->
-                <button id="withdrawBtn" class="">회원탈퇴</button>
+                <button id="withdrawBtn" class="mem-out">회원탈퇴</button>
             </div>
 
 

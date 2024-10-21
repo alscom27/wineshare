@@ -5,65 +5,7 @@
 
 <!-- register css Fiels -->
 <th:block layout:fragment="css">
-    <style>
-        .list-form-container{
-            margin-bottom:4%;
-        }
-
-        th, td{
-           border: 1px solid #e5e5e5;
-           padding:10px;
-        }
-        th{
-            text-align:center;
-            background-color: #e5e5e5;
-            color: #000000;
-        }
-        .data-table{
-            width:80%;
-            margin: 0 auto;
-            margin-top:3%;
-            margin-bottom:5%;
-            border: 1px solid #e5e5e5;
-        }
-
-        .data-title{
-            margin-top:3%;
-            margin-left:10%;
-            margin-bottom:3%;
-            }
-
-        input[type="text"]{
-            width:100%;
-            height:45px;
-            }
-
-        .data-all{
-            width:80%;
-            margin: 0 auto;
-
-        }
-        .data-search{
-            width: 40%;
-            gap: 10px;
-            display:flex;
-            justify-content: flex-end;
-        }
-
-        .data-btn{
-            font-size:10px;
-            color:#FFFFFF;
-            border-radius:5px;
-        }
-        .disabled {
-            pointer-events: none; /* 클릭 이벤트 방지 */
-            opacity: 0.1; /* 비활성화된 효과 */
-        }
-
-        .page-active {
-            background-color: #c02323 !important;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/admin-dataList.css}">
 </th:block>
 
 
@@ -353,7 +295,7 @@
                         <option value="C">생산국가</option>
                         <option value="W">작성자</option>
                     </select>
-                    <input type="text" name="searchQuery" class="form-control" placeholder="검색어를 입력하세요.">
+                    <input type="text" name="searchQuery" class="form-control" placeholder="Search...">
                 </th:block>
 
                 <!-- 게시판 -->
@@ -372,7 +314,7 @@
                         <option value="C">내용</option>
                         <option value="W">작성자</option>
                     </select>
-                    <input type="text" name="searchQuery" class="form-control" placeholder="검색어를 입력하세요.">
+                    <input type="text" name="searchQuery" class="form-control" placeholder="Search...">
                 </th:block>
 
                 <!-- 멤버 -->
@@ -395,7 +337,7 @@
                         <option value="E">이메일</option>
                         <option value="K">닉네임</option>
                     </select>
-                    <input type="text" name="searchQuery" class="form-control" placeholder="검색어를 입력하세요.">
+                    <input type="text" name="searchQuery" class="form-control" placeholder="Search...">
                 </th:block>
 
                 <!-- 마케팅 -->
@@ -420,7 +362,7 @@
                         <option value="N">등록자</option>
                     </select>
 
-                    <input type="text" name="searchQuery" class="form-control" placeholder="검색어를 입력하세요.">
+                    <input type="text" name="searchQuery" class="form-control" placeholder="Search...">
                 </th:block>
 
                 <button type="submit" id="searchIcon" class="data-btn" style="background-color: #c02323; height: 45px;" >
@@ -441,7 +383,9 @@
         </div>
 
     </form>
-       <p style="text-align: center;"><a th:href="@{'/admins/dataChoiList'}">관리자 대시보드 돌아가기</a></p>
+           <div class="back-admin">
+               <p style="text-align: center;"><a th:href="@{'/admins/dataChoiList'}">관리자 대시보드 돌아가기</a></p>
+           </div>
    </div>
 </div>
 
