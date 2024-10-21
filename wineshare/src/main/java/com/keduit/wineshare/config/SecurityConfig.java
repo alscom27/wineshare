@@ -18,7 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
   @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) throws Exception{
+  public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) throws Exception {
     System.out.println("================ SecurityFilterChain =================");
     http.formLogin()
         .loginPage("/members/login")  //로그인 페이지
@@ -43,8 +43,8 @@ public class SecurityConfig {
             "/icon/**",
             "/image/**",
             "/javascript/**",
-            "/rev-slider/**","/rev-slider/assets/**","/rev-slider/css/**","/rev-slider/fonts/**","/rev-slider/js/**",
-            "/stylesheets/**","/stylesheets/colors/**","/stylesheets/font/**",
+            "/rev-slider/**", "/rev-slider/assets/**", "/rev-slider/css/**", "/rev-slider/fonts/**", "/rev-slider/js/**",
+            "/stylesheets/**", "/stylesheets/colors/**", "/stylesheets/font/**",
             "/wineshare-css/**", "/wineshare-js/**", "/wineshare-img/**").permitAll()
         .mvcMatchers("/admin/**").hasRole("ADMIN")
         .mvcMatchers("/expert/**").hasRole("EXPERT")
@@ -59,19 +59,19 @@ public class SecurityConfig {
   }
 
   @Bean
-  public PasswordEncoder passwordEncoder(){
+  public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
   // /resources/static 폴더의 하위 파일은 인증에서 제외 시킴
   @Bean
-  public WebSecurityCustomizer webSecurityCustomizer(){
+  public WebSecurityCustomizer webSecurityCustomizer() {
     return (web) -> web.ignoring()
         .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
   }
 
   @Bean
-  public AuthenticationSuccessHandler authenticationSuccessHandler(){
+  public AuthenticationSuccessHandler authenticationSuccessHandler() {
     return null;
   }
 

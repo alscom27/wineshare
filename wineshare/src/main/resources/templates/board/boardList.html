@@ -22,6 +22,8 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $(document).ready(function (){
+
+
             $('#searchIcon').on("click", function (e){
                 e.preventDefault();
                 page(0);
@@ -95,7 +97,6 @@
 
 
 <div layout:fragment="content" class="content">
-
     <!-- 각 페이지 상단에 경로 나타내주는 부분.. -->
     <div class="page-title parallax parallax1">
         <div class="container">
@@ -182,7 +183,7 @@
                             th:href="'/boards/' + ${#strings.toLowerCase(board.getBoardStatus())} + '/get/' + ${board.getId()}"
                             th:text="${board.boardTitle}"></a></div>
                     <div class="writer" th:text="${board.getWriterNickname()}"></div>
-                    <div th:if="${isExpert}">(전문가)</div>
+                    <div th:if="${isExpertMap[board.writerNickname]}">(전문가)</div>
                     <div class="date" th:text="${#temporals.format(board.regTime, 'yy-MM-dd')}"></div>
                     <!--                <div class="count" th:text=""></div>-->
                 </div>

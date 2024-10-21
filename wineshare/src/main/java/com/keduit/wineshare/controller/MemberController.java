@@ -62,8 +62,7 @@ public class MemberController {
       model.addAttribute("errorMessage", e.getMessage());
       return "member/memberForm";
     }
-    return "redirect:/";  // 메인
-
+    return "member/memberLoginForm";  // 로그인창으로
   }
 
   @GetMapping("/login")

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout1}">
 
 <!-- 사용자 css -->
@@ -85,16 +86,16 @@
         <!-- 타임리프를 사용한 와인 등록 폼 -->
         <form role="form" method="post" class="marketingForm" th:object="${marketingDTO}" enctype="multipart/form-data">
 
-            <!-- 와인 이름 입력 -->
+            <!-- 업장명 입력 -->
             <div class="form-group">
                 <label th:for="marketingTitle">업장명</label>
                 <input th:field="*{marketingTitle}" type="text" placeholder="업장명을 입력해주세요." required/>
             </div>
 
-            <!-- 생산 국가 입력 -->
+            <!-- 업장소개 입력 -->
             <div class="form-group">
                 <label th:for="marketingContent">업장 소개</label>
-                <textarea class="form-control" th:field="*{marketingContent}" placeholder="업장 소개를 입력해주세요." required>
+                <textarea class="form-control" th:field="*{marketingContent}" placeholder="업장 소개를 입력해주세요." required style="resize: none">
                 </textarea>
 
             </div>
@@ -142,7 +143,7 @@
                 <select th:field="*{eventOrNot}" id="eventOrNotSelect">
                     <option value="END" selected>End</option>
                     <option value="PROMOTION">Promotion</option>
-                    <option value="EVENT">Event</option>
+                    <option value="EVENT" sec:authorize="hasRole('ADMIN')">Event</option>
                 </select>
             </div>
 
@@ -153,7 +154,7 @@
             <!-- 행사상태가 1이면 활성화 (행사내용 입력) -->
             <div class="form-group" id="eventContentGroup">
                 <label th:for="eventContent">행사 내용</label>
-                <textarea class="form-control" th:field="*{eventContent}" placeholder="행사내용을 입력해주세요.">
+                <textarea class="form-control" th:field="*{eventContent}" placeholder="행사내용을 입력해주세요." style="resize: none">
                 </textarea>
             </div>
 

@@ -46,7 +46,6 @@ public class BoardController {
   private final ImgFileService imgFileService;
 
 
-  // 기본 0페이지도 주소 추가하기 하.. 할거 존나많네 주석보면서 이런말 보이면 지워야됨
   @GetMapping({"/{boardStatus}/list/{page}", "/{boardStatus}/list"})
   public String getBoardListByStatus(@PathVariable("boardStatus")BoardStatus boardStatus,
                                      @PathVariable("page") Optional<Integer> page,
@@ -71,6 +70,10 @@ public class BoardController {
     Map<String, String> emailToNicknameMap = members.stream()
         .collect(Collectors.toMap(Member::getEmail, Member::getNickname));
 
+    // 추가 멤버 타입이 전문가인지
+    Map<String, Boolean> emailToExpertMap = members.stream()
+        .collect(Collectors.toMap(Member::getEmail, member -> member.getMemberType() == MemberType.EXPERT));
+
     // 닉네임을 추가할 DTO 리스트 생성
     List<BoardDTO> boardDTOs = boards.stream().map(board -> {
       BoardDTO boardDTO = new BoardDTO();
@@ -78,7 +81,6 @@ public class BoardController {
       boardDTO.setId(board.getId());
       boardDTO.setBoardTitle(board.getBoardTitle());
       boardDTO.setBoardContent(board.getBoardContent());
-//      boardDTO.setWriterNickname(board.getRegBy());
       boardDTO.setRegTime(board.getRegTime());
       boardDTO.setBoardStatus(board.getBoardStatus());
       // 닉네임 설정
@@ -89,13 +91,13 @@ public class BoardController {
     // 어드민인지(로그인 한 사람이)
     boolean isAdmin = principal instanceof KafkaProperties.Admin;
 
-    // 게시글의 작성자가 전문가인지
-    boolean isExpert = members.stream().anyMatch(member -> member.getMemberType() == MemberType.EXPERT);
+//    // 게시글의 작성자가 전문가인지
+//    boolean isExpert = members.stream().anyMatch(member -> member.getMemberType() == MemberType.EXPERT);
 
 
-    // ㅋㅋㅋㅋ진짜 존나돌아갔다..이거보다 쉬운게 있을텐데
+    model.addAttribute("isExpertMap",emailToExpertMap);
     model.addAttribute("isAdmin", isAdmin);
-    model.addAttribute("isExpert", isExpert);
+//    model.addAttribute("isExpert", isExpert);
     model.addAttribute("boardDTOs", boardDTOs);
     model.addAttribute("boards", boards);
     model.addAttribute("boardStatus", boardStatus);
@@ -177,7 +179,7 @@ public class BoardController {
 
 
     boardService.saveBoard(boardDTO);
-    return "redirect:/boards/" + boardStatus + "/list/0";
+    return "redirect:/boards/" + boardStatus + "/list";
   }
 
   // 상세보기
@@ -207,7 +209,7 @@ public class BoardController {
     // 작성자와 비교하여 동일한지 확인
     boolean isAuthor = member.getEmail().equals(currentUserEmail);
 
-    // 게시글의 작성자가 현재 유저인지 회원인지
+    // 게시글의 작성자가 현재 유저인지 회원인지 다시확인해보자
     boolean isRegural = member.getMemberType().equals(MemberType.REGULAR);
 
     Member curruntMember = memberRepository.findByEmail(principal.getName());

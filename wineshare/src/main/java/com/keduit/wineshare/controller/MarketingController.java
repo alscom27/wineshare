@@ -1,7 +1,9 @@
 package com.keduit.wineshare.controller;
 
+import com.keduit.wineshare.constant.BoardStatus;
 import com.keduit.wineshare.constant.EventOrNot;
 import com.keduit.wineshare.constant.MarketCategory;
+import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.dto.MarketingDTO;
 import com.keduit.wineshare.dto.MarketingSearchDTO;
 import com.keduit.wineshare.entity.Marketing;
@@ -48,74 +50,6 @@ public class MarketingController {
                                            MarketingSearchDTO marketingSearchDTO,
                                            Model model) {
 
-    // 똑똑이
-//    Pageable pageable = PageRequest.of(page.orElse(0), 5);
-//
-//    Page<Marketing> marketingconfig = marketingService.getMarketingPage(marketingSearchDTO, pageable);
-//    System.out.println(marketingconfig);
-//    if(marketingconfig.isEmpty()){
-//      model.addAttribute("marketingSearchDTO", marketingSearchDTO);
-//      model.addAttribute("marketCategory", marketCategory);
-//      model.addAttribute("marketingDTOs", new ArrayList<>());
-//      model.addAttribute("marketings", marketingconfig);
-//      model.addAttribute("maxPage", 5);
-//      return "marketing/marketingList";
-//    }
-//
-//
-//    Page<Marketing>  marketingPage = marketingService.getMarketingPageByMarketCategory(marketingSearchDTO, marketCategory, pageable);
-//
-//    System.out.println("Marketing DTOs Size: " + marketingPage.getSize());
-//
-//    // 닉네임 세팅
-//    List<String> emails = marketingPage.stream()
-//            .map(Marketing::getRegBy)
-//                .collect(Collectors.toList());
-//
-//    if(emails.isEmpty()){
-//      return "redirect:/marketings/"+ marketCategory +"/list";
-//    }
-//
-//    List<Member> members = memberRepository.findByEmailIn(emails);
-//
-//    Map<String, String> emailToNicknameMap = members.stream()
-//            .collect(Collectors.toMap(Member::getEmail, Member::getNickname));
-//
-//    List<MarketingDTO> marketingDTOs = marketingPage.stream().map(marketing -> {
-//      MarketingDTO marketingDTO = new MarketingDTO();
-//
-//      marketingDTO.setId(marketing.getId());
-//      marketingDTO.setMarketingTitle(marketing.getMarketingTitle());
-//      marketingDTO.setMarketingContent(marketing.getMarketingContent());
-//      marketingDTO.setRegTime(marketing.getRegTime());
-//      marketingDTO.setMarketLink(marketing.getMarketLink());
-//      marketingDTO.setMarketCategory(marketing.getMarketCategory());
-//      marketingDTO.setOwnerNickname(emailToNicknameMap.get(marketing.getRegBy()));
-//      marketingDTO.setMarketOriImgName(marketing.getMarketOriImgName());
-//      marketingDTO.setMarketImgName(marketing.getMarketImgName());
-//      marketingDTO.setMarketImgUrl(marketing.getMarketImgUrl());
-//
-//      if(StringUtils.equalsIgnoreCase(marketing.getEventOrNot(), "on")){
-//        marketingDTO.setEventOrNot(EventOrNot.ON);
-//        marketingDTO.setEventContent(marketing.getEventContent());
-//        // end 나중에 off로 바꾸기
-//      }else if(StringUtils.equalsIgnoreCase(marketing.getEventOrNot(), "end")){
-//        marketingDTO.setEventOrNot(EventOrNot.END);
-//        marketingDTO.setEventContent("행사 준비중");
-//      }
-//      return marketingDTO;
-//    }).collect(Collectors.toList());
-//
-//
-//    model.addAttribute("marketingDTOs", marketingDTOs);
-//    model.addAttribute("marketings", marketingPage);
-//    model.addAttribute("marketCategory", marketCategory);
-//    model.addAttribute("marketingSearchDTO", marketingSearchDTO);
-//    model.addAttribute("maxPage", 5);
-//    return "marketing/marketingList";
-//
-//
-//
 
     Pageable pageable = PageRequest.of(page.orElse(0), 6);
 
@@ -157,21 +91,22 @@ public class MarketingController {
   }
 
   // 업장별 등록으로 보내기
-  @GetMapping({"/{marketCategory}/new", "/{marketCategory}/new/{marketId}"})
+  @GetMapping({"/{marketCategory}/new"})
   public String marketingForm(@PathVariable("marketCategory") MarketCategory marketCategory,
-                              @PathVariable(value = "marketId", required = false) Long marketingId,
+                              Principal principal,
                               Model model) {
-    MarketingDTO marketingDTO;
-    if(marketingId != null) {
-      Marketing marketing = marketingRepository.findById(marketingId).orElseThrow(EntityNotFoundException::new);
-      marketingDTO = MarketingDTO.of(marketing);
-    } else {
-      marketingDTO = new MarketingDTO();
+
+    if(principal == null) {
+      return "member/memberLoginForm";
     }
 
-    marketingDTO.setMarketCategory(marketCategory);
+    Member member = memberRepository.findByEmail(principal.getName());
+    if(member.getMemberType() == MemberType.REGULAR){
+      model.addAttribute("boardStatus", BoardStatus.UPGRADE);
+      return "redirect:/boards/" + String.valueOf(BoardStatus.UPGRADE).toLowerCase() + "/list";
+    }
 
-    model.addAttribute("marketingDTO", marketingDTO);
+    model.addAttribute("marketingDTO", new MarketingDTO());
     model.addAttribute("marketCategory", marketCategory);
     return "marketing/marketingForm";
   }

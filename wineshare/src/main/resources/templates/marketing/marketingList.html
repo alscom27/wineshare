@@ -1,51 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout1}">
 
 <!-- css -->
 <th:block layout:fragment="css">
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/marketing-list.css}">
+    <style>
+        .disabled{
+            pointer-events: none;
+            opacity: 0.1;
+        }
+        .page-active{
+            background-color: #c02323 !important;
+        }
+    </style>
 </th:block>
 
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
       $(document).ready(function () {
-        // 검색 버튼 클릭 시 AJAX 요청
-        $('#searchBtn').on('click', function (event) {
-          event.preventDefault(); // 기본 폼 제출 방지
 
-          const searchType = $('#searchType').val();
-          const searchQuery = $('#searchQuery').val();
-          const marketCategory = $('#hidden-marketCategory').val().toLowerCase();
-
-          // AJAX GET 요청
-          $.ajax({
-            url: `/marketings/${marketCategory}/list/`,
-            type: 'GET',
-            data: {searchType: searchType, searchQuery: searchQuery},
-            success: function (response) {
-              // 검색 결과를 처리 (페이지 업데이트)
-              $('.marketing_list_wrap').html(response);
-            },
-            error: function (xhr, status, error) {
-              alert('검색 중 오류가 발생했습니다: ' + error);
-            }
+          $('#searchIcon').on('click', function (e){
+              e.preventDefault();
+              page(0);
           });
-        });
 
-        // 등록 버튼 클릭 시 등록 페이지로 이동
-        $('#regBtn').on('click', function (e) {
-          e.preventDefault();
-          const marketCategory = $('#hidden-marketCategory').val();
-          if (marketCategory) {
-            window.location.href = `/marketings/${marketCategory.toLowerCase()}/new`;
-          } else {
-            alert('게시판 상태를 확인할 수 없습니다.');
-          }
-        });
-      });
+          const marketCategory = $('#marketCategory').data('market-category');
+          // const token = $("meta[name='_csrf']").attr("content");
+          // const header = $("meta[name='_csrf_header']").attr("content");
+
+
+          // 등록 버튼 클릭 시 등록 페이지로 이동
+          $('#regBtn').on('click', function (e) {
+              e.preventDefault();
+              if (marketCategory) {
+                  window.location.href = `/marketings/${marketCategory.toLowerCase()}/new`;
+              } else {
+                  alert('게시판 상태를 확인할 수 없습니다.');
+              }
+          });
+
+
+      }); //ready
     </script>
 </th:block>
 
@@ -87,7 +86,7 @@
                 <div class="data-all">
                     <div class="data-search">
                         <!--                <input type="hidden" th:field="*{searchType}" value="T">-->
-                        <input type="hidden" th:value="${marketCategory}" id="hidden-marketCategory">
+                        <input type="hidden" id="marketCategory" th:data-market-category="${marketCategory}">
                         <input type="text" class="form-control" th:field="*{searchQuery}" placeholder="Search...">
                         <button type="submit" id="searchIcon" class="data-btn" style="background-color: #E1B848; height: 25px;" >
                             enter
@@ -96,7 +95,7 @@
                 </div>
 
              <div th:if="${marketCategory} != null">
-            <button type="button" id="regBtn" class="market-reg" style="background-color: #c02323; color:#FFFFFF" >등록하기</button>
+            <button type="button" id="regBtn" class="market-reg" style="background-color: #c02323; color:#FFFFFF" sec:authorize="hasRole('EXPERT') or hasRole('ADMIN')">등록하기</button>
              </div>
 
             </form>
