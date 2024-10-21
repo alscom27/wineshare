@@ -7,19 +7,34 @@
     <style>
         .main-wine-img {
             height: 150px;
-            width: auto;
-            position: relative;
+            position: absolute;
             left: 50%;
-            transform: translateX(-50%);
+            translate: -50%;
         }
 
         .featured-post {
             width: 200px;
             height: 200px;
+            position: relative;
+            border: 0 !important;
         }
 
         .post-border {
             height: 200px;
+        }
+
+        .content-post {
+            padding: 20px 20px 0 0 !important;
+        }
+        .flat-next a{
+            position: relative;
+            z-index: 999;
+        }
+        .flat-latest .latest-title h3 {
+            z-index: 1;
+        }
+        .flat-latest .latest-title h3 a {
+            pointer-events: none;
         }
     </style>
 </th:block>
@@ -220,13 +235,13 @@
                                 <h3><a>별점순</a></h3>
                             </div>
                             <div class="flat-next">
-                                <a th:href="@{'/wines/list'}">
+                                <a th:href="@{'/wines/list?sortBy=ratingDesc'}" style="display: inline-block;">
                                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                 </a>
                             </div>
                             <article class="post-border" th:each="wine, status : ${recommendedRatingWines}">
                                 <div class="featured-post">
-                                    <a th:href="@{'/wines/wine/' + ${wine.id}}">
+                                    <a th:href="@{'/wines/wine/' + ${wine.id}}" class="main-img-div">
                                         <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' ||
                                                     wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ||
                                                     wine.wineImg == 'https://images.vivino.com/highlights/icon/top_ranked.svg'
@@ -262,7 +277,7 @@
                                 <h3><a>인기순</a></h3>
                             </div>
                             <div class="flat-next">
-                                <a>
+                                <a th:href="@{'/wines/list?sortBy=cellarDesc'}" style="display: inline-block;">
                                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                 </a>
                             </div>
@@ -304,7 +319,7 @@
                                 <h3><a>최신순</a></h3>
                             </div>
                             <div class="flat-next">
-                                <a>
+                                <a th:href="@{'/wines/list'}" style="display: inline-block;">
                                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                 </a>
                             </div>

@@ -228,7 +228,7 @@ public class ImgFileService {
           .orElseThrow(() -> new EntityNotFoundException("와인을 찾을 수 없습니다."));
 
       // 기존 이미지 파일 삭제 ?? 왜안되지
-      String existingImagePath = wineImgLocation + "/" + wine.getWineImg();
+      String existingImagePath = wineImgLocation + wine.getWineImg().replace("/images/wines/", "");
       fileService.deleteFile(existingImagePath);
       log.info("기존 이미지 삭제: " + existingImagePath);
     }

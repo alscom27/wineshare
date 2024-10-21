@@ -36,34 +36,25 @@
 .taste-like{
     display: flex;
    flex-direction: row; /* 가로 방향으로 정렬 */
-    justify-content: space-between; /* 각 항목 간의 간격을 균등하게 분배 */
+    justify-content: space-evenly; /* 각 항목 간의 간격을 균등하게 분배 */
     align-items: flex-start; /* 세로 정렬을 상단에 맞춤 */
-}
-
-.taste-like h3{
     text-align:center;
 }
 
 
-
 .taste-category {
-    width:10%;
-  margin-right: 50px; /* 각 항목 간의 간격 추가 */
+    width:15%;
 }
 
 .wheel-category{
     width:15%;
-    margin-right: 30px; /* 각 항목 간의 간격 추가 */
 }
 
 .aroma-food{
      display: flex;
      flex-direction: row; /* 가로 방향으로 정렬 */
-     justify-content: space-between; /* 각 항목 간의 간격을 균등하게 분배 */
+     justify-content: space-evenly; /* 각 항목 간의 간격을 균등하게 분배 */
      align-items: flex-start; /* 세로 정렬을 상단에 맞춤 */
-}
-
-.aroma-food{
     text-align:center;
 }
 
