@@ -140,7 +140,7 @@
                 <label th:for="RRN">주민등록번호</label>
                 <input type="text" id="rrnFirst" placeholder="000000" maxlength="6" required>
                 <spqn>-</spqn>
-                <input type="password" id="rrnSecond" placeholder="0000000" maxlength="7" required oninput="maskRrn()">
+                <input type="password" id="rrnSecond" placeholder="0000000" maxlength="7" required>
 
                 <input type="hidden" th:field="*{RRN}">
                 <p th:if="${#fields.hasErrors('RRN')}" th:errors="*{RRN}" class="fieldError">Incorrect data</p>

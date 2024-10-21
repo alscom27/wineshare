@@ -70,9 +70,6 @@ public class BoardController {
     Map<String, String> emailToNicknameMap = members.stream()
         .collect(Collectors.toMap(Member::getEmail, Member::getNickname));
 
-    // 추가 멤버 타입이 전문가인지
-    Map<String, Boolean> emailToExpertMap = members.stream()
-        .collect(Collectors.toMap(Member::getEmail, member -> member.getMemberType() == MemberType.EXPERT));
 
     // 닉네임을 추가할 DTO 리스트 생성
     List<BoardDTO> boardDTOs = boards.stream().map(board -> {
@@ -83,6 +80,7 @@ public class BoardController {
       boardDTO.setBoardContent(board.getBoardContent());
       boardDTO.setRegTime(board.getRegTime());
       boardDTO.setBoardStatus(board.getBoardStatus());
+      boardDTO.setMember(board.getMember());
       // 닉네임 설정
       boardDTO.setWriterNickname(emailToNicknameMap.get(board.getRegBy())); // 닉네임 설정
       return boardDTO;
@@ -91,13 +89,10 @@ public class BoardController {
     // 어드민인지(로그인 한 사람이)
     boolean isAdmin = principal instanceof KafkaProperties.Admin;
 
-//    // 게시글의 작성자가 전문가인지
-//    boolean isExpert = members.stream().anyMatch(member -> member.getMemberType() == MemberType.EXPERT);
+    // 위에 게시글을 작성한 유저의 멤버타입이 expert인지 확인해서 보여줄 수 있는방법
 
-
-    model.addAttribute("isExpertMap",emailToExpertMap);
     model.addAttribute("isAdmin", isAdmin);
-//    model.addAttribute("isExpert", isExpert);
+    model.addAttribute("members", members);
     model.addAttribute("boardDTOs", boardDTOs);
     model.addAttribute("boards", boards);
     model.addAttribute("boardStatus", boardStatus);
@@ -209,13 +204,13 @@ public class BoardController {
     // 작성자와 비교하여 동일한지 확인
     boolean isAuthor = member.getEmail().equals(currentUserEmail);
 
-    // 게시글의 작성자가 현재 유저인지 회원인지 다시확인해보자
-    boolean isRegural = member.getMemberType().equals(MemberType.REGULAR);
+    // 게시글의 작성자가 현재 유저인지 다시확인해보자
+    boolean isWriterRegular = member.getMemberType().equals(MemberType.REGULAR);
 
     Member curruntMember = memberRepository.findByEmail(principal.getName());
 
     model.addAttribute("loginUser", curruntMember);
-    model.addAttribute("isRegural", isRegural);
+    model.addAttribute("isWriterRegular", isWriterRegular);
     model.addAttribute("memberId", member.getId());
     model.addAttribute("board", board);
     model.addAttribute("boardDTO", boardDTO);

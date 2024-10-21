@@ -45,6 +45,17 @@
 
 
       }); //ready
+
+      // 페이지
+      function page(page){
+          const searchType = $('#searchType').val();
+          const searchQuery = $('#searchQuery').val();
+          const marketCategory = $('#marketCategory').data('market-category');
+
+          // url
+          location.href="/marketings/" + marketCategory + "/list/" + page
+              + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
+      }
     </script>
 </th:block>
 
@@ -85,7 +96,7 @@
 
                 <div class="data-all">
                     <div class="data-search">
-                        <!--                <input type="hidden" th:field="*{searchType}" value="T">-->
+                        <input type="text" th:field="*{searchType}" value="T" placeholder="제목" readonly>
                         <input type="hidden" id="marketCategory" th:data-market-category="${marketCategory}">
                         <input type="text" class="form-control" th:field="*{searchQuery}" placeholder="Search...">
                         <button type="submit" id="searchIcon" class="data-btn" style="background-color: #e5e5e5;" >
