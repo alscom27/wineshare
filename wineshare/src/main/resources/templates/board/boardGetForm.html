@@ -315,7 +315,7 @@ ${createBtns(reply.memberId, reply.id)}
             <div th:if="${isAuthor}">
                 <!--                수정 버튼 -->
                 <button th:formaction="@{'/boards/' + ${#strings.toLowerCase(boardStatus)} + '/modify/' + ${boardDTO.id}}"
-                        type="submit" class="hvr-shutter-out-horizontal">수정하기
+                        type="submit" class="modify-btn">수정하기
                 </button>
             </div>
 
@@ -334,21 +334,37 @@ ${createBtns(reply.memberId, reply.id)}
                                 <input type="hidden" id="getNoLoginUserId" data-login-user-id="0">
                             </span>
 
+                            <table class="board-table">
+                                <tr>
+                                    <th>제목</th>
+                                    <td><div th:field="*{boardTitle}" th:text="*{boardTitle}"></div></td>
+                                </tr>
 
-                            <div th:field="*{boardTitle}" th:text="*{boardTitle}"></div>
+                                <tr>
+                                    <th>작성자</th>
+                                    <td><div th:field="*{writerNickname}" th:text="*{writerNickname}"></div></td>
+                                </tr>
 
-                            <div th:field="*{regTime}" th:text="${#temporals.format(board.regTime , 'yy-MM-dd')}"></div>
+                                <tr>
+                                    <th>등록일</th>
+                                    <td><div th:field="*{regTime}" th:text="${#temporals.format(board.regTime , 'yy-MM-dd')}"></div></td>
+                                </tr>
 
-                            <div th:field="*{boardContent}" th:text="*{boardContent}"></div>
+                                <tr>
+                                    <th>내용</th>
+                                    <td><div th:field="*{boardContent}" th:text="*{boardContent}"></div></td>
+                                </tr>
 
+                                <tr>
+                                    <th>이미지</th>
+                                    <td><div th:if="${boardDTO.boardImgUrl != null}" class="board-img">
+                                        <div>
+                                            <img th:src="${boardDTO.boardImgUrl}" alt="게시물 이미지"></div>
+                                         </div>
+                                    </td>
+                                </tr>
 
-                            <div th:if="${boardDTO.boardImgUrl != null}">
-                                <div>
-                                    <img th:src="${boardDTO.boardImgUrl}" alt="게시물 이미지"></div>
-                            </div>
-
-
-                            <div th:field="*{writerNickname}" th:text="*{writerNickname}"></div>
+                            </table>
                         </div>
                     </div>
                 </div>
