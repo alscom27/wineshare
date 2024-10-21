@@ -3,6 +3,27 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
+<th:block layout:fragment="css">
+    <style>
+        .main-wine-img {
+            height: 150px;
+            width: auto;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .featured-post {
+            width: 200px;
+            height: 200px;
+        }
+
+        .post-border {
+            height: 200px;
+        }
+    </style>
+</th:block>
+
 <div layout:fragment="content">
     <div class="flat-slider style1">
         <!-- SLIDER -->
@@ -51,7 +72,7 @@
                              data-start="1000"
                              data-splitin="none"
                              data-splitout="none"
-                             data-responsive_offset="on"> <a href="#" class="text-white">Best Of Wine Store</a> </div>
+                             data-responsive_offset="on">Best Of Wine Store</div>
 
                         <div class="tp-caption tp-resizeme text-white font-rubik font-weight-400 text-wizym"
                              data-x="['left','left','left','center']" data-hoffset="['0','-2','-2','0']"
@@ -88,7 +109,7 @@
                              data-splitout="none"
                              data-responsive_offset="on"
                              data-paddingtop= "['50','50','50','50']"
-                             data-paddingbottom= "['50','50','50','50']"> <a href="#" class="btn btn-styl button-project">READ MORE</a></div>
+                             data-paddingbottom= "['50','50','50','50']"> <a th:href="@{'/about/aboutUs'}" class="btn btn-styl button-project">READ MORE</a></div>
                     </li><!-- /End Slide 1 -->
 
                     <!-- Slide 2 -->
@@ -133,7 +154,7 @@
                              data-start="1000"
                              data-splitin="none"
                              data-splitout="none"
-                             data-responsive_offset="on"> <a href="#" class="text-white">Best Of Wine Store</a> </div>
+                             data-responsive_offset="on">Best Of Wine Store</div>
 
                         <div class="tp-caption tp-resizeme text-white font-rubik font-weight-400 text-wizym"
                              data-x="['left','left','left','center']" data-hoffset="['0','-2','-2','0']"
@@ -170,7 +191,7 @@
                              data-splitout="none"
                              data-responsive_offset="on"
                              data-paddingtop= "['50','50','50','50']"
-                             data-paddingbottom= "['50','50','50','50']"> <a href="#" class="btn btn-styl button-project">READ MORE</a></div>
+                             data-paddingbottom= "['50','50','50','50']"> <a th:href="@{'/marketings/list/promotion'}" class="btn btn-styl button-project">READ MORE</a></div>
                     </li><!-- /End Slide 2 -->
                 </ul>
             </div>
@@ -196,68 +217,40 @@
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                         <div class="flat-latest mgb-mobi40">
                             <div class="latest-title mb-mgtop0">
-                                <h3><a href="#">별점순</a></h3>
+                                <h3><a>별점순</a></h3>
                             </div>
                             <div class="flat-next">
-                                <a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+                                <a th:href="@{'/wines/list'}">
+                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                </a>
                             </div>
-                            <article class="post-border post-top">
+                            <article class="post-border" th:each="wine, status : ${recommendedRatingWines}">
                                 <div class="featured-post">
-                                    <img th:src="@{/wineshare-img/surim2.gif}" alt="image">
+                                    <a th:href="@{'/wines/wine/' + ${wine.id}}">
+                                        <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' ||
+                                                    wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ||
+                                                    wine.wineImg == 'https://images.vivino.com/highlights/icon/top_ranked.svg'
+                                                    ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                                             th:class="main-wine-img"
+                                             onerror="this.onerror=null; this.src='/image/wineDefault.png';">
+                                    </a>
                                 </div>
                                 <div class="content-post">
                                     <div class="post-title">
-                                        <span><a href="#"> Laboure Chardonnay </a></span>
+                                        <span th:text="${wine.wineName}">와인이름</span>
+                                    </div>
+                                    <br>
+                                    <div class="post-content">
+                                        <span th:text="${wine.wineType}">와인타입</span>
+                                    </div>
+                                    <div class="post-content">
+                                        <span th:text="${wine.country}">생산국</span>
+                                    </div>
+                                    <div class="post-content">
+                                        <span th:text="${wine.region}">생산지</span>
                                     </div>
                                     <div class="post-dolar">
-                                        <span>$19.99</span>
-                                    </div>
-                                    <div class="post-rating">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="post-border post-between">
-                                <div class="featured-post">
-                                    <img th:src="@{/wineshare-img/surim.gif}" alt="image">
-                                </div>
-                                <div class="content-post">
-                                    <div class="post-title">
-                                        <span><a href="#"> Godiva Chocolates Gift</a></span>
-                                    </div>
-                                    <div class="post-dolar">
-                                        <span>$28.99</span>
-                                    </div>
-                                    <div class="post-rating">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="post-border post-between">
-                                <div class="featured-post">
-                                    <img th:src="@{/wineshare-img/surim2.gif}" alt="image">
-                                </div>
-                                <div class="content-post">
-                                    <div class="post-title">
-                                        <span><a href="#"> Bertrana Cap Insula Red</a></span>
-                                    </div>
-                                    <div class="post-dolar">
-                                        <span>$22.99</span>
-                                    </div>
-                                    <div class="post-rating">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <span class="amount" th:text="${wine.price == null || wine.price == 0 ? '가격정보없음' : #numbers.formatCurrency(wine.price)}">와인가격</span>
                                     </div>
                                 </div>
                             </article>
@@ -265,139 +258,83 @@
                     </div> <!-- /col-lg-4 -->
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                         <div class="flat-latest mgb-mobi40">
-                            <div class="latest-title title-between">
-                                <h3><a href="#">인기순</a></h3>
+                            <div class="latest-title mb-mgtop0">
+                                <h3><a>인기순</a></h3>
                             </div>
                             <div class="flat-next">
-                                <a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+                                <a>
+                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                </a>
                             </div>
-                            <article class="post-border post-top">
+                            <article class="post-border" th:each="wine, status : ${recommendedCellarWines}">
                                 <div class="featured-post">
-                                    <img th:src="@{/wineshare-img/surim2.gif}" alt="image">
+                                    <a th:href="@{'/wines/wine/' + ${wine.id}}">
+                                        <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' ||
+                                                    wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ||
+                                                    wine.wineImg == 'https://images.vivino.com/highlights/icon/top_ranked.svg'
+                                                    ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                                             th:class="main-wine-img"
+                                             onerror="this.onerror=null; this.src='/image/wineDefault.png';">
+                                    </a>
                                 </div>
                                 <div class="content-post">
                                     <div class="post-title">
-                                        <span><a href="#"> Red Wine Trio 1988</a></span>
+                                        <span th:text="${wine.wineName}">와인이름</span>
+                                    </div>
+                                    <br>
+                                    <div class="post-content">
+                                        <span th:text="${wine.wineType}">와인타입</span>
+                                    </div>
+                                    <div class="post-content">
+                                        <span th:text="${wine.country}">생산국</span>
+                                    </div>
+                                    <div class="post-content">
+                                        <span th:text="${wine.region}">생산지</span>
                                     </div>
                                     <div class="post-dolar">
-                                        <span>$22.99</span>
-                                    </div>
-                                    <div class="post-rating">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="post-border post-between">
-                                <div class="featured-post">
-                                    <img th:src="@{/wineshare-img/surim.gif}" alt="image">
-                                </div>
-                                <div class="content-post">
-                                    <div class="post-title">
-                                        <span><a href="#"> Dreaming Wine Trio</a></span>
-                                    </div>
-                                    <div class="post-dolar">
-                                        <span>$28.99</span>
-                                    </div>
-                                    <div class="post-rating">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="post-border post-between">
-                                <div class="featured-post">
-                                    <img th:src="@{/wineshare-img/surim2.gif}" alt="image">
-                                </div>
-                                <div class="content-post">
-                                    <div class="post-title">
-                                        <span><a href="#"> Hall Eighteen Seventy</a></span>
-                                    </div>
-                                    <div class="post-dolar">
-                                        <span>$49.99</span>
-                                    </div>
-                                    <div class="post-rating">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <span class="amount" th:text="${wine.price == null || wine.price == 0 ? '가격정보없음' : #numbers.formatCurrency(wine.price)}">와인가격</span>
                                     </div>
                                 </div>
                             </article>
                         </div>
                     </div> <!-- /col-lg-4 -->
-                    <div class="col-lg-4 col-md-4 col-12">
-                        <div class="flat-latest">
-                            <div class="latest-title title-bottom">
-                                <h3><a href="#">최신순</a></h3>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                        <div class="flat-latest mgb-mobi40">
+                            <div class="latest-title mb-mgtop0">
+                                <h3><a>최신순</a></h3>
                             </div>
                             <div class="flat-next">
-                                <a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+                                <a>
+                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                </a>
                             </div>
-                            <article class="post-border post-top">
+                            <article class="post-border" th:each="wine, status : ${recommendedDescWines}">
                                 <div class="featured-post">
-                                    <img th:src="@{/wineshare-img/surim2.gif}" alt="image">
+                                    <a th:href="@{'/wines/wine/' + ${wine.id}}">
+                                        <img th:src="${wine.wineImg == 'https://images.vivino.com/highlights/icon/most_user_rated.svg' ||
+                                                    wine.wineImg == 'https://thumbs.vivino.com/avatars/ZlapMkM9QayY3ci79lSL7A_50x50.jpg' ||
+                                                    wine.wineImg == 'https://images.vivino.com/highlights/icon/top_ranked.svg'
+                                                    ? '/image/wineDefault.png' : wine.wineImg}" alt="image"
+                                             th:class="main-wine-img"
+                                             onerror="this.onerror=null; this.src='/image/wineDefault.png';">
+                                    </a>
                                 </div>
                                 <div class="content-post">
                                     <div class="post-title">
-                                        <span><a href="#"> Brothers Patricia Pinot</a></span>
+                                        <span th:text="${wine.wineName}">와인이름</span>
+                                    </div>
+                                    <br>
+                                    <div class="post-content">
+                                        <span th:text="${wine.wineType}">와인타입</span>
+                                    </div>
+                                    <div class="post-content">
+                                        <span th:text="${wine.country}">생산국</span>
+                                    </div>
+                                    <div class="post-content">
+                                        <span th:text="${wine.region}">생산지</span>
                                     </div>
                                     <div class="post-dolar">
-                                        <span>$24.99</span>
-                                    </div>
-                                    <div class="post-rating">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="post-border post-between">
-                                <div class="featured-post">
-                                    <img th:src="@{/wineshare-img/surim.gif}" alt="image">
-                                </div>
-                                <div class="content-post">
-                                    <div class="post-title">
-                                        <span><a href="#"> Adelaide Hills Chardonnay</a></span>
-                                    </div>
-                                    <div class="post-dolar">
-                                        <span>$49.99</span>
-                                    </div>
-                                    <div class="post-rating">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="post-border post-between">
-                                <div class="featured-post">
-                                    <img th:src="@{/wineshare-img/surim2.gif}" alt="image">
-                                </div>
-                                <div class="content-post">
-                                    <div class="post-title">
-                                        <span><a href="#"> 51 Eden Valley Riesling 1918</a></span>
-                                    </div>
-                                    <div class="post-dolar">
-                                        <span>$19.99</span>
-                                    </div>
-                                    <div class="post-rating">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <span class="amount" th:text="${wine.price == null || wine.price == 0 ? '가격정보없음' : #numbers.formatCurrency(wine.price)}">와인가격</span>
                                     </div>
                                 </div>
                             </article>

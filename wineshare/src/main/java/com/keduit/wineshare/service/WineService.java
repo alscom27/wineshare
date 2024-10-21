@@ -90,6 +90,18 @@ public class WineService {
     return similarWines;
   }
 
+  public List<Wine> getRecommendedRatingWines() {
+    return wineRepository.findRecommendedRatingWines();
+  }
+
+  public List<Wine> getRecommendedCellarWines() {
+    return wineRepository.findRecommendedCellarWines();
+  }
+  public List<Wine> getRecommendedDescWines() {
+    return wineRepository.findRecommendedDescWines();
+  }
+
+
   // 와인삭제
   public void remove(Long wineId) {
     wineRepository.deleteById(wineId);

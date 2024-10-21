@@ -1161,6 +1161,11 @@
                   <div class="product-info text-center clearfix">
                     <span class="product-title" th:text="${similarWine.wineName}">와인이름</span>
                   </div>
+                  <div class="product-review">
+                    <div class="add-cart heart" th:if="${status.index == 0}">
+                      어울리는음식
+                    </div>
+                  </div>
                 </li> <!-- /product-item -->
 
               </ul>

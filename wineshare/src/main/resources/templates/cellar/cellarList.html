@@ -52,7 +52,8 @@
         },
         error: function (xhr) {
           console.error("Read Cellar Error ", xhr);
-          alert("셀러 불러오기 실패");
+          alert("셀러에 와인을 넣어주세요.");
+          window.location.assign('/wines/list');
         }
       });
     }
