@@ -47,13 +47,16 @@
 
             const boardId = $('#getBoardId').data('board-id');
             getBoardReplyList(boardId, 0);
-            console.log(boardId);
+            // console.log(boardId);
 
             $('#upgradeBtn').on('click', function () {
                 const memberId = $(this).data('member-id'); // 게시글 작성자의 ID를 가져오는 방법
                 const token = $("meta[name='_csrf']").attr("content");
                 const header = $("meta[name='_csrf_header']").attr("content");
                 const boardStatus = $("#boardStatus").data("board-status") // 게시판 상태
+
+                console.log(boardStatus)
+                console.log(memberId)
 
                 // AJAX 요청
                 $.ajax({
@@ -63,12 +66,16 @@
                         xhr.setRequestHeader(header, token); // CSRF 토큰 설정
                     },
                     success: function (response) {
-                        alert("회원 권한이 변경되었습니다."); // 성공 메시지
+                        alert(response); // 성공 메시지
                         window.location.href = `/boards/${boardStatus}/list`; // 페이지 새로고침
                     },
-                    error: function (xhr, status, error) {
-                        alert("등업 처리 중 오류가 발생했습니다: " + xhr.responseText); // 오류 메시지
-                    }
+                    error: function (xhr) {
+                        if (xhr.status === ' 401') {
+                            alert('로그인 후 이용하세요.');
+                            location.href = '/members/login';
+                        } else {
+                            alert(xhr.responseText);
+                        }                    }
                 });
             });
 
@@ -118,7 +125,7 @@
             const loginUserId = loginUserIdElement.length > 0
                 ? loginUserIdElement.data("login-user-id")
                 : noLoginUserIdElement.data("login-user-id");
-            console.log(loginUserId);
+            // console.log(loginUserId);
 
             function createBtns(replyMemberId, replyId) {
                 if (loginUserId === replyMemberId) {
@@ -312,6 +319,9 @@ ${createBtns(reply.memberId, reply.id)}
                 </div>
             </div>
 
+<!--            <p th:text="${boardStatus}"></p>-->
+<!--            <p th:text="${boardDTO.id}"></p>-->
+
             <div th:if="${isAuthor}">
                 <!--                수정 버튼 -->
                 <button th:formaction="@{'/boards/' + ${#strings.toLowerCase(boardStatus)} + '/modify/' + ${boardDTO.id}}"
@@ -370,8 +380,8 @@ ${createBtns(reply.memberId, reply.id)}
                 </div>
             </div>
 
-            <div th:if="${boardStatus == 'UPGRADE'}">
-            <div th:if="${isRegural == true}">
+            <div th:if="${#strings.equalsIgnoreCase(boardStatus, 'upgrade')}">
+            <div th:if="${isWriterRegular == true}">
                 <div sec:authorize="hasRole('ADMIN')">
                     <button id="upgradeBtn" class="btn btn-primary btn-xs pull-right" th:data-member-id="${memberId}">등업
                         버튼

@@ -2,6 +2,7 @@ package com.keduit.wineshare.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.keduit.wineshare.constant.BoardStatus;
+import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.entity.Board;
 import com.keduit.wineshare.entity.Member;
 import com.querydsl.core.annotations.QueryProjection;
@@ -37,6 +38,9 @@ public class BoardDTO {
   private String boardImgUrl;  // 이미지 조회 경로
 
   private String writerNickname;
+
+  //추가
+//  private MemberType memberType;
 
   private String regBy;
 

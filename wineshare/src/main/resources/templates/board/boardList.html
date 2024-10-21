@@ -9,11 +9,12 @@
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/board-list.css}">
 
     <style>
-        .disabled{
+        .disabled {
             pointer-events: none;
             opacity: 0.1;
         }
-        .page-active{
+
+        .page-active {
             background-color: #c02323 !important;
         }
     </style>
@@ -21,10 +22,10 @@
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-        $(document).ready(function (){
+        $(document).ready(function () {
 
 
-            $('#searchIcon').on("click", function (e){
+            $('#searchIcon').on("click", function (e) {
                 e.preventDefault();
                 page(0);
             });
@@ -44,7 +45,7 @@
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader(header, token); // CSRF 토큰 추가
                     },
-                    success: function(isLoggedIn) {
+                    success: function (isLoggedIn) {
                         if (!isLoggedIn) {
                             alert('로그인 후 이용하세요.');
                             location.href = '/members/login'; // 로그인 페이지로 리다이렉트
@@ -53,7 +54,7 @@
                             location.href = `/boards/${boardStatus}/new`;
                         }
                     },
-                    error: function(xhr, status, error){
+                    error: function (xhr, status, error) {
                         alert("로그인 상태 확인 중 오류가 발생했습니다.");
                     }
                 });
@@ -75,21 +76,19 @@
         });
 
 
-      // 검색버튼 페이지
-      function page(page){
-          const searchType = $("#searchType").val();
-          const searchQuery = $("#searchQuery").val();
-          const boardStatus = $("#boardStatus").data('board-status');
+        // 검색버튼 페이지
+        function page(page) {
+            const searchType = $("#searchType").val();
+            const searchQuery = $("#searchQuery").val();
+            const boardStatus = $("#boardStatus").data('board-status');
 
 
-          // url
-          location.href="/boards/" + boardStatus + "/list/" + page
-              + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
-      }
+            // url
+            location.href = "/boards/" + boardStatus + "/list/" + page
+                + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
+        }
 
-      // 페이지
-
-
+        // 페이지
 
 
     </script>
@@ -122,16 +121,6 @@
         <div class="banner-img question-img" th:if="${#strings.toLowerCase(boardStatus) == 'question'}"></div>
         <div class="banner-img request-img" th:if="${#strings.toLowerCase(boardStatus) == 'request'}"></div>
 
-
-
-
-<!--        <div class="board_title">-->
-<!--            <strong th:text="${boardStatus} + ' Board'">게시판</strong>-->
-<!--        </div>-->
-
-
-
-<!--        th:action="@{'/board/' + ${#strings.toLowerCase(boardStatus)} + '/list/' + ${boards.number}}"-->
         <form role="form" method="get">
             <!--            th:object="${boards}"-->
 
@@ -143,7 +132,8 @@
                 </select>
 
                 <div class="form-group-search">
-                    <input type="text" th:field="*{searchQuery}" class="form-control" placeholder="Search..." style="font-size:14px;">
+                    <input type="text" th:field="*{searchQuery}" class="form-control" placeholder="Search..."
+                           style="font-size:14px;">
                     <button type="submit" id="searchIcon" class="search-btn">
                         enter
                     </button>
@@ -154,13 +144,13 @@
                 <input type="hidden" id="isLoggedIn" th:value="${isLoggedIn}">
 
                 <div th:if="${#strings.toLowerCase(boardStatus) != 'notice'}">
-                <button type="button" id="regBtn1" class="regbutton" onclick="regBoard()">게시글 등록</button>
+                    <button type="button" id="regBtn1" class="regbutton" onclick="regBoard()">게시글 등록</button>
                 </div>
 
                 <div th:unless="${#strings.toLowerCase(boardStatus) != 'notice'}" sec:authorize="hasRole('ADMIN')">
-<!--                    <div th:if="${isAdmin}">-->
+                    <!--                    <div th:if="${isAdmin}">-->
                     <button type="button" id="regBtn2" class="regbutton" onclick="regBoard()">게시글 등록</button>
-<!--                    </div>-->
+                    <!--                    </div>-->
                 </div>
 
             </div>
@@ -178,15 +168,14 @@
                 <!-- 게시글 목록 출력 -->
                 <!--                th:each="board : ${boardDTOs}"-->
                 <div th:each="board : ${boardDTOs}">
-<!--                    <div class="num" th:text="${board.getId()}"></div>-->
-                    <div class="title"><a
-                            th:href="'/boards/' + ${#strings.toLowerCase(board.getBoardStatus())} + '/get/' + ${board.getId()}"
-                            th:text="${board.boardTitle}"></a></div>
-                    <div class="writer" th:text="${board.getWriterNickname()}"></div>
-                    <div th:if="${isExpertMap[board.writerNickname]}">(전문가)</div>
-                    <div class="date" th:text="${#temporals.format(board.regTime, 'yy-MM-dd')}"></div>
-                    <!--                <div class="count" th:text=""></div>-->
-                </div>
+                        <!--                <div class="num" th:text="${board.getId()}"></div>-->
+                        <div class="title"><a
+                                th:href="'/boards/' + ${#strings.toLowerCase(board.getBoardStatus())} + '/get/' + ${board.getId()}"
+                                th:text="${board.boardTitle}"></a></div>
+                        <div class="writer" th:text="${board.getWriterNickname()}"></div>
+                        <div th:if="${board.getMember() != null && #strings.equalsIgnoreCase(board.getMember().getMemberType(), 'expert')}">(전문가)</div>
+                        <div class="date" th:text="${#temporals.format(board.regTime, 'yy-MM-dd')}"></div>
+                    </div>
             </div>
 
 
