@@ -941,6 +941,8 @@
     font-size: 14px;
     line-height: 48px;
     color: #fff;
+    height:80px;
+    overflow:hidden;
 }
 
 .main-homepage-1 .flat-carousel-box .owl-nav .owl-prev,

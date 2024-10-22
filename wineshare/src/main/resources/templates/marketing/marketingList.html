@@ -95,9 +95,12 @@
 <!--            </div>-->
 
                 <div class="data-all">
-                    <div class="data-search">
+                    <div class="data-type">
                         <input type="text" th:field="*{searchType}" value="T" placeholder="제목" readonly>
                         <input type="hidden" id="marketCategory" th:data-market-category="${marketCategory}">
+                    </div>
+
+                    <div class="data-search">
                         <input type="text" class="form-control" th:field="*{searchQuery}" placeholder="Search...">
                         <button type="submit" id="searchIcon" class="data-btn" style="background-color: #e5e5e5;" >
                             enter
