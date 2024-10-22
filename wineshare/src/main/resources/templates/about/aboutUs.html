@@ -3,10 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
-<head>
-  <meta name="_csrf" th:content="${_csrf.token}" />
-  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
-</head>
+
 
 <!-- 사용자 css -->
 <th:block layout:fragment="css">
@@ -52,7 +49,11 @@
           <div class="col-lg-7 col-md-7">
             <div class="about-us-border">
               <h1 class="heading-about"><a href="#">Wine Share is... </a></h1>
-              <p class="content-about">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugia: nulla pariatu: Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciats unde omnis iste natus error sit voluptatem accusantium doloremque laudartiura.</p>
+              <p class="content-about">
+                와인의 세계로의 초대
+
+                Wineshare는 와인 애호가, 전문가, 그리고 와인에 대해 알고 싶어하는 모든 이들을 위한 플랫폼으로, 와인에 대한 정보를 쉽고 간편하게 제공하여 누구나 와인을 더욱 친숙하게 느낄 수 있도록 돕습니다. 전문가들은 사이트 내에서 와인 관련 정보를 추가하거나 수정할 수 있으며, 자신의 업장을 등록하여 홍보할 기회를 가집니다. 이를 통해 일반 사용자들은 보다 전문적이고 신뢰할 수 있는 정보를 받아볼 수 있고, 게시판 기능을 통해 전문가와 소비자 간의 자유로운 소통이 이루어져 질문과 답변을 통해 와인에 대한 깊이 있는 이해를 돕습니다. Wineshare와 함께 와인의 매력을 발견하고, 전문가의 조언을 통해 더 나은 선택을 해보세요!
+              </p>
             </div>
           </div>
         </div> <!-- /row -->

@@ -383,7 +383,7 @@ ${createBtns(reply.memberId, reply.id)}
             <div th:if="${#strings.equalsIgnoreCase(boardStatus, 'upgrade')}">
             <div th:if="${isWriterRegular == true}">
                 <div sec:authorize="hasRole('ADMIN')">
-                    <button id="upgradeBtn" class="btn btn-primary btn-xs pull-right" th:data-member-id="${memberId}">등업
+                    <button type="button" id="upgradeBtn" class="btn btn-primary btn-xs pull-right" th:data-member-id="${memberId}">등업
                         버튼
                     </button>
                 </div>
