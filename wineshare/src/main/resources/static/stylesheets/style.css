@@ -8775,6 +8775,9 @@ footer.style3 .footer-widgets .widget-text span {
 	height: 47px;
 }
 
+.blog-pagination .flat-pagination .hvr-shutter-out-horizontal {
+	cursor: pointer;
+}
 
 
 

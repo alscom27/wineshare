@@ -177,8 +177,15 @@
             </div>
 
             <div th:if="${memberDTO.id == null}">
+                <div th:if="${authority != null and authority.equals('admin')}">
+                    <button th:formaction="@{'/admins/wineshare8022/new'}" type="submit" class="login-button">Register</button>
+                </div>
+
+                <div th:unless="${authority != null and authority.equals('admin')}">
+                    <button th:formaction="@{'/members/new'}" type="submit" class="login-button">Register</button>
+                </div>
                 <!-- 등록 버튼 -->
-                <button th:formaction="@{'/members/new'}" type="submit" class="login-button">Register</button>
+
                 <button type="reset" class="login-reset">reset</button>
 
             </div>

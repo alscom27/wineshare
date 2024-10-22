@@ -74,21 +74,21 @@ public class DataInitializer {
       createFoodPairing("Vegetable", "/wineshare-img/wineshare-food/vegetable.png");
     }
     if (aromaWheelRepository.count() == 0) {
-      createAromaWheel("Citrus", "레몬, 라임, 자몽", "/wineshare-img/wineshare-aroma/citrus.png");
-      createAromaWheel("Tree Fruit", "배, 사과, 풋사과", "/wineshare-img/wineshare-aroma/treefruit.png");
-      createAromaWheel("Stone Fruit", "복숭아, 자두, 살구", "/wineshare-img/wineshare-aroma/stonefruit.png");
-      createAromaWheel("Tropical Fruit", "구아바, 패션프루트, 리치", "/wineshare-img/wineshare-aroma/tropicalfruit.png");
-      createAromaWheel("Berry", "산딸기, 딸기, 커런트", "/wineshare-img/wineshare-aroma/berry.png");
-      createAromaWheel("Floral", "장미, 자스민, 라벤더", "/wineshare-img/wineshare-aroma/floral.png");
-      createAromaWheel("Herb", "딜, 타임, 바질", "/wineshare-img/wineshare-aroma/herb.png");
-      createAromaWheel("Vegetable", "피망, 토마토, 아스파라거스", "/wineshare-img/wineshare-aroma/vegetable.png");
-      createAromaWheel("Fermented", "빵, 버터, 효모", "/wineshare-img/wineshare-aroma/fermented.png");
-      createAromaWheel("Roasted", "카라멜, 초콜렛, 커피, 토스트", "/wineshare-img/wineshare-aroma/roasted.png");
-      createAromaWheel("Spice", "바닐라, 후추, 정향", "/wineshare-img/wineshare-aroma/spice.png");
-      createAromaWheel("Nuts", "아몬드, 헤이즐넛, 피칸", "/wineshare-img/wineshare-aroma/nuts.png");
-      createAromaWheel("Tree", "백단목, 백향목, 솔향", "/wineshare-img/wineshare-aroma/tree.png");
-      createAromaWheel("Honey", "꿀, 모과", "/wineshare-img/wineshare-aroma/honey.png");
-      createAromaWheel("Fungi", "버섯, 이끼, 송로", "/wineshare-img/wineshare-aroma/fungi.png");
+      createAromaWheel("Citrus", "레몬 라임 자몽", "/wineshare-img/wineshare-aroma/citrus.png");
+      createAromaWheel("Tree Fruit", "배 사과 풋사과", "/wineshare-img/wineshare-aroma/treefruit.png");
+      createAromaWheel("Stone Fruit", "복숭아 자두 살구", "/wineshare-img/wineshare-aroma/stonefruit.png");
+      createAromaWheel("Tropical Fruit", "구아바 패션프루트 리치", "/wineshare-img/wineshare-aroma/tropicalfruit.png");
+      createAromaWheel("Berry", "산딸기 딸기 커런트", "/wineshare-img/wineshare-aroma/berry.png");
+      createAromaWheel("Floral", "장미 자스민 라벤더", "/wineshare-img/wineshare-aroma/floral.png");
+      createAromaWheel("Herb", "딜 타임 바질", "/wineshare-img/wineshare-aroma/herb.png");
+      createAromaWheel("Vegetable", "피망 토마토 아스파라거스", "/wineshare-img/wineshare-aroma/vegetable.png");
+      createAromaWheel("Fermented", "빵 버터 효모", "/wineshare-img/wineshare-aroma/fermented.png");
+      createAromaWheel("Roasted", "카라멜 초콜렛 커피 토스트", "/wineshare-img/wineshare-aroma/roasted.png");
+      createAromaWheel("Spice", "바닐라 후추 정향", "/wineshare-img/wineshare-aroma/spice.png");
+      createAromaWheel("Nuts", "아몬드 헤이즐넛 피칸", "/wineshare-img/wineshare-aroma/nuts.png");
+      createAromaWheel("Tree", "백단목 백향목 솔향", "/wineshare-img/wineshare-aroma/tree.png");
+      createAromaWheel("Honey", "꿀 모과", "/wineshare-img/wineshare-aroma/honey.png");
+      createAromaWheel("Fungi", "버섯 이끼 송로", "/wineshare-img/wineshare-aroma/fungi.png");
     }
     if (wineRepository.count() == 0) {
       initParsing();

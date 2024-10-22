@@ -50,6 +50,10 @@ public class Member extends BaseEntity {
   private List<WineDevelop> wineDevelops; // WineDevelop 리스트
 
   public static Member createMember(MemberDTO memberDTO, PasswordEncoder passwordEncoder){
+    // 유효성 검사 (예: null 체크)
+    if (memberDTO == null || passwordEncoder == null) {
+      throw new IllegalArgumentException("MemberDTO or PasswordEncoder must not be null.");
+    }
     Member member = new Member();
     member.setEmail(memberDTO.getEmail());
     member.setName(memberDTO.getName());
@@ -58,7 +62,9 @@ public class Member extends BaseEntity {
     member.setPassword(password);
     member.setPhoneNumber(memberDTO.getPhoneNumber());
     member.setRRN(memberDTO.getRRN());
-    member.setMemberType(MemberType.REGULAR);
+
+    member.setMemberType(memberDTO.getMemberType() == MemberType.ADMIN ? MemberType.ADMIN : MemberType.REGULAR);
+
     member.setWithdrawStatus(WithdrawStatus.STAY);
     return member;
 
