@@ -170,15 +170,16 @@ a {
     width:7%;
     padding: 0.2rem 0.75rem;
     position: absolute;
-    bottom: -10px;
+    left:0.5%;
+    bottom: -10%;
 }
 
 .form-group-search{
     width:15%;
     display:flex;
     position: absolute;
-    left: 100px;
-    bottom: -10px;
+    left: 9%;
+    bottom: -10%;
 }
 
 

@@ -388,7 +388,7 @@ ${createBtns(reply.memberId, reply.id)}
                                     <th>이미지</th>
                                     <td><div th:if="${boardDTO.boardImgUrl != null}" class="board-img">
                                         <div>
-                                            <img th:src="${boardDTO.boardImgUrl}" alt="게시물 이미지"></div>
+                                            <img th:src="${boardDTO.boardImgUrl}" alt="게시물 이미지" style="max-height: 300px;"></div>
                                          </div>
                                     </td>
                                 </tr>

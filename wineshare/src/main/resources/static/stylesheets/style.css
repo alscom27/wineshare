@@ -4044,13 +4044,13 @@ footer.style1 .footer-widgets .widget-text span {
 /* flat-event */
 
 .flat-event.style1 {
-	padding: 105px 0 80px 0;
+	padding: 50px 0 80px 0;
 	background-image: url(../image/homepage37.png);
 	background-size: cover;
 }
 
 .flat-event.style1 .flat-carousel-box .owl-dots {
-	margin-top: 50px;
+	margin-top: 30px;
 }
 
 .flat-event.style1 .flat-carousel-box .owl-dot {
