@@ -557,8 +557,10 @@ header.style1 .nav-wrap ul.sub-menu > li > a {
 header.style1 .search{
 	display: inline-block;
 	float: right;
-	margin-top: 20px;
+	margin-top: 30px;
 	margin-right: 49px;
+	font-size: 10px;
+	color: #BDBDBD;
 }
 
 header.style1 .search #search {
@@ -5492,7 +5494,7 @@ body.bg-boxed {
 
 footer.style3 {
 	background-image: url(../image/footer.jpg);
-	height: 445px;
+	height: 200px;
 	max-height: 445px;
 }
 

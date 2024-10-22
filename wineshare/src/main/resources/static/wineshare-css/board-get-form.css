@@ -1,3 +1,4 @@
+/*
 .board-buttons{
     display: flex;
     justify-content: flex-end;
@@ -19,9 +20,11 @@
 .status-title{
     padding: 15px 0;
 }
+*/
 
 
 .board-table{
+    width:100%;
     border: 1px solid #e5e5e5;
      margin: 0 auto;
      margin-top:50px;
@@ -33,14 +36,16 @@ th, td{
 }
 
 th{
+    width:90px;
     text-align: center;
     background: #e5e5e5;
 }
 
 .board-form{
+width:80%;
     position:relative;
 }
-.modify-btn{
+.board-modify-btn{
    border: 1px solid #c02323;
    padding: 10px 25px;
    background: #c02323;
@@ -48,6 +53,36 @@ th{
    border-radius:5px;
    position:absolute;
    right:3%;
-   top:2%;
+   top:3%;
 }
 
+.reply-all{
+    border: 1px solid #e5e5e5;
+
+
+}
+
+.reply-submit{
+    border: 1px solid #c02323;
+    border-radius:5px;
+    color: #c02323;
+    padding: 10px 25px;
+    float:right;
+}
+
+.reply-content{
+    position:relative;
+    padding:0 20px;
+}
+
+.comment-title{
+    position:absolute;
+    top:30px;
+    left:70px;
+}
+
+.comment-text{
+    position:absolute;
+    top:5px;
+    left:70px;
+}
