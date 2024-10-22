@@ -363,8 +363,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="title-section">
-                            <!--                                <h3 class="our-product-title"><a href="#"> Dont't Miss Anything </a></h3>-->
-                            <h1 class="our-product-main"><a href="#">프로모션</a></h1>
+                            <h1 class="our-product-main" style="color:white;">New Place</h1>
                             <div class="our-product-image-background">
                                 <img th:src="@{/image/test.png}" alt="image">
                             </div>
@@ -373,207 +372,19 @@
                     <div class="col-lg-12">
                         <div class="flat-carousel-box data-effect clearfix" data-gap="30" data-column="4" data-column2="2" data-column3="1" data-dots= "true" data-auto="false">
                             <div class="owl-carousel">
-                                <div class="team-member">
+                                <div class="team-member" th:each="market, status : ${newMarkets}">
                                     <div class="team-border">
                                         <div class="team-title">
-                                            <h1 class="title">14</h1>
-                                            <span>March</span>
+                                            <img th:src="${market.marketImgUrl}" alt="image" style="height: 100px; width: 100px;">
                                         </div>
                                         <div class="team-meta">
-                                            <span>SunDay: 11.30 - 19.30 PM</span>
+                                            <span th:text="${market.marketCategory}">플레이스 카테고리</span>
                                         </div>
                                         <div class="team-content">
-                                            <h2><a href="#"> Adgio Vertical <br>Tasting</a></h2>
+                                            <h2><a th:href="${market.marketLink}" th:text="${market.marketingTitle}">플레이스 이름</a></h2>
                                         </div>
                                         <div class="team-dolar">
-                                            <span>$28.99/Per Person</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-border">
-                                        <div class="team-title">
-                                            <h1 class="title">18</h1>
-                                            <span>March</span>
-                                        </div>
-                                        <div class="team-meta">
-                                            <span>Monday: 9.30 - 15.30 PM</span>
-                                        </div>
-                                        <div class="team-content">
-                                            <h2><a href="#"> Reasons To Be <br>Cheerful</a></h2>
-                                        </div>
-                                        <div class="team-dolar">
-                                            <span>$30.99/Per Person</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-border">
-                                        <div class="team-title">
-                                            <h1 class="title">27</h1>
-                                            <span>April</span>
-                                        </div>
-                                        <div class="team-meta">
-                                            <span>Thursday: 9.30 - 11.30 AM</span>
-                                        </div>
-                                        <div class="team-content">
-                                            <h2><a href="#"> New Wines For <br>Old?</a></h2>
-                                        </div>
-                                        <div class="team-dolar">
-                                            <span>$22.99/Per Person</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-border">
-                                        <div class="team-title">
-                                            <h1 class="title">11</h1>
-                                            <span>April</span>
-                                        </div>
-                                        <div class="team-meta">
-                                            <span>Friday: 8.00 - 11.30 PM</span>
-                                        </div>
-                                        <div class="team-content">
-                                            <h2><a href="#"> Catering For <br>Higher</a></h2>
-                                        </div>
-                                        <div class="team-dolar">
-                                            <span>$18.99/Per Person</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-border">
-                                        <div class="team-title">
-                                            <h1 class="title">14</h1>
-                                            <span>March</span>
-                                        </div>
-                                        <div class="team-meta">
-                                            <span>SunDay: 11.30 - 19.30 PM</span>
-                                        </div>
-                                        <div class="team-content">
-                                            <h2><a href="#"> Adgio Vertical <br>Tasting</a></h2>
-                                        </div>
-                                        <div class="team-dolar">
-                                            <span>$28.99/Per Person</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-border">
-                                        <div class="team-title">
-                                            <h1 class="title">18</h1>
-                                            <span>March</span>
-                                        </div>
-                                        <div class="team-meta">
-                                            <span>Monday: 9.30 - 15.30 PM</span>
-                                        </div>
-                                        <div class="team-content">
-                                            <h2><a href="#"> Reasons To Be <br>Cheerful</a></h2>
-                                        </div>
-                                        <div class="team-dolar">
-                                            <span>$30.99/Per Person</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-border">
-                                        <div class="team-title">
-                                            <h1 class="title">27</h1>
-                                            <span>April</span>
-                                        </div>
-                                        <div class="team-meta">
-                                            <span>Thursday: 9.30 - 11.30 AM</span>
-                                        </div>
-                                        <div class="team-content">
-                                            <h2><a href="#"> New Wines For <br>Old?</a></h2>
-                                        </div>
-                                        <div class="team-dolar">
-                                            <span>$22.99/Per Person</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-border">
-                                        <div class="team-title">
-                                            <h1 class="title">11</h1>
-                                            <span>April</span>
-                                        </div>
-                                        <div class="team-meta">
-                                            <span>Friday: 8.00 - 11.30 PM</span>
-                                        </div>
-                                        <div class="team-content">
-                                            <h2><a href="#"> Catering For <br>Higher</a></h2>
-                                        </div>
-                                        <div class="team-dolar">
-                                            <span>$18.99/Per Person</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-border">
-                                        <div class="team-title">
-                                            <h1 class="title">14</h1>
-                                            <span>March</span>
-                                        </div>
-                                        <div class="team-meta">
-                                            <span>SunDay: 11.30 - 19.30 PM</span>
-                                        </div>
-                                        <div class="team-content">
-                                            <h2><a href="#"> Adgio Vertical <br>Tasting</a></h2>
-                                        </div>
-                                        <div class="team-dolar">
-                                            <span>$28.99/Per Person</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-border">
-                                        <div class="team-title">
-                                            <h1 class="title">18</h1>
-                                            <span>March</span>
-                                        </div>
-                                        <div class="team-meta">
-                                            <span>Monday: 9.30 - 15.30 PM</span>
-                                        </div>
-                                        <div class="team-content">
-                                            <h2><a href="#"> Reasons To Be <br>Cheerful</a></h2>
-                                        </div>
-                                        <div class="team-dolar">
-                                            <span>$30.99/Per Person</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-border">
-                                        <div class="team-title">
-                                            <h1 class="title">27</h1>
-                                            <span>April</span>
-                                        </div>
-                                        <div class="team-meta">
-                                            <span>Thursday: 9.30 - 11.30 AM</span>
-                                        </div>
-                                        <div class="team-content">
-                                            <h2><a href="#"> New Wines For <br>Old?</a></h2>
-                                        </div>
-                                        <div class="team-dolar">
-                                            <span>$22.99/Per Person</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-border">
-                                        <div class="team-title">
-                                            <h1 class="title">11</h1>
-                                            <span>April</span>
-                                        </div>
-                                        <div class="team-meta">
-                                            <span>Friday: 8.00 - 11.30 PM</span>
-                                        </div>
-                                        <div class="team-content">
-                                            <h2><a href="#"> Catering For <br>Higher</a></h2>
-                                        </div>
-                                        <div class="team-dolar">
-                                            <span>$18.99/Per Person</span>
+                                            <span th:text="${market.marketingContent}">플레이스 내용</span>
                                         </div>
                                     </div>
                                 </div>
@@ -583,68 +394,6 @@
                 </div> <!-- /row -->
             </div> <!-- /container -->
         </section> <!-- /flat-event -->
-        <!--          <section class="flat-new-latest style1">-->
-        <!--              <div class="container">-->
-        <!--                  <div class="row">-->
-        <!--                      <div class="col-lg-12">-->
-        <!--                          <div class="title-section">-->
-        <!--                                <h3 class="our-product-title"><a href="#"> Our Blog </a></h3>-->
-        <!--                                <h1 class="our-product-main"><a href="#"> News Latest </a></h1>-->
-        <!--                                <div class="our-product-image">-->
-        <!--                                     <img th:src="@{/main/image/homepage14.png}" alt="image">-->
-        <!--                                </div>-->
-        <!--                            </div> &lt;!&ndash; /title-section &ndash;&gt;-->
-        <!--                      </div>-->
-        <!--                      <div class="col-lg-6 col-12">-->
-        <!--                          <article class="post">-->
-        <!--                              <div class="featured-post">-->
-        <!--                                  <img th:src="@{/main/image/homepage44.png}" alt="image">-->
-        <!--                              </div>-->
-        <!--                              <div class="content-post">-->
-        <!--                                  <div class="post-title">-->
-        <!--                                      <span><a href="#">Restaurant, The Wines</a></span>-->
-        <!--                                  </div>-->
-        <!--                                  <div class="post-content">-->
-        <!--                                      <h3><a href="#">Champagne billecart-Salmon Releases Rare 'Cuvée 200' To Celebrate 200 Years</a></h3>-->
-        <!--                                  </div>-->
-        <!--                                  <div class="post-meta">-->
-        <!--                                      <span><a href="#">May 28, 2018</a></span>-->
-        <!--                                  </div>-->
-        <!--                                  <div class="post-btn">-->
-        <!--                                      <span><a href="#">READ MORE <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></span>-->
-        <!--                                  </div>-->
-        <!--                              </div>-->
-        <!--                          </article>-->
-        <!--                      </div>-->
-        <!--                      <div class="col-lg-6 col-12">-->
-        <!--                          <div class="content-box">-->
-        <!--                              <ul>-->
-        <!--                                  <li>-->
-        <!--                                      <span class="box-heading"><a href="#">The Wines, Grape Wine</a></span>-->
-        <!--                                      <h3 class="box-content"><a href="#">World Wine Awards 2018: Full results now available</a></h3>-->
-        <!--                                      <span class="box-meta"><a href="#">June 02, 2018</a></span>-->
-        <!--                                  </li>-->
-        <!--                                  <li class="box-border">-->
-        <!--                                      <span class="box-heading"><a href="#">Restaurant, Grape Wine</a></span>-->
-        <!--                                      <h3 class="box-content"><a href="#">Taittinger launches Comtes de Champagne 2007</a></h3>-->
-        <!--                                      <span class="box-meta"><a href="#">June 08, 2018</a></span>-->
-        <!--                                  </li>-->
-        <!--                                  <li class="box-border">-->
-        <!--                                      <span class="box-heading"><a href="#">The Wines, Rose</a></span>-->
-        <!--                                      <h3 class="box-content"><a href="#">Jefford on Monday: "Fine, fresh wines"</a></h3>-->
-        <!--                                      <span class="box-meta"><a href="#">June 12, 2018</a></span>-->
-        <!--                                  </li>-->
-        <!--                                  <li class="box-border">-->
-        <!--                                      <span class="box-heading"><a href="#">Bordeaux, Champagne</a></span>-->
-        <!--                                      <h3 class="box-content"><a href="#">Colgate-Palmolive renews with Morz in Malaysia</a></h3>-->
-        <!--                                      <span class="box-meta"><a href="#">June 19, 2018</a></span>-->
-        <!--                                  </li>-->
-        <!--                              </ul>-->
-        <!--                          </div>-->
-        <!--                      </div>-->
-        <!--                  </div>-->
-        <!--              </div>-->
-        <!--          </section> &lt;!&ndash; /flat-latest &ndash;&gt; -->
     </div> <!-- /homepage1 -->
 
 

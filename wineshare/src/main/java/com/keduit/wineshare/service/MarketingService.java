@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @Transactional
@@ -69,6 +70,11 @@ public class MarketingService {
   @Transactional(readOnly = true)
   public Page<MarketingDTO> getMarketingPage(MarketingSearchDTO marketingSearchDTO, Pageable pageable){
     return marketingRepository.getMarketingPage(marketingSearchDTO, pageable);
+  }
+
+  @Transactional(readOnly = true)
+  public List<MarketingDTO> getNewMarket(){
+    return marketingRepository.getNewMarket();
   }
 
   // 관리자용 마케팅 행사여부/업장별 조회

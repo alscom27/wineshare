@@ -162,5 +162,26 @@ public class MarketingRepositoryCustomImpl implements MarketingRepositoryCustom{
 
   }
 
+  // 메인페이지용 최신 마켓 리스트
+  @Override
+  public List<MarketingDTO> getNewMarket() {
+    QMarketing marketing = QMarketing.marketing;
+    return queryFactory
+        .select(new QMarketingDTO(
+            marketing.id,
+            marketing.marketCategory,
+            marketing.marketingTitle,
+            marketing.eventOrNot,
+            marketing.member.nickname,
+            marketing.marketImgUrl,
+            marketing.marketingContent,
+            marketing.marketLink
+        ))
+        .from(marketing)
+        .orderBy(marketing.regTime.desc())
+        .limit(12)
+        .fetch();
+  }
+
 
 }

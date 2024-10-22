@@ -76,7 +76,7 @@
     }
     .similar-wine-inner-text {
       color: #aaa;
-      font-size: 0.8em;
+      font-size: 1em;
     }
 
   </style>
@@ -1175,10 +1175,10 @@
                   </div>
                   <div class="product-review">
                     <div class="add-cart heart">
-                      <span class="similar-wine-inner-text" th:if="${status.index == 0}">같은 종류의 와인</span>
-                      <span class="similar-wine-inner-text" th:if="${status.index == 1}">아로마가 비슷한 와인</span>
-                      <span class="similar-wine-inner-text" th:if="${status.index == 2}">어울리는 음식이 비슷한 와인</span>
-                      <span class="similar-wine-inner-text" th:if="${status.index == 3}">같은 생산국의 와인</span>
+                      <span class="similar-wine-inner-text" th:if="${status.index == 0}"># 같은 종류의 와인</span>
+                      <span class="similar-wine-inner-text" th:if="${status.index == 1}"># 아로마가 비슷한 와인</span>
+                      <span class="similar-wine-inner-text" th:if="${status.index == 2}"># 어울리는 음식이 비슷한 와인</span>
+                      <span class="similar-wine-inner-text" th:if="${status.index == 3}"># 같은 생산국의 와인</span>
                     </div>
                   </div>
                 </li> <!-- /product-item -->
