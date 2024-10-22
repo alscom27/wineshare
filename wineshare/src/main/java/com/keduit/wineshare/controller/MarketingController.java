@@ -161,6 +161,7 @@ public class MarketingController {
 
   // 상세조회는 없음 바로 링크타고 날아가면됨
 
+
   // 업장별 마케팅 수정
   @PostMapping({"/{marketCategory}/modify/{marketingId}"})
   public String marketingUpdate(@PathVariable("marketCategory") MarketCategory marketCategory,
