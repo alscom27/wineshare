@@ -304,6 +304,25 @@ ${createBtns(reply.memberId, reply.id)}
 
 <div layout:fragment="content">
 
+    <!-- 각 페이지 상단에 경로 나타내주는 부분.. -->
+    <div class="page-title parallax parallax1">
+        <div class="container">
+            <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
+                <div class="breadcrumbs">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Product</a></li>
+                        <li class="blog"><a href="#">Boards</a></li>
+                    </ul>
+                </div>
+                <div class="page-title-heading">
+                    <h2 class="title" th:text="${boardStatus} + ' Board'"><a href="#">Board</a></h2>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /.page-title -->
+
+
     <div class="board-form">
         <form role="form" method="get" th:object="${boardDTO}" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}">
@@ -325,7 +344,7 @@ ${createBtns(reply.memberId, reply.id)}
             <div th:if="${isAuthor}">
                 <!--                수정 버튼 -->
                 <button th:formaction="@{'/boards/' + ${#strings.toLowerCase(boardStatus)} + '/modify/' + ${boardDTO.id}}"
-                        type="submit" class="modify-btn">수정하기
+                        type="submit" class="board-modify-btn">수정하기
                 </button>
             </div>
 
@@ -396,14 +415,12 @@ ${createBtns(reply.memberId, reply.id)}
 
 
         <!-- 댓글 섹션 -->
-        <section class="main-shop-detail" style="padding: 0 0 50px 0;">
+        <section class="reply-all" style="padding: 0 0 50px 0;">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-11">
-                        <div class="woocommerce-tabs wc-tabs-wrapper">
-                            <ul class="tabs">
-                                <li><a class="tab active" data-id='#tab-replys' href="#">User Reply</a></li>
-                            </ul>
+
+
+                        <div class="reply-area">
+
                             <!--    모든유저  댓글      -->
                             <div id="tab-replys" class="tab-content">
                                 <div class="post-bottom-second post-bottom">
@@ -427,19 +444,19 @@ ${createBtns(reply.memberId, reply.id)}
 
 
                                                 <p class="comment-form-comment">
-                           <label>Comment</label>
-                        <textarea name="reply" placeholder="Comment" required="required"></textarea>
+<!--                           <label>Comment</label>-->
+                        <textarea name="reply" placeholder="Reply..." required="required"></textarea>
                           </p>
                           <p class="submit-form">
-                        <button name="submit" type="submit" class="submit btn btn-styl hvr-shutter-out-horizontal">SUBMIT</button>
+                        <button name="submit" type="submit" class="reply-submit">SUBMIT</button>
                       </p>
                                     </form>
                                 </div>  <!-- /comment-respond -->
 
                             </div>
                         </div>
-                    </div>
-                </div>
+
+
             </div>
         </section>
         <!-- /댓글 섹션 -->

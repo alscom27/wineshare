@@ -3,18 +3,34 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
+<th:block layout:fragment="css">
+
+  <style>
+
+
+  </style>
+</th:block>
+
 <div th:fragment="header">
 
   <header class="style1">
     <div id="site-header">
       <div class="container-fluid">
-        <a href="/" class="logo"><img th:src="@{/image/wineshare2.PNG}" alt="image" width="129" height="37" th:data-retina="@{/image/wineshare2.PNG}" data-width="147" data-height="21"></a>
+
+
+
         <div class="mobile-button">
+
           <span></span>
         </div>
         <div class="nav-wrap ">
           <nav id="mainnav" class="mainnav">
             <ul class="menu">
+              <li class="logo-area">
+
+              <a href="/" ><img th:src="@{/wineshare-img/logo2.png}" alt="image" width="95" height="50" th:data-retina="@{/wineshare-img/logo2.png}" data-width="95" data-height="50" style="margin-right:100px;"></a>
+
+              </li>
 
               <li class="active">
                 <span class="mouse-pointer">About Us</span>
@@ -73,18 +89,21 @@
         <div class="search clearfix">
 
           <ul>
-            <li><input type="search" id="search" placeholder="Search..." ></li>
-            <li><a href="#" class="header-search-icon"><i class="ti-search" aria-hidden="true"></i></a></li>
+<!--            <li><input type="search" id="search" placeholder="Search..." ></li>-->
+<!--            <li><a href="#" class="header-search-icon"><i class="ti-search" aria-hidden="true"></i></a></li>-->
+
+            <li sec:authorize="isAuthenticated()" >
+              <span th:text="${#authentication.name}" style="font-weight: bold;"></span>
+              님 환영합니다.
+            </li>
+
+
             <li><a href="#"> <i class="ti-align-justify" aria-hidden="true"></i> </a>
               <ul class="sub-menu">
 
                 <!--        여기가 유저 네임 보여주는 곳 ==========-->
                 <!--       이메일보단 닉넴으로 보여주는게 좋을듯 ==========-->
 
-                <li sec:authorize="isAuthenticated()" >
-                  <span th:text="${#authentication.name}" style="font-weight: bold;"></span>
-                  님 환영합니다.
-                </li>
 
 
                 <li sec:authorize="isAnonymous()">
@@ -103,10 +122,10 @@
               </ul><!-- /.sub-menu -->
             </li>
           </ul>
-          <form class="header-search-form" role="search" th:action="@{/}" method="get">
-            <input type="text" value="" name="#" class="header-search-field" placeholder="Search...">
-            <button type="submit" class="header-search-submit" title="Search"><i class="fa fa-search"></i></button>
-          </form>
+<!--          <form class="header-search-form" role="search" th:action="@{/}" method="get">-->
+<!--            <input type="text" value="" name="#" class="header-search-field" placeholder="Search...">-->
+<!--            <button type="submit" class="header-search-submit" title="Search"><i class="fa fa-search"></i></button>-->
+<!--          </form>-->
         </div>
       </div><!-- /container -->
     </div>

@@ -10,18 +10,14 @@
 html {
     font-size: 10px;
 }
-body {
-    /*background-color: ;*/
-}
-ul, li {
-    list-style: none;
-    margin-top:10px;
-}
+
 
 a {
     text-decoration: none;
     color: inherit;
 }
+
+
 .board_wrap {
      width:80%;
      border: 1px solid #e5e5e5;
@@ -91,6 +87,7 @@ a {
     width: 100%;
     border-top: 2px solid #e5e5e5;
     border-bottom: 2px solid #e5e5e5;
+    margin-bottom: 3%;
 }
 .board_list > div {
     border-bottom: 1px solid #ddd;
