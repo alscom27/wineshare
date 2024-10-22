@@ -8,6 +8,8 @@ import com.keduit.wineshare.entity.Marketing;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface MarketingRepositoryCustom {
 
   // 전체 페이지와같이
@@ -24,5 +26,7 @@ public interface MarketingRepositoryCustom {
   Page<Marketing> getMarketingPageByEventAndCategory(MarketingSearchDTO marketingSearchDTO, MarketCategory marketCategory,
                                                      EventOrNot eventOrNot, Pageable pageable);
 
+  // 메인용 최신 마켓
+  List<MarketingDTO> getNewMarket();
 
 }

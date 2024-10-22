@@ -68,4 +68,16 @@ public class MarketingDTO {
     this.ownerNickname = ownerNickname;
   }
 
+  @QueryProjection
+  public MarketingDTO(Long id, MarketCategory marketCategory, String marketingTitle, EventOrNot eventOrNot, String ownerNickname, String marketImgUrl, String marketingContent, String marketLink) {
+    this.id = id;
+    this.marketCategory = marketCategory;
+    this.marketingTitle = marketingTitle;
+    this.eventOrNot = eventOrNot;
+    this.ownerNickname = ownerNickname;
+    this.marketingContent = marketingContent;
+    this.marketImgUrl = marketImgUrl;
+    this.marketLink = marketLink;
+  }
+
 }
