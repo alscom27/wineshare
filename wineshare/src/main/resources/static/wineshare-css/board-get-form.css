@@ -52,8 +52,8 @@ th{
    color: #e5e5e5;
    border-radius:5px;
    position:absolute;
-   right:3%;
-   top:3%;
+   right:2%;
+   top:6.5%;
 }
 
 .reply-all{
@@ -94,6 +94,6 @@ th{
     padding: 10px 25px;
     background: #c02323;
     position:absolute;
-    right:1.5%;
-    top:4%;
+    right:2%;
+    top:6.5%;
 }
