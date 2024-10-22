@@ -193,7 +193,7 @@ a {
     padding: 14px 30px;
     position: absolute;
     right: 0;
-    bottom: 5px;
+    bottom: 10px;
     border-radius:5px;
 }
 .search-btn{
@@ -203,6 +203,7 @@ a {
     background: #e5e5e5;
     color: #191919;
 }
+
 
 
 

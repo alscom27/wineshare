@@ -80,7 +80,7 @@
 
 .woocommerce.woocommerce-page ul.products li > a > h3,
 .woocommerce.woocommerce-page ul.products li > a > .price {
-	font-family: "Rubik", sans-serif;
+	font-family: "Rubik", 'MinSans-Regular', sans-serif;
 	font-weight: 400;
 	font-size: 16px;
 	color: #303030;		
@@ -235,7 +235,7 @@
 }
 
 .woocommerce-tabs #comments h2 {
-	font-family: "Rubik", sans-serif;
+	font-family: "Rubik", 'MinSans-Regular', sans-serif;
     color: #999999;
     text-transform: uppercase;
     margin-bottom: 50px;
@@ -284,7 +284,7 @@
 
 /* Review Form */
 .woocommerce-tabs #review_form .comment-reply-title {
-	font-family: "Rubik", sans-serif;
+	font-family: "Rubik", 'MinSans-Regular', sans-serif;
     font-size: 25px;
 	line-height: 30px;
 	color: #000000;
@@ -342,7 +342,7 @@
 }*/
 
 .related.products h2 {
-	font-family: "Rubik", sans-serif;
+	font-family: "Rubik", 'MinSans-Regular', sans-serif;
 	font-weight: 500;
     font-size: 24px;
     line-height: 21px;
@@ -426,7 +426,7 @@
     margin: 0 0 20px 0;
     background-color: #ffb922;
     border-radius: unset;
-    font-family: "Rubik", sans-serif;
+    font-family: "Rubik", 'MinSans-Regular', sans-serif;
     color: #ffffff;
     font-weight: 500;
     font-size: 14px;
@@ -474,7 +474,7 @@
     height: 48px;
     text-align: center;
     border-radius: unset;
-    font-family: "Rubik", sans-serif;
+    font-family: "Rubik", 'MinSans-Regular', sans-serif;
     font-weight: 500;
     color: #121212;
     padding-left: 30px;
@@ -498,7 +498,7 @@
 
 .woocommerce-page .product_meta span {
 	color: #303030;
-	font-family: "Rubik", sans-serif;
+	font-family: "Rubik", 'MinSans-Regular', sans-serif;
 }
 
 

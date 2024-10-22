@@ -22,9 +22,14 @@
 @import url("magnific-popup.css");
 @import url("https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700|Marcellus|Rouge+Script|Laila:300,400,500,600,700");
 /*임시 폰트 */
-@import url('https://fonts.googleapis.com/css2?family=Diphylleia&family=Song+Myung&display=swap');
+@font-face {
+	font-family: 'MinSans-Regular';
+	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
 
-@import url('https://fonts.googleapis.com/css2?family=Diphylleia&family=Nanum+Myeongjo:wght@400;700;800&family=Song+Myung&display=swap');
+
 
 
 /**
@@ -417,7 +422,7 @@ input[type="color"],
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'Marcellus', sans-serif;
+	font-family: 'Marcellus', 'MinSans-Regular', sans-serif;
 	font-weight: 400;
 	color: #191919;
 }
@@ -481,7 +486,7 @@ header.style1 #mainnav > ul.menu > li {
 }
 
 header.style1 .nav-wrap ul li a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 26px;
 	color: #191919;
@@ -565,7 +570,7 @@ header.style1 .search{
 
 header.style1 .search #search {
 	width: 95px;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 26px;
 	color: #a6a6a6;
@@ -661,7 +666,7 @@ header.style1 .search ul li:last-of-type {
 }
 
 header.style1 .search ul li a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 26px;
 	color: #191919;
@@ -971,7 +976,7 @@ header.style1 input {
 
 .page-title .breadcrumbs ul li a {
 	text-decoration: none;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 42px;
 	color: #191919;
@@ -983,7 +988,7 @@ header.style1 input {
 
 .page-title .breadcrumbs ul li.blog a {
 	text-decoration: none;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 42px;
 	color: #a6a6a6;
@@ -1032,7 +1037,7 @@ header.style1 input {
 }
 
 .main-blog-right .content .content-main .heading span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-weight: 400;
 	font-style: italic;
 	font-size: 14px;
@@ -1046,7 +1051,7 @@ header.style1 input {
 }
 
 .main-blog-right .content .content-main .title {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	padding-top: 10px;
 	font-weight: 400;
@@ -1062,7 +1067,7 @@ header.style1 input {
 
 .main-blog-right .content .content-main .meta{
 	padding-top: 10px;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 }
@@ -1199,7 +1204,7 @@ article.post-list .content-post {
 }
 
 .main-blog-right .post-content ul li .main-title .heading a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-weight: 400;
 	font-size: 14px;
 	line-height: 30px;
@@ -1224,7 +1229,7 @@ article.post-list .content-post {
 
 .main-blog-right .post-content ul li .main-title .meta {
 	padding-top: 3px;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	font-weight: 400;
@@ -1240,7 +1245,7 @@ article.post-list .content-post {
 
 .main-blog-right .post-content ul li .main-title .content {
 	padding-top: 19px;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	font-weight: 400;
 	color:#595959;
@@ -1281,7 +1286,7 @@ article.post-list .content-post {
 .main-blog-right .blog-pagination a {
 	padding: 3px 22px;
 	text-align: center;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	padding-top: 10px;
 	border:1px solid #c02323;
@@ -1429,7 +1434,7 @@ article.post-list .content-post {
 }
 
 .main-blog-right .sidebar .sidebar-inner .widget-recent .thumb-new .thumb-new-title {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-style: italic;
 	font-size: 12px;
 	line-height: 30px;
@@ -1442,21 +1447,21 @@ article.post-list .content-post {
 }
 
 .main-blog-right .sidebar .sidebar-inner .widget-recent .thumb-new .thumb-new-content {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 30px;
 	color: #191919;
 }
 
 .main-blog-right .sidebar .sidebar-inner .widget-recent .thumb-new .thumb-new-contact {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 30px;
 	color: #a6a6a6;
 }
 
 .main-blog-right .sidebar .sidebar-inner  h3 {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 22px;
 	line-height: 32px;
 	color: #191919;
@@ -1467,7 +1472,7 @@ article.post-list .content-post {
 }
 
 .main-blog-right .sidebar .sidebar-inner .widget-categories .thumb-new-categories a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 48px;
 	color: #191919;
@@ -1503,7 +1508,7 @@ article.post-list .content-post {
 }
 
 .main-blog-right .sidebar .sidebar-inner .widget-categories .thumb-new-banner .banner-content h3 {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 40px;
 	color: #c02323;
@@ -1514,7 +1519,7 @@ article.post-list .content-post {
 }
 
 .main-blog-right .sidebar .sidebar-inner .widget-categories .thumb-new-banner .banner-content h1 {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 36px;
 	line-height: 40px;
 	color: #fff;
@@ -1535,7 +1540,7 @@ article.post-list .content-post {
 	padding: 0 34px;
 	color: #fff;
 	border: 1px solid #c02323;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	display: inline-block;
@@ -1595,7 +1600,7 @@ footer.style1 .footer-widgets .widget-title {
 }
 
 footer.style1 .footer-widgets .widget-title h2 {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 36px;
 	color: #191919;
@@ -1668,7 +1673,7 @@ footer.style1 .footer-widgets .widget-menu ul li.contact:after {
 
 footer.style1 .footer-widgets .widget-menu ul li a {
 	text-decoration: none;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -1680,7 +1685,7 @@ footer.style1 .footer-widgets .widget-menu ul li.active a {
 }
 
 footer.style1 .footer-widgets .widget-text span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -1699,7 +1704,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .content-wrap h1 a{
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 36px;
 	line-height: 42px;
 	color: #191919;
@@ -1720,14 +1725,14 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .content-wrap ul li.title-meta a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 48px;
 	color: #595959;
 }
 
 .main-blog-detail .content-wrap ul li.title-heading a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 48px;
 	color: #a6a6a6;
@@ -1785,7 +1790,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .content-post .social-share  ul li.social-title a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 30px;
 	color: #191919;
@@ -1855,7 +1860,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .content-post .post-text span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 28px;
 	color: #595959;
@@ -1886,7 +1891,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .content-post .post-main .main-text blockquote {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 28px;
 	color: #191919;
@@ -1895,7 +1900,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .content-post .post-main .main-text span a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 36px;
 	color: #c02323;
@@ -1955,7 +1960,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-blog-detail .content-post .post-bottom-text .text-button ul li a  {
 	text-decoration: none;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 30px;
 	color: #636363;
@@ -1977,7 +1982,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .relatest h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 32px;
 	color: #191919;
@@ -2004,7 +2009,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .relatest .post .author-info .author-title a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-style: italic;
 	font-size: 14px;
 	line-height: 30px;
@@ -2022,7 +2027,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .relatest .post .author-info .author-content a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 27px;
 	color: #191919;
@@ -2042,7 +2047,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .relatest .post .author-info .author-meta a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -2057,7 +2062,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .post-bottom h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 32px;
 	color: #191919;
@@ -2102,7 +2107,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .post-bottom .post-comment .comment-meta a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 36px;
 	color: #b5244d;
@@ -2113,7 +2118,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .post-bottom .post-comment .comment-title a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 24px;
 	color: #191919;
@@ -2128,7 +2133,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-detail .post-bottom .post-comment .comment-text a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 }
@@ -2150,7 +2155,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 .main-blog-detail .post-bottom .post-comment ul li a {
 	padding: 0 27px;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 28px;
 	color: #c02323;
@@ -2164,7 +2169,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-blog-detail .post-bottom .post-comment .button-reply {
 	padding: 0 29px;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 28px;
 	background-color: #fff;
@@ -2229,7 +2234,7 @@ footer.style1 .footer-widgets .widget-text span {
 	border: 1px solid #c02323;
 	margin-top: 20px;
 	text-align: center;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 32px;
 	background: #fff;
@@ -2274,7 +2279,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-grid .post .content-post .post-heading span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-style: italic;
 	font-size: 14px;
 	line-height: 30px;
@@ -2292,7 +2297,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-grid .post .content-post .post-title h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	color: #191919;
 }
@@ -2306,7 +2311,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-grid .post .content-post .post-meta span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -2322,7 +2327,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-grid .post .content-post .post-content span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #a6a6a6;
 }
@@ -2336,7 +2341,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-grid .post .content-post .post-submit a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 48px;
 	color: #c02323;
@@ -2414,7 +2419,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-grid3 .container .post .content-post .post-title span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-style: italic;
 	font-size: 14px;
 	line-height: 30px;
@@ -2435,7 +2440,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-grid3 .container .post .content-post .post-content h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	color: #191919;
 }
@@ -2449,7 +2454,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-grid3 .container .post .content-post .post-meta span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -2465,7 +2470,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-grid3 .container .post .content-post .post-button a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 48px;
 	color: #c02323;
@@ -2518,7 +2523,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .container .content-wrap .content-wrap-title h1 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 36px;
 	line-height: 42px;
 	color: #191919;
@@ -2541,7 +2546,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-blog-details .container .content-wrap ul li a {
 	text-decoration: none;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 48px;
 }
@@ -2578,7 +2583,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .container .content-post .post-text-title span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 28px;
 	color: #595959;
@@ -2589,7 +2594,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .container .content-post .post-text-between span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 28px;
 	color: #595959;
@@ -2600,7 +2605,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .container .content-post .post-text-bottom span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 28px;
 	color: #595959;
@@ -2618,7 +2623,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .container .content-post .post-main .main-text blockquote{
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 28px;
 	color: #191919;
@@ -2626,7 +2631,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .content-post .post-main .main-text span a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 36px;
 	color: #c02323;
@@ -2637,7 +2642,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .content-post h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 32px;
 	color: #191919;
@@ -2653,7 +2658,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .content-post .post-bottom-text .text-title h2 a {
-	font-family: 'Marcellus';
+	font-family: 'Marcellus', 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 32px;
 	color: #191919;
@@ -2668,7 +2673,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .content-post .post-bottom-text .text-top span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	color: #595959;
 	line-height: 28px;
@@ -2679,7 +2684,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .content-post .post-bottom-text .text-bottom span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	color: #595959;
 	line-height: 28px;
@@ -2713,7 +2718,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-blog-details .content-post .post-bottom-text .text-button ul li a  {
 	text-decoration: none;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 30px;
 	color: #636363;
@@ -2741,7 +2746,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-blog-details .content-post .post-bottom-text .text-social ul li a {
 	text-decoration: none;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 26px;
 }
@@ -2771,7 +2776,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .relatest h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 32px;
 	color: #191919;
@@ -2801,7 +2806,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .relatest .author-wrap .author-info .author-title a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-style: italic;
 	font-size: 14px;
 	line-height: 30px;
@@ -2820,7 +2825,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .relatest .author-wrap .author-info .author-content a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 18px;
 	color: #191919;
 }
@@ -2835,7 +2840,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .relatest .author-wrap .author-info .author-meta a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -2850,7 +2855,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .post-bottom h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 32px;
 	color: #191919;
@@ -2880,7 +2885,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details  .post-bottom .post-comment .comment-meta a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 36px;
 	color: #b5244d;
@@ -2891,7 +2896,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details  .post-bottom .post-comment .comment-title a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 24px;
 	color: #191919;
@@ -2906,7 +2911,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details  .post-bottom .post-comment .comment-text a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 	letter-spacing: 0.1px;
@@ -2918,7 +2923,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-blog-details  .post-bottom .post-comment .button-like {
 	padding: 0 27px;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 28px;
 	background-color: #fff;
@@ -2944,7 +2949,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-blog-details  .post-bottom .post-comment ul li a {
 	padding: 0 29px;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 28px;
 	color: #c02323;
@@ -2966,7 +2971,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .comment-respond h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 32px;
 	color: #191919;
@@ -3006,7 +3011,7 @@ footer.style1 .footer-widgets .widget-text span {
 	border: 1px solid #c02323;
 	margin-top: 21px;
 	text-align: center;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 32px;
 	background: #fff;
@@ -3073,7 +3078,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-blog-details .sidebar .sidebar-inner h2.widget-title {
 	padding: 0 10px;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 22px;
 	line-height: 32px;
 	color: #191919;
@@ -3109,7 +3114,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .sidebar .sidebar-inner .widget-recent .thumb-new .thumb-new-title {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-style: italic;
 	font-size: 12px;
 	line-height: 30px;
@@ -3122,14 +3127,14 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .sidebar .sidebar-inner .widget-recent .thumb-new .thumb-new-content {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 30px;
 	color: #191919;
 }
 
 .main-blog-details .sidebar .sidebar-inner .widget-recent .thumb-new .thumb-new-contact {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 30px;
 	color: #a6a6a6;
@@ -3140,7 +3145,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .sidebar .sidebar-inner .widget-categories .thumb-new-categories a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 48px;
 	color: #191919;
@@ -3177,7 +3182,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .sidebar .sidebar-inner .widget-categories .thumb-new-banner .banner-content h3 {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 40px;
 	color: #c02323;
@@ -3188,7 +3193,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-blog-details .sidebar .sidebar-inner .widget-categories .thumb-new-banner .banner-content h1 {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 36px;
 	line-height: 40px;
 	color: #fff;
@@ -3208,7 +3213,7 @@ footer.style1 .footer-widgets .widget-text span {
 	padding: 0 34px;
 	color: #fff;
 	border: 1px solid #c02323;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	display: inline-block;
@@ -3239,7 +3244,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .sidebar .sidebar-inner .widget-tag .tag-inner ul li a {
 	text-decoration: none;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 30px;
 	color: #636363;
@@ -3343,7 +3348,7 @@ footer.style1 .footer-widgets .widget-text span {
 .filter-shop span {
 	float: right;
 	text-align: center;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 42px;
 	color: #595959;
@@ -3394,7 +3399,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-fullwidth .container .post .post-content .post-title h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	color: #191919;
 	letter-spacing: 1.2px;
@@ -3435,7 +3440,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-shop-fullwidth .container .post .post-content .post-meta ul li a {
 	text-decoration: none;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -3452,7 +3457,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-fullwidth .container .post .post-content .post-main span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 	letter-spacing: 0.7px;
@@ -3464,7 +3469,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-fullwidth .container .post .post-content .post-price span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 48px;
 	color: #c02323;
@@ -3476,7 +3481,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-fullwidth .container .post .post-content .post-submit a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	letter-spacing: 1px;
@@ -3555,7 +3560,7 @@ footer.style1 .footer-widgets .widget-text span {
 .main-shop-right .container .filter-shop span {
 	float: right;
 	text-align: center;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 42px;
 	color: #595959;
@@ -3587,7 +3592,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-right .container .post .post-content .post-title h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	color: #191919;
 	letter-spacing: 1.3px;
@@ -3628,7 +3633,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-shop-right .container .post .post-content .post-meta ul li a {
 	text-decoration: none;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -3644,7 +3649,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-right .container .post .post-content .post-main span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 	letter-spacing: 0.7px;
@@ -3655,7 +3660,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-right .container .post .post-content .post-price span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 48px;
 	color: #c02323;
@@ -3667,7 +3672,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-right .container .post .post-content .post-submit a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	letter-spacing: 1px;
@@ -3716,14 +3721,14 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-right .sidebar .widget .widget-title {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 22px;
 	line-height: 32px;
 	color: #191919;
 }
 
 .main-shop-right .sidebar .sidebar-inner .widget-categories .thumb-new-categories a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 48px;
 	color: #191919;
@@ -3830,7 +3835,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-right .sidebar .sidebar-inner .widget-filter .thumb-new-banner .banner-content h3 {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 40px;
 	color: #c02323;
@@ -3841,7 +3846,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-right .sidebar .sidebar-inner .widget-filter .thumb-new-banner .banner-content h1 {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 36px;
 	line-height: 40px;
 	color: #fff;
@@ -3860,7 +3865,7 @@ footer.style1 .footer-widgets .widget-text span {
 	padding: 0 25px;
 	color: #fff;
 	border: 1px solid #c02323;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	display: inline-block;
@@ -3931,7 +3936,7 @@ footer.style1 .footer-widgets .widget-text span {
 
 .main-shop-right .sidebar .widget-recent .thumb-new-content .thumb-new-title {
 	display: block;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 30px;
 	color: #191919;
@@ -3942,7 +3947,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .main-shop-right .sidebar .widget-recent .thumb-new-content .thumb-new-price {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 30px;
 	color: #c02323;
@@ -4003,7 +4008,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .flat-deal-of-the-week.style1 .flat-deal-week-content .deal-week-title a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 42px;
 	color: #191919;
@@ -4020,7 +4025,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .flat-deal-of-the-week.style1 .flat-deal-week-content span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 	margin-top: 15px;
@@ -4028,7 +4033,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .flat-deal-of-the-week.style1 .flat-deal-week-content span.flat-dolar {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 20px;
 	line-height: 30px;
 	color: #c02323;
@@ -4113,7 +4118,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style1 .post .post-title span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-style: italic;
 	font-size: 14px;
 	line-height: 30px;
@@ -4130,7 +4135,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style1 .post .post-content h3 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 31px;
 	color: #191919;
@@ -4145,7 +4150,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style1 .post .post-meta span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -4156,7 +4161,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style1 .post .post-btn span a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 48px;
 	color: #c02323;
@@ -4172,7 +4177,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style1 .content-box .box-heading a{
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-style: italic;
 	font-size: 14px;
 	line-height: 30px;
@@ -4185,7 +4190,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style1 .content-box .box-content a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 20px;
 	line-height: 36px;
 	color: #191919;
@@ -4196,7 +4201,7 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style1 .content-box .box-meta a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -4279,14 +4284,14 @@ footer.style1 .footer-widgets .widget-text span {
 }
 
 .slide .top-bar-inner .phone a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 30px;
 	color: #a6a6a6;
 }
 
 .slide .top-bar-inner .meta a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 30px;
 	color: #fff;
@@ -4352,7 +4357,7 @@ header.style2 .search input::placeholder {
 }
 
 header.style2 .search span {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 26px;
 	color: #fff;
@@ -4373,7 +4378,7 @@ header.style2 .nav-wrap > ul > li {
 }
 
 header.style2 .nav-wrap ul li a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 26px;
 	color: #fff;
@@ -4587,7 +4592,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-deal-of-the-week.style2 .deal-week-content p {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 }
@@ -4667,7 +4672,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-top-products h1 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 36px;
 	line-height: 42px;
 	color: #191919;
@@ -4678,7 +4683,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-top-products span.products-content {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 }
@@ -4692,7 +4697,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-top-products .info span span.title {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 26px;
 	color: #191919;
@@ -4704,7 +4709,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-top-products .info span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 26px;
 	color: #595959;
@@ -4716,7 +4721,7 @@ header.style2 .review a i:hover {
 
 .flat-top-products .price h3 {
 	float: left;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 26px;
 	color: #191919;
@@ -4724,7 +4729,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-top-products .price p {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 20px;
 	line-height: 30px;
 	color: #c02323;
@@ -4757,7 +4762,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-banner p.banner-content a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #fff;
 }
@@ -4815,7 +4820,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-new-latest.style2 .content-post .post-heading span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-style: italic;
 	font-size: 14px;
 	line-height: 30px;
@@ -4832,7 +4837,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-new-latest.style2 .content-post .post-title h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	color: #191919;
 }
@@ -4846,7 +4851,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-new-latest.style2 .content-post .post-meta span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -4862,7 +4867,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-new-latest.style2 .content-post .post-content span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #a6a6a6;
 }
@@ -4876,7 +4881,7 @@ header.style2 .review a i:hover {
 }
 
 .flat-new-latest.style2 .content-post .post-submit a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 48px;
 	color: #c02323;
@@ -4943,7 +4948,7 @@ footer.style2 .footer-widgets .widget-title {
 }
 
 footer.style2 .footer-widgets .widget-title h2 {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 36px;
 	color: #191919;
@@ -5021,7 +5026,7 @@ footer.style2 .footer-widgets .widget-menu ul li.contact:after {
 
 footer.style2 .footer-widgets .widget-menu ul li a {
 	text-decoration: none;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -5033,7 +5038,7 @@ footer.style2 .footer-widgets .widget-menu ul li.active a {
 }
 
 footer.style2 .footer-widgets .widget-text span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -5099,7 +5104,7 @@ header.style3 .nav-wrap ul li:last-of-type {
 }
 
 header.style3 .nav-wrap ul li a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 26px;
 	color: #191919;
@@ -5262,7 +5267,7 @@ header.style3 .search ul li:last-of-type {
 }
 
 header.style3 .search ul li a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 26px;
 	color: #191919;
@@ -5364,7 +5369,7 @@ body.bg-boxed {
 }
 
 .flat-deal-of-the-week.style3 p {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 	padding: 0 300px;
@@ -5412,7 +5417,7 @@ body.bg-boxed {
 }
 
 .flat-new-latest.style3 .content-post .post-heading span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-style: italic;
 	font-size: 14px;
 	line-height: 30px;
@@ -5430,7 +5435,7 @@ body.bg-boxed {
 }
 
 .flat-new-latest.style3 .content-post .post-title h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	color: #191919;
 }
@@ -5444,7 +5449,7 @@ body.bg-boxed {
 }
 
 .flat-new-latest.style3 .content-post .post-meta span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -5459,7 +5464,7 @@ body.bg-boxed {
 }
 
 .flat-new-latest.style3 .content-post .post-submit a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 48px;
 	color: #c02323;
@@ -5535,7 +5540,7 @@ footer.style3 .footer-widgets .widget-title {
 }
 
 footer.style3 .footer-widgets .widget-title h2 {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 36px;
 	color: #191919;
@@ -5608,7 +5613,7 @@ footer.style3 .footer-widgets .widget-menu ul li.contact:after {
 
 footer.style3 .footer-widgets .widget-menu ul li a {
 	text-decoration: none;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -5620,7 +5625,7 @@ footer.style3 .footer-widgets .widget-menu ul li.active a {
 }
 
 footer.style3 .footer-widgets .widget-text span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -5696,7 +5701,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-homepage-4 .slider-style4 .product-title {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 20px;
 	line-height: 34px;
 	color: #191919;
@@ -5707,7 +5712,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-homepage-4 .slider-style4 .amount {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 34px;
 	color: #c02323;
@@ -5768,7 +5773,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-our-product.style4 .product-item .new {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 45px;
 	letter-spacing: 0.7px;
@@ -5794,7 +5799,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-our-product.style4 .product-item .new {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 30px;
 	padding:6px 6px;
@@ -5813,14 +5818,14 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-our-product.style4 .product-item .product-title {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 30px;
 	color: #191919;
 }
 
 .flat-our-product.style4 .product-item .price ins {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 34px;
 	color: #c02323;
@@ -5828,7 +5833,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-our-product.style4 .product-item .price del {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 12px;
 	line-height: 34px;
 	color: #a6a6a6;
@@ -5941,7 +5946,7 @@ footer.style3 .footer-widgets .widget-text span {
 
 /* flat-row */
 .flat-row .post-title span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 30px;
 	color: #c02323;
@@ -5952,7 +5957,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-row .post-name h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 20px;
 	line-height: 30px;
 	color: #191919;
@@ -5963,7 +5968,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-row .post-button span {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #c02323;
@@ -6042,7 +6047,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-our-product .our-product-title h1 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 36px;
 	line-height: 60px;
 	color: #191919;
@@ -6110,7 +6115,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-deal-of-the-week.style5 h1 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 36px;
 	line-height: 60px;
 	color: #191919;
@@ -6121,7 +6126,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-deal-of-the-week.style5 span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 }
@@ -6163,7 +6168,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style5 .new-latest-title h1 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 36px;
 	line-height: 60px;
 	color: #191919;
@@ -6205,7 +6210,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style5 .content-post .post-title span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-style: italic;
 	font-size: 14px;
 	line-height: 30px;
@@ -6226,7 +6231,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style5 .content-post .post-content h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	color: #191919;
 }
@@ -6240,7 +6245,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style5 .content-post .post-meta span a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 	color: #a6a6a6;
@@ -6256,7 +6261,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-new-latest.style5 .content-post .post-button a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 48px;
 	color: #c02323;
@@ -6331,7 +6336,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-benefil .benefil-inner .text-wrap h5 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 20px;
 	line-height: 28px;
 	color: #191919;
@@ -6342,7 +6347,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-benefil .benefil-inner .text-wrap p {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 28px;
 	color: #6e6e6e;
@@ -6358,7 +6363,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-error .wrap-error h1.heading-error {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 130px;
 	color: #c02323;
 	letter-spacing: 10px;
@@ -6367,7 +6372,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-error .wrap-error h1.title-error {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 48px;
 	line-height: 72px;
 	color: #191919;
@@ -6375,7 +6380,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-error .wrap-error p {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	color: #595959;
 	margin-top: 10px;
@@ -6409,7 +6414,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-our-website .wrap-our-website h1 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 48px;
 	line-height: 48px;
 	color: #191919;
@@ -6420,7 +6425,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-our-website .wrap-our-website p {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 48px;
 	color: #595959;
@@ -6477,7 +6482,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-about-us h1.heading-about a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 36px;
 	line-height: 28px;
 	color: #191919;
@@ -6529,7 +6534,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-our-history h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 28px;
 	color: #191919;
@@ -6663,7 +6668,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-our-history h3.meta-history {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 36px;
 	color: #c02323;
@@ -6671,14 +6676,14 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-our-history p.text-history {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 	line-height: 28px;
 }
 
 .flat-our-history p.text-history-inner {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 	line-height: 28px;
@@ -6722,7 +6727,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-team h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 18px;
 	line-height: 30px;
 	color: #191919;
@@ -6733,7 +6738,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-team h3 a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 30px;
 	color: #c02323;
@@ -6744,7 +6749,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-team  p {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 }
@@ -6866,7 +6871,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-event .content-post h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	color: #191919;
 	letter-spacing: 1.2px;
@@ -6877,7 +6882,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-event .content-post p a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 28px;
 	color: #595959;
@@ -6918,7 +6923,7 @@ footer.style3 .footer-widgets .widget-text span {
 
 .main-event .content-phone ul li a {
 	text-decoration: none;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height:28px;
 	color: #595959;
@@ -6933,7 +6938,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-event .content-post h3 a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	line-height: 50px;
 	color: #c02323;
 }
@@ -7035,7 +7040,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-shop-detail .content-wrap h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 30px;
 	line-height: 42px;
 	color: #191919;
@@ -7047,7 +7052,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-shop-detail .content-wrap .dolar {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 48px;
 	color: #c02323;
@@ -7071,7 +7076,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-shop-detail .content-wrap .content-text p{
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 }
@@ -7086,7 +7091,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-shop-detail .content-wrap .info-content ul li span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 30px;
 	color:#c02323;
@@ -7094,7 +7099,7 @@ footer.style3 .footer-widgets .widget-text span {
 
 .main-shop-detail .content-wrap .info-content ul li span.note {
 	display: inline-block;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 30px;
 	color:#a6a6a6;
@@ -7273,7 +7278,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-shop-detail .comment-meta a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 12px;
 	color: #b5244d;
 }
@@ -7283,7 +7288,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-shop-detail .comment-title a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 18px;
 	color: #191919;
 }
@@ -7297,7 +7302,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-shop-detail .comment-text a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 }
@@ -7347,7 +7352,7 @@ footer.style3 .footer-widgets .widget-text span {
 	border: 1px solid #c02323;
 	margin-top: 40px;
 	text-align: center;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 32px;
 	background: #fff;
@@ -7394,7 +7399,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-details-slidebar .content-wrap h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 30px;
 	line-height: 42px;
 	color: #191919;
@@ -7410,7 +7415,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-details-slidebar .content-wrap .dolar {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 48px;
 	color: #c02323;
@@ -7431,7 +7436,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-details-slidebar .content-wrap .content-text p{
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 }
@@ -7446,7 +7451,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-details-slidebar .content-wrap .info-content ul li span {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 30px;
 	color:#c02323;
@@ -7454,7 +7459,7 @@ footer.style3 .footer-widgets .widget-text span {
 
 .main-details-slidebar .content-wrap .info-content ul li span.note {
 	display: inline-block;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 30px;
 	color:#a6a6a6;
@@ -7468,7 +7473,7 @@ footer.style3 .footer-widgets .widget-text span {
 .main-details-slidebar .content-wrap .size span {
 	float: left;
 	display: inline-block;
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 36px;
 }
@@ -7641,7 +7646,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-details-slidebar .comment-meta a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 12px;
 	color: #b5244d;
 }
@@ -7651,7 +7656,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-details-slidebar .comment-title a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 18px;
 	color: #191919;
 }
@@ -7665,7 +7670,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .main-details-slidebar .comment-text a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 14px;
 	color: #595959;
 }
@@ -7711,7 +7716,7 @@ footer.style3 .footer-widgets .widget-text span {
 	border: 1px solid #c02323;
 	margin-top: 40px;
 	text-align: center;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 32px;
 	background: #fff;
@@ -7745,7 +7750,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-order-tracking .comment-form p a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 60px;
 	color: #191919;
@@ -7764,7 +7769,7 @@ footer.style3 .footer-widgets .widget-text span {
 	border: 1px solid #c02323;
 	margin-top: 40px;
 	text-align: center;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 32px;
 	background: #fff;
@@ -7853,7 +7858,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-cart ul.tabs li a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 27px;
 	color: #191919;
@@ -7926,7 +7931,7 @@ footer.style3 .footer-widgets .widget-text span {
 .main-shop-cart .cart .elm-btn .margin-top-40 {
 	padding: 7px 65px;
 	margin-top: 24px;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 30px;
 	color: #c02323;
@@ -8054,7 +8059,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-cart .wrap-discount-estimate-cart h2 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 24px;
 	line-height: 26px;
 	color: #191919;
@@ -8207,7 +8212,7 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-cart .order-details h1 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 32px;
 	line-height: 36px;
 	color: #191919;
@@ -8324,20 +8329,20 @@ footer.style3 .footer-widgets .widget-text span {
 }
 
 .flat-contact .title-contact h3 a {
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 22px;
 	line-height: 36px;
 	color: #595959;
 }
 
 .flat-contact .info-contact p a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	color: #191919;
 }
 
 .flat-contact .text-contact p a {
-	font-family: Libre Baskerville;
+	font-family: Libre Baskerville, 'MinSans-Regular';
 	font-size: 16px;
 	line-height: 28px;
 	color: #191919;
@@ -8719,7 +8724,7 @@ footer.style3 .footer-widgets .widget-text span {
 	border: 1px solid #c02323;
 	margin-top: 7px;
 	text-align: center;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 32px;
 	background: #fff;
@@ -8736,7 +8741,7 @@ footer.style3 .footer-widgets .widget-text span {
 	border: 1px solid #c02323;
 	margin-top: 1px;
 	text-align: center;
-	font-family: Marcellus;
+	font-family: Marcellus, 'MinSans-Regular';
 	font-size: 14px;
 	line-height: 32px;
 	background: #fff;

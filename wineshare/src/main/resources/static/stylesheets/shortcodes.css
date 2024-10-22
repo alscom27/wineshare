@@ -23,13 +23,13 @@
 /* flat-slider */
 
 .flat-slider .tp-caption.wellcome {
-    font-family: Rouge Script;
+    font-family: Rouge Script, 'MinSans-Regular';
     font-size: 36px;
     color: #fff;
 }
 
 .flat-slider .tp-caption.best a.text-white {
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     color: #fff;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .flat-slider .tp-caption.text-wizym {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 18px;
     line-height: 30px;
     color: #fff;
@@ -52,7 +52,7 @@
 .flat-slider.style3 .tp-caption a.btn-styl {
     padding: 7px 48px;
     margin-top: 38px;
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 14px;
     line-height: 30px;
     color: #fff;
@@ -64,7 +64,7 @@
 .flat-slider.style2 .tp-caption a.btn-styl {
     padding: 7px 32px;
     margin-top: 38px;
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 14px;
     line-height: 30px;
     color: #fff;
@@ -119,7 +119,7 @@
 }
 
 .flat-textbox .textbox-title a {
-    font-family: Rouge Script;
+    font-family: Rouge Script, 'MinSans-Regular';
     font-size: 30px;
     color: #c02323;
 }
@@ -133,7 +133,7 @@
 }
 
 .flat-textbox .textbox-main a {
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 36px;
     color: #191919;
 }
@@ -147,7 +147,7 @@
 }
 
 .flat-textbox p {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 14px;
     line-height: 26px;
     color: #595959;
@@ -204,7 +204,7 @@
 }
 
 .information span {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 14px;
     line-height: 30px;
     color: #a6a6a6;
@@ -212,7 +212,7 @@
 }
 
 .information h2 a {
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 18px;
     line-height: 36px;
     color: #a6a6a6;
@@ -220,14 +220,14 @@
 }
 
 .information span.information-content {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 14px;
     line-height: 30px;
     color: #191919;
 }
 
 .information h2.information-content {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     line-height: 700px;
     font-size: 16px;
     line-height: 36px;
@@ -261,7 +261,7 @@
 }
 
 .title-section h3.our-product-title a {
-    font-family: Rouge Script;
+    font-family: Rouge Script, 'MinSans-Regular';
     font-size: 30px;
     color: #c02323;
 }
@@ -272,7 +272,7 @@
 
 .title-section h1.our-product-main a {
     margin-top: 15px;
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 36px;
     line-height: 60px;
     color: #191919;
@@ -387,7 +387,7 @@
 }
 
 .product .product-item .new {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 14px;
     line-height: 45px;
     letter-spacing: 0.7px;
@@ -417,14 +417,14 @@
 }
 
 .product-item .product-title {
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 20px;
     line-height: 34px;
     color: #191919;
 }
 
 .product-item .price ins {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 14px;
     line-height: 34px;
     color: #c02323;
@@ -432,7 +432,7 @@
 }
 
 .product-item .price del {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 12px;
     line-height: 34px;
     color: #a6a6a6;
@@ -517,7 +517,7 @@
 }
 
 .flat-products.style1 .latest-title h3 a {
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 24px;
     line-height: 36px;
     color: #191919;
@@ -605,7 +605,7 @@
 }
 
 .flat-products.style1 .content-post .post-title span a {
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 20px;
     line-height: 32px;
     color: #191919;
@@ -616,7 +616,7 @@
 }
 
 .flat-products.style1 .content-post .post-dolar span {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 14px;
     line-height: 36px;
     color: #c02323;
@@ -683,7 +683,7 @@
 .elm-btn .margin-top-40 {
     padding: 7px 30px;
     margin-top: 38px;
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 14px;
     line-height: 30px;
     color: #c02323;
@@ -844,14 +844,14 @@
 }
 
 .flat-counter .wrap-bg .numb-count {
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 36px;
     line-height: 30px;
     color: #c02323;
 }
 
 .flat-counter .wrap-bg .name-count {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 14px;
     line-height: 30px;
     color: #a6a6a6;
@@ -902,14 +902,14 @@
 .flat-carousel-box .team-title h1 {
     display: block;
     margin-bottom: 5px;
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 36px;
     line-height: 30px;
     color: #c02323;
 }
 
 .flat-carousel-box .team-title span {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 14px;
     line-height: 30px;
     color: #595959;
@@ -920,7 +920,7 @@
 }
 
 .flat-carousel-box .team-meta span {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 14px;
     line-height: 30px;
     color: #fff;
@@ -931,16 +931,18 @@
 }
 
 .flat-carousel-box .team-content h2 a {
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 24px;
     color: #fff;
 }
 
 .flat-carousel-box .team-dolar {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 14px;
     line-height: 48px;
     color: #fff;
+    height:80px;
+    overflow:hidden;
 }
 
 .main-homepage-1 .flat-carousel-box .owl-nav .owl-prev,
@@ -984,14 +986,14 @@
   /* testimonial */
 
 .testimonial h5 a {
-   font-family: Marcellus;
+   font-family: Marcellus, 'MinSans-Regular';
    font-size: 24px;
    line-height: 30px;
    color: #c02323;
 }
 
 .testimonial p {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 16px;
     line-height: 30px;
     color: #595959;
@@ -1026,7 +1028,7 @@
 }
 
 .testimonial .testimonial-text {
-    font-family: Libre Baskerville;
+    font-family: Libre Baskerville, 'MinSans-Regular';
     font-size: 14px;
     line-height: 26px;
     color: #595959;
@@ -1063,7 +1065,7 @@
 
 .flat-filter li a {
     text-decoration: none;
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 14px;
     line-height: 26px;
     color: #a6a6a6;
@@ -1112,7 +1114,7 @@
 }
 
 .top-bar.style4 .top-bar-hotline span a {
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 14px;
     line-height: 26px;
     color: #6e6e6e;
@@ -1149,7 +1151,7 @@
 
 .top-bar.style4 .top-bar-user ul li a {
     text-decoration: none;
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 14px;
     line-height: 26px;
     color: #6e6e6e;
@@ -1215,7 +1217,7 @@ header.style4 .nav-wrap ul li:last-of-type {
 }
 
 header.style4 .nav-wrap ul li a {
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 14px;
     line-height: 26px;
     color: #191919;
@@ -1396,7 +1398,7 @@ header.style4 .header-search-submit:hover{
 
 .products-menu ul li a {
     text-decoration: none;
-    font-family: Marcellus;
+    font-family: Marcellus, 'MinSans-Regular';
     font-size: 14px;
     line-height: 72px;
     color: #a6a6a6;
