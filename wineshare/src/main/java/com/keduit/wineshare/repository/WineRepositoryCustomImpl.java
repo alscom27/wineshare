@@ -114,7 +114,7 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         .where(searchTypeLike(wineSearchDTO.getSearchType(), wineSearchDTO.getSearchQuery()))
         .where(priceBetween(wineSearchDTO.getMinPrice(), wineSearchDTO.getMaxPrice()))
         .groupBy(wine.id) // 그룹화
-        .orderBy(cellarCount().desc(), sortBy(wineSearchDTO.getSortBy())) // 셀러 카운트로 정렬
+        .orderBy(sortBy(wineSearchDTO.getSortBy())) // 셀러 카운트로 정렬
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
         .fetch();
@@ -262,6 +262,7 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
 
   }
 
+  // 인기순(셀러에 담긴 것) 상위 3개
   @Override
   public List<Wine> findRecommendedCellarWines() {
     QWine wine = QWine.wine;
@@ -277,6 +278,7 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         .fetch();
   }
 
+  // 최신순 상위 3개
   @Override
   public List<Wine> findRecommendedDescWines() {
     QWine wine = QWine.wine;

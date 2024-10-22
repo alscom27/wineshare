@@ -939,7 +939,7 @@
 	    padding: 7px 9px;
 	    margin-top: 38px;
 	    margin: 0 10px;
-	    font-family: Marcellus;
+	    font-family: Marcellus, 'MinSans-Regular';
 	    font-size: 14px;
 	    line-height: 17px;
 	    border: 1px solid #c02323;
@@ -1047,7 +1047,7 @@
 	.flat-slider.style2 .tp-caption a.btn-styl {
 	    padding: 7px 25px;
 	    margin-top: 28px;
-	    font-family: Marcellus;
+	    font-family: Marcellus, 'MinSans-Regular';
 	    font-size: 11px;
 	    line-height: 21px;
 	}
