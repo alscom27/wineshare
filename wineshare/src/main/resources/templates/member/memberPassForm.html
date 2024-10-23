@@ -22,6 +22,29 @@
 
 
 <div layout:fragment="content">
+
+    <div class="page-title parallax parallax1">
+        <div class="container">
+            <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
+                <div class="breadcrumbs">
+                    <ul>
+                        <li><a>Home</a></li>
+                        <li><a>Members</a></li>
+                        <li class="blog"><a>Password check</a></li>
+                    </ul>
+                </div>
+                <div class="page-title-heading">
+                    <h2 class="title"><a>PASSWORD CHECK</a></h2>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /.page-title -->
+
+    <div id="loading-overlay">
+        <div class="loader"></div>
+    </div> <!-- /.loading-overlay -->
+
+
     <div class="modify-all">
 
     <div class="modify-container" th:if="${passType.equals('modify')}">

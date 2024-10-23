@@ -1,26 +1,3 @@
-/*
-.board-buttons{
-    display: flex;
-    justify-content: flex-end;
-    gap: 20px;
-    margin-bottom:1%;
-}
-
-
-.table-bordered{
-    padding: 20px;
-}
-
-.table-bordered th{
-    width: 8%;
-    text-align:center;
-    background: #e5e5e5;
-}
-
-.status-title{
-    padding: 15px 0;
-}
-*/
 
 
 .board-table{
@@ -45,14 +22,15 @@ th{
     width:80%;
     position:relative;
 }
-.board-modify-btn{
-   border: 1px solid #c02323;
-   padding: 10px 25px;
-   background: #c02323;
-   color: #e5e5e5;
-   border-radius:5px;
-   position:absolute;
-   right:2%;
+.board-modify-btn {
+    border: 1px solid #c02323;
+    padding: 10px 25px;
+    background: #c02323;
+    color: #e5e5e5;
+    border-radius: 5px;
+    position: absolute;
+    right: 2%;
+    margin-bottom: 50px;
 }
 
 .reply-all{

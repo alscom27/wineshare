@@ -358,7 +358,7 @@
                             </span>
                         </div>
                         <div class="comment-title comment">${develop.memberNickname}</div>
-                        <div class="comment-text comment" id="comment-develop-${develop.id}">${develop.expertComment}</div>
+                        <div class="comment-text comment" id="comment-develop-${develop.id}"><pre>${develop.expertComment}</pre></div>
                         ${createBtns(develop.memberId, develop.id)}
                     </div>
                 </div>
@@ -717,7 +717,7 @@
                             </span>
                         </div>
                         <div class="comment-title comment">${review.memberNickname}</div>
-                        <div class="comment-text comment" id="comment-review-${review.id}">${review.regularReview}</div>
+                        <div class="comment-text comment" id="comment-review-${review.id}"><pre>${review.regularReview}</pre></div>
                         ${createBtns(review.memberId, review.id)}
                     </div>
 
@@ -931,17 +931,20 @@
       <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
         <div class="breadcrumbs">
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Product</a></li>
-            <li class="blog"><a href="#">Product Details</a></li>
+            <li><a>Home</a></li>
+            <li><a>Wines</a></li>
+            <li class="blog"><a>Wine Details</a></li>
           </ul>
         </div>
         <div class="page-title-heading">
-          <h2 class="title"><a href="#">PRODUCT DETAILS</a></h2>
+          <h2 class="title"><a>WINE DETAILS</a></h2>
         </div>
       </div>
     </div>
   </div> <!-- /.page-title -->
+  <div id="loading-overlay">
+    <div class="loader"></div>
+  </div> <!-- /.loading-overlay -->
 
   <div class="main-shop-detail-review" >
     <section class="main-shop-detail" style="padding: 100px 0 50px 0;">

@@ -35,7 +35,7 @@ public class SecurityConfig {
     // anyRequest().authenticated() : 위의 경우 이외의 페이지는 인증절차가 필요함.
     http.authorizeRequests()
         .mvcMatchers("/", "/members/**", "error", "favicon.ico",
-            "/wines/list/**", "/boards/**", "/marketings/**", "/admins/**",
+            "/wines/list/**","/wines/priceRange", "/boards/**", "/marketings/**", "/admins/**",
             "/cellars/**", "/develops/**", "/reviews/**",
             // 여기부터 css
             "/contact/**",

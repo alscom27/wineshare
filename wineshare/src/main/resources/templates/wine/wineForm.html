@@ -171,20 +171,23 @@
             <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
                 <div class="breadcrumbs">
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Product</a></li>
-                        <li class="blog"><a href="#">Wine Form</a></li>
+                        <li><a>Home</a></li>
+                        <li><a>Wines</a></li>
+                        <li class="blog"><a>Register</a></li>
                     </ul>
                 </div>
                 <div class="page-title-heading">
-                    <h2 class="title"><a href="#">Wine Form</a></h2>
+                    <h2 class="title"><a>WINE REGISTER</a></h2>
                 </div>
             </div>
         </div>
     </div> <!-- /.page-title -->
+    <div id="loading-overlay">
+        <div class="loader"></div>
+    </div> <!-- /.loading-overlay -->
 
     <div class="wine-form">
-        <h1 class="wine-form-title">Wine Register</h1>
+        <h1 class="wine-form-title"> </h1>
 
         <!-- 타임리프를 사용한 와인 등록 폼 -->
         <form th:action="@{/wines/new}" method="post" class="wineForm" id="wineForm" th:object="${wineDTO}" enctype="multipart/form-data">

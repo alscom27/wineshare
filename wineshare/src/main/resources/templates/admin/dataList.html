@@ -264,10 +264,33 @@
 </th:block>
 
 <div layout:fragment="content">
+    <div id="loading-overlay">
+        <div class="loader"></div>
+    </div> <!-- /.loading-overlay -->
+
+    <!-- 각 페이지 상단에 경로 나타내주는 부분.. -->
+    <div class="page-title parallax parallax1">
+        <div class="container">
+            <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
+                <div class="breadcrumbs">
+                    <ul>
+                        <li><a>Home</a></li>
+                        <li class="blog"><a>Admin dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="page-title-heading">
+                    <h2 class="title"><a>ADMIN DASHBOARD</a></h2>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /.page-title -->
 
    <div class="list-form-container">
     <div class="data-title">
-    <h1>관리자 데이터 목록</h1>
+        <h1 th:if="${categoryWines != null}">와인 목록</h1>
+        <h1 th:if="${categoryBoards != null}">게시판 목록</h1>
+        <h1 th:if="${categoryMarketings != null}">플레이스 목록</h1>
+        <h1 th:if="${categoryMembers != null}">회원 목록</h1>
     </div>
 
 

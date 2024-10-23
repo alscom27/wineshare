@@ -170,7 +170,7 @@ public class WineController {
     // 리뷰 별점 평균 추가
     WineReviewDTO wineReviewRating = wineReviewService.getCountReviewRating(wine);
 
-    Member member = null;
+    Member member;
     // 로그인한 멤버 아이디 가져가기
     if (principal == null) {
       member = null;
