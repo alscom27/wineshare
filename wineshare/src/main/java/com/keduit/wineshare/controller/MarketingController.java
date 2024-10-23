@@ -249,6 +249,7 @@ public class MarketingController {
   public String getMarketingListByEvent(@PathVariable("eventOrNot") EventOrNot eventOrNot,
                                         @PathVariable("page") Optional<Integer> page,
                                         MarketingSearchDTO marketingSearchDTO,
+                                        Principal principal,
                                         Model model){
     Pageable pageable = PageRequest.of(page.orElse(0), 5);
     Page<Marketing>  marketings = marketingService.getMarketingPageByEventOrNot(marketingSearchDTO, eventOrNot, pageable);
@@ -283,20 +284,22 @@ public class MarketingController {
         marketingDTO.setEventContent(marketing.getEventContent());
       }
 
-//      // 이벤트 활성화면
-//      if(StringUtils.equalsIgnoreCase(marketing.getEventOrNot(), "on")){
-//        marketingDTO.setEventOrNot(EventOrNot.ON);
-//        marketingDTO.setEventContent(marketing.getEventContent());
-//      }else{
-//        marketingDTO.setEventOrNot(EventOrNot.END);
-//        marketingDTO.setEventContent(marketing.getEventContent());  // 어차피 null임
-//      }
+
 
       // 닉네임 설정
       marketingDTO.setOwnerNickname(emailToNicknameMap.get(marketing.getRegBy()));
       return marketingDTO;
     }).collect(Collectors.toList());
 
+    // 본인의 업장만 수정하기 버튼보이게하기위한 현재 로그인객체 닉네임
+    String currentNickname;
+    if(principal == null){
+      currentNickname = "수림짱짱걸";
+    }else {
+      currentNickname = memberRepository.findByEmail(principal.getName()).getNickname();
+    }
+
+    model.addAttribute("currentNickname", currentNickname);
     model.addAttribute("marketingDTOs", marketingDTOs);
     model.addAttribute("marketings", marketings);
     model.addAttribute("eventOrNot", eventOrNot);
@@ -306,5 +309,6 @@ public class MarketingController {
   }
 
   // 수정 삭제는 마케팅 경로로 보내버림
+  // 이벤트는 보내야함
 
 }
