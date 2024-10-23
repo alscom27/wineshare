@@ -43,13 +43,24 @@
               }
           });
 
+          // 이벤트등록버튼(관리자용)
+          $('#regEventBtn').on('click', function (e){
+              e.preventDefault();
+
+              window.location.href = '/marketings/public/new';
+          })
+
           $('#marketUpdateBtn').on('click', function (e){
               e.preventDefault();
 
               const marketingId = $('#marketingId').data('marketing-id');
+                if(marketCategory != null) {
+                    location.href = `/marketings/${marketCategory.toLowerCase()}/modify/${marketingId}`;
+                }else{
+                    location.href = `/marketings/public/modify/${marketingId}`;
+                }
 
-              location.href = `/marketings/${marketCategory.toLowerCase()}/modify/${marketingId}`;
-          })
+          });
 
 
       }); //ready
@@ -123,6 +134,10 @@
             <button type="button" id="regBtn" class="market-reg" style="background-color: #c02323; color:#FFFFFF" sec:authorize="hasRole('EXPERT') or hasRole('ADMIN')">등록하기</button>
              </div>
 
+                <div th:if="${#strings.equalsIgnoreCase(eventOrNot, 'event')}">
+                    <button type="button" id="regEventBtn" class="market-reg" style="background-color: #c02323; color: #FFFFFF" sec:authorize="hasRole('ADMIN')">등록하기</button>
+                </div>
+
             </form>
         </div>
 
@@ -142,8 +157,10 @@
                         <div class="market-post">
 
                             <input type="hidden" id="marketingId" th:data-marketing-id="${marketingDTO.getId()}">
+                            <div th:if="${not #strings.equalsIgnoreCase(eventOrNot, 'promotion')}">
                             <div th:if="${#strings.equals(currentNickname, marketingDTO.getOwnerNickname())}">
                                 <button type="button" id="marketUpdateBtn">수정하기</button>
+                            </div>
                             </div>
 
                             <div th:if="${not #strings.equalsIgnoreCase(marketingDTO.eventOrNot, 'end')}">

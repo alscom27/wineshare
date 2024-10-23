@@ -39,7 +39,7 @@ public class SecurityConfig {
             "/wines/list/**", "/wines/priceRange", "/boards/upgrade/list/**", "/boards/notice/list/**", "/boards/request/list/**", "/boards/question/list/**",
             // 마케팅 목록 상세는 없응께
             "/marketings/winebar/list/**", "/marketings/bottleshop/list/**", "/marketings/bistro/list/**",
-            "/marketings/event/list/**", "/marketings/promotion/list/**",
+            "/marketings/list/event/**", "/marketings/list/promotion/**",
             // 공지= 게시판임, 소개
             "/about/**",
             // 여기부터 css
