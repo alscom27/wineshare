@@ -27,9 +27,7 @@
           <nav id="mainnav" class="mainnav">
             <ul class="menu">
               <li class="logo-area">
-
-              <a href="/" ><img th:src="@{/wineshare-img/logo2.png}" alt="image" width="95" height="50" th:data-retina="@{/wineshare-img/logo2.png}" data-width="95" data-height="50" style="margin-right:100px;"></a>
-
+                <a href="/" ><img th:src="@{/wineshare-img/logo2.png}" alt="image" width="95" height="50" th:data-retina="@{/wineshare-img/logo2.png}" data-width="95" data-height="50" style="margin-right:100px;"></a>
               </li>
 
               <li class="active">
@@ -37,7 +35,6 @@
                 <ul class="sub-menu">
                   <li><a th:href="@{'/about/aboutUs'}" title="">Wineshare</a></li>
                   <li><a th:href="@{'/boards/notice/list'}" title="notice">Notice</a></li>
-
                 </ul><!-- /.sub-menu -->
               </li>
 
@@ -45,7 +42,6 @@
               <li class="active">
                 <a th:href="@{'/wines/list'}" title="Wine List">Wines</a>
                 <ul class="sub-menu">
-                  <!--                                    <li class="active"><a href="main.html" title="">Red</a></li>-->
                   <li><a th:href="@{'/wines/list/0?searchWineType=RED'}" title="Wine List-RED">RED</a></li>
                   <li><a th:href="@{'/wines/list/0?searchWineType=WHITE'}" title="Wine List-WHITE">WHITE</a></li>
                   <li><a th:href="@{'/wines/list/0?searchWineType=SPARKLING'}" title="Wine List-SPARKLING">SPARKLING</a></li>
@@ -75,9 +71,7 @@
                 <ul class="sub-menu">
                   <li><a th:href="@{'/marketings/list/event'}" title="">행사</a></li>
                   <li><a th:href="@{'/marketings/list/promotion'}" title="">프로모션</a></li>
-                  <!--                                    <li><a href="Blog-Right-Slidebar.html" title="">Blog Right Slidebar</a></li>-->
-                  <!--                                    <li><a href="Blog-details-slidebar.html" title="">Blog Details Slidebar</a></li>-->
-                  <!--                                    <li><a href="Blog-details-fullwidth.html" title="">Blog Details FullWidth</a></li>-->
+
                 </ul><!-- /.sub-menu -->
               </li>
             </ul>
@@ -85,13 +79,9 @@
         </div><!-- /.nav-wrap -->
 
 
-
         <div class="search clearfix">
 
           <ul>
-<!--            <li><input type="search" id="search" placeholder="Search..." ></li>-->
-<!--            <li><a href="#" class="header-search-icon"><i class="ti-search" aria-hidden="true"></i></a></li>-->
-
             <li sec:authorize="isAuthenticated()" >
               <span th:text="${#authentication.name}" style="font-weight: bold;"></span>
               님 환영합니다.
@@ -104,8 +94,6 @@
                 <!--        여기가 유저 네임 보여주는 곳 ==========-->
                 <!--       이메일보단 닉넴으로 보여주는게 좋을듯 ==========-->
 
-
-
                 <li sec:authorize="isAnonymous()">
                   <a th:href="@{'/members/login'}" title="">Login</a>
                 </li>
@@ -117,15 +105,10 @@
                 </li>
                 <li><a th:href="@{'/cellars'}" sec:authorize="isAuthenticated()">My Cellar</a></li>
                 <li><a th:href="@{'/wines/new'}" sec:authorize="hasRole('EXPERT') or hasRole('ADMIN')">와인 등록</a></li>
-<!--                <li><a th:href="/marketings/register" title="">업장/행사 등록</a></li>-->
                 <li ><a th:href="@{'/admins/dataChoiList'}" sec:authorize="hasRole('ADMIN')">관리자 데이터 목록</a></li>
               </ul><!-- /.sub-menu -->
             </li>
           </ul>
-<!--          <form class="header-search-form" role="search" th:action="@{/}" method="get">-->
-<!--            <input type="text" value="" name="#" class="header-search-field" placeholder="Search...">-->
-<!--            <button type="submit" class="header-search-submit" title="Search"><i class="fa fa-search"></i></button>-->
-<!--          </form>-->
         </div>
       </div><!-- /container -->
     </div>
