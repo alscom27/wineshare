@@ -335,9 +335,8 @@ ${createBtns(reply.memberId, reply.id)}
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div th:text="${boardStatus}" id="boardStatus" th:data-board-status="${boardStatus}"
+                        <div id="boardStatus" th:data-board-status="${boardStatus}"
                              class="form-title">
-                            상세보기
                         </div>
                     </div>
                 </div>
@@ -389,12 +388,14 @@ ${createBtns(reply.memberId, reply.id)}
                                     <td><div th:field="*{boardContent}" th:text="*{boardContent}"></div></td>
                                 </tr>
 
-                                <tr>
+                                <tr th:if="${boardDTO.boardImgUrl != null}">
                                     <th>이미지</th>
-                                    <td><div th:if="${boardDTO.boardImgUrl != null}" class="board-img">
-                                        <div>
-                                            <img th:src="${boardDTO.boardImgUrl}" alt="게시물 이미지"></div>
-                                         </div>
+                                    <td>
+                                        <div th:if="${boardDTO.boardImgUrl != null}" class="board-img">
+                                            <div>
+                                                <img th:src="${boardDTO.boardImgUrl}" alt="게시물 이미지">
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
 
