@@ -45,6 +45,11 @@
     <script th:inline="javascript">
         $(document).ready(function () {
 
+            const errorMessage = $('#error-message').data('error-message');
+            if(errorMessage){
+                alert(errorMessage);
+            }
+
             const boardId = $('#getBoardId').data('board-id');
             getBoardReplyList(boardId, 0);
             // console.log(boardId);
@@ -112,6 +117,8 @@
                     }
                 })
             });
+
+
 
 
         }); // ready끝
@@ -381,10 +388,10 @@ ${createBtns(reply.memberId, reply.id)}
 
                                 <tr>
                                     <th>내용</th>
-                                    <td><div th:field="*{boardContent}" th:text="*{boardContent}"></div></td>
+                                    <td><pre th:field="*{boardContent}" th:text="*{boardContent}"></pre></td>
                                 </tr>
 
-                                <tr>
+                                <tr th:if="${#strings.equalsIgnoreCase(boardStatus, 'upgrade') or #strings.equalsIgnoreCase(boardStatus, 'request')}">
                                     <th>이미지</th>
                                     <td><div th:if="${boardDTO.boardImgUrl != null}" class="board-img">
                                         <div>
@@ -407,6 +414,8 @@ ${createBtns(reply.memberId, reply.id)}
                 </div>
             </div>
             </div>
+
+            <div id="error-message" style="display: none;" th:data-error-message="${errorMessage}"></div>
 
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
@@ -470,7 +479,12 @@ ${createBtns(reply.memberId, reply.id)}
 </div>
 
 <script>
-
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const errorMessage = urlParams.get('errorMessage');
+    //
+    // if (errorMessage) {
+    //     alert(errorMessage);
+    // }
 
 </script>
 

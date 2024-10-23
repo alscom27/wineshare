@@ -39,6 +39,11 @@ public class MemberController {
   private final PasswordEncoder passwordEncoder;
   private final MemberRepository memberRepository;
 
+  @GetMapping("/agree")
+  public String memberAgree(){
+    return "member/memberAgree";
+  }
+
   @GetMapping("/new")
   public String memberForm(Model model) {
 //    HttpSession session = request.getSession();

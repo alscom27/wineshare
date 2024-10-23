@@ -43,6 +43,14 @@
               }
           });
 
+          $('#marketUpdateBtn').on('click', function (e){
+              e.preventDefault();
+
+              const marketingId = $('#marketingId').data('marketing-id');
+
+              location.href = `/marketings/${marketCategory.toLowerCase()}/modify/${marketingId}`;
+          })
+
 
       }); //ready
 
@@ -130,7 +138,12 @@
 
                         <div class="market-post">
 
-                            <div th:if="${eventOrNot != null}">
+                            <input type="hidden" id="marketingId" th:data-marketing-id="${marketingDTO.getId()}">
+                            <div th:if="${#strings.equals(currentNickname, marketingDTO.getOwnerNickname())}">
+                                <button type="button" id="marketUpdateBtn">수정하기</button>
+                            </div>
+
+                            <div th:if="${not #strings.equalsIgnoreCase(marketingDTO.eventOrNot, 'end')}">
                                 <div class="market-pro-post-content" th:text="${marketingDTO.eventContent}">
                                     <span>행사 내용</span>
                                 </div>
@@ -141,7 +154,7 @@
                             </div>
 
                             <div class="market-post-name" th:text="${marketingDTO.ownerNickname}">
-                                <span>비워둘까?</span>
+                                <span>닉네임</span>
                             </div>
 
                             <div class="market-post-content" th:text="${marketingDTO.marketingContent}">

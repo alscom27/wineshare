@@ -48,7 +48,7 @@ public class MarketingController {
   public String getMarketingListByCategory(@PathVariable("marketCategory")MarketCategory marketCategory,
                                            @PathVariable("page")Optional<Integer> page,
                                            MarketingSearchDTO marketingSearchDTO,
-                                           Model model) {
+                                           Model model, Principal principal) {
 
 
     Pageable pageable = PageRequest.of(page.orElse(0), 6);
@@ -71,16 +71,26 @@ public class MarketingController {
       marketingDTO.setMarketingTitle(marketing.getMarketingTitle());
       marketingDTO.setMarketingContent(marketing.getMarketingContent());
       marketingDTO.setMarketCategory(marketing.getMarketCategory());
-      marketingDTO.setEventContent(marketing.getEventContent());
-      marketingDTO.setEventContent(marketing.getEventContent());
+
       marketingDTO.setMarketOriImgName(marketing.getMarketOriImgName());
       marketingDTO.setMarketImgName(marketing.getMarketImgName());
       marketingDTO.setMarketImgUrl(marketing.getMarketImgUrl());
       marketingDTO.setMarketLink(marketing.getMarketLink());
+      marketingDTO.setEventOrNot(marketing.getEventOrNot());
+      marketingDTO.setEventContent(marketing.getEventContent());
       marketingDTO.setOwnerNickname(emailToNicknameMap.get(marketing.getRegBy()));
       return marketingDTO;
     }).collect(Collectors.toList());
 
+    // 본인의 업장만 수정하기 버튼보이게하기위한 현재 로그인객체 닉네임
+    String currentNickname;
+    if(principal == null){
+      currentNickname = "수림짱짱걸";
+    }else {
+      currentNickname = memberRepository.findByEmail(principal.getName()).getNickname();
+    }
+
+    model.addAttribute("currentNickname", currentNickname);
     model.addAttribute("marketingDTOs", marketingDTOS);
     model.addAttribute("marketings", marketings);
     model.addAttribute("marketCategory", marketCategory);
@@ -162,6 +172,23 @@ public class MarketingController {
   // 상세조회는 없음 바로 링크타고 날아가면됨
 
   // 업장별 마케팅 수정
+  @GetMapping("/{marketCategory}/modify/{marketingId}")
+  public String marketingUpdate(@PathVariable("marketCategory") MarketCategory marketCategory,
+                                @PathVariable("marketingId") Long marketingId,
+                                Principal principal,
+                                Model model) {
+    MarketingDTO marketingDTO = marketingService.getMarketingDtl(marketingId);
+
+    // 닉네임 설정
+    Marketing marketing = marketingRepository.findById(marketingId).orElseThrow(EntityNotFoundException::new);
+    Member member = memberRepository.findByEmail(marketing.getRegBy());
+    marketingDTO.setOwnerNickname(member.getNickname());
+
+    model.addAttribute("marketingDTO", marketingDTO);
+    model.addAttribute("marketCategory", marketCategory);
+    return "marketing/marketingForm";
+  }
+
   @PostMapping({"/{marketCategory}/modify/{marketingId}"})
   public String marketingUpdate(@PathVariable("marketCategory") MarketCategory marketCategory,
                                 @PathVariable("marketingId") Long marketingId,
@@ -173,6 +200,8 @@ public class MarketingController {
       return "marketing/marketingForm";
     }
 
+    Marketing marketing = marketingRepository.findById(marketingId).orElseThrow(EntityNotFoundException::new);
+
     // 이미지 처리
     if(marketImgFile != null && !marketImgFile.isEmpty()){
       try{
@@ -180,24 +209,26 @@ public class MarketingController {
         marketingDTO.setMarketOriImgName(marketHaveImg.getMarketOriImgName());
         marketingDTO.setMarketImgName(marketHaveImg.getMarketImgName());
         marketingDTO.setMarketImgUrl(marketHaveImg.getMarketImgUrl());
+//        return "redirect:/marketings/" + marketCategory + "/list";
       } catch (Exception e) {
         model.addAttribute("errorMessage", e.getMessage());
         return "marketing/marketingForm";
       }
+    }else{
+      marketingDTO.setMarketOriImgName(marketing.getMarketOriImgName());
+      marketingDTO.setMarketImgName(marketing.getMarketImgName());
+      marketingDTO.setMarketImgUrl(marketing.getMarketImgUrl());
+      System.out.println("===================1");
     }
 
     if(StringUtils.equalsIgnoreCase(marketingDTO.getEventOrNot(), "end")){
       marketingDTO.setEventOrNot(EventOrNot.END);
       marketingDTO.setEventContent("행사 준비중");
-    }
+      System.out.println("===================2");
 
-//    if(StringUtils.equalsIgnoreCase(marketingDTO.getEventOrNot(), "on")){
-//      marketingDTO.setEventOrNot(EventOrNot.ON);
-//      marketingDTO.setEventContent(marketingDTO.getEventContent());
-//    }else{
-//      marketingDTO.setEventOrNot(EventOrNot.END);
-//      marketingDTO.setEventContent(null);
-//    }
+    }
+    marketingDTO.setId(marketingId);
+    System.out.println("===================3");
 
     marketingService.updateMarketing(marketingDTO);
     return "redirect:/marketings/" + marketCategory + "/list";
@@ -209,7 +240,7 @@ public class MarketingController {
                                 @PathVariable("marketingId") Long marketingId) throws Exception{
     imgFileService.deleteMarketImg(marketingId);
     marketingService.deleteMarketing(marketingId);
-    return "redirect:/marketing/" + marketCategory + "/0";
+    return "redirect:/marketings/" + marketCategory + "/list";
   }
 
   // 행사중인거 조회
