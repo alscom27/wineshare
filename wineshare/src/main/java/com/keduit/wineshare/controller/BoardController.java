@@ -24,11 +24,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -182,7 +185,8 @@ public class BoardController {
   public String boardDtl(@PathVariable("boardStatus") BoardStatus boardStatus,
                          @PathVariable("boardId") Long boardId,
                          Principal principal,
-                         Model model){
+                         Model model,
+                         RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
 
     // 로그인 여부 확인 게시글 상세보기 안되고 로그인으로 보내라고함
     if (principal == null) {
@@ -204,8 +208,15 @@ public class BoardController {
     // 작성자와 비교하여 동일한지 확인
     boolean isAuthor = member.getEmail().equals(currentUserEmail);
 
-    // 게시글의 작성자가 현재 유저인지 다시확인해보자
+    // 게시글의 작성자가 현재 유저인지
     boolean isWriterRegular = member.getMemberType().equals(MemberType.REGULAR);
+
+    // 등업 게시글이면 다른작성자가 상세보기누르면 경고
+    if(boardStatus == BoardStatus.UPGRADE && !isAuthor){
+//      model.addAttribute("errorMessage", "에러 표시해");
+      redirectAttributes.addFlashAttribute("errorMessage", "이 글은 작성자 본인만 조회할 수 있습니다.");
+      return "redirect:/boards/" + boardStatus + "/list";
+    }
 
     Member curruntMember = memberRepository.findByEmail(principal.getName());
 

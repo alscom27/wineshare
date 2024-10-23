@@ -47,7 +47,7 @@
                     },
                     success: function (isLoggedIn) {
                         if (!isLoggedIn) {
-                            alert('로그인 후 이용하세요.');
+                            alert('로그인 후 이용해주세요.');
                             location.href = '/members/login'; // 로그인 페이지로 리다이렉트
                         } else {
                             // 게시글 등록 페이지로 이동
@@ -55,7 +55,8 @@
                         }
                     },
                     error: function (xhr, status, error) {
-                        alert("로그인 상태 확인 중 오류가 발생했습니다.");
+                        alert("로그인 후 이용해주세요.");
+                        location.href = 'members/login';
                     }
                 });
             });
@@ -63,17 +64,28 @@
             $('#regBtn2').on('click', function (e) {
                 e.preventDefault();
                 const boardStatus = $("#boardStatus").data('board-status');
-                const isLoggedIn = $('#isLoggedIn').val() === 'true'; // 로그인 여부 확인
+                // const isLoggedIn = $('#isLoggedIn').val() === 'true'; // 로그인 여부 확인
 
-                if (!isLoggedIn) {
-                    alert('로그인 후 이용하세요. 2');
-                    location.href = '/members/login'; // 로그인 페이지로 리다이렉트
-                } else {
-                    // 게시글 등록 페이지로 이동
-                    location.href = `/boards/${boardStatus.toLowerCase()}/new`;
-                }
+                // 게시글 등록 페이지로 이동
+                location.href = `/boards/${boardStatus.toLowerCase()}/new`;
+
+                // if (!isLoggedIn) {
+                //     alert('로그인 후 이용하세요. 2');
+                //     location.href = '/members/login'; // 로그인 페이지로 리다이렉트
+                // } else {
+                //     // 게시글 등록 페이지로 이동
+                //     location.href = `/boards/${boardStatus.toLowerCase()}/new`;
+                // }
             });
-        });
+
+
+
+            const errorMessage = $('#errorMessage').data('error-message');
+            if(errorMessage){
+                alert(errorMessage);
+            }
+
+        }); //ready
 
 
         // 검색버튼 페이지
@@ -101,6 +113,11 @@
         <div class="loader"></div>
     </div> <!-- /.loading-overlay -->
     <!-- 각 페이지 상단에 경로 나타내주는 부분.. -->
+
+    <div th:if="${errorMessage}">
+        <div id="errorMessage" th:data-error-message="${errorMessage}"></div>
+    </div>
+
     <div class="page-title parallax parallax1">
         <div class="container">
             <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
@@ -143,8 +160,8 @@
                 </div>
                 <!--    얜 머지         -->
                 <input type="hidden" id="boardStatus" th:data-board-status="${boardStatus}">
-                <!-- 로그인 여부 -->
-                <input type="hidden" id="isLoggedIn" th:value="${isLoggedIn}">
+<!--                &lt;!&ndash; 로그인 여부 &ndash;&gt;-->
+<!--                <input type="hidden" id="isLoggedIn" th:data-is-logined='${isLo}'">-->
 
                 <div th:if="${#strings.toLowerCase(boardStatus) != 'notice'}">
                     <button type="button" id="regBtn1" class="regbutton" onclick="regBoard()">게시글 등록</button>

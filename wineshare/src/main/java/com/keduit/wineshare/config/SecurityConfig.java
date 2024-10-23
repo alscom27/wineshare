@@ -34,9 +34,14 @@ public class SecurityConfig {
     // hasRole("ADMIN") : 관리자의 경우 /admin/로 접근하는 경로를 통과시킴
     // anyRequest().authenticated() : 위의 경우 이외의 페이지는 인증절차가 필요함.
     http.authorizeRequests()
-        .mvcMatchers("/", "/members/**", "error", "favicon.ico",
-            "/wines/list/**","/wines/priceRange", "/boards/**", "/marketings/**", "/admins/**",
-            "/cellars/**", "/develops/**", "/reviews/**",
+        .mvcMatchers("/", "/members/**", "error", "favicon.png", "favicon.ico",
+            // 와인 목록 + 게시판 목록
+            "/wines/list/**", "/boards/upgrade/list/**", "/boards/notice/list/**", "/boards/request/list/**", "/boards/question/list/**",
+            // 마케팅 목록 상세는 없응께
+            "/marketings/winebar/list/**", "/marketings/bottleshop/list/**", "/marketings/bistro/list/**",
+            "/marketings/event/list/**", "/marketings/promotion/list/**",
+            // 공지= 게시판임, 소개
+            "/about/**",
             // 여기부터 css
             "/contact/**",
             "/fonts/**",

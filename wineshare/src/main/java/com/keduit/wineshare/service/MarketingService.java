@@ -34,18 +34,28 @@ public class MarketingService {
   }
 
   // 마케팅은 상세조회 없고 누르면 링크다고 날아갈거임
+  public MarketingDTO getMarketingDtl(Long marketingId){
+    Marketing marketing = marketingRepository.findById(marketingId).orElseThrow(EntityNotFoundException::new);
+    MarketingDTO marketingDTO = MarketingDTO.of(marketing);
+
+    return marketingDTO;
+  }
 
   // 마케팅 수정
   public Long updateMarketing(MarketingDTO marketingDTO) throws IOException{
     Marketing marketing = marketingRepository.findById(marketingDTO.getId())
         .orElseThrow(EntityNotFoundException::new);
 
+    System.out.println("===============4");
     // 이미지 필드 설정
     marketing.setMarketImgName(marketingDTO.getMarketImgName());
     marketing.setMarketImgUrl(marketingDTO.getMarketImgUrl());
     marketing.setMarketOriImgName(marketingDTO.getMarketOriImgName());
 
     marketing.updateMarketing(marketingDTO);
+
+    System.out.println("===================5");
+
     return marketing.getId();
   }
 

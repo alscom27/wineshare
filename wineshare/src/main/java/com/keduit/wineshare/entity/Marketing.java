@@ -61,14 +61,7 @@ public class Marketing extends BaseEntity {
 
    this.eventOrNot = marketingDTO.getEventOrNot();
     this.eventContent = marketingDTO.getEventContent();
-
-//    if(StringUtils.equalsIgnoreCase(marketingDTO.getEventOrNot(), "on")){
-//      this.eventOrNot = EventOrNot.ON;
-//      this.eventContent = marketingDTO.getEventContent();
-//    }else{
-//      this.eventOrNot = EventOrNot.END;
-//    }
-
+    System.out.println("=============6");
   }
 
 }
