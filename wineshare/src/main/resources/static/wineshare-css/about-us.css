@@ -5,8 +5,20 @@
     margin-bottom:1%;
 }
 
+.flat-about-us{
+    position:relative;
+}
 .content-about{
-    border: 1px solid #e5e5e5;
+
+    position:absolute;
+    left:5%;
+    top:20%;
+}
+
+.heading-about{
+    position:absolute;
+    left:5%;
+    top:6%;
 }
 
 .wheel-about{
@@ -20,17 +32,22 @@
 }
 
 .aroma-txt{
-    border: 1px solid #e5e5e5;
     width:50%;
     position:absolute;
-    right:10px;
-    top:90px;
+    right:3%;
+    top:50px;
 }
 
 .flat-team{
     background-image: url(../image/homepage114.png);
 }
 
+.our-txt{
+    margin: 0 auto;
+    text-align:center;
+}
+
 .our-txt li{
     margin: 20px 0;
+
 }

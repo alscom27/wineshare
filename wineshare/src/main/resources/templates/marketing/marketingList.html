@@ -159,7 +159,7 @@
                             <input type="hidden" id="marketingId" th:data-marketing-id="${marketingDTO.getId()}">
                             <div th:if="${not #strings.equalsIgnoreCase(eventOrNot, 'promotion')}">
                             <div th:if="${#strings.equals(currentNickname, marketingDTO.getOwnerNickname())}">
-                                <button type="button" id="marketUpdateBtn">수정하기</button>
+                                <button type="button" id="marketUpdateBtn" class="market-modify-btn">수정하기</button>
                             </div>
                             </div>
 

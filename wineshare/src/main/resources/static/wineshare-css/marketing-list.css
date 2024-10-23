@@ -70,7 +70,7 @@
 }
 
 .market-pro-post-content{
-    font-size:20px;
+    font-size:15px;
     color:#c02323;
     height:28px;
     overflow:hidden;
@@ -182,5 +182,14 @@
     width:7%;
     position: absolute;
     left:4.5%;
+}
+
+.market-modify-btn{
+    border: 1px solid #c02323;
+    padding: 3px 10px;
+    border-radius:5px;
+    color:#595959;
+    position: absolute;
+    left:55%;
 }
 
