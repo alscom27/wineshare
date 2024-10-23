@@ -36,7 +36,7 @@ public class SecurityConfig {
     http.authorizeRequests()
         .mvcMatchers("/", "/members/**", "error", "favicon.png", "favicon.ico",
             // 와인 목록 + 게시판 목록
-            "/wines/list/**", "/boards/upgrade/list/**", "/boards/notice/list/**", "/boards/request/list/**", "/boards/question/list/**",
+            "/wines/list/**", "/wines/priceRange", "/boards/upgrade/list/**", "/boards/notice/list/**", "/boards/request/list/**", "/boards/question/list/**",
             // 마케팅 목록 상세는 없응께
             "/marketings/winebar/list/**", "/marketings/bottleshop/list/**", "/marketings/bistro/list/**",
             "/marketings/event/list/**", "/marketings/promotion/list/**",
