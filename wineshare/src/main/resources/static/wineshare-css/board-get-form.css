@@ -4,7 +4,7 @@
     width:100%;
     border: 1px solid #e5e5e5;
      margin: 0 auto;
-     margin-top:50px;
+     margin-top:5%;
 }
 
 th, td{
@@ -28,9 +28,7 @@ th{
     background: #c02323;
     color: #e5e5e5;
     border-radius: 5px;
-    position: absolute;
-    right: 2%;
-    margin-bottom: 50px;
+    margin-left:90.5%;
 }
 
 .reply-all{
@@ -72,5 +70,5 @@ th{
     background: #c02323;
     position:absolute;
     right:2%;
-    top:6.5%;
+    top:3%;
 }
