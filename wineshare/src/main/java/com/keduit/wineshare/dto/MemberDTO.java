@@ -35,7 +35,7 @@ public class MemberDTO {
   private String password;
 
   @NotBlank(message = "전화번호는 필수 입력입니다.")
-  @Pattern(regexp = "^01[0-9]-\\d{3,4}-\\d{4}$", message = "핸드폰 번호는 010-XXXX-XXXX 형식으로 입력해야 합니다.")
+  @Pattern(regexp = "^0[0-9][0-9]-\\d{3,4}-\\d{4}$", message = "0XX-XXXX-XXXX 형식으로 입력해야 합니다.")
   private String phoneNumber;
 
   @NotBlank(message = "주민등록번호는 필수 입력입니다.")

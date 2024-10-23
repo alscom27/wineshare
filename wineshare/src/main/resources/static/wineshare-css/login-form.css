@@ -44,6 +44,10 @@
         padding: 130px 20px;
 }
 
+.login-form{
+    padding-bottom: 70px;
+}
+
 .account-header{
     position:absolute;
     top:20px;
@@ -52,16 +56,20 @@
 .rrn-group{
     width: 53%;
     display: flex;
+
 }
 
 .phone-group{
-    display: flex;
-    width:45%;
+    display:flex;
+    width:100%;
+
+
 }
 
 .form-group-phone{
+    width:50%;
     position:absolute;
-    bottom: 60px;
+
 }
 
 .login-reset{
@@ -80,6 +88,10 @@
     width:100%;
     display: flex;
 }
+
+.fieldError{
+  color: #bd2130;
+  }
 
 
 
@@ -149,7 +161,7 @@ label{
 
 .pass-btn{
     border: 1px solid #E1B848;
-    bottom: 19%;
+    bottom: 27.5%;
     font-size: 20px;
     color: #FFFFFF;
     padding: 7px 65px;
@@ -176,3 +188,4 @@ label{
     position:absolute;
     top:5%;
 }
+

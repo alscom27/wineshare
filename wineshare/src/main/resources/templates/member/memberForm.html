@@ -6,11 +6,7 @@
 <!-- register css Fiels -->
 <th:block layout:fragment="css">
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/login-form.css}">
-    <style>
-        .fieldError {
-            color: #bd2130;
-        }
-    </style>
+
 </th:block>
 
 <!--<div id="loading-overlay">-->
@@ -159,13 +155,14 @@
             <div class="form-group form-group-rrn" th:if="${memberDTO.id == null}">
 
                 <label th:for="RRN">주민등록번호</label>
+                <p th:if="${#fields.hasErrors('RRN')}" th:errors="*{RRN}" class="fieldError">Incorrect data</p>
                 <div class="rrn" >
                 <input type="text" style="width:20%; margin-right:7px;" id="rrnFirst" placeholder="000000" maxlength="6" required>
                 <spqn style="margin-right:7px;">_</spqn>
                 <input type="password" style="width:20%; margin-right:7px;"  id="rrnSecond" placeholder="0000000" maxlength="7" required>
                 </div>
                 <input type="hidden" th:field="*{RRN}">
-                <p th:if="${#fields.hasErrors('RRN')}" th:errors="*{RRN}" class="fieldError">Incorrect data</p>
+
 
                 <!--                미안해 수림아 나중에 쓸게 -->
                 <!--                <label th:for="RRN">주민등록번호</label>-->
@@ -180,6 +177,9 @@
             <!-- 전화번호 입력 -->
             <div class="form-group-phone" th:if="${memberDTO.id == null}">
                 <label th:for="phoneNumber">전화번호</label>
+                <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="fieldError">
+                    Incorrect data</p>
+<!--                <p>0XX-XXXX-XXXX 형식으로 입력해야 합니다.</p>-->
                 <div class="phone-group">
                     <input id="phoneNum1" name="phoneNum1" type="text" placeholder="010" maxlength="3" required/>
                     <span style="margin: 0 7px;">_</span>
@@ -187,8 +187,8 @@
                     <span style="margin: 0 7px;">_</span>
                     <input id="phoneNum3" name="phoneNum3" type="text" placeholder="0000" maxlength="4" required/>
                     <input type="hidden" th:field="*{phoneNumber}">
-                    <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="fieldError">
-                        Incorrect data</p>
+
+
                 </div>
             </div>
 
