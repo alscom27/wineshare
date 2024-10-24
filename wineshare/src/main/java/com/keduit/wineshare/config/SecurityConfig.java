@@ -44,6 +44,7 @@ public class SecurityConfig {
             "/marketings/list/event/**", "/marketings/list/promotion/**",
             // 공지= 게시판임, 소개
             "/about/**",
+
             // 여기부터 css
             "/contact/**",
             "/fonts/**",

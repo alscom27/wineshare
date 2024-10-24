@@ -43,9 +43,11 @@
             if(errorMessage){
                 alert(errorMessage);
             }
-
+            const boardStatus = $('#boardStatus').data('board-status');
             const boardId = $('#getBoardId').data('board-id');
-            getBoardReplyList(boardId, 0);
+            if(boardStatus != 'NOTICE') {
+                getBoardReplyList(boardId, 0);
+            }
             // console.log(boardId);
 
             $('#upgradeBtn').on('click', function () {
@@ -316,7 +318,7 @@
                     </ul>
                 </div>
                 <div class="page-title-heading">
-                    <h2 class="title" th:text="${boardStatus} + ' BOARD DETAILS'">/h2>
+                    <h2 class="title" th:text="${boardStatus} + ' BOARD DETAILS'"></h2>
                 </div>
             </div>
         </div>
@@ -403,7 +405,7 @@
             <div th:if="${#strings.equalsIgnoreCase(boardStatus, 'upgrade')}">
             <div th:if="${isWriterRegular == true}">
                 <div sec:authorize="hasRole('ADMIN')">
-                    <button id="upgradeBtn" class="admin-agree" th:data-member-id="${memberId}">등업하기
+                    <button type="button" id="upgradeBtn" class="admin-agree" th:data-member-id="${memberId}">등업하기
                     </button>
                 </div>
             </div>
@@ -415,7 +417,7 @@
 
 
         <!-- 댓글 섹션 -->
-        <section class="reply-all" style="padding: 0 0 50px 0;">
+        <section class="reply-all" style="padding: 0 0 50px 0;" th:if="${not #strings.equalsIgnoreCase(boardStatus, 'notice')}">
             <div class="container">
 
 

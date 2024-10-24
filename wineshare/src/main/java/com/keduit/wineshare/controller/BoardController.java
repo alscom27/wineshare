@@ -189,12 +189,13 @@ public class BoardController {
                          RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
 
     // 로그인 여부 확인 게시글 상세보기 안되고 로그인으로 보내라고함
-    if (principal == null) {
-      // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
-      model.addAttribute("errorMsg", "로그인 후 이용해주세요.");
-      return "redirect:/member/memberLoginForm"; // 로그인 페이지 URL
+    if(boardStatus != BoardStatus.NOTICE) {
+      if (principal == null) {
+        // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+        model.addAttribute("errorMsg", "로그인 후 이용해주세요.");
+        return "redirect:/member/memberLoginForm"; // 로그인 페이지 URL
+      }
     }
-
     BoardDTO boardDTO = boardService.getBoardDtl(boardId);
     // 닉네임 세팅
     Board board = boardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
@@ -203,7 +204,11 @@ public class BoardController {
     boardDTO.setId(board.getId());
 
     // 현재 사용자의 이메일을 가져옵니다.
-    String currentUserEmail = principal.getName();
+
+    String currentUserEmail = "";
+    if(principal != null){
+      currentUserEmail = principal.getName();
+    }
 
     // 작성자와 비교하여 동일한지 확인
     boolean isAuthor = member.getEmail().equals(currentUserEmail);
@@ -212,14 +217,17 @@ public class BoardController {
     boolean isWriterRegular = member.getMemberType().equals(MemberType.REGULAR);
 
     // 등업 게시글이면 다른작성자가 상세보기누르면 경고
-    if(boardStatus == BoardStatus.UPGRADE && !isAuthor){
+    if(memberRepository.findByEmail(principal.getName()).getMemberType() != MemberType.ADMIN) {
+      if (boardStatus == BoardStatus.UPGRADE && !isAuthor) {
 //      model.addAttribute("errorMessage", "에러 표시해");
-      redirectAttributes.addFlashAttribute("errorMessage", "이 글은 작성자 본인만 조회할 수 있습니다.");
-      return "redirect:/boards/" + boardStatus + "/list";
+        redirectAttributes.addFlashAttribute("errorMessage", "이 글은 작성자 본인만 조회할 수 있습니다.");
+        return "redirect:/boards/" + boardStatus + "/list";
+      }
     }
-
-    Member curruntMember = memberRepository.findByEmail(principal.getName());
-
+    Member curruntMember = new Member();
+    if(principal != null) {
+      curruntMember = memberRepository.findByEmail(principal.getName());
+    }
     model.addAttribute("loginUser", curruntMember);
     model.addAttribute("isWriterRegular", isWriterRegular);
     model.addAttribute("memberId", member.getId());
@@ -255,7 +263,7 @@ public class BoardController {
                             @PathVariable("boardId") Long boardId,
                             @Valid BoardDTO boardDTO,
                             BindingResult bindingResult,
-                            @RequestParam("boardImgFile") MultipartFile boardImgFile,
+                            @RequestParam(value = "boardImgFile", required = false) MultipartFile boardImgFile,
                             Model model) throws  IOException{
 
     if(bindingResult.hasErrors()){
@@ -266,7 +274,7 @@ public class BoardController {
     System.out.println(boardDTO.toString());
     System.out.println("============= controller1 ===================");
 
-
+  Board board = boardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
     // 이미지 파일 처리
     if(StringUtils.equalsIgnoreCase(boardStatus, "upgrade") || StringUtils.equalsIgnoreCase(boardStatus, "request")){
       if (boardImgFile != null && !boardImgFile.isEmpty()) {
@@ -286,12 +294,18 @@ public class BoardController {
           model.addAttribute("errorMessage", "수정 실패");
           return "board/boardForm";
         }
+      }else{
+        boardDTO.setBoardOriImgName(board.getBoardOriImgName());
+        boardDTO.setBoardImgName(board.getBoardImgName());
+        boardDTO.setBoardImgUrl(board.getBoardImgUrl());
       }
-    }else if(StringUtils.equalsIgnoreCase(boardStatus, "notice") || StringUtils.equalsIgnoreCase(boardStatus, "question")){
-      boardDTO.setBoardOriImgName(null);
-      boardDTO.setBoardImgName(null);
-      boardDTO.setBoardImgUrl(null);
+
     }
+//    else if(StringUtils.equalsIgnoreCase(boardStatus, "notice") || StringUtils.equalsIgnoreCase(boardStatus, "question")){
+//      boardDTO.setBoardOriImgName(null);
+//      boardDTO.setBoardImgName(null);
+//      boardDTO.setBoardImgUrl(null);
+//    }
 
     System.out.println("============= controller2 ===================");
     System.out.println(boardDTO.toString());

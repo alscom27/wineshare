@@ -120,6 +120,10 @@ public class ImgFileService {
       boardDTO.setBoardImgName(boardImgName);
       boardDTO.setBoardImgUrl(imgUrl);
       boardDTO.setBoardOriImgName(originalFileName);
+    }else{
+      boardDTO.setBoardOriImgName(board.getBoardOriImgName());
+      boardDTO.setBoardImgUrl(board.getBoardImgUrl());
+      boardDTO.setBoardImgName(board.getBoardImgName());
     }
 
     System.out.println("========= img file service ============");
