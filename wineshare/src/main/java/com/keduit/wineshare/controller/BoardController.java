@@ -217,8 +217,8 @@ public class BoardController {
     boolean isWriterRegular = member.getMemberType().equals(MemberType.REGULAR);
 
     // 등업 게시글이면 다른작성자가 상세보기누르면 경고
-    if(memberRepository.findByEmail(principal.getName()).getMemberType() != MemberType.ADMIN) {
-      if (boardStatus == BoardStatus.UPGRADE && !isAuthor) {
+    if(boardStatus == BoardStatus.UPGRADE && !isAuthor) {
+      if (memberRepository.findByEmail(principal.getName()).getMemberType() != MemberType.ADMIN) {
 //      model.addAttribute("errorMessage", "에러 표시해");
         redirectAttributes.addFlashAttribute("errorMessage", "이 글은 작성자 본인만 조회할 수 있습니다.");
         return "redirect:/boards/" + boardStatus + "/list";
