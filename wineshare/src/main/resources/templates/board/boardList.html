@@ -9,14 +9,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/board-list.css}">
 
     <style>
-        .disabled {
-            pointer-events: none;
-            opacity: 0.1;
-        }
 
-        .page-active {
-            background-color: #c02323 !important;
-        }
     </style>
 </th:block>
 
@@ -56,7 +49,7 @@
                     },
                     error: function (xhr, status, error) {
                         alert("로그인 후 이용해주세요.");
-                        location.href = 'members/login';
+                        location.href = '/members/login';
                     }
                 });
             });
@@ -64,18 +57,12 @@
             $('#regBtn2').on('click', function (e) {
                 e.preventDefault();
                 const boardStatus = $("#boardStatus").data('board-status');
-                // const isLoggedIn = $('#isLoggedIn').val() === 'true'; // 로그인 여부 확인
+
 
                 // 게시글 등록 페이지로 이동
                 location.href = `/boards/${boardStatus.toLowerCase()}/new`;
 
-                // if (!isLoggedIn) {
-                //     alert('로그인 후 이용하세요. 2');
-                //     location.href = '/members/login'; // 로그인 페이지로 리다이렉트
-                // } else {
-                //     // 게시글 등록 페이지로 이동
-                //     location.href = `/boards/${boardStatus.toLowerCase()}/new`;
-                // }
+
             });
 
 
@@ -211,7 +198,7 @@
                             <i class="fa fa-angle-left" aria-hidden="true"></i>
                         </a>
                     </li>
-                    <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}">
+                    <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}"  th:classappend="${page == 1} ? 'page-active' : ''">
                         <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text">
                             [[${page}]]
                         </a>

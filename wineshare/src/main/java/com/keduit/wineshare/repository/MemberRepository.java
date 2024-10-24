@@ -10,4 +10,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
 
   Member findByEmail(String email);
 
-  List<Member> findByEmailIn(List<String> emails);}
+  List<Member> findByEmailIn(List<String> emails);
+
+  Member findByNickname(String nickname);
+}

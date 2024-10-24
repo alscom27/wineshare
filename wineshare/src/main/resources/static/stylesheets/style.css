@@ -8779,5 +8779,12 @@ footer.style3 .footer-widgets .widget-text span {
 	cursor: pointer;
 }
 
+.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+.page-active {
+	background-color: #c02323 !important;
+}
 
 

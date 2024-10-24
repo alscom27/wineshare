@@ -60,7 +60,11 @@ public class MemberService implements UserDetailsService {
   private void validateMember(Member member) {
     Member findMember = memberRepository.findByEmail(member.getEmail());
     if(findMember != null) {
-      throw new IllegalStateException("이미 가입된 회원입니다.");
+      throw new IllegalStateException("이미 가입된 메일입니다.");
+    }
+    findMember = memberRepository.findByNickname(member.getNickname());
+    if(findMember != null) {
+      throw new IllegalStateException("이미 사용중인 닉네임입니다.");
     }
   }
 

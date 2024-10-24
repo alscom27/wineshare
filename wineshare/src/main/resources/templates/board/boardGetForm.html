@@ -25,13 +25,7 @@
         .reply-content{
             margin: 40px auto;
         }
-        .disabled{
-            pointer-events: none;
-            opacity: 0.1;
-        }
-        .page-active{
-            background-color: #c02323 !important;
-        }
+
         .comment-actions{
             margin-top: 10px;
         }
@@ -135,10 +129,10 @@
             function createBtns(replyMemberId, replyId) {
                 if (loginUserId === replyMemberId) {
                     return `
-<div class="comment-actions">
-<button class="modify-btn" onclick="modifyReply(${replyId})">수정</button>
-<button class="delete-btn" onclick="deleteReply(${replyId})">삭제</button>
-</div>`;
+                    <div class="comment-actions">
+                    <button class="modify-btn" onclick="modifyReply(${replyId})">수정</button>
+                    <button class="delete-btn" onclick="deleteReply(${replyId})">삭제</button>
+                    </div>`;
                 }
                 return '';
             }
@@ -157,21 +151,22 @@
                     data.boardReplys.forEach(function (reply){
                         console.log(reply.memberId);
                         const item = `
-<div class="reply-content">
-<div class="avatar">
-<img src="/wineshare-img/people.png" alt="image" class="profile_img">
-</div>
-<div class="post-comment" id="post-reply-${reply.id}">
-<div class="comment-title comment">${reply.replyNickname}</div>
-<div class="comment-text comment" id="comment-reply-${reply.id}">${reply.reply}</div>
-${createBtns(reply.memberId, reply.id)}
-</div>
-</div>`;
+                        <div class="reply-content">
+                        <div class="avatar">
+                        <img src="/wineshare-img/people.png" alt="image" class="profile_img">
+                        </div>
+                        <div class="post-comment" id="post-reply-${reply.id}">
+                        <div class="comment-title comment">${reply.replyNickname}</div>
+                        <div class="comment-text comment" id="comment-reply-${reply.id}">${reply.reply}</div>
+                        ${createBtns(reply.memberId, reply.id)}
+                        </div>
+                        </div>`;
                         boardReplyListContainer.append(item);
                         const commentForm = document.getElementById("comment-respond-reply");
                         commentForm.className = "reply-form";
                     });
                     updateReplyPage(data.currentPage, data.totalPages)
+                    console.log(data.currentPage);
                 },
                 error : function (xhr){
                     console.error(xhr);
@@ -194,12 +189,12 @@ ${createBtns(reply.memberId, reply.id)}
             //이전버튼
             const prevDisabled = currentPage === 0 ? 'disabled' : '';
             paginationContainer.append(`
-   <li class="prev hvr-shutter-out-horizontal ${prevDisabled}">
-            <a ${prevDisabled ? '' : 'onclick="getBoardReplyList(' + boardId + ',' + (currentPage - 1) + ')"'} aria-label="Previous">
-                <i class="fa fa-angle-left" aria-hidden="true"></i>
-            </a>
-        </li>
-`);
+                   <li class="prev hvr-shutter-out-horizontal ${prevDisabled}">
+                            <a ${prevDisabled ? '' : 'onclick="getBoardReplyList(' + boardId + ',' + (currentPage - 1) + ')"'} aria-label="Previous">
+                                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                `);
             //maxpage
             const maxPage = 5;
             let start = Math.floor(currentPage / maxPage) * maxPage;
@@ -215,14 +210,14 @@ ${createBtns(reply.memberId, reply.id)}
                     `);
             }
             // 다음버튼
-            const nextDisabled = currentPage === totalPages -1 ? 'disabled' : '';
+            const nextDisabled = (currentPage === totalPages -1 || totalPages === 0) ? 'disabled' : '';
             paginationContainer.append(`
-                 <li class="next hvr-shutter-out-horizontal ${nextDisabled}">
-            <a ${nextDisabled ? '' : 'onclick="getBoardReplyList('+ boardId + ',' + (currentPage + 1) + ')"'} aria-label="Next">
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
-        </li>
-                `);
+                         <li class="next hvr-shutter-out-horizontal ${nextDisabled}">
+                    <a ${nextDisabled ? '' : 'onclick="getBoardReplyList('+ boardId + ',' + (currentPage + 1) + ')"'} aria-label="Next">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+                </li>
+                        `);
         }
 
         // 댓글삭제
@@ -315,13 +310,13 @@ ${createBtns(reply.memberId, reply.id)}
             <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center text-center">
                 <div class="breadcrumbs">
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Product</a></li>
-                        <li class="blog"><a href="#">Boards</a></li>
+                        <li><a>Home</a></li>
+                        <li><a>Boards</a></li>
+                        <li class="blog"><a>Details</a></li>
                     </ul>
                 </div>
                 <div class="page-title-heading">
-                    <h2 class="title" th:text="${boardStatus} + ' Board'"><a href="#">Board</a></h2>
+                    <h2 class="title" th:text="${boardStatus} + ' BOARD DETAILS'">/h2>
                 </div>
             </div>
         </div>

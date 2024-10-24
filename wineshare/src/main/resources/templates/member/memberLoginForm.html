@@ -25,6 +25,12 @@
                 $('#remember').prop('checked', true); // 체크박스 체크
             }
 
+            const joinMessage = [[${joinMessage}]];
+
+            if (joinMessage != null) {
+                alert(joinMessage)
+            }
+
             // 로그인 폼 제출 시 실행
             $('.login-form').on('submit', function() {
                 const emailInput = $('#email').val();

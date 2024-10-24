@@ -1,6 +1,7 @@
 package com.keduit.wineshare.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.keduit.wineshare.constant.MemberType;
 import com.keduit.wineshare.constant.WithdrawStatus;
 import com.keduit.wineshare.dto.MemberDTO;
@@ -17,7 +18,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Member extends BaseEntity {
 
   @Id
@@ -46,6 +46,7 @@ public class Member extends BaseEntity {
   private WithdrawStatus withdrawStatus;
 
   // WineDevelop과의 관계 설정
+  @JsonIgnore
   @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<WineDevelop> wineDevelops; // WineDevelop 리스트
 

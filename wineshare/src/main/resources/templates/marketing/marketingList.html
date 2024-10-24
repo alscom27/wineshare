@@ -8,13 +8,7 @@
 <th:block layout:fragment="css">
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/marketing-list.css}">
     <style>
-        .disabled{
-            pointer-events: none;
-            opacity: 0.1;
-        }
-        .page-active{
-            background-color: #c02323 !important;
-        }
+
     </style>
 </th:block>
 
@@ -206,7 +200,7 @@
                               <i class="fa fa-angle-left" aria-hidden="true"></i>
                             </a>
                           </li>
-                          <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}">
+                          <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}"  th:classappend="${page == 1} ? 'page-active' : ''">
                             <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text">
                               [[${page}]]
                             </a>

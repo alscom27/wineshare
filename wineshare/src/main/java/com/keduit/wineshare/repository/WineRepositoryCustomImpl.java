@@ -126,6 +126,7 @@ public class WineRepositoryCustomImpl implements WineRepositoryCustom {
         .where(searchWineTypeEq(wineSearchDTO.getSearchWineType()))
         .where(priceBetween(wineSearchDTO.getMinPrice(), wineSearchDTO.getMaxPrice()))
         .fetchOne();
+
     return new PageImpl<>(result, pageable, total);
   }
 

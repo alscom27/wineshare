@@ -14,7 +14,6 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
-@ToString
 public class WineDevelop extends BaseEntity{
 
   @Id

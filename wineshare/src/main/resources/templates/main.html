@@ -9,7 +9,15 @@
             height: 150px;
             position: absolute;
             left: 50%;
-            translate: -50%;
+            object-fit: cover;
+            top: 50%;
+            translate : -50% -50%;
+        }
+        .main-place-img {
+            width:200px;
+            height: 200px;
+            object-fit: cover;
+
         }
 
         .featured-post {
@@ -34,6 +42,10 @@
         .flat-latest .latest-title h3 a {
             pointer-events: none;
         }
+
+        .surim-shadow {
+            text-shadow: 1px 1px 2px rgba(59, 59, 59, 0.5);
+        }
     </style>
 </th:block>
 
@@ -53,7 +65,7 @@
                         <div class="overlay"></div>
 
                         <!-- Layers -->
-                        <div class="tp-caption tp-resizeme text-ffb922 font-rubik font-weight-500 wellcome"
+                        <div class="tp-caption tp-resizeme text-ffb922 font-rubik font-weight-500 wellcome surim-shadow"
                              data-x="['left','left','left','center']" data-hoffset="['2','4','4','0']"
                              data-y="['middle','middle','middle','middle']" data-voffset="['-132','-118','-98','-78']"
                              data-fontsize="['36','20','20','16']"
@@ -70,9 +82,9 @@
                              data-splitin="none"
                              data-splitout="none"
                              data-paddingleft= "['3','3','3','3']"
-                             data-responsive_offset="on">Welcome to Wine Share</div>
+                             data-responsive_offset="on">Welcome to Wineshare</div>
 
-                        <div class="tp-caption tp-resizeme font-rubik font-weight-700 best"
+                        <div class="tp-caption tp-resizeme font-rubik font-weight-700 best surim-shadow"
                              data-x="['left','left','left','center']" data-hoffset="['-4','-4','-4','0']"
                              data-y="['middle','middle','middle','middle']" data-voffset="['-60','-60','-50','-40']"
                              data-fontsize="['72','60','40','32']"
@@ -90,7 +102,7 @@
                              data-splitout="none"
                              data-responsive_offset="on">Best Of Wine Site</div>
 
-                        <div class="tp-caption tp-resizeme text-white font-rubik font-weight-400 text-wizym"
+                        <div class="tp-caption tp-resizeme text-white font-rubik font-weight-400 text-wizym surim-shadow"
                              data-x="['left','left','left','center']" data-hoffset="['0','-2','-2','0']"
                              data-y="['middle','middle','middle','middle']" data-voffset="['27','27','27','17']"
                              data-fontsize="['18','18','16','14']"
@@ -109,7 +121,7 @@
                              data-responsive_offset="on"
                              data-paddingright="['550','155','50','2']" >이곳에선 다양한 와인 정보와 전문가의 의견을 접할 수 있고,<br> 다른 사람들과의 경험을 공유할 수 있습니다</div>
 
-                        <div class="tp-caption"
+                        <div class="tp-caption surim-shadow"
                              data-x="['left','left','left','center']" data-hoffset="['0','-4','-4','0']"
                              data-y="['middle','middle','middle','middle']" data-voffset="['102','102','92','70']"
                              data-width="full"
@@ -135,7 +147,7 @@
                         <div class="overlay"></div>
 
                         <!-- Layers -->
-                        <div class="tp-caption tp-resizeme text-ffb922 font-rubik font-weight-500 wellcome"
+                        <div class="tp-caption tp-resizeme text-ffb922 font-rubik font-weight-500 wellcome surim-shadow"
                              data-x="['left','left','left','center']" data-hoffset="['2','4','4','0']"
                              data-y="['middle','middle','middle','middle']" data-voffset="['-132','-118','-98','-78']"
                              data-fontsize="['36','20','20','16']"
@@ -152,9 +164,9 @@
                              data-splitin="none"
                              data-splitout="none"
                              data-paddingleft= "['3','3','3','3']"
-                             data-responsive_offset="on">Welcome to Wine Share  </div>
+                             data-responsive_offset="on">Welcome to Wineshare  </div>
 
-                        <div class="tp-caption tp-resizeme font-rubik font-weight-700 best"
+                        <div class="tp-caption tp-resizeme font-rubik font-weight-700 best surim-shadow"
                              data-x="['left','left','left','center']" data-hoffset="['-4','-4','-4','0']"
                              data-y="['middle','middle','middle','middle']" data-voffset="['-60','-60','-50','-40']"
                              data-fontsize="['72','60','40','32']"
@@ -172,7 +184,7 @@
                              data-splitout="none"
                              data-responsive_offset="on">Best Of Wine Site</div>
 
-                        <div class="tp-caption tp-resizeme text-white font-rubik font-weight-400 text-wizym"
+                        <div class="tp-caption tp-resizeme text-white font-rubik font-weight-400 text-wizym surim-shadow"
                              data-x="['left','left','left','center']" data-hoffset="['0','-2','-2','0']"
                              data-y="['middle','middle','middle','middle']" data-voffset="['27','27','27','17']"
                              data-fontsize="['18','18','16','14']"
@@ -191,7 +203,7 @@
                              data-responsive_offset="on"
                              data-paddingright="['550','155','50','2']" >다양한 프로모션과 특별한 행사들을 경험해보세요</div>
 
-                        <div class="tp-caption"
+                        <div class="tp-caption surim-shadow"
                              data-x="['left','left','left','center']" data-hoffset="['0','-4','-4','0']"
                              data-y="['middle','middle','middle','middle']" data-voffset="['102','102','92','70']"
                              data-width="full"
@@ -376,7 +388,7 @@
                                 <div class="team-member" th:each="market, status : ${newMarkets}">
                                     <div class="team-border">
                                         <div class="team-title">
-                                            <img th:src="${market.marketImgUrl}" alt="image" style="height: 200px; width: 200px;">
+                                            <img th:src="${market.marketImgUrl}" alt="image" class="main-place-img">
                                         </div>
                                         <div class="team-meta">
                                             <span th:text="${market.marketCategory}">플레이스 카테고리</span>

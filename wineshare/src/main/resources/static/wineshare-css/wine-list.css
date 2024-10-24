@@ -155,21 +155,11 @@
     font-size: 16px;
 }
 
-
-
-
 .wine_image {
     width: auto;
     height: 300px;
 }
-.disabled {
-    pointer-events: none; /* 클릭 이벤트 방지 */
-    opacity: 0.1; /* 비활성화된 효과 */
-}
 
-.page-active {
-    background-color: #c02323 !important;
-}
 
 
 

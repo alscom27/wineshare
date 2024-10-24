@@ -39,6 +39,7 @@
                 alert(errorMessage);
             }
 
+
             // 등록 버튼 클릭 시 등록 페이지로 이동
             $('#withdrawBtn').on('click', function (e) {
                 e.preventDefault();
@@ -216,7 +217,6 @@
                 <button th:formaction="@{'/members/modify'}" type="submit" class="login-button">Modify</button>
                 <button type="reset" class="login-reset">reset</button>
 
-<!--                '/members/withdraw'-->
                 <button id="withdrawBtn" class="mem-out">회원탈퇴</button>
             </div>
 

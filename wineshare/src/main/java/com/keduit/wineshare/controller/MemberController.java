@@ -67,6 +67,7 @@ public class MemberController {
       model.addAttribute("errorMessage", e.getMessage());
       return "member/memberForm";
     }
+    model.addAttribute("joinMessage", "회원가입을 환영합니다.");
     return "member/memberLoginForm";  // 로그인창으로
   }
 
@@ -84,11 +85,7 @@ public class MemberController {
     return "member/memberLoginForm";
   }
 
-  // @GetMapping("/login/error")
-  //  public String loginError(Model model){
-  //    model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요.");
-  //    return "member/memberLoginForm";
-  //  }
+
 
   @GetMapping({"/modify", "/modify/{memberId}"})
   public String modifyMember(Principal principal,
@@ -103,15 +100,6 @@ public class MemberController {
     }
 
 
-    // 관리자용 추가
-
-//    MemberDTO memberDTO = new MemberDTO();
-//    memberDTO.setId(member.getId());
-//    memberDTO.setEmail(member.getEmail());
-//    memberDTO.setName(member.getName());
-//    memberDTO.setNickname(member.getNickname());
-//    memberDTO.setPhoneNumber(member.getPhoneNumber());
-//    memberDTO.setPassword(member.getPassword());
 
     MemberModifyDTO memberModifyDTO = new MemberModifyDTO();
     memberModifyDTO.setId(member.getId());
@@ -153,9 +141,6 @@ public class MemberController {
       authority = "regular";
     }
 
-//    System.out.println("===============");
-//    System.out.println(memberDTO.toString());
-//    System.out.println(member.toString());
 
     if (bindingResult.hasErrors()) {
       model.addAttribute("authority", authority);
@@ -177,13 +162,6 @@ public class MemberController {
 
     Map<String, String> response = new HashMap<>();
 
-//    if(member.getId() != memberId){
-//      response.put("errorMessage", "너 누구야");
-//      return response; // 에러 메시지를 JSON 형태로 반환
-//    }
-
-//    response.put("redirectUrl", "/member/memberPassChangeForm"); // 비밀번호 변경 폼의 URL
-//    return response; // 성공 시 리다이렉션 URL을 반환
 
     model.addAttribute("memberPassModifyDTO", new MemberPassModifyDTO());
     model.addAttribute("passType", "modify");
@@ -195,15 +173,8 @@ public class MemberController {
                                  BindingResult bindingResult,
                                  Principal principal,
                                  HttpServletRequest request,
-                                 HttpServletResponse response) {
+                                 HttpServletResponse response, Model model) {
 
-    // 어의없네 이거막아서 된다고?
-//    if(bindingResult.hasErrors()){
-//      System.out.println(bindingResult.getAllErrors());
-//      System.out.println("controller has error================");
-//      System.out.println(memberPassModifyDTO.toString());
-//      return "member/memberPassChangeForm";
-//    }
 
     System.out.println("controller================");
     System.out.println(memberPassModifyDTO.toString());

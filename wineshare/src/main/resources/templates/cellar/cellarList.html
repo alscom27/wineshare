@@ -145,7 +145,7 @@
                 `);
       }
       // 다음 버튼
-      const nextDisabled = currentPage === totalPages - 1 ? 'disabled' : '';
+      const nextDisabled = (currentPage === totalPages -1 || totalPages === 0) ? 'disabled' : '';
       paginationContainer.append(`
                 <li class="next hvr-shutter-out-horizontal ${nextDisabled}">
                     <a ${nextDisabled ? '' : 'onclick="read(' + (currentPage + 1) + ')"'}  aria-label="Next">
@@ -173,7 +173,7 @@
         dataType: "json",
         cache: false,
         success: function(result, status){
-          alert("찜한 상품을 삭제했습니다.");
+          alert("셀러에서 와인을 정리했습니다.");
           location.href = "/cellars";
         },
         error: function(xhr, status, error){

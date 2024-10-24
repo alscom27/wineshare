@@ -16,6 +16,7 @@
       width: 50px;
       height: 50px;
     }
+
     .wine_img {
       height: 400px;
       width: auto;
@@ -135,6 +136,7 @@
           data: JSON.stringify(reviewData),
           success: function (response) {
             alert(response); // 성공 메시지
+            $('.reviewRatingInput i').removeClass('active');
             $('textarea[name="reviewComment"]').val('');
             getWineReviewList(wineId, 0);
           },
@@ -200,6 +202,17 @@
           data: JSON.stringify(developData),
           success: function (response) {
             alert(response); // 성공 메시지
+            $('textarea[name="developComment"]').val('');
+            $('.developRatingInput i').removeClass('active');
+            $('select[name="develop-sweetness"]').val(0);
+            $('select[name="develop-acidity"]').val(0);
+            $('select[name="develop-body"]').val(0);
+            $('select[name="develop-tannin"]').val(0);
+            $('select[name="develop-fizz"]').val(0);
+            $('select[name="develop-aromaOne"]').val('Citrus');
+            $('select[name="develop-aromaTwo"]').val('Citrus');
+            $('select[name="develop-foodOne"]').val('Beef');
+            $('select[name="develop-foodTwo"]').val('Beef');
             getWineDevelopList(wineId, 0);
           },
           error: function (xhr) {
@@ -411,7 +424,7 @@
         `);
       }
       // 다음 버튼
-      const nextDisabled = currentPage === totalPages - 1 ? 'disabled' : '';
+      const nextDisabled = (currentPage === totalPages -1 || totalPages === 0) ? 'disabled' : '';
       paginationContainer.append(`
         <li class="next hvr-shutter-out-horizontal ${nextDisabled}">
             <a ${nextDisabled ? '' : 'onclick="getWineDevelopList('+ wineId + ',' + (currentPage + 1) + ')"'} aria-label="Next">
@@ -773,7 +786,7 @@
         `);
       }
       // 다음 버튼
-      const nextDisabled = currentPage === totalPages - 1 ? 'disabled' : '';
+      const nextDisabled = (currentPage === totalPages -1 || totalPages === 0) ? 'disabled' : '';
       paginationContainer.append(`
         <li class="next hvr-shutter-out-horizontal ${nextDisabled}">
             <a ${nextDisabled ? '' : 'onclick="getWineReviewList('+ wineId + ',' + (currentPage + 1) + ')"'} aria-label="Next">

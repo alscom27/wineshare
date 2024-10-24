@@ -76,7 +76,7 @@ public class BoardReplyController {
   @GetMapping(value = {"/{boardId}/{page}", "/{boardId}"}, produces = "application/json")
   public ResponseEntity<Map<String, Object>> getReplyWithPage(@PathVariable("boardId") Long boardId,
                                                               @PathVariable("page")Optional<Integer> page){
-    Pageable pageable = PageRequest.of(page.orElse(0), 5);
+    Pageable pageable = PageRequest.of(page.orElse(0), 3);
     Page<BoardReplyDTO> replies = boardReplyService.getBoardReplyWithPage(boardId, pageable);
 
 
