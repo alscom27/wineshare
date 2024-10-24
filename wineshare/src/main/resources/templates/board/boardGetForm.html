@@ -382,7 +382,7 @@
 
                                 <tr>
                                     <th>내용</th>
-                                    <td><div th:field="*{boardContent}" th:text="*{boardContent}"></div></td>
+                                    <td><div th:field="*{boardContent}"><pre th:text="${board.boardContent}"></pre></div></td>
                                 </tr>
 
                                 <tr th:if="${boardDTO.boardImgUrl != null}">
