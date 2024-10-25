@@ -44,17 +44,6 @@
               window.location.href = '/marketings/public/new';
           })
 
-          // $('.market-modify-btn').on('click', function (e){
-          //     e.preventDefault();
-          //
-          //     const marketingId = $('#marketingId').data('marketing-id');
-          //       if(marketCategory != null) {
-          //           location.href = `/marketings/${marketCategory.toLowerCase()}/modify/${marketingId}`;
-          //       }else{
-          //           location.href = `/marketings/public/modify/${marketingId}`;
-          //       }
-          //
-          // });
       }); //ready
 
       function modifyMarket(marketId) {
@@ -70,10 +59,22 @@
           const searchType = $('#searchType').val();
           const searchQuery = $('#searchQuery').val();
           const marketCategory = $('#marketCategory').data('market-category');
+          const eventOrNot = $('#eventOrNot').data('event-or-not');
+          console.log(eventOrNot);
 
-          // url
-          location.href="/marketings/" + marketCategory + "/list/" + page
-              + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
+          if (eventOrNot === 'PROMOTION') {
+              location.href="/marketings/list/promotion/" + page
+                  + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
+          } else if(eventOrNot === 'EVENT')  {
+              location.href="/marketings/list/event/" + page
+                  + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
+          } else {
+              location.href="/marketings/" + marketCategory + "/list/" + page
+                  + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
+          }
+
+
+
       }
     </script>
 </th:block>
@@ -108,18 +109,12 @@
         <div class="search-sort" th:object="${marketingSearchDTO}">
             <form th:action="@{'/marketings/'+ ${marketCategory} + '/list'}" role="form" method="get">
 
-<!--            <div class="marketing-sort">-->
-<!--                <h5>Sort by</h5>-->
-<!--                <select th:field="*{sortOrder}" style="height: 25px; font-size:12px;">-->
-<!--                    <option value="">기본순</option>-->
-<!--                    <option value="최신순">최신순</option>-->
-<!--                </select>-->
-<!--            </div>-->
 
                 <div class="data-all">
                     <div class="data-type">
                         <input type="text" th:field="*{searchType}" value="T" placeholder="제목" readonly>
                         <input type="hidden" id="marketCategory" th:data-market-category="${marketCategory}">
+                        <input type="hidden" id="eventOrNot" th:data-event-or-not="${eventOrNot}">
                     </div>
 
                     <div class="data-search">
@@ -202,9 +197,9 @@
                           <li class="prev hvr-shutter-out-horizontal" th:classappend="${marketings.first} ? 'disabled'">
                             <a th:onclick="'javascript:page(' + ${marketings.number -1} + ')'" aria-label="Previous">
                               <i class="fa fa-angle-left" aria-hidden="true"></i>
-                            </a>
+                            </th:ifa>
                           </li>
-                          <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}"  th:classappend="${page == 1} ? 'page-active' : ''">
+                          <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}"  th:classappend="${page == marketings.number + 1} ? 'page-active' : ''">
                             <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text">
                               [[${page}]]
                             </a>

@@ -52,6 +52,7 @@
     width:100%;
     border: 1px solid #FFFFFF;
     position:relative;
+    box-shadow: 0 1px 1px 0 rgba(59, 59, 59, 0.1);
 
 }
 

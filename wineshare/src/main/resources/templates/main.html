@@ -19,6 +19,12 @@
             object-fit: cover;
 
         }
+        .main-market-content {
+            overflow: hidden;
+            white-space: pre-wrap;
+            color: white;
+            text-align: left;
+        }
 
         .featured-post {
             width: 200px;
@@ -396,9 +402,7 @@
                                         <div class="team-content">
                                             <h2><a th:href="${market.marketLink}" th:text="${market.marketingTitle}">플레이스 이름</a></h2>
                                         </div>
-                                        <div class="team-dolar">
-                                            <span th:text="${market.marketingContent}">플레이스 내용</span>
-                                        </div>
+                                        <div class="main-market-content" th:text="${market.marketingContent}"></div>
                                     </div>
                                 </div>
                             </div><!-- /owl-carouse -->

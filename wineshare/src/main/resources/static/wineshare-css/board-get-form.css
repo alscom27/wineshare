@@ -6,6 +6,16 @@
      margin: 0 auto;
      margin-top:5%;
 }
+.board-content {
+    min-height: 30vh;
+    max-height: 30vh;
+    overflow-y: auto;
+    white-space: pre-wrap;
+
+}
+.board-img {
+    max-height: 30vh;
+}
 
 th, td{
     border: 1px solid #e5e5e5;
@@ -18,8 +28,9 @@ th{
     background: #e5e5e5;
 }
 
+
 .board-form{
-    width:80%;
+    width:70%;
     position:relative;
 }
 .board-modify-btn {

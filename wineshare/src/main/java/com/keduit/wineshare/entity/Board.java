@@ -21,6 +21,7 @@ public class Board extends BaseEntity {
 
   private String boardTitle;
 
+  @Column(length = 2000)
   private String boardContent;
 
   //등업, 요청 사진o, // 질문, 공지 사진x

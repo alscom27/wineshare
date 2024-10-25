@@ -380,9 +380,9 @@
                                     <td><div th:field="*{regTime}" th:text="${#temporals.format(board.regTime , 'yy-MM-dd')}"></div></td>
                                 </tr>
 
-                                <tr>
+                                <tr class="board-content">
                                     <th>내용</th>
-                                    <td><div th:field="*{boardContent}"><pre th:text="${board.boardContent}"></pre></div></td>
+                                    <td><div class="board-content" th:field="*{boardContent}" th:text="${board.boardContent}"></div></td>
                                 </tr>
 
                                 <tr th:if="${boardDTO.boardImgUrl != null}">
@@ -390,7 +390,7 @@
                                     <td>
                                         <div th:if="${boardDTO.boardImgUrl != null}" class="board-img">
                                             <div>
-                                                <img th:src="${boardDTO.boardImgUrl}" alt="게시물 이미지">
+                                                <img  class="board-img" th:src="${boardDTO.boardImgUrl}" alt="게시물 이미지">
                                             </div>
                                         </div>
                                     </td>

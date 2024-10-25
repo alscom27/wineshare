@@ -336,7 +336,7 @@
                                             <i class="fa fa-angle-left" aria-hidden="true"></i>
                                         </a>
                                     </li>
-                                    <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${page == 1} ? 'page-active' : ''">
+                                    <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${page == wines.number + 1} ? 'page-active' : ''">
                                         <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text" >
                                             [[${page}]]
                                         </a>

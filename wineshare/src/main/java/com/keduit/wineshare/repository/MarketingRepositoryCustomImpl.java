@@ -141,8 +141,7 @@ public class MarketingRepositoryCustomImpl implements MarketingRepositoryCustom{
   public Page<Marketing> getMarketingPageByEventAndCategory(MarketingSearchDTO marketingSearchDTO, MarketCategory marketCategory, EventOrNot eventOrNot, Pageable pageable) {
     // 기본 쿼리 생성
     JPAQuery<Marketing> query = queryFactory.selectFrom(QMarketing.marketing)
-        .where(QMarketing.marketing.eventOrNot.eq(eventOrNot))  // 행사 상태 필터링 추가
-        .where(searchTypeLike(marketingSearchDTO.getSearchType(), marketingSearchDTO.getSearchQuery()));
+        .where(QMarketing.marketing.eventOrNot.eq(EventOrNot.PROMOTION));  // 행사 상태 필터링 추가
 
     List<Marketing> result = query
         .orderBy(QMarketing.marketing.id.desc())
@@ -153,9 +152,7 @@ public class MarketingRepositoryCustomImpl implements MarketingRepositoryCustom{
     Long total = queryFactory
         .select(Wildcard.count)
         .from(QMarketing.marketing)
-        .where(QMarketing.marketing.marketCategory.eq(marketCategory))
-        .where(QMarketing.marketing.eventOrNot.eq(eventOrNot))
-        .where(searchTypeLike(marketingSearchDTO.getSearchType(), marketingSearchDTO.getSearchQuery()))
+        .where(QMarketing.marketing.eventOrNot.eq(EventOrNot.PROMOTION))
         .fetchOne();
 
     return new PageImpl<>(result, pageable, total);

@@ -157,13 +157,7 @@ public class MarketingController {
         marketingDTO.setEventContent("행사 준비중");
       }
 
-//      if(StringUtils.equalsIgnoreCase(marketingDTO.getEventOrNot(), "on")){
-//        marketingDTO.setEventOrNot(EventOrNot.ON);
-//        marketingDTO.setEventContent(marketingDTO.getEventContent());
-//      }else{
-//        marketingDTO.setEventOrNot(EventOrNot.END);
-//        marketingDTO.setEventContent("행사 준비중");
-//      }
+
 
       marketingService.saveMarketing(marketingDTO);
       return "redirect:/marketings/" + marketCategory + "/list";
@@ -251,8 +245,8 @@ public class MarketingController {
                                         MarketingSearchDTO marketingSearchDTO,
                                         Principal principal,
                                         Model model){
-    Pageable pageable = PageRequest.of(page.orElse(0), 5);
-    Page<Marketing>  marketings = marketingService.getMarketingPageByEventOrNot(marketingSearchDTO, eventOrNot, pageable);
+    Pageable pageable = PageRequest.of(page.orElse(0), 6);
+    Page<Marketing> marketings = marketingService.getMarketingPageByEventOrNot(marketingSearchDTO, eventOrNot, pageable);
 
     // 닉네임 세팅
     List<String> emails = marketings.stream()
