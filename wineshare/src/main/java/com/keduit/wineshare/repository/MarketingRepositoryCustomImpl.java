@@ -178,6 +178,7 @@ public class MarketingRepositoryCustomImpl implements MarketingRepositoryCustom{
             marketing.marketLink
         ))
         .from(marketing)
+        .where(QMarketing.marketing.marketCategory.ne(MarketCategory.PUBLIC))
         .orderBy(marketing.regTime.desc())
         .limit(12)
         .fetch();
