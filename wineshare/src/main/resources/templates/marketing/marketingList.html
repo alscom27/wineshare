@@ -44,21 +44,27 @@
               window.location.href = '/marketings/public/new';
           })
 
-          $('#marketUpdateBtn').on('click', function (e){
-              e.preventDefault();
-
-              const marketingId = $('#marketingId').data('marketing-id');
-                if(marketCategory != null) {
-                    location.href = `/marketings/${marketCategory.toLowerCase()}/modify/${marketingId}`;
-                }else{
-                    location.href = `/marketings/public/modify/${marketingId}`;
-                }
-
-          });
-
-
+          // $('.market-modify-btn').on('click', function (e){
+          //     e.preventDefault();
+          //
+          //     const marketingId = $('#marketingId').data('marketing-id');
+          //       if(marketCategory != null) {
+          //           location.href = `/marketings/${marketCategory.toLowerCase()}/modify/${marketingId}`;
+          //       }else{
+          //           location.href = `/marketings/public/modify/${marketingId}`;
+          //       }
+          //
+          // });
       }); //ready
 
+      function modifyMarket(marketId) {
+          const marketCategory = $('#marketCategory').data('market-category');
+          if(marketCategory != null) {
+              location.href = `/marketings/${marketCategory.toLowerCase()}/modify/${marketId}`;
+          } else {
+              location.href = `/marketings/public/modify/${marketId}`;
+          }
+      }
       // 페이지
       function page(page){
           const searchType = $('#searchType').val();
@@ -153,7 +159,7 @@
                             <input type="hidden" id="marketingId" th:data-marketing-id="${marketingDTO.getId()}">
                             <div th:if="${not #strings.equalsIgnoreCase(eventOrNot, 'promotion')}">
                             <div th:if="${#strings.equals(currentNickname, marketingDTO.getOwnerNickname())}">
-                                <button type="button" id="marketUpdateBtn" class="market-modify-btn">수정하기</button>
+                                <button type="button" id="marketUpdateBtn" class="market-modify-btn" th:onclick="'modifyMarket(' + ${marketingDTO.id} + ')'">수정하기</button>
                             </div>
                             </div>
 
@@ -171,9 +177,7 @@
                                 <span>비워둘까?</span>
                             </div>
 
-                            <div class="market-post-content">
-                                <span th:text="${marketingDTO.marketingContent}"></span>
-                            </div>
+                            <div class="market-post-content"><span th:text="${marketingDTO.marketingContent}"></span></div>
 
 
 

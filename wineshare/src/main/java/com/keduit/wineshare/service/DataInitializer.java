@@ -236,7 +236,7 @@ public class DataInitializer {
     Random random = new Random();
     wineReviewDTO.setWine(wine);
     wineReviewDTO.setMember(member);
-    wineReviewDTO.setRegularReview("Good Very Nice Wine! This is Perfect Website " + random.nextInt(100));
+    wineReviewDTO.setRegularReview("와인쉐어를 통해 정보를 얻어 마셔본 와인인데 너무 맛있습니다.");
     wineReviewDTO.setRegularRating(1 + (random.nextInt(5)));
 
     return wineReviewDTO;
@@ -253,11 +253,11 @@ public class DataInitializer {
     Set<String> usedFoods = new HashSet<>();
 
     wineDevelopDTO.setExpertRating(1 + (random.nextInt(5))); // 1.0 ~ 5.0 사이
-    wineDevelopDTO.setExpertComment("Random comment " + random.nextInt(100)); // 랜덤 댓글
-    wineDevelopDTO.setSweetness(1 + (random.nextInt(5))); // 0.0 ~ 5.0 사이
-    wineDevelopDTO.setAcidity(1 + (random.nextInt(5))); // 0.0 ~ 5.0 사이
+    wineDevelopDTO.setExpertComment("마셔본 와인 중에 가장 맛있는 것 같습니다. 모두에게 공유하고 싶어서 평가 남깁니다."); // 랜덤 댓글
+    wineDevelopDTO.setSweetness(3 + (random.nextInt(5))); // 0.0 ~ 5.0 사이
+    wineDevelopDTO.setAcidity(2 + (random.nextInt(4))); // 0.0 ~ 5.0 사이
     wineDevelopDTO.setBody(1 + (random.nextInt(5))); // 0.0 ~ 5.0 사이
-    wineDevelopDTO.setTannin(1 + (random.nextInt(5))); // 0.0 ~ 5.0 사이
+    wineDevelopDTO.setTannin(1 + (random.nextInt(3))); // 0.0 ~ 5.0 사이
     wineDevelopDTO.setFizz(1 + (random.nextInt(5))); // 0.0 ~ 5.0 사이
     wineDevelopDTO.setAromaOne(getRandomItem(aromas, usedAromas));
     wineDevelopDTO.setAromaTwo(getRandomItem(aromas, usedAromas));
