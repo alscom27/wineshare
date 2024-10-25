@@ -84,8 +84,23 @@ public class AdminController {
 
   // 데이터 관리 선택페이지
   @GetMapping("/dataChoiList")
-  public String data(){
+  public String data(Model model){
     log.info("dataChoiList");
+
+    Pageable pageable = PageRequest.of(0, 6);
+    BoardSearchDTO boardSearchDTO = new BoardSearchDTO();
+    MarketingSearchDTO marketingSearchDTO = new MarketingSearchDTO();
+    WineSearchDTO wineSearchDTO = new WineSearchDTO();
+    MemberSearchDTO memberSearchDTO = new MemberSearchDTO();
+    Page<BoardDTO> boards = boardService.getBoardPage(boardSearchDTO, pageable);
+    Page<WineDTO> wines = wineService.getWinePage(wineSearchDTO, pageable);
+    Page<MarketingDTO> marketings = marketingService.getMarketingPage(marketingSearchDTO, pageable);
+    Page<MemberDTO> members = memberService.getMemberPage(memberSearchDTO, pageable);
+
+    model.addAttribute("boards", boards.getContent());
+    model.addAttribute("wines", wines.getContent());
+    model.addAttribute("marketings", marketings.getContent());
+    model.addAttribute("members", members.getContent());
     return "admin/dataChoiList";
   }
 

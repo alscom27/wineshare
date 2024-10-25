@@ -13,32 +13,51 @@
              width:80%;
             padding: 50px 0;
             height: auto;
-        }
-        .data-btn{
             display: grid;
             grid-template-columns: 40% 40%;
-            grid-template-rows: repeat(3, 80%);
-            grid-gap: 50px;
+            grid-gap : 50px;
             justify-content: center;
-            padding: 50px 0;
-            margin: 0 0 100px 0;
-
         }
-        .data-btn button {
-            background-color: #c02323;
-            border: 0;
-            border-radius: 20px;
-
+        .data-card {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            justify-content: center;
+            box-shadow: 1px 1px 2px 0 rgba(59, 59, 59, 0.2);
+            padding: 3%;
         }
+        .data-card button {
+            text-align: right;
+            font-size: 1.1em;
+        }
+        .data-card button span {
+            font-size: 0.85em;
+        }
+        .data-card button:hover {
+            color: #c02323;
+            font-weight: bold;
+        }
+        .data-content {
+            grid-column: 1/3;
+            margin-top: 20px;
+        }
+        .data-content li a {
+            line-height: 30px;
+            padding-left: 5%;
+            color: black;
+        }
+        .data-content li a:hover {
+            color: #c02323;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
 
 
 
     </style>
 </th:block>
 
-<!--<div id="loading-overlay">-->
-<!--    <div class="loader"></div>-->
-<!--</div> &lt;!&ndash; /.loading-overlay &ndash;&gt; 로딩페이지임-->
+
 
 <th:block layout:fragment="script">
 
@@ -67,14 +86,49 @@
     </div> <!-- /.page-title -->
 
     <div class="data-container">
-        <div class="data-btn">
-            <button type="button" onclick="location.href='/admins/members/list'" class="btn text-white" >회원</button>
-            <button type="button" onclick="location.href='/admins/wines/list'" class="btn text-white" >와인</button>
-            <button type="button" onclick="location.href='/admins/marketings/list'" class="btn text-white" >마케팅</button>
-            <button type="button" onclick="location.href='/admins/boards/list'" class="btn text-white" >게시판</button>
-<!--            <button type="button" onclick="location.href='#'" class="btn text-white" >페어링</button>-->
-<!--            <button type="button" onclick="location.href='#'" class="btn text-white" >아로마</button>-->
-        </div>
+
+            <div class="data-card">
+                <h2>게시판</h2>
+                <button type="button" onclick="location.href='/admins/boards/list'" class="btn">more <span>❯</span></button>
+                <ul class="data-content">
+                    <li th:each="board : ${boards}">
+                        <a th:href="'/boards/' + ${board.boardStatus} + '/get/' + ${board.id}" th:text="${board.boardTitle}"></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="data-card">
+                <h2>와인</h2>
+                <button type="button" onclick="location.href='/admins/wines/list'" class="btn">more <span>❯</span></button>
+                <ul class="data-content">
+                    <li th:each="wine : ${wines}">
+                        <a th:href="'/wines/wine/' + ${wine.id}" th:text="${wine.wineName}"></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="data-card">
+                <h2>업장/행사</h2>
+                <button type="button" onclick="location.href='/admins/marketings/list'" class="btn">more <span>❯</span></button>
+                <ul class="data-content">
+                    <li th:each="market : ${marketings}">
+                        <a th:href="'/marketings/' + ${market.marketCategory} + '/modify/' + ${market.id}" th:text="${market.marketingTitle}"></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="data-card">
+                <h2>회원</h2>
+                <button type="button" onclick="location.href='/admins/members/list'" class="btn">more <span>❯</span></button>
+                <ul class="data-content">
+                    <li th:each="member : ${members}">
+                        <a th:href="'/members/modify/' + ${member.id}" th:text="${member.email}"></a>
+                    </li>
+                </ul>
+            </div>
+
+
+
     </div>
 </div>
 </html>

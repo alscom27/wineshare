@@ -56,22 +56,7 @@ th{
     float:right;
 }
 
-.reply-content{
-    position:relative;
-    padding:0 20px;
-}
 
-.comment-title{
-    position:absolute;
-    top:30px;
-    left:70px;
-}
-
-.comment-text{
-    position:absolute;
-    top:5px;
-    left:70px;
-}
 
 .admin-agree{
     border: 1px solid #c02323;
@@ -82,4 +67,35 @@ th{
     position:absolute;
     right:2%;
     top:3%;
+}
+
+.fieldError {
+    color: #bd2130;
+}
+.profile_img{
+    width: 50px;
+    height: 50px;
+}
+
+.reply_box{
+    margin: 60px auto;
+}
+
+.display-none{
+    display: none;
+}
+
+.comment-actions {
+    margin-top: 5px;
+    margin-left: -5px;
+}
+.comment-actions button {
+    font-size: 0.9em;
+    color: #aaa;
+}
+
+.reply-content {
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: 70px auto;
 }

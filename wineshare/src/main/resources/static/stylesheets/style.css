@@ -8787,4 +8787,14 @@ footer.style3 .footer-widgets .widget-text span {
 	background-color: #c02323 !important;
 }
 
+.comment-text {
+	white-space: pre-wrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.page-title-heading .title {
+	font-size: 3.5em !important;
+}
+
 

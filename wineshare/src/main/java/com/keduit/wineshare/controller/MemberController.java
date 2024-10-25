@@ -8,6 +8,7 @@ import com.keduit.wineshare.dto.MemberModifyDTO;
 import com.keduit.wineshare.dto.MemberPassModifyDTO;
 import com.keduit.wineshare.entity.Member;
 import com.keduit.wineshare.repository.MemberRepository;
+import com.keduit.wineshare.repository.ValidPassword;
 import com.keduit.wineshare.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

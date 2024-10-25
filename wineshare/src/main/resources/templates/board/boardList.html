@@ -83,7 +83,7 @@
 
 
             // url
-            location.href = "/boards/" + boardStatus + "/list/" + page
+            location.href = "/boards/" + boardStatus.toLowerCase() + "/list/" + page
                 + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
         }
 
@@ -180,7 +180,7 @@
                                 th:href="'/boards/' + ${#strings.toLowerCase(board.getBoardStatus())} + '/get/' + ${board.getId()}"
                                 th:text="${board.boardTitle}"></a></div>
                         <div class="writer" th:text="${board.getWriterNickname()}"></div>
-                        <div th:if="${board.getMember() != null && #strings.equalsIgnoreCase(board.getMember().getMemberType(), 'expert')}">(전문가)</div>
+                        <div th:if="${board.getMember() != null && #strings.equalsIgnoreCase(board.getMember().getMemberType(), 'expert')}"><span class="badge badge-danger mgb-15">소믈리에</span></div>
                         <div class="date" th:text="${#temporals.format(board.regTime, 'yy-MM-dd')}"></div>
                     </div>
             </div>

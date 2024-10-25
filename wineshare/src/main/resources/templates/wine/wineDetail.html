@@ -371,7 +371,7 @@
                             </span>
                         </div>
                         <div class="comment-title comment">${develop.memberNickname}</div>
-                        <div class="comment-text comment" id="comment-develop-${develop.id}"><pre>${develop.expertComment}</pre></div>
+                        <div class="comment-text comment" id="comment-develop-${develop.id}">${develop.expertComment}</div>
                         ${createBtns(develop.memberId, develop.id)}
                     </div>
                 </div>
@@ -730,7 +730,7 @@
                             </span>
                         </div>
                         <div class="comment-title comment">${review.memberNickname}</div>
-                        <div class="comment-text comment" id="comment-review-${review.id}"><pre>${review.regularReview}</pre></div>
+                        <div class="comment-text comment" id="comment-review-${review.id}">${review.regularReview}</div>
                         ${createBtns(review.memberId, review.id)}
                     </div>
 
@@ -1064,7 +1064,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" th:aria-valuenow="${wineDevelopCount.body}" aria-valuemin="0" aria-valuemax="5">
-              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.body / 5 * 100} + '%') + ';'"></div>
+              <div class="progress-bar" th:style="'left: ' + (${(wineDevelopCount.body / 5 * 100) >= 100 ? 100 : (wineDevelopCount.body / 5 * 100) } + '%') + ';'"></div>
             </div>
           </td>
           <td>
@@ -1078,7 +1078,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.tannin / 5 * 100} + '%') + ';'"></div>
+              <div class="progress-bar" th:style="'left: ' + (${(wineDevelopCount.tannin / 5 * 100) >= 100 ? 100 : (wineDevelopCount.tannin / 5 * 100) } + '%') + ';'"></div>
             </div>
           </td>
           <td>
@@ -1092,7 +1092,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.sweetness / 5 * 100} + '%') + ';'"></div>
+              <div class="progress-bar" th:style="'left: ' + (${(wineDevelopCount.sweetness / 5 * 100) >= 100 ? 100 : (wineDevelopCount.sweetness / 5 * 100) } + '%') + ';'"></div>
             </div>
           </td>
           <td>
@@ -1105,7 +1105,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.acidity / 5 * 100} + '%') + ';'"></div>
+              <div class="progress-bar" th:style="'left: ' + (${(wineDevelopCount.acidity / 5 * 100) >= 100 ? 100 : (wineDevelopCount.acidity / 5 * 100) } + '%') + ';'"></div>
             </div>
           </td>
           <td>
@@ -1118,7 +1118,7 @@
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" th:style="'left: ' + (${wineDevelopCount.fizz / 5 * 100} + '%') + ';'"></div>
+              <div class="progress-bar" th:style="'left: ' + (${(wineDevelopCount.fizz / 5 * 100) >= 100 ? 100 : (wineDevelopCount.fizz / 5 * 100) } + '%') + ';'"></div>
             </div>
           </td>
           <td>

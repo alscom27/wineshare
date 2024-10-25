@@ -69,7 +69,7 @@
               location.href="/marketings/list/event/" + page
                   + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
           } else {
-              location.href="/marketings/" + marketCategory + "/list/" + page
+              location.href="/marketings/" + marketCategory.toLowerCase() + "/list/" + page
                   + "?searchType=" + searchType + "&searchQuery=" + searchQuery;
           }
 
@@ -96,8 +96,10 @@
                     </ul>
                 </div>
                 <div class="page-title-heading">
-                    <h2 class="title" th:text="${marketCategory}"></h2>
+                    <h2 class="title" th:if="${marketCategory != null}" th:text="${marketCategory}"></h2>
+                    <h2 class="title" th:unless="${marketCategory != null}" th:text="${eventOrNot}"></h2>
                 </div>
+
             </div>
         </div>
     </div> <!-- /.page-title -->
