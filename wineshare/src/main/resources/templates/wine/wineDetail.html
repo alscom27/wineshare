@@ -510,7 +510,7 @@
         if (wineType !== 'SPARKLING') {
           return `
                 <div class="taste-category">
-                    <h3>Tannin</h3>
+                    <h3>Sweetness</h3>
                     <select class="select-option" name="modify-develop-sweetness">
                         ${[0, 1, 2, 3, 4, 5].map(value =>
                   `<option value="${value}" ${value == currentSweetness ? 'selected' : ''}>${value}</option>`).join('')}
@@ -524,7 +524,7 @@
         if (wineType === 'SPARKLING') {
           return `
                 <div class="taste-category">
-                    <h3>Tannin</h3>
+                    <h3>Fizz</h3>
                     <select class="select-option" name="modify-develop-fizz">
                         ${[0, 1, 2, 3, 4, 5].map(value =>
                   `<option value="${value}" ${value == currentFizz ? 'selected' : ''}>${value}</option>`).join('')}

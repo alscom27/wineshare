@@ -138,7 +138,7 @@ public class ImgFileService {
     Board board = boardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
 
     // 기존 이미지 삭제
-    if (!StringUtils.isEmpty(board.getBoardImgName())) {
+    if (!StringUtils.isEmpty(board.getBoardImgName()) || board.getBoardImgName() != null) {
       if (StringUtils.equalsIgnoreCase(board.getBoardStatus().name(), "upgrade")) {
         fileService.deleteFile(licenseImgLocation + "/" + board.getBoardImgName());
       } else if (StringUtils.equalsIgnoreCase(board.getBoardStatus().name(), "request")) {

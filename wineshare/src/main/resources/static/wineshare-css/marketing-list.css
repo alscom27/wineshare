@@ -144,11 +144,18 @@
 }
 
 .market-modify-btn{
-    border: 1px solid #c02323;
     padding: 3px 10px;
     border-radius:5px;
-    color:#595959;
+    box-shadow: 1px 1px 2px rgba(192, 35, 35, 0.51);
+    color: #c02323;
     position: absolute;
     left:55%;
+    opacity: 0.7;
+    font-size: 0.9em;
+}
+
+.market-modify-btn:hover {
+    color:white;
+    background-color: #c02323;
 }
 

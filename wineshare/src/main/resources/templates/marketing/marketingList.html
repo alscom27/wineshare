@@ -7,9 +7,6 @@
 <!-- css -->
 <th:block layout:fragment="css">
     <link rel="stylesheet" type="text/css" th:href="@{/wineshare-css/marketing-list.css}">
-    <style>
-
-    </style>
 </th:block>
 
 
@@ -155,9 +152,14 @@
 
                             <input type="hidden" id="marketingId" th:data-marketing-id="${marketingDTO.getId()}">
                             <div th:if="${not #strings.equalsIgnoreCase(eventOrNot, 'promotion')}">
-                            <div th:if="${#strings.equals(currentNickname, marketingDTO.getOwnerNickname())}">
-                                <button type="button" id="marketUpdateBtn" class="market-modify-btn" th:onclick="'modifyMarket(' + ${marketingDTO.id} + ')'">수정하기</button>
-                            </div>
+                                <div th:if="${#strings.equals(currentNickname, marketingDTO.getOwnerNickname())}">
+                                    <button type="button" class="market-modify-btn" th:onclick="'modifyMarket(' + ${marketingDTO.id} + ')'">수정하기</button>
+                                </div>
+                                <div th:unless="${#strings.equals(currentNickname, marketingDTO.getOwnerNickname())}">
+                                    <div sec:authorize="hasRole('ADMIN')">
+                                        <button type="button" class="market-modify-btn" th:onclick="'modifyMarket(' + ${marketingDTO.id} + ')'">수정하기</button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div th:if="${not #strings.equalsIgnoreCase(marketingDTO.eventOrNot, 'end')}">
@@ -199,7 +201,7 @@
                           <li class="prev hvr-shutter-out-horizontal" th:classappend="${marketings.first} ? 'disabled'">
                             <a th:onclick="'javascript:page(' + ${marketings.number -1} + ')'" aria-label="Previous">
                               <i class="fa fa-angle-left" aria-hidden="true"></i>
-                            </th:ifa>
+                            </a>
                           </li>
                           <li class="hvr-shutter-out-horizontal" th:each="page: ${#numbers.sequence(start, end)}"  th:classappend="${page == marketings.number + 1} ? 'page-active' : ''">
                             <a th:onclick=" 'javascript:page(' + ${page - 1} + ')'" th:inline="text">

@@ -1,5 +1,6 @@
 package com.keduit.wineshare.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.keduit.wineshare.constant.BoardStatus;
 import com.keduit.wineshare.dto.BoardDTO;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,6 +39,10 @@ public class Board extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
   private Member member;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<BoardReply> boardReplies;
 
 
   public void updateBoard(BoardDTO boardDTO){

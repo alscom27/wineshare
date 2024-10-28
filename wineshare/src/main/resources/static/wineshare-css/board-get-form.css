@@ -33,13 +33,20 @@ th{
     width:70%;
     position:relative;
 }
+.btn-box {
+    text-align: right;
+}
 .board-modify-btn {
-    border: 1px solid #c02323;
     padding: 10px 25px;
     background: #c02323;
     color: #e5e5e5;
     border-radius: 5px;
-    margin-left:90.5%;
+}
+.board-delete-btn {
+    padding: 10px 25px;
+    background: #595959;
+    color: #e5e5e5;
+    border-radius: 5px;
 }
 
 .reply-all{
