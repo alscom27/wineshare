@@ -50,7 +50,7 @@
 > 자료조사
 
 # IA 정보구조도
-<img src="src/main/resources/static/images/IA.png" width="100%" height="400px" alt="IA"></img><br/>
+> <img src="./wineshareReadmeImages/wineshare_chart.png" width="100%" height="400px" alt="IA"></img><br/>
 
 # ERD 엔티티 관계도
 <img src="src/main/resources/static/images/ERD.png" width="100%" height="500px" alt="ERD"></img><br/>
