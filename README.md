@@ -11,4 +11,6 @@
 
 # 프로젝트 소개
 
-![wineshare 로고]()
+![wineshare 로고](./wineshareReadmeImages/wineshare_logo2.png)
+
+
