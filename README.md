@@ -149,52 +149,51 @@
 | <img src="./wineshareReadmeImages/wine_cellar_list.png" width="400px" height="250px" alt="cellar"></img>                                                                                                                                                                                                     | <img src="./wineshareReadmeImages/admin_data_choice.png" width="400px" height="250px" alt="adminpage"></img><img src="./wineshareReadmeImages/admin_data_wine.png" width="400px" height="250px" alt="adminpage2"></img>                                                                                                                                                                                                                                                                                                                                                                              |
 
 # API 명세
-|Domain| URL                                                                |Method|Description|Role|
-|------|--------------------------------------------------------------------|---|---|---|
-|Member| /admins/dataChoiList                                               |GET|관리자페이지 API 조회|Admin|
-|| /admin/managementAPI/update                                        |GET|관리자페이지 API 수정 |Admin|
-|| /admin/managementAPI/delete                                        |POST|관리자페이지 API 삭제|Admin|
-|| /admin/managementAPI/detail<br>/managementAPI/detail/{page}        |GET|관리자페이지 공연 조회|Admin|
-|| /admin/managementAPI/deleteShow/{id}                               |DELETE|관리자페이지 공연 삭제|Admin|
-|| /admin/managementMember/list<br>/admin/managementMember/list/{page} |GET|관리자페이지 회원 조회|Admin|
-|| /admin/managementMember/delete                                     |GET|관리자페이지 회원 삭제|Admin|
-|| /admin/managementMember/editMember                                 |POST|관리자페이지 회원정보 수정|Admin|
-|| /admin/managementBoard/list<br>/admin/managementBoard/list/{page}  |GET|관리자페이지 게시글 조회|Admin|
-|| /admin/managementBoard/delete                                      |GET|관리자페이지 게시글 삭제|Admin|
-|| /members/agree                                                     |GET|약관동의||
-|| /members/new                                                       |GET|회원가입||
-|| /members/login                                                     |GET|로그인||
-|| /members/delete                                                    |GET|로그아웃|User|
-|| /members/info                                                      |GET|마이페이지 조회|User|
-|| /members/updateInfo                                                |GET|마이페이지 프로필 이미지 수정|User|
-|| /members/update                                                    |POST|마이페이지 회원 정보 수정|User|
-|| /members/myBoards<br>/members/myBoards/{page}                      |GET|마이페이지 내가 쓴글 조회|User|
-|| /favorite/event                                                    |GET|마이페이지 즐겨찾기 달력 요청|User|
-|| /order/event                                                       |GET|마이페이지 예매내역 달력 요청|User|
-|Order| /order                                                             |POST|공연상세 공연예매|User|
-|| /orders<br>/orders/{page}                                          |GET|마이페이지 예매 내역 조회|User|
-|| /order/{orderNum}/cancel                                           |POST|마이페이지 예매 취소|User|
-|Favorite| /favorites<br>/favorites/{page}                                    |GET|마이페이지 즐겨찾기 조회|User|
-|| /favorite                                                          |POST|공연상세 즐겨찾기 추가|User|
-|| /favorite/{mt20id}/cancel                                          |POST|공연상세 즐겨찾기 취소|User|
-|Review| /show/{mt20id}/review                                              |POST|공연상세 공연후기 추가|User|
-|| /show/{mt20id}/review/{num}                                        |POST<br>DELETE|공연상세 공연후기 수정, 삭제|User|
-|| //reviews<br>/reviews/{page}                                       |GET|마이페이지 공연후기 조회|User|
-|Show| /                                                                  |GET|메인페이지||
-|| /loadMoreShows                                                     |GET|메인페이지 더보기 조회||
-|| /genreFilter                                                       |GET|메인페이지 장르별 조회||
-|| /shows<br>/shows/{page}                                            |GET|공면목록 조회||
-|| /show/{mt20id}                                                     |GET|공면상세 조회||
-|Board| /board<br>/board/{page}                                            |GET|게시판 게시글 조회||
-|| /board/write                                                       |GET|게시판 게시글 작성 폼|User|
-|| /board/write                                                       |POST|게시판 게시글 작성|User|
-|| /board/showModify/{boardId}                                        |POST|게시판 게시글 수정 폼|User|
-|| /board/modify/{boardId}                                            |POST|게시판 게시글 수정|User|
-|| /board/delete/{boardId}                                            |POST|게시판 게시글 삭제|User|
-|| /board/boardDtl/{boardId}                                          |GET|게시판 게시글 상세조회||
-|Reply| /addReply/{id}/reply                                               |POST|게시판 댓글 추가|User|
-|| /board/{id}/reply/{replyId}/update                                 |POST|게시판 댓글 수정|User|
-|| /board/{id}/reply/{replyId}/remove                                 |POST|게시판 댓글 삭제|User|
+| Domain     | URL                                               | Method               | Description                             | Role                     |
+|------------|---------------------------------------------------|----------------------|-----------------------------------------|--------------------------|
+| Member     | /admins/{adminId}/new                             | GET                  | 관리자 회원가입                                | Admin                    |
+|            | /admins/dataChoiList                              | GET                  | 관리자페이지 API 목록 조회                        | Admin                    |
+|            | /admins/wines/list                                | GET                  | 관리자페이지 와인 조회                            | Admin                    |
+|            | /admins/boards/list                               | GET                  | 관리자페이지 게시글 조회                           | Admin                    |
+|            | /admins/marketings/list                           | GET                  | 관리자페이지 매장, 이벤트 조회                       | Admin                    |
+|            | /admins/members/list                              | GET                  | 관리자페이지 회원 조회                            | Admin                    |
+|            |                                                   |                      | 관리자 데이터 수정, 삭제는 해당 컨트롤러의 수정, 삭제로 넘어갑니다. | Admin                    |
+|            | /members/expert/{boardStatus}/{memberId}          | POST                 | 회원 권한 변경(등업)                            | Admin                    |
+|            | /members/agree                                    | GET                  | 약관동의                                    |                          |
+|            | /members/new                                      | GET                  | 회원가입                                    |                          |
+|            | /members/login                                    | GET                  | 로그인                                     |                          |
+|            | /members/logout                                   | GET                  | 로그아웃                                    | User                     |
+|            | /members/modify                                   | POST                 | 회원 정보 수정                                | User                     |
+|            | /members/pass/modify                              | POST                 | 비밀번호 변경                                 | User                     |
+|            | /members/withdraw                                 | GET                  | 회원탈퇴                                    | User                     |
+| Cellar     | /cellars/list                                     | GET                  | 셀러 목록 조회                                | User                     |
+|            | /cellars                                          | POST                 | 와인 셀러에 추가                               | User                     |
+|            | /cellarWine/{cellarWineId}                        | DELETE               | 셀러 와인 삭제                                | User                     |
+| Wine       | /wines/list                                       | GET                  | 와인 목록 조회                                |                          |
+|            | /wines/{wineId}                                   | GET<br>PUT<br>DELETE | 와인 상세 조회<br>와인 정보 수정<br>와인 정보 삭제        | User<br>Expert<br>Expert |
+|            | /wines/new                                        | GET                  | 와인 등록                                   | Expert                   |
+|            | /wines/wine/get/{wineId}                          | GET                  | 와인 정보 수정 폼                              | Expert                   |
+| Develop    | /develops/{wineId}                                | GET                  | 와인 평가 목록                                | Expert                   |
+|            | /develops/new/{wineId}                            | POST                 | 와인 평가 등록                                | Expert                   |
+|            | /develops/{developId}                             | DELETE               | 와인 평가 삭제                                | Expert                   |
+|            | /develops/{developId}                             | PUT                  | 와인 평가 수정                                | Expert                   |
+| Review     | /reviews/{wineId}                                 | GET                  | 와인 리뷰 목록                                | User                     |
+|            | /reviews/new/{wineId}                             | POST                 | 와인 리뷰 등록                                | User                     |
+|            | /reviews/{reviewId}                               | PUT<br>DELETE        | 와인 리뷰 수정<br>와인 리뷰 삭제                    | User                     |
+| Marketings | /marketings/{marketCategory}/list                 | GET                  | 매장 분류별 조회                               |                          |
+|            | /marketings/{marketCategory}/new                  | POST                 | 매장 등록                                   | Expert                   |
+|            | /marketings/{marketCategory}modify/{marketingId}  | POST                 | 매장 수정                                   | Expert                   |
+|            | /marketings/{marketCategory}/remove/{marketingId} | POST                 | 매장 삭제                                   | Expert                   |
+| Event      | /marketings/list/{eventOrNot}                     | GET                  | 이벤트 목록 조회                               |                          |
+| Board      | /boards/{boardStatus}/list                        | GET                  | 게시판별 게시글 조회                             |                          |
+|            | boards/{boardStatus}/get/{boardId}                | GET                  | 게시글 상세 보기                               | User                     |
+|            | /boards/{boardStatus}/new                         | POST                 | 게시판 게시글 작성                              | User                     |
+|            | /boards/{boardStatus}/modify/{boardId}            | GET                  | 게시판 게시글 수정 폼                            | User                     |
+|            | /boards/{boardStatus}/modify/{boardId}            | POST                 | 게시판 게시글 수정                              | User                     |
+|            | /boards/{boardStatus}/remove/{boardId}            | POST                 | 게시판 게시글 삭제                              | User                     |
+| Reply      | /replies/{boardId}                                | Get                  | 게시판 댓글 목록                               | User                     |
+|            | /replies/new/{boardId}                            | POST                 | 게시판 댓글 등록                               | User                     |
+|            | /repliss/{replyId}                                | PUT<br>DELETE        | 게시판 댓글 수정<br>게시판 댓글 삭제                  | User                     |
 
 # 향후 개선 사항
 > * 성인 인증 구현
